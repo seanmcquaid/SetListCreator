@@ -1,9 +1,10 @@
 import React from "react";
+import styles from "./Footer.module.css";
 
 const Footer = props => {
     return (
-        <div>
-             © Sean McQuaid 2019
+        <div className={styles.footerContainer}>
+            © Sean McQuaid 2019
         </div>
     )
 }
