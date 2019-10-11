@@ -9,7 +9,7 @@ const Navbar = props => {
     return(
         <nav>
             {navBarLeft}
-            {navBarLeft}
+            {navBarRight}
         </nav>
     )
 }
