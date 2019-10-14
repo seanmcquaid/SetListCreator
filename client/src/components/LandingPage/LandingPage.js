@@ -1,9 +1,15 @@
 import React from "react";
 import styles from "./LandingPage.module.css";
+import Text from "../UI/Text/Text";
 
 const LandingPage = props => {
     return (
-        <div>Choose between Client / Band Leader Page</div>
+        <div className={styles.landingPageContainer}>
+            <div className={styles.textContainer}>
+                <Text>Set List Generator</Text>
+                <Text></Text>
+            </div>
+        </div>
     )
 }
 

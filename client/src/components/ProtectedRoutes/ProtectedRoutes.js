@@ -1,11 +1,19 @@
 import React from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
+// import {createSelector} from "reselect";
 import LandingPage from "../LandingPage/LandingPage";
+
+
+// const selectIsAuthenticated = createSelector(
+//     state => state.auth,
+//     auth => auth.isAuthenticated
+// )
 
 
 const ProtectedRoutes = props => {
     const protectedRouteCheck = Component => props.auth.isAuthenticated ? Component : () => <Redirect to="/"/>;
+    // const authState = useSelector(selectIsAuthenticated);
     return (
         <Switch>
             <Route exact path ="/" component={LandingPage}/> 
@@ -13,11 +21,5 @@ const ProtectedRoutes = props => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        auth : state.auth
-    }
-}
-
-export default connect(mapStateToProps, null)(ProtectedRoutes);
+export default ProtectedRoutes;
 
