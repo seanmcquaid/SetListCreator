@@ -7,7 +7,7 @@ const LandingPage = props => {
     return (
         <Container centered={true}>
             <Container centered={true}>
-                <Text headerText={true}>Set List Generator</Text>
+                <Text headerText={true}>Set List Creator</Text>
                 <Text>Are you a Client or a Bandleader?</Text>
             </Container>
             <Container centered={true} additionalStyles={{"flexDirection" : "row"}}>
