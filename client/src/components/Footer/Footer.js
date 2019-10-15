@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./Footer.module.css";
+import Text from "../UI/Text/Text";
 
 const Footer = props => {
     return (
         <div className={styles.footerContainer}>
-            © Sean McQuaid 2019
+            <Text>© Sean McQuaid 2019</Text>
         </div>
     )
 }
