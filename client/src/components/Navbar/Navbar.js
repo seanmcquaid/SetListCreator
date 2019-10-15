@@ -9,7 +9,6 @@ const Navbar = props => {
     const navBarRight = authStatus ? "" : "";
     return(
         <nav className={styles.navbarContainer}>
-            STUFF
             {navBarLeft}
             {navBarRight}
         </nav>
