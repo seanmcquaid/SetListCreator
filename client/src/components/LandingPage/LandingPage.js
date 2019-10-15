@@ -12,8 +12,8 @@ const LandingPage = props => {
                 <Text>Are you a Client or a Bandleader?</Text>
             </Container>
             <Container centered={true} additionalStyles={{"flex-direction" : "row"}}>
-                <LinkButton>Client</LinkButton>
-                <LinkButton>Bandleader</LinkButton>
+                <LinkButton route="/clientLogin">Client</LinkButton>
+                <LinkButton route="/bandLeaderLogin">Bandleader</LinkButton>
             </Container>
         </Container>
     )
