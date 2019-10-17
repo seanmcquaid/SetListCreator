@@ -5,7 +5,6 @@ import {Link} from "react-router-dom";
 import styles from "./BandLeaderLoginPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
-import LinkButton from "../../UI/LinkButton/LinkButton";
 import {useSelector, useDispatch} from "react-redux";
 
 
@@ -25,15 +24,16 @@ const BandLeaderLoginPage = props => {
         setPassword(event.target.value);
     };
 
-    const loginSubmitHandler = event => {
-        event.preventDefault(); 
+    const bandLeaderLoginSubmitHandler = event => {
+        event.preventDefault();
+        // dispatch action here
     };
 
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Login</Text>
             <Text>Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link></Text>
-            <form onSubmit={loginSubmitHandler}>
+            <form onSubmit={bandLeaderLoginSubmitHandler}>
                 <Input 
                     name="username"
                     title="Username"
