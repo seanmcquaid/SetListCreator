@@ -1,7 +1,8 @@
 const initialState = {
     isAuthenticated : false,
     token : null,
-    userInfo : ""
+    userInfo : "",
+    errorMessage : ""
 }
 
 const authReducer = (state = initialState, action) => {

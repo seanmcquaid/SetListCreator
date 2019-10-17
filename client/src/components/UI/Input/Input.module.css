@@ -1,0 +1,15 @@
+.inputLabel {
+    font-family: 'EB Garamond', serif;
+    font-size : 1rem;
+}
+
+.input {
+    margin : 0.25rem;
+    padding: 0.75rem;
+    color : #555555;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    width : 8rem;
+    text-align: center;
+    outline : none;
+}
