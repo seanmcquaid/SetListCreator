@@ -4,13 +4,12 @@ import {useSelector, useDispatch} from "react-redux";
 import styles from "./Navbar.module.css";
 
 const Navbar = props => {
-    const authStatus = useSelector(state => state.auth.isAuthenticated);
-    const navBarLeft = authStatus ? "" : "";
-    const navBarRight = authStatus ? "" : "";
+    const isAuthenticatedStatus = useSelector(state => state.auth.isAuthenticated);
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const navBarRight = isAuthenticatedStatus ? "" : "";
     return(
         <nav className={styles.navbarContainer}>
-            {navBarLeft}
-            {navBarRight}
+            <Link className={styles.navLink} to="/">SLC</Link>
         </nav>
     )
 }
