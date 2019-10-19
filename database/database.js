@@ -1,17 +1,14 @@
-const mysql = require("mysql");
 const config = require("../config/config");
+const pgPromise = require("pg-promise")();
 
-const databaseConnection = mysql.createConnection({
-    host : config.db.host,
-    user : config.db.user,
-    password : config.db.password,
-    database : config.db.database
-});
+const connection = {
+    host: config.db.host,
+    port: config.db.port,
+    database: config.db.database,
+    user: config.db.user,
+    password: config.db.user
+};
 
-databaseConnection.connect(err => {
-    if(err){
-        throw err;
-    }
-});
+const database = pgPromise(connection);
 
-module.exports = databaseConnection;
+module.exports = database;
