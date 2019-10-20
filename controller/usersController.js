@@ -4,14 +4,16 @@ exports.postRegister = (req, res, next) => {
     console.log("received")
     const {username, password, duplicatePassword, accountType} = req.body;
     UserModel.userExists(username)
-            .then(response => {
-                console.log(response);
+            .then(userInfo => {
+                if(userInfo.length > 0){
+                    return
+                }
+                UserModel.register(username, password, duplicatePassword, accountType)
+                        .then(userInfo => {
+                            console.log(userInfo)
+                        })
             })
             .catch(err => console.log(err));
-
-    res.json({
-        errorMessage : "NO"
-    })
 };
 
 exports.postLogin = (req, res, next) => {
