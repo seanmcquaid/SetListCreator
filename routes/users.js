@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const usersController = require("../controller/usersController");
 
-router.get('/', function(req, res, next) {res.send('respond with a resource');});
+router.post('/register', usersController.postRegister);
 
 module.exports = router;

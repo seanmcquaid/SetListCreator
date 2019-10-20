@@ -6,6 +6,7 @@ import styles from "./BandLeaderRegisterPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {useSelector, useDispatch} from "react-redux";
+import {registerAction} from "../../../actions/authActions/authActions";
 
 const BandLeaderRegisterPage =props => {
     const authState = useSelector(state => state.auth);
@@ -30,6 +31,7 @@ const BandLeaderRegisterPage =props => {
     const bandLeaderRegisterSubmitHandler = event => {
         event.preventDefault();
         // dispatch action here
+        dispatch(registerAction("bandLeader"));
     };
 
     return(
