@@ -25,13 +25,12 @@ const BandLeaderRegisterPage =props => {
     };
 
     const confirmPasswordChangeHandler = event => {
-        setPassword(event.target.value);
+        setConfirmPassword(event.target.value);
     };
 
     const bandLeaderRegisterSubmitHandler = event => {
         event.preventDefault();
-        // dispatch action here
-        dispatch(registerAction("bandLeader"));
+        dispatch(registerAction(username, password, confirmPassword, "bandLeader"));
     };
 
     return(

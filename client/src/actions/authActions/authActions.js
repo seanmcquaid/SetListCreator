@@ -29,19 +29,15 @@ export const loginAction = (username, password) => async dispatch => {
     });
 };
 
-export const registerAction = (accountType) => async dispatch => {
-    // username, password, duplicatePassword, accountType
-    console.log("it fired off")
+export const registerAction = (username, password, duplicatePassword, accountType) => async dispatch => {
+
+    const requestBody = {username, password, duplicatePassword};
 
     dispatch({
         type : REGISTER_LOADING
     });
 
-    console.log(accountType)
-
-    let username = "shrimp"
-
-    axios.post(`${window.apiHost}/users/register/`, {username, accountType})
+    axios.post(`${window.apiHost}/users/register/${accountType}`, requestBody)
     .then(response =>{
         console.log(response)
         dispatch({
