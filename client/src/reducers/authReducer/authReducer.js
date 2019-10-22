@@ -7,8 +7,11 @@ import {
 const initialState = {
     isAuthenticated : false,
     token : null,
-    userInfo : "",
-    errorMessage : "",
+    username : "",
+    errorData : {
+        status : "",
+        errorMessage : ""
+    },
     isLoading : false,
 }
 
@@ -20,12 +23,22 @@ const authReducer = (state = initialState, action) => {
                 isLoading : true
             }
         case REGISTER_SUCCESS:
+            localStorage.setItem("token", action.userData.token);
             return{
-                ...state
+                ...state,
+                isAuthenticated : action.userData.isAuthenticated,
+                token : action.userData.token,
+                username : action.userData.username,
+                isLoading : false,
             }
-        case REGISTER_ERROR: 
+        case REGISTER_ERROR:
             return {
-                ...state
+                ...state,
+                errorData : {
+                    status : action.errorData.status,
+                    errorMessage : action.errorData.data.errorMessage
+                },
+                isLoading : false,
             }
         default :
             return state

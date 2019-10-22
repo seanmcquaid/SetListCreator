@@ -39,17 +39,15 @@ export const registerAction = (username, password, duplicatePassword, accountTyp
 
     axios.post(`${window.apiHost}/users/register/${accountType}`, requestBody)
     .then(response =>{
-        console.log(response)
         dispatch({
             type : REGISTER_SUCCESS,
             userData : response.data
         })
     })
     .catch(err => {
-        console.log(err)
         dispatch({
             type : REGISTER_ERROR,
-            errorData : err
+            errorData : err.response
         })
     });
 

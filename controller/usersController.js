@@ -1,4 +1,6 @@
 const UserModel = require("../models/UserModel");
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 exports.postRegister = (req, res, next) => {
     const {username, password, duplicatePassword} = req.body;
@@ -19,9 +21,16 @@ exports.postRegister = (req, res, next) => {
 
                 return UserModel.register(username, password, accountType)
                         .then(userInfo => {
-                            console.log(userInfo)
+                            const specificUserInfo = userInfo[0];
+                            const token = jwt.sign(
+                                {id : specificUserInfo.id},
+                                config.jwtSecret,
+                                {expiresIn : 36000}
+                            );
                             return res.status(200).json({
-
+                                isAuthenticated : true,
+                                token,
+                                username : specificUserInfo.username,
                             });
                         })
             })

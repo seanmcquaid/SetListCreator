@@ -8,7 +8,7 @@ import Button from "../../UI/Button/Button";
 import {useSelector, useDispatch} from "react-redux";
 import {registerAction} from "../../../actions/authActions/authActions";
 
-const BandLeaderRegisterPage =props => {
+const BandLeaderRegisterPage = props => {
     const authState = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
@@ -36,6 +36,7 @@ const BandLeaderRegisterPage =props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Register</Text>
+            {}
             <Text>Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link></Text>
             <form onSubmit={bandLeaderRegisterSubmitHandler}>
                 <Input 
