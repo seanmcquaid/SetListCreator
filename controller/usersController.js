@@ -20,8 +20,8 @@ exports.postRegister = (req, res, next) => {
                 }
 
                 return UserModel.register(username, password, accountType)
-                        .then(userInfo => {
-                            const specificUserInfo = userInfo[0];
+                        .then(userInfoResponse => {
+                            const specificUserInfo = userInfoResponse[0];
                             const token = jwt.sign(
                                 {id : specificUserInfo.id},
                                 config.jwtSecret,
@@ -39,5 +39,32 @@ exports.postRegister = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
     const {username, password} = req.body;
+    UserModel.userExists(username)
+            .then(userInfo => {
+                if(userInfo.length == 0){
+                    return res.status(401).send({
+                        errorMessage : "This user isn't registered on our site!"
+                    });
+                }
 
+                // need to finish login tomorrow
+                return UserModel.login(username, password)
+                        .then(userInfoResponse => {
+                            console.log(userInfoResponse)
+                            const specificUserInfo = userInfoResponse[0];
+                            const token = jwt.sign(
+                                {id : specificUserInfo.id},
+                                config.jwtSecret,
+                                {expiresIn : 36000}
+                            );
+                            return res.status(200).json({
+                                isAuthenticated : true,
+                                token,
+                                username : specificUserInfo.username,
+                            });
+                        })
+
+
+            })
+            .catch(err => console.log(err))
 };

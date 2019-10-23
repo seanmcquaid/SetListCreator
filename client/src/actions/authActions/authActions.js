@@ -10,11 +10,13 @@ import {
 
 export const loginAction = (username, password) => async dispatch => {
 
+    const requestBody = {username, password};
+
     dispatch({
         type : LOGIN_LOADING
     });
 
-    axios.post(`${window.apiHost}/users/login`)
+    axios.post(`${window.apiHost}/users/login`, requestBody)
     .then(response =>{
         dispatch({
             type : LOGIN_SUCCESS,
@@ -24,7 +26,7 @@ export const loginAction = (username, password) => async dispatch => {
     .catch(err => {
         dispatch({
             type : LOGIN_ERROR,
-            errorData : err
+            errorData : err.response
         })
     });
 };

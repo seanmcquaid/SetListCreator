@@ -1,28 +1,31 @@
 import {
     REGISTER_LOADING,
     REGISTER_SUCCESS,
-    REGISTER_ERROR
+    REGISTER_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR,
+    LOGIN_LOADING
 } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
     isAuthenticated : false,
     token : null,
-    username : "",
+    username : null,
     errorData : {
-        status : "",
-        errorMessage : ""
+        status : null,
+        errorMessage : null
     },
     isLoading : false,
 }
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
-        case REGISTER_LOADING:
+        case REGISTER_LOADING: case LOGIN_LOADING:
             return {
                 ...state,
                 isLoading : true
             }
-        case REGISTER_SUCCESS:
+        case REGISTER_SUCCESS: case LOGIN_SUCCESS:
             localStorage.setItem("token", action.userData.token);
             return{
                 ...state,
@@ -31,7 +34,7 @@ const authReducer = (state = initialState, action) => {
                 username : action.userData.username,
                 isLoading : false,
             }
-        case REGISTER_ERROR:
+        case REGISTER_ERROR: case LOGIN_ERROR:
             return {
                 ...state,
                 errorData : {
@@ -41,7 +44,9 @@ const authReducer = (state = initialState, action) => {
                 isLoading : false,
             }
         default :
-            return state
+            return {
+                ...state
+            }
     }
 }
 

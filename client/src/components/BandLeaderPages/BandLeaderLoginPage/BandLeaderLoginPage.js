@@ -6,7 +6,7 @@ import styles from "./BandLeaderLoginPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {useSelector, useDispatch} from "react-redux";
-
+import { loginAction } from "../../../actions/authActions/authActions";
 
 
 const BandLeaderLoginPage = props => {
@@ -26,9 +26,10 @@ const BandLeaderLoginPage = props => {
 
     const bandLeaderLoginSubmitHandler = event => {
         event.preventDefault();
-        // dispatch action here
+        dispatch(loginAction(username, password));
     };
 
+    console.log(authState);
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Login</Text>

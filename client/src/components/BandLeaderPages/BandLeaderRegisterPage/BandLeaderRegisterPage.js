@@ -36,8 +36,12 @@ const BandLeaderRegisterPage = props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Register</Text>
-            {}
-            <Text>Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link></Text>
+            {authState.errorData.errorMessage ? 
+                <Text>{authState.errorData.errorMessage}</Text> : 
+                <Text>
+                    Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link>
+                </Text>
+            }
             <form onSubmit={bandLeaderRegisterSubmitHandler}>
                 <Input 
                     name="username"
