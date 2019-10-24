@@ -9,7 +9,7 @@ const UserModel = {
 
     login : (username, password) => {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        return database.query("SELECT id, username FROM USERS WHERE username=$1 AND password=$2;", [username, hashedPassword]);
+        return database.query("SELECT id, username, password FROM USERS WHERE username=$1 AND password=$2;", [username, hashedPassword]);
     },
 
     register : (username, password, accountType) => {

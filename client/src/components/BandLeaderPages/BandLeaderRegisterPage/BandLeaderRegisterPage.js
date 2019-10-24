@@ -36,7 +36,7 @@ const BandLeaderRegisterPage = props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Register</Text>
-            {authState.errorData.errorMessage ? 
+            {authState.errorData.errorMessage && !authState.isAuthenticated ? 
                 <Text>{authState.errorData.errorMessage}</Text> : 
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link>
