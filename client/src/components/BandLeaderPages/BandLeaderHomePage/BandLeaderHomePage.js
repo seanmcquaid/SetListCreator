@@ -1,9 +1,9 @@
 import React from "react";
 
-const BandLeaderHome = props => {
+const BandLeaderHomePage = props => {
     return(
         <div>User Home</div>
     )
 };
 
-export default BandLeaderHome;
+export default BandLeaderHomePage;
