@@ -11,6 +11,7 @@ const BandLeaderHomePage = props => {
                 <LinkButton route="/bandLeader/setListCreator">Set List Creator</LinkButton>
                 <LinkButton route="/bandLeader/clientList">Client List</LinkButton>
                 <LinkButton route="/bandLeader/emailBand">Email Band</LinkButton>
+                <LinkButton route="/bandLeader/addSongs">Add Songs To Your Database</LinkButton>
             </Container>
         </Container>
     )

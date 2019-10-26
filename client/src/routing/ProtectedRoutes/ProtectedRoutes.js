@@ -10,6 +10,7 @@ import BandLeaderRegisterPage from "../../components/BandLeaderPages/BandLeaderR
 import ErrorPage from "../../components/ErrorPage/ErrorPage";
 import BandLeaderHomePage from "../../components/BandLeaderPages/BandLeaderHomePage/BandLeaderHomePage";
 import ClientHomePage from "../../components/ClientPages/ClientHomePage/ClientHomePage";
+import AddSongsPage from "../../components/BandLeaderPages/AddSongsPage/AddSongsPage";
 
 
 const selectIsAuthenticated = createSelector(
@@ -17,18 +18,28 @@ const selectIsAuthenticated = createSelector(
     auth => auth.isAuthenticated
 );
 
+const selectAccountType = createSelector(
+    state => state.auth,
+    auth => auth.accountType
+);
+
 const ProtectedRoutes = props => {
-    const authState = useSelector(selectIsAuthenticated);
-    const protectedRouteCheck = Component => authState ? Component : () => <Redirect to="/"/>;
+    const isAuthenticated = useSelector(selectIsAuthenticated);
+    const accountType = useSelector(selectAccountType);
+
+    const protectedClientRouteCheck = Component => isAuthenticated && accountType === "client" ? Component : () => <Redirect to="/"/>;
+    const protectedBandLeaderRouteCheck = Component => isAuthenticated && accountType === "bandLeader" ? Component : () => <Redirect to="/"/>;
+
     return (
         <Switch>
-            <Route exact path ="/" component={LandingPage}/>
-            <Route exact path ="/clientLogin" component={ClientLoginPage}/>
-            <Route exact path ="/clientRegister" component={ClientRegisterPage}/>
-            <Route exact path ="/bandLeaderLogin" component={BandLeaderLoginPage}/>
-            <Route exact path ="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-            <Route exact path="/bandLeaderHome" component={protectedRouteCheck(BandLeaderHomePage)}/>
-            <Route exact path="/clientHome" component={protectedRouteCheck(ClientHomePage)}/>
+            <Route exact path="/" component={LandingPage}/>
+            <Route exact path="/clientLogin" component={ClientLoginPage}/>
+            <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+            <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
+            <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
+            <Route exact path="/bandLeaderHome" component={protectedBandLeaderRouteCheck(BandLeaderHomePage)}/>
+            <Route exact path="/bandLeader/addSongs" component={protectedBandLeaderRouteCheck(AddSongsPage)}/>
+            <Route exact path="/clientHome" component={protectedClientRouteCheck(ClientHomePage)}/>
             <Route component={ErrorPage}/>
         </Switch>
     )

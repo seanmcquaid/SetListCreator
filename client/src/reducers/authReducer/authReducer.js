@@ -11,6 +11,7 @@ const initialState = {
     isAuthenticated : false,
     token : null,
     username : null,
+    accountType : null,
     errorData : {
         status : null,
         errorMessage : null
@@ -32,6 +33,7 @@ const authReducer = (state = initialState, action) => {
                 isAuthenticated : action.userData.isAuthenticated,
                 token : action.userData.token,
                 username : action.userData.username,
+                accountType : action.userData.accountType,
                 isLoading : false,
             }
         case REGISTER_ERROR: case LOGIN_ERROR:

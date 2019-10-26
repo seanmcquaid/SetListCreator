@@ -32,6 +32,7 @@ exports.postRegister = (req, res, next) => {
                                 isAuthenticated : true,
                                 token,
                                 username : specificUserInfo.username,
+                                accountType : specificUserInfo.accounttype
                             });
                         })
             })
@@ -48,7 +49,7 @@ exports.postLogin = (req, res, next) => {
                     });
                 }
 
-                const specificUserInfo = userInfo[0]
+                const specificUserInfo = userInfo[0];
 
                 return bcrypt.compare(password, specificUserInfo.password)
                             .then(isMatch => {
@@ -67,7 +68,8 @@ exports.postLogin = (req, res, next) => {
                                 return res.status(200).json({
                                     isAuthenticated : true,
                                     token,
-                                    username : specificUserInfo.username
+                                    username : specificUserInfo.username,
+                                    accountType : specificUserInfo.accounttype
                                 });
 
 
