@@ -5,7 +5,9 @@ import {
     LOGIN_ERROR,
     REGISTER_LOADING,
     REGISTER_SUCCESS,
-    REGISTER_ERROR
+    REGISTER_ERROR,
+    LOGOUT_LOADING,
+    LOGOUT_SUCCESS
 } from "./authActionTypes";
 
 export const loginAction = (username, password) => async dispatch => {
@@ -54,3 +56,14 @@ export const registerAction = (username, password, duplicatePassword, accountTyp
     });
 
 };
+
+export const logoutAction = () => async dispatch => {
+
+    dispatch({
+        type : LOGOUT_LOADING
+    });
+    
+    dispatch({
+        type : LOGOUT_SUCCESS
+    });
+}

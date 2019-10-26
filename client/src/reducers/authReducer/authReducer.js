@@ -4,7 +4,9 @@ import {
     REGISTER_ERROR,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
-    LOGIN_LOADING
+    LOGIN_LOADING,
+    LOGOUT_LOADING,
+    LOGOUT_SUCCESS
 } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
@@ -21,7 +23,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
-        case REGISTER_LOADING: case LOGIN_LOADING:
+        case REGISTER_LOADING: case LOGIN_LOADING: case LOGOUT_LOADING:
             return {
                 ...state,
                 isLoading : true
@@ -44,6 +46,10 @@ const authReducer = (state = initialState, action) => {
                     errorMessage : action.errorData.data.errorMessage
                 },
                 isLoading : false,
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...initialState
             }
         default :
             return {
