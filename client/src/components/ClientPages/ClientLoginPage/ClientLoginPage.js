@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientLoginPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
@@ -29,7 +29,11 @@ const ClientLoginPage = props => {
         dispatch(loginAction(username, password));
     };
 
-    console.log(authState);
+    if(authState.isAuthenticated){
+        return <Redirect to="/clientHome"/>
+    }
+
+
     return(
         <Container centered={true}>
             <Text headerText={true}>Client Login</Text>
