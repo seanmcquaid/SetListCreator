@@ -13,8 +13,18 @@ const Navbar = props => {
 
     const rightNav = isAuthenticated ? 
         <Aux>
-            {accountType === "client" ? "" : ""}
-            <button className={styles.navLinkButton} onClick={dispatch(logoutAction())}type="button">Logout</button>
+            {accountType === "client" ? 
+            <Aux>
+                <Link className={styles.navLink} to="/client/songListCreator">Song List Creator</Link>
+                <Link className={styles.navLink} to="/client/contactBandleader">Contact Band Leader</Link>
+            </Aux>:
+            <Aux>
+                <Link className={styles.navLink} to="/bandLeader/setListCreator">Set List Creator</Link>
+                <Link className={styles.navLink} to="/bandLeader/clientList">Client List</Link>
+                <Link className={styles.navLink} to="/bandLeader/emailBand">Email Band</Link>
+                <Link className={styles.navLink} to="/bandLeader/addSongs">Add Songs</Link>
+            </Aux>}
+            <button className={styles.navLinkButton} onClick={() => dispatch(logoutAction())}type="button">Logout</button>
         </Aux> : 
         <Aux>
             <Link className={styles.navLink} to="/clientLogin">Client Login</Link>

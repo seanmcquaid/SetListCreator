@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Input.module.css";
 import Container from "../Container/Container";
+import PropTypes from "prop-types";
 
 const Input = props => {
     return(
@@ -17,5 +18,14 @@ const Input = props => {
         </Container>
     )
 };
+
+Input.propTypes = {
+    name : PropTypes.string.isRequired,
+    title : PropTypes.string.isRequired,
+    type : PropTypes.string.isRequired,
+    value : PropTypes.string.isRequired,
+    onChange : PropTypes.func.isRequired,
+    placeholder : PropTypes.string.isRequired
+}
 
 export default Input;

@@ -28,7 +28,7 @@ const BandLeaderLoginPage = props => {
         event.preventDefault();
         dispatch(loginAction(username, password));
     };
-
+    
     if(authState.isAuthenticated){
         return <Redirect to="/bandLeaderHome"/>
     }
