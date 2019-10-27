@@ -24,7 +24,7 @@ Input.propTypes = {
     title : PropTypes.string.isRequired,
     type : PropTypes.string.isRequired,
     value : PropTypes.string.isRequired,
-    onChange : PropTypes.func.isRequired,
+    onChangeHandler : PropTypes.func.isRequired,
     placeholder : PropTypes.string.isRequired
 }
 
