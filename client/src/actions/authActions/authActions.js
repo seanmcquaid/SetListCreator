@@ -7,7 +7,10 @@ import {
     REGISTER_SUCCESS,
     REGISTER_ERROR,
     LOGOUT_LOADING,
-    LOGOUT_SUCCESS
+    LOGOUT_SUCCESS,
+    CHECK_TOKEN_SUCCESS,
+    CHECK_TOKEN_LOADING,
+    CHECK_TOKEN_FAILURE
 } from "./authActionTypes";
 
 export const loginAction = (username, password) => async dispatch => {
@@ -66,4 +69,45 @@ export const logoutAction = () => async dispatch => {
     dispatch({
         type : LOGOUT_SUCCESS
     });
+}
+
+export const tokenConfig = () => {
+    const token = localStorage.getItem("token");
+
+    const config = {
+        headers : {
+            "Content-Type" : "application/json"
+        }
+    }
+
+    if(token){
+        config.headers["x-auth-token"] = token;
+    }
+
+    return config;
+
+}
+
+export const checkTokenAction = () => async dispatch => {
+
+    dispatch({
+        type : CHECK_TOKEN_LOADING
+    })
+
+    const headers = tokenConfig();
+
+    axios.get(`${window.apiHost}/users/checkToken`, headers)
+        .then(response => {
+            dispatch({
+                type : CHECK_TOKEN_SUCCESS,
+                userData : response.data
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type : CHECK_TOKEN_FAILURE,
+                errorData : err.response
+            })
+        })
+
 }

@@ -1,9 +1,11 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
 import authReducer from "../reducers/authReducer/authReducer";
+import bandLeaderReducer from "../reducers/bandLeaderReducer/bandLeaderReducer";
 
 const rootReducer = combineReducers({
-    auth : authReducer
+    auth : authReducer,
+    bandLeader : bandLeaderReducer
 });
 
 const middleware = applyMiddleware(ReduxThunk);

@@ -1,0 +1,3 @@
+export const ADD_SONG_LOADING = "ADD_SONG_LOADING";
+export const ADD_SONG_SUCCESS = "ADD_SONG_SUCCESS";
+export const ADD_SONG_ERROR = "ADD_SONG_ERROR";

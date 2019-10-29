@@ -6,7 +6,10 @@ import {
     LOGIN_ERROR,
     LOGIN_LOADING,
     LOGOUT_LOADING,
-    LOGOUT_SUCCESS
+    LOGOUT_SUCCESS,
+    CHECK_TOKEN_LOADING,
+    CHECK_TOKEN_SUCCESS,
+    CHECK_TOKEN_FAILURE
 } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
@@ -23,13 +26,12 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
-        case REGISTER_LOADING: case LOGIN_LOADING: case LOGOUT_LOADING:
+        case REGISTER_LOADING: case LOGIN_LOADING: case LOGOUT_LOADING: case CHECK_TOKEN_LOADING:
             return {
                 ...state,
                 isLoading : true
             }
-        case REGISTER_SUCCESS: case LOGIN_SUCCESS:
-            console.log(action.userData)
+        case REGISTER_SUCCESS: case LOGIN_SUCCESS: case CHECK_TOKEN_SUCCESS:
             localStorage.setItem("token", action.userData.token);
             return{
                 ...state,
@@ -48,7 +50,8 @@ const authReducer = (state = initialState, action) => {
                 },
                 isLoading : false,
             }
-        case LOGOUT_SUCCESS:
+        case LOGOUT_SUCCESS: case CHECK_TOKEN_FAILURE:
+            localStorage.removeItem("token");
             return {
                 ...initialState
             }
