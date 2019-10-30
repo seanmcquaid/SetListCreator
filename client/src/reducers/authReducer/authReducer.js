@@ -50,10 +50,19 @@ const authReducer = (state = initialState, action) => {
                 },
                 isLoading : false,
             }
-        case LOGOUT_SUCCESS: case CHECK_TOKEN_FAILURE:
+        case LOGOUT_SUCCESS:
             localStorage.removeItem("token");
             return {
-                ...initialState
+                ...initialState,
+            }
+        case CHECK_TOKEN_FAILURE:
+            localStorage.removeItem("token");
+            return {
+                ...initialState,
+                errorData : {
+                    status : action.errorData.status,
+                    errorMessage : action.errorData.data.errorMessage
+                }
             }
         default :
             return {

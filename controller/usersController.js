@@ -79,3 +79,7 @@ exports.postLogin = (req, res, next) => {
             })
             .catch(err => console.log(err))
 };
+
+exports.getCheckToken = (req,res,next) => {
+
+};
