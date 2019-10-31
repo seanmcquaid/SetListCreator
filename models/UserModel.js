@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const UserModel = {
 
     userExists : username => {
-        return database.query("SELECT username, password, accountType FROM USERS where username=$1;", [username]);
+        return database.query("SELECT * FROM USERS where username=$1;", [username]);
     },
 
     login : (username, password) => {

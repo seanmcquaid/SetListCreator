@@ -60,7 +60,10 @@ exports.postLogin = (req, res, next) => {
                                 }
 
                                 const token = jwt.sign(
-                                    {id : specificUserInfo.id},
+                                    {
+                                        id : specificUserInfo.id,
+                                        username : specificUserInfo.username
+                                    },
                                     config.jwtSecret,
                                     {expiresIn : 36000}
                                 );
@@ -81,5 +84,33 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getCheckToken = (req,res,next) => {
+    const token = req.token;
+    const {id, username} = token;
+
+    return UserModel.userExists(username)
+            .then(userInfo => {
+                const specificUserInfo = userInfo[0];
+                const newToken = jwt.sign(
+                    {
+                        id : specificUserInfo.id,
+                        username : specificUserInfo.username
+                    },
+                    config.jwtSecret,
+                    {expiresIn : 36000}
+                );
+
+                return res.status(200).json({
+                    isAuthenticated : true,
+                    token,
+                    username : specificUserInfo.username,
+                    accountType : specificUserInfo.accounttype
+                });
+            })
+            .catch(err => {
+                return res.status(401).send({
+                    errorMessage : "Issue with creating a new token, please login again"
+                })
+            });
+
 
 };

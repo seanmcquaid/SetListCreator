@@ -98,12 +98,14 @@ export const checkTokenAction = () => async dispatch => {
 
     axios.get(`${window.apiHost}/users/checkToken`, headers)
         .then(response => {
+            console.log(response)
             dispatch({
                 type : CHECK_TOKEN_SUCCESS,
                 userData : response.data
             })
         })
         .catch(err => {
+            console.log(err.response)
             dispatch({
                 type : CHECK_TOKEN_FAILURE,
                 errorData : err.response

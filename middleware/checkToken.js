@@ -9,16 +9,15 @@ const checkToken = (req,res,next) => {
         })
     }
 
-    jwt.verify(token, config.jwtSecret)
-        .then(response => {
-            console.log(response)
+    
+        const decodedToken = jwt.verify(token, config.jwtSecret);
+        if(decodedToken){
+            req.token = decodedToken;
             next();
+        }
+        return res.status(401).send({
+            errorMessage : "Expired Token"
         })
-        .catch(err => {
-            return res.status(401).send({
-                errorMessage : "Expired token"
-            })
-        });
 
 }
 
