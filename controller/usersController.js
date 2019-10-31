@@ -24,7 +24,10 @@ exports.postRegister = (req, res, next) => {
                         .then(userInfoResponse => {
                             const specificUserInfo = userInfoResponse[0];
                             const token = jwt.sign(
-                                {id : specificUserInfo.id},
+                                {
+                                    id : specificUserInfo.id,
+                                    username : specificUserInfo.username
+                                },
                                 config.jwtSecret,
                                 {expiresIn : 36000}
                             );
@@ -101,7 +104,7 @@ exports.getCheckToken = (req,res,next) => {
 
                 return res.status(200).json({
                     isAuthenticated : true,
-                    token,
+                    newToken,
                     username : specificUserInfo.username,
                     accountType : specificUserInfo.accounttype
                 });
