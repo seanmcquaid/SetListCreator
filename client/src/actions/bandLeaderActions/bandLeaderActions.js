@@ -15,7 +15,18 @@ export const addSongAction = (songName, artistName, key) => async dispatch => {
     const requestBody = {songName, artistName,key};
     const headers = tokenConfig();
 
-    
-
+    axios.post("/bandLeader/addSong", requestBody, headers)
+        .then(response => {
+            console.log(response)
+            dispatch({
+                type : ADD_SONG_SUCCESS
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            dispatch({
+                type : ADD_SONG_ERROR
+            })
+        })
 
 }

@@ -26,7 +26,8 @@ exports.postRegister = (req, res, next) => {
                             const token = jwt.sign(
                                 {
                                     id : specificUserInfo.id,
-                                    username : specificUserInfo.username
+                                    username : specificUserInfo.username,
+                                    accountType : specificUserInfo.accounttype
                                 },
                                 config.jwtSecret,
                                 {expiresIn : 36000}
@@ -65,7 +66,8 @@ exports.postLogin = (req, res, next) => {
                                 const token = jwt.sign(
                                     {
                                         id : specificUserInfo.id,
-                                        username : specificUserInfo.username
+                                        username : specificUserInfo.username,
+                                        accountType : specificUserInfo.accounttype
                                     },
                                     config.jwtSecret,
                                     {expiresIn : 36000}
@@ -88,7 +90,7 @@ exports.postLogin = (req, res, next) => {
 
 exports.getCheckToken = (req,res,next) => {
     const token = req.token;
-    const {id, username} = token;
+    const {username} = token;
 
     return UserModel.userExists(username)
             .then(userInfo => {
@@ -96,7 +98,8 @@ exports.getCheckToken = (req,res,next) => {
                 const newToken = jwt.sign(
                     {
                         id : specificUserInfo.id,
-                        username : specificUserInfo.username
+                        username : specificUserInfo.username,
+                        accountType : specificUserInfo.accounttype
                     },
                     config.jwtSecret,
                     {expiresIn : 36000}
@@ -110,6 +113,7 @@ exports.getCheckToken = (req,res,next) => {
                 });
             })
             .catch(err => {
+                req.token = null;
                 return res.status(401).send({
                     errorMessage : "Issue with creating a new token, please login again"
                 })

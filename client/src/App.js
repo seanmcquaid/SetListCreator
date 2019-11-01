@@ -13,7 +13,7 @@ const App = props => {
     if(token){
       dispatch(checkTokenAction());
     }
-  },[token, dispatch, checkTokenAction])
+  },[token, dispatch])
 
   return (
     <Router>
