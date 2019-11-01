@@ -32,21 +32,23 @@ const authReducer = (state = initialState, action) => {
                 isLoading : true
             }
         case REGISTER_SUCCESS: case LOGIN_SUCCESS: case CHECK_TOKEN_SUCCESS:
-            localStorage.setItem("token", action.userData.token);
+            console.log(action.payload)
+            localStorage.setItem("token", action.payload.token);
             return{
                 ...state,
-                isAuthenticated : action.userData.isAuthenticated,
-                token : action.userData.token,
-                username : action.userData.username,
-                accountType : action.userData.accountType,
+                isAuthenticated : action.payload.isAuthenticated,
+                token : action.payload.token,
+                username : action.payload.username,
+                accountType : action.payload.accountType,
                 isLoading : false,
             }
         case REGISTER_ERROR: case LOGIN_ERROR:
+            localStorage.removeItem("token");
             return {
                 ...state,
                 errorData : {
-                    status : action.errorData.status,
-                    errorMessage : action.errorData.data.errorMessage
+                    status : action.payload.status,
+                    errorMessage : action.payload.data.errorMessage
                 },
                 isLoading : false,
             }
@@ -60,8 +62,8 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...initialState,
                 errorData : {
-                    status : action.errorData.status,
-                    errorMessage : action.errorData.data.errorMessage
+                    status : action.payload.status,
+                    errorMessage : action.payload.data.errorMessage
                 }
             }
         default :

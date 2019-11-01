@@ -25,13 +25,13 @@ export const loginAction = (username, password) => async dispatch => {
     .then(response =>{
         dispatch({
             type : LOGIN_SUCCESS,
-            userData : response.data
+            payload : response.data
         })
     })
     .catch(err => {
         dispatch({
             type : LOGIN_ERROR,
-            errorData : err.response
+            payload : err.response
         })
     });
 };
@@ -48,13 +48,13 @@ export const registerAction = (username, password, duplicatePassword, accountTyp
     .then(response =>{
         dispatch({
             type : REGISTER_SUCCESS,
-            userData : response.data
+            payload : response.data
         })
     })
     .catch(err => {
         dispatch({
             type : REGISTER_ERROR,
-            errorData : err.response
+            payload : err.response
         })
     });
 
@@ -98,17 +98,15 @@ export const checkTokenAction = () => async dispatch => {
 
     axios.get(`${window.apiHost}/users/checkToken`, headers)
         .then(response => {
-            console.log(response)
             dispatch({
                 type : CHECK_TOKEN_SUCCESS,
-                userData : response.data
+                payload : response.data
             })
         })
         .catch(err => {
-            console.log(err.response)
             dispatch({
                 type : CHECK_TOKEN_FAILURE,
-                errorData : err.response
+                payload : err.response
             })
         })
 

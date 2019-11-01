@@ -4,11 +4,15 @@ import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
+import {addSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {useDispatch, useSelector} from "react-redux";
 
 const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [key, setKey] = useState("");
+
+    const dispatch = useDispatch();
     
 
     const songNameOnChangeHandler = event => {
@@ -25,7 +29,7 @@ const AddSongsPage = props => {
 
     const addSongSubmitHandler = event => {
         event.preventDefault();
-        
+        dispatch(addSongAction(songName, artistName, key));
     }
 
 
@@ -33,7 +37,7 @@ const AddSongsPage = props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Add Songs Page</Text>
-            <form className={styles.addSongForm}>
+            <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
                 <Input
                     name="songName"
                     title="Song Name"

@@ -12,20 +12,21 @@ export const addSongAction = (songName, artistName, key) => async dispatch => {
         type : ADD_SONG_LOADING
     })
 
-    const requestBody = {songName, artistName,key};
+    const requestBody = {songName, artistName, key};
     const headers = tokenConfig();
+    console.log(headers)
 
-    axios.post("/bandLeader/addSong", requestBody, headers)
+    axios.post(`${window.apiHost}/bandLeader/addSong`, requestBody, headers)
         .then(response => {
-            console.log(response)
             dispatch({
-                type : ADD_SONG_SUCCESS
+                type : ADD_SONG_SUCCESS,
+                payload : response.data
             })
         })
         .catch(err => {
-            console.log(err)
             dispatch({
-                type : ADD_SONG_ERROR
+                type : ADD_SONG_ERROR,
+                payload : err.response
             })
         })
 

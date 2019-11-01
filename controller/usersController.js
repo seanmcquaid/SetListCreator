@@ -30,7 +30,7 @@ exports.postRegister = (req, res, next) => {
                                     accountType : specificUserInfo.accounttype
                                 },
                                 config.jwtSecret,
-                                {expiresIn : 36000}
+                                {expiresIn : 3600000}
                             );
                             return res.status(200).json({
                                 isAuthenticated : true,
@@ -70,7 +70,7 @@ exports.postLogin = (req, res, next) => {
                                         accountType : specificUserInfo.accounttype
                                     },
                                     config.jwtSecret,
-                                    {expiresIn : 36000}
+                                    {expiresIn : 3600000}
                                 );
                 
                                 return res.status(200).json({
@@ -102,12 +102,12 @@ exports.getCheckToken = (req,res,next) => {
                         accountType : specificUserInfo.accounttype
                     },
                     config.jwtSecret,
-                    {expiresIn : 36000}
+                    {expiresIn : 3600000}
                 );
 
                 return res.status(200).json({
                     isAuthenticated : true,
-                    newToken,
+                    token : newToken,
                     username : specificUserInfo.username,
                     accountType : specificUserInfo.accounttype
                 });
