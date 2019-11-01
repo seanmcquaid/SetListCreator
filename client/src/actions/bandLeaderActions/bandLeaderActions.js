@@ -6,13 +6,13 @@ import {
 } from "./bandLeaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
 
-export const addSongAction = (songName, artistName, key) => async dispatch => {
+export const addSongAction = (songName, artistName, songKey) => async dispatch => {
 
     dispatch({
         type : ADD_SONG_LOADING
     })
 
-    const requestBody = {songName, artistName, key};
+    const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
     console.log(headers)
 

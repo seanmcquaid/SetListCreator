@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
-    const [key, setKey] = useState("");
+    const [songKey, setSongKey] = useState("");
 
     const dispatch = useDispatch();
     
@@ -23,13 +23,13 @@ const AddSongsPage = props => {
         setArtistName(event.target.value);
     };
     
-    const keyOnChangeHandler = event => {
-        setKey(event.target.value);
+    const songKeyOnChangeHandler = event => {
+        setSongKey(event.target.value);
     };
 
     const addSongSubmitHandler = event => {
         event.preventDefault();
-        dispatch(addSongAction(songName, artistName, key));
+        dispatch(addSongAction(songName, artistName, songKey));
     }
 
 
@@ -59,8 +59,8 @@ const AddSongsPage = props => {
                     title="Key"
                     type="text"
                     placeholder="Enter key here"
-                    value={key}
-                    onChangeHandler={keyOnChangeHandler}
+                    value={songKey}
+                    onChangeHandler={songKeyOnChangeHandler}
                 />
                 <Button title="Add Song" type="submit"/>
             </form>
