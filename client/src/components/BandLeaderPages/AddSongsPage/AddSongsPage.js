@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
-import {addSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {addSongAction, getSongsAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
 import {useDispatch, useSelector} from "react-redux";
 import Song from "../../UI/Song/Song";
 
@@ -12,10 +12,15 @@ const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
-
+    const [currentSongs, setCurrentSongs] = useState([]);
     const songsFromDatabase = useSelector(state => state.bandLeader.songList);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getSongsAction());
+        setCurrentSongs(songsFromDatabase);
+    }, [dispatch, songsFromDatabase])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -32,9 +37,12 @@ const AddSongsPage = props => {
     const addSongSubmitHandler = event => {
         event.preventDefault();
         dispatch(addSongAction(songName, artistName, songKey));
+        setSongName("");
+        setArtistName("");
+        setSongKey("");
     }
 
-    const songsList = songsFromDatabase.map((song, key) => {
+    const songsList = currentSongs.map((song, key) => {
         return <Song
                     key={key}
                     songName={song.songname}

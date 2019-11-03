@@ -16,3 +16,19 @@ exports.postAddSong = (req, res, next) => {
                                 console.log(err)
                             })
 };
+
+exports.getSongs = (req, res, next) => {
+    const token = req.token;
+    const {username} = req.token;
+
+    BandLeaderSongListModel.getSongs(username)
+                            .then(response =>{
+                                return res.status(200).send({
+                                    songList : response
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+
+}
