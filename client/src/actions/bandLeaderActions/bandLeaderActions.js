@@ -14,7 +14,6 @@ export const addSongAction = (songName, artistName, songKey) => async dispatch =
 
     const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
-    console.log(headers)
 
     axios.post(`${window.apiHost}/bandLeader/addSong`, requestBody, headers)
         .then(response => {

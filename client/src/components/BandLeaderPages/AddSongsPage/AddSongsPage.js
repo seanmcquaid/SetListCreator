@@ -6,14 +6,16 @@ import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
 import {addSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
 import {useDispatch, useSelector} from "react-redux";
+import Song from "../../UI/Song/Song";
 
 const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
 
+    const songsFromDatabase = useSelector(state => state.bandLeader.songList);
+
     const dispatch = useDispatch();
-    
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -32,7 +34,14 @@ const AddSongsPage = props => {
         dispatch(addSongAction(songName, artistName, songKey));
     }
 
-
+    const songsList = songsFromDatabase.map((song, key) => {
+        return <Song
+                    key={key}
+                    songName={song.songname}
+                    artistName={song.artistname}
+                    songKey={song.songkey}
+                />
+    });
 
     return(
         <Container centered={true}>
@@ -64,7 +73,9 @@ const AddSongsPage = props => {
                 />
                 <Button title="Add Song" type="submit"/>
             </form>
-            <Container>Songs will render here and get pulled from DB</Container>
+            <Container>
+                {songsList}
+            </Container>
         </Container>
     )
 };

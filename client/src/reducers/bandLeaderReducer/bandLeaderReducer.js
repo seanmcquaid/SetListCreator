@@ -5,10 +5,10 @@ import {
 } from "../../actions/bandLeaderActions/bandLeaderActionTypes";
 
 const initialState = {
-    setLists : null,
-    clientList : null,
-    bandLists : null,
-    songList : null,
+    setLists : [],
+    clientList : [],
+    bandLists : [],
+    songList : [],
     isLoading : false,
     errorData : {
         status : null,
