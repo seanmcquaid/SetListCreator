@@ -81,7 +81,14 @@ const AddSongsPage = props => {
                 />
                 <Button title="Add Song" type="submit"/>
             </form>
-            <Container additionalStyles={{"flexWrap" : "wrap"}}>
+            <Container additionalStyles={{
+                "flexWrap" : "wrap", 
+                "flexDirection" : "row",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "alignContent": "stretch",
+                "width" : "100%"
+                }}>
                 {songsList}
             </Container>
         </Container>
