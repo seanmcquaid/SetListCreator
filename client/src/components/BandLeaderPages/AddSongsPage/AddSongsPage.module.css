@@ -5,3 +5,9 @@
     align-items: center;
     align-content: center;
 }
+
+.songsListContainer {
+    display : flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
