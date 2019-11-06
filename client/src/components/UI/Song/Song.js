@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Container from "../Container/Container";
+import Button from "../Button/Button";
 
 const Song = props => {
+    const {songName, artistName, songKey} = props;
     return(
         <Container additionalStyles={{
             "border" : "2px solid #00a118",
@@ -13,9 +15,13 @@ const Song = props => {
             "maxWidth" : "10rem",
             "color" : "#555555"
         }}>
-            <h4>Song Name : {props.songName}</h4>
-            <h5>Artist Name : {props.artistName}</h5>
-            <p>Key : {props.songKey}</p>
+            <h4>Song Name : {songName}</h4>
+            <h5>Artist Name : {artistName}</h5>
+            <p>Key : {songKey}</p>
+            <Button 
+                onClick={() => props.deleteSongHandler(songName, artistName, songKey)}
+                title="Remove"
+            />
         </Container>
     )
 };

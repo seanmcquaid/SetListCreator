@@ -40,7 +40,11 @@ const AddSongsPage = props => {
         setSongName("");
         setArtistName("");
         setSongKey("");
-    }
+    };
+
+    const deleteSongHandler = (songName, artistName, songKey) => {
+        
+    };
 
     const songsList = currentSongs.map((song, key) => {
         return <Song
@@ -48,6 +52,7 @@ const AddSongsPage = props => {
                     songName={song.songname}
                     artistName={song.artistname}
                     songKey={song.songkey}
+                    deleteSongHandler={deleteSongHandler}
                 />
     });
 

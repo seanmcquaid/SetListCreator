@@ -30,5 +30,11 @@ exports.getSongs = (req, res, next) => {
                             .catch(err => {
                                 console.log(err);
                             })
+}
 
+exports.deleteSong = (req, res, next) => {
+    const {songName, artistName, songKey} = req.body;
+    const token = req.token;
+    const {username} = token;
+    console.log(songName)
 }

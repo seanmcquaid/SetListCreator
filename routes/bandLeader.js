@@ -7,4 +7,6 @@ router.post("/addSong", checkToken, bandLeaderController.postAddSong);
 
 router.get("/getSongs", checkToken, bandLeaderController.getSongs);
 
+router.delete("/deleteSong", checkToken, bandLeaderController.deleteSong);
+
 module.exports = router;

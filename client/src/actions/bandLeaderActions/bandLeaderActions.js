@@ -32,6 +32,10 @@ export const addSongAction = (songName, artistName, songKey) => async dispatch =
             })
         })
 
+};
+
+export const deleteSongAction = (songName, artistName, songKey) => async dispatch => {
+
 }
 
 export const getSongsAction = () => async dispatch => {
@@ -42,17 +46,17 @@ export const getSongsAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-    axios.get(`${window.apiHost}/bandLeader/getSongs`, headers)
+    await axios.get(`${window.apiHost}/bandLeader/getSongs`, headers)
         .then(response => {
-            dispatch({
+            await dispatch({
                 type : GET_SONGS_SUCCESS,
                 payload : response.data
             })
         })
         .catch(err => {
-            dispatch({
+            await dispatch({
                 type : GET_SONGS_ERROR,
                 payload : err.response
             })
         })
-}
+};
