@@ -6,11 +6,16 @@ import LinkButton from "../../UI/LinkButton/LinkButton";
 const ClientHomePage = props => {
     return(
         <Container centered={true}>
-            <Text headerText={true}>Client Home Page</Text>
-            <Container centered={true}>
-                <LinkButton route="/client/songListCreator">Song List Creator</LinkButton>
-                <LinkButton route="/client/contactBandleader">Email Band Leader</LinkButton>
-            </Container>
+            <Text headerText={true}>Musical Preferences Page</Text>
+            {/* lists here with accompanying form */}
+            <div>
+                <div>
+                    Play List
+                </div>
+                <div>
+                    Do Not List
+                </div>
+            </div>
         </Container>
     )
 };

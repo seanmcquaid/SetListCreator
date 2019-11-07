@@ -46,14 +46,14 @@ export const getSongsAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-    await axios.get(`${window.apiHost}/bandLeader/getSongs`, headers)
-        .then(response => {
+     axios.get(`${window.apiHost}/bandLeader/getSongs`, headers)
+        .then(async response => {
             await dispatch({
                 type : GET_SONGS_SUCCESS,
                 payload : response.data
             })
         })
-        .catch(err => {
+        .catch(async err => {
             await dispatch({
                 type : GET_SONGS_ERROR,
                 payload : err.response

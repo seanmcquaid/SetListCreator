@@ -58,7 +58,7 @@ const AddSongsPage = props => {
 
     return(
         <Container centered={true}>
-            <Text headerText={true}>Add Songs Page</Text>
+            <Text headerText={true}>Song List</Text>
             <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
                 <Input
                     name="songName"

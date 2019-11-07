@@ -11,7 +11,7 @@ import ErrorPage from "../../components/ErrorPage/ErrorPage";
 import BandLeaderHomePage from "../../components/BandLeaderPages/BandLeaderHomePage/BandLeaderHomePage";
 import ClientHomePage from "../../components/ClientPages/ClientHomePage/ClientHomePage";
 import AddSongsPage from "../../components/BandLeaderPages/AddSongsPage/AddSongsPage";
-
+import ClientListPage from "../../components/BandLeaderPages/ClientListPage/ClientListPage";
 
 const selectIsAuthenticated = createSelector(
     state => state.auth,
@@ -37,7 +37,8 @@ const ProtectedRoutes = props => {
             <Route exact path="/clientRegister" component={ClientRegisterPage}/>
             <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
             <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-            <Route exact path="/bandLeaderHome" component={protectedBandLeaderRouteCheck(BandLeaderHomePage)}/>
+            <Route exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
+            <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
             <Route exact path="/bandLeader/addSongs" component={protectedBandLeaderRouteCheck(AddSongsPage)}/>
             <Route exact path="/clientHome" component={protectedClientRouteCheck(ClientHomePage)}/>
             <Route component={ErrorPage}/>
