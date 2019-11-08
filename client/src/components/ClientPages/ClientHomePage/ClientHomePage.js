@@ -10,10 +10,16 @@ const ClientHomePage = props => {
             {/* lists here with accompanying form */}
             <div>
                 <div>
-                    Play List
+                    <Text>Requested Songs</Text>
+                    <form></form>
+                    <div></div>
+                    Play List with form
                 </div>
                 <div>
-                    Do Not List
+                    <Text>DO NOT play list</Text>
+                    <form></form>
+                    <div></div>
+                    Do Not List with form
                 </div>
             </div>
         </Container>

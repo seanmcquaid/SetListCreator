@@ -5,7 +5,10 @@ import {
     ADD_SONG_ERROR,
     GET_SONGS_LOADING,
     GET_SONGS_SUCCESS,
-    GET_SONGS_ERROR
+    GET_SONGS_ERROR,
+    DELETE_SONG_LOADING,
+    DELETE_SONG_SUCCESS,
+    DELETE_SONG_ERROR
 } from "./bandLeaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
 
@@ -19,22 +22,43 @@ export const addSongAction = (songName, artistName, songKey) => async dispatch =
     const headers = tokenConfig();
 
     axios.post(`${window.apiHost}/bandLeader/addSong`, requestBody, headers)
-        .then(response => {
-            dispatch({
+        .then(async response => {
+            await dispatch({
                 type : ADD_SONG_SUCCESS,
                 payload : response.data
-            })
+            });
         })
-        .catch(err => {
-            dispatch({
+        .catch(async err => {
+            await dispatch({
                 type : ADD_SONG_ERROR,
                 payload : err.response
-            })
-        })
+            });
+        });
 
 };
 
 export const deleteSongAction = (songName, artistName, songKey) => async dispatch => {
+
+    await dispatch({
+        type : DELETE_SONG_LOADING,
+    })
+
+    const requestBody = {songName, artistName, songKey};
+    const headers = tokenConfig();
+
+    axios.delete(`${window.apiHost}/bandLeader/deleteSong`, {data : requestBody}, {headers})
+            .then(async response => {
+                await dispatch({
+                    type : DELETE_SONG_SUCCESS,
+                    payload : response.data
+                });
+            })
+            .catch(async err => {
+                await dispatch({
+                    type : DELETE_SONG_ERROR,
+                    payload : err.response
+                });
+            });
 
 }
 
@@ -51,12 +75,12 @@ export const getSongsAction = () => async dispatch => {
             await dispatch({
                 type : GET_SONGS_SUCCESS,
                 payload : response.data
-            })
+            });
         })
         .catch(async err => {
             await dispatch({
                 type : GET_SONGS_ERROR,
                 payload : err.response
-            })
-        })
+            });
+        });
 };

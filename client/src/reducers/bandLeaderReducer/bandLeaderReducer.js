@@ -5,6 +5,9 @@ import {
     GET_SONGS_LOADING,
     GET_SONGS_SUCCESS,
     GET_SONGS_ERROR,
+    DELETE_SONG_LOADING,
+    DELETE_SONG_SUCCESS,
+    DELETE_SONG_ERROR,
 } from "../../actions/bandLeaderActions/bandLeaderActionTypes";
 
 const initialState = {
@@ -21,18 +24,18 @@ const initialState = {
 
 const bandLeaderReducer = (state = initialState, action) => {
     switch(action.type){
-        case ADD_SONG_LOADING: case GET_SONGS_LOADING:
+        case ADD_SONG_LOADING: case GET_SONGS_LOADING: case DELETE_SONG_LOADING:
         return {
             ...state,
             isLoading : true
         }
-        case ADD_SONG_SUCCESS: case GET_SONGS_SUCCESS:
+        case ADD_SONG_SUCCESS: case GET_SONGS_SUCCESS: case DELETE_SONG_SUCCESS:
             return {
                 ...state,
                 songList : action.payload.songList,
                 isLoading : false,
             }
-        case ADD_SONG_ERROR: case GET_SONGS_ERROR:
+        case ADD_SONG_ERROR: case GET_SONGS_ERROR: case DELETE_SONG_ERROR:
             return {
                 ...state,
                 isLoading : false,

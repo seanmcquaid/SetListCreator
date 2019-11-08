@@ -4,7 +4,7 @@ import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
-import {addSongAction, getSongsAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {addSongAction, getSongsAction, deleteSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
 import {useDispatch, useSelector} from "react-redux";
 import Song from "../../UI/Song/Song";
 
@@ -20,7 +20,7 @@ const AddSongsPage = props => {
     useEffect(() => {
         dispatch(getSongsAction());
         setCurrentSongs(songsFromDatabase);
-    }, [dispatch, songsFromDatabase])
+    }, [])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -43,16 +43,17 @@ const AddSongsPage = props => {
     };
 
     const deleteSongHandler = (songName, artistName, songKey) => {
-        
+        dispatch(deleteSongAction(songName, artistName, songKey));
     };
 
     const songsList = currentSongs.map((song, key) => {
+        const {songname, artistname, songkey} = song;
         return <Song
                     key={key}
-                    songName={song.songname}
-                    artistName={song.artistname}
-                    songKey={song.songkey}
-                    deleteSongHandler={deleteSongHandler}
+                    songName={songname}
+                    artistName={artistname}
+                    songKey={songkey}
+                    deleteSongHandler={() => deleteSongHandler(songname, artistname, songkey)}
                 />
     });
 
