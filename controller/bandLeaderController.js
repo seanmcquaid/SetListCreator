@@ -34,5 +34,6 @@ exports.getSongs = (req, res, next) => {
 
 exports.deleteSong = (req, res, next) => {
     const {songName, artistName, songKey} = req.body;
+    console.log(token)
     console.log(songName)
 }
