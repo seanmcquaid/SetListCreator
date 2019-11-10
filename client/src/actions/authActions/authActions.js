@@ -81,7 +81,7 @@ export const tokenConfig = () => {
     }
 
     if(token){
-        config.headers["x-auth-token"] = token;
+        config.headers["Authorization"] = token;
     }
 
     return config;

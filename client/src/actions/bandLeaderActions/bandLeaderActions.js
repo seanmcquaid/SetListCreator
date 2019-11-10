@@ -11,6 +11,7 @@ import {
     DELETE_SONG_ERROR
 } from "./bandLeaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
+import authReducer from "../../reducers/authReducer/authReducer";
 
 export const addSongAction = (songName, artistName, songKey) => async dispatch => {
 
@@ -46,7 +47,16 @@ export const deleteSongAction = (songName, artistName, songKey) => async dispatc
     const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
 
-    axios.delete(`${window.apiHost}/bandLeader/deleteSong`, {data : requestBody}, {headers})
+    const config = {
+        data : requestBody,
+        headers : {
+            Authorization : headers.headers["Authorization"]
+        }
+    }
+
+    console.log(config)
+
+    axios.delete(`${window.apiHost}/bandLeader/deleteSong`, config)
             .then(async response => {
                 await dispatch({
                     type : DELETE_SONG_SUCCESS,
