@@ -35,6 +35,13 @@ exports.getSongs = (req, res, next) => {
 exports.deleteSong = (req, res, next) => {
     const {songName, artistName, songKey} = req.body;
     const token = req.token;
-    console.log(token)
-    console.log(songName)
+    const {username} = req.token;
+    
+    BandLeaderSongListModel.deleteSong(songName, artistName, songKey, username)
+                            .then(response => {
+                                console.log(response);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
 }

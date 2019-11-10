@@ -20,7 +20,7 @@ const AddSongsPage = props => {
     useEffect(() => {
         dispatch(getSongsAction());
         setCurrentSongs(songsFromDatabase)
-    }, [dispatch])
+    }, [])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
