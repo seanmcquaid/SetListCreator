@@ -14,13 +14,14 @@ const AddSongsPage = props => {
     const [songKey, setSongKey] = useState("");
     const [currentSongs, setCurrentSongs] = useState([]);
     const songsFromDatabase = useSelector(state => state.bandLeader.songList);
+    // refactor this with mapstatetoprops and mapdispatch to props
 
     const dispatch = useDispatch();
 
     useEffect( () => {
         dispatch(getSongsAction());
         setCurrentSongs(songsFromDatabase);
-    },[dispatch, songsFromDatabase])
+    },[])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -34,17 +35,19 @@ const AddSongsPage = props => {
         setSongKey(event.target.value);
     };
 
-    const addSongSubmitHandler = event => {
+    const addSongSubmitHandler = async event => {
         event.preventDefault();
-        dispatch(addSongAction(songName, artistName, songKey));
+        await dispatch(addSongAction(songName, artistName, songKey));
         setSongName("");
         setArtistName("");
         setSongKey("");
-        dispatch(getSongsAction());
+        await setCurrentSongs(songsFromDatabase);
     };
 
-    const deleteSongHandler = (songName, artistName, songKey) => {
-        dispatch(deleteSongAction(songName, artistName, songKey));
+    const deleteSongHandler = async (songName, artistName, songKey) => {
+        await dispatch(deleteSongAction(songName, artistName, songKey));
+        console.log(songsFromDatabase);
+        await setCurrentSongs(songsFromDatabase);
     };
 
     const songsList = currentSongs.map((song, key) => {
