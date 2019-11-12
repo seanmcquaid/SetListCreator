@@ -9,6 +9,7 @@ import {
     DELETE_SONG_SUCCESS,
     DELETE_SONG_ERROR,
 } from "../../actions/bandLeaderActions/bandLeaderActionTypes";
+import { LOGOUT_SUCCESS } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
     setLists : [],
@@ -30,6 +31,7 @@ const bandLeaderReducer = (state = initialState, action) => {
             isLoading : true
         }
         case ADD_SONG_SUCCESS: case GET_SONGS_SUCCESS: case DELETE_SONG_SUCCESS:
+            console.log(action.type)
             return {
                 ...state,
                 songList : action.payload.songList,
@@ -43,6 +45,10 @@ const bandLeaderReducer = (state = initialState, action) => {
                     status : action.payload.status,
                     errorMessage : action.payload.data.errorMessage
                 }
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...initialState
             }
         default :
         return {

@@ -17,10 +17,10 @@ const AddSongsPage = props => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect( () => {
         dispatch(getSongsAction());
-        setCurrentSongs(songsFromDatabase)
-    }, [])
+        setCurrentSongs(songsFromDatabase);
+    },[dispatch, songsFromDatabase])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -40,6 +40,7 @@ const AddSongsPage = props => {
         setSongName("");
         setArtistName("");
         setSongKey("");
+        dispatch(getSongsAction());
     };
 
     const deleteSongHandler = (songName, artistName, songKey) => {
