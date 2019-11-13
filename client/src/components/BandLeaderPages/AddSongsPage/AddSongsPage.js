@@ -5,23 +5,18 @@ import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
 import {addSongAction, getSongsAction, deleteSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
-import {useDispatch, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import Song from "../../UI/Song/Song";
 
 const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
-    const [currentSongs, setCurrentSongs] = useState([]);
-    const songsFromDatabase = useSelector(state => state.bandLeader.songList);
-    // refactor this with mapstatetoprops and mapdispatch to props
+    const {getSongsAction} = props;
 
-    const dispatch = useDispatch();
-
-    useEffect( () => {
-        dispatch(getSongsAction());
-        setCurrentSongs(songsFromDatabase);
-    },[])
+    useEffect(() => {
+        getSongsAction();
+    },[getSongsAction])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
@@ -37,20 +32,17 @@ const AddSongsPage = props => {
 
     const addSongSubmitHandler = async event => {
         event.preventDefault();
-        await dispatch(addSongAction(songName, artistName, songKey));
+        await props.addSongAction(songName, artistName, songKey);
         setSongName("");
         setArtistName("");
         setSongKey("");
-        await setCurrentSongs(songsFromDatabase);
     };
 
     const deleteSongHandler = async (songName, artistName, songKey) => {
-        await dispatch(deleteSongAction(songName, artistName, songKey));
-        console.log(songsFromDatabase);
-        await setCurrentSongs(songsFromDatabase);
+        await props.deleteSongAction(songName, artistName, songKey);
     };
 
-    const songsList = currentSongs.map((song, key) => {
+    const songsList = props.songList.map((song, key) => {
         const {songname, artistname, songkey} = song;
         return <Song
                     key={key}
@@ -98,4 +90,16 @@ const AddSongsPage = props => {
     )
 };
 
-export default AddSongsPage;
+const mapStateToProps = state => ({
+    songList : state.bandLeader.songList
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getSongsAction : () => dispatch(getSongsAction()),
+        addSongAction : (songName, artistName, songKey) => dispatch(addSongAction(songName, artistName, songKey)),
+        deleteSongAction : (songName, artistName, songKey) => dispatch(deleteSongAction(songName, artistName, songKey)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddSongsPage);
