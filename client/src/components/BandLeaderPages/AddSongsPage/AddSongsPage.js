@@ -18,24 +18,24 @@ const AddSongsPage = props => {
         getSongsAction();
     },[getSongsAction])
 
-    const songNameOnChangeHandler = event => {
-        setSongName(event.target.value);
+    const songNameOnChangeHandler = async event => {
+        await setSongName(event.target.value);
     };
 
-    const artistNameOnChangeHandler = event => {
-        setArtistName(event.target.value);
+    const artistNameOnChangeHandler = async event => {
+        await setArtistName(event.target.value);
     };
     
-    const songKeyOnChangeHandler = event => {
-        setSongKey(event.target.value);
+    const songKeyOnChangeHandler = async event => {
+        await setSongKey(event.target.value);
     };
 
     const addSongSubmitHandler = async event => {
         event.preventDefault();
         await props.addSongAction(songName, artistName, songKey);
-        setSongName("");
-        setArtistName("");
-        setSongKey("");
+        await setSongName("");
+        await setArtistName("");
+        await setSongKey("");
     };
 
     const deleteSongHandler = async (songName, artistName, songKey) => {

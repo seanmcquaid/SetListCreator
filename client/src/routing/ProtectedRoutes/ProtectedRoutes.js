@@ -1,7 +1,6 @@
 import React from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {createSelector} from "reselect";
+import {connect} from "react-redux";
 import LandingPage from "../../components/LandingPage/LandingPage";
 import ClientLoginPage from "../../components/ClientPages/ClientLoginPage/ClientLoginPage";
 import ClientRegisterPage from "../../components/ClientPages/ClientRegisterPage/ClientRegisterPage";
@@ -13,19 +12,8 @@ import ClientHomePage from "../../components/ClientPages/ClientHomePage/ClientHo
 import AddSongsPage from "../../components/BandLeaderPages/AddSongsPage/AddSongsPage";
 import ClientListPage from "../../components/BandLeaderPages/ClientListPage/ClientListPage";
 
-const selectIsAuthenticated = createSelector(
-    state => state.auth,
-    auth => auth.isAuthenticated
-);
-
-const selectAccountType = createSelector(
-    state => state.auth,
-    auth => auth.accountType
-);
-
 const ProtectedRoutes = props => {
-    const isAuthenticated = useSelector(selectIsAuthenticated);
-    const accountType = useSelector(selectAccountType);
+    const {isAuthenticated, accountType} = props;
 
     const protectedClientRouteCheck = Component => isAuthenticated && accountType === "client" ? Component : () => <Redirect to="/"/>;
     const protectedBandLeaderRouteCheck = Component => isAuthenticated && accountType === "bandLeader" ? Component : () => <Redirect to="/"/>;
@@ -46,5 +34,10 @@ const ProtectedRoutes = props => {
     )
 };
 
-export default ProtectedRoutes;
+const mapStateToProps = state => ({
+    accountType : state.auth.accountType,
+    isAuthenticated : state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, null)(ProtectedRoutes);
 

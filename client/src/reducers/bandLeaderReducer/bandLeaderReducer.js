@@ -31,7 +31,6 @@ const bandLeaderReducer = (state = initialState, action) => {
             isLoading : true
         }
         case ADD_SONG_SUCCESS: case GET_SONGS_SUCCESS: case DELETE_SONG_SUCCESS:
-            console.log(action.type)
             return {
                 ...state,
                 songList : action.payload.songList,

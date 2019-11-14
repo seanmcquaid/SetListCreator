@@ -5,12 +5,10 @@ import {Link} from "react-router-dom";
 import styles from "./BandLeaderRegisterPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
-import {useSelector, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import {registerAction} from "../../../actions/authActions/authActions";
 
 const BandLeaderRegisterPage = props => {
-    const authState = useSelector(state => state.auth);
-    const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
@@ -30,14 +28,14 @@ const BandLeaderRegisterPage = props => {
 
     const bandLeaderRegisterSubmitHandler = event => {
         event.preventDefault();
-        dispatch(registerAction(username, password, confirmPassword, "bandLeader"));
+        registerAction(username, password, confirmPassword, "bandLeader");
     };
 
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Register</Text>
-            {authState.errorData.errorMessage && !authState.isAuthenticated ? 
-                <Text>{authState.errorData.errorMessage}</Text> : 
+            {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
+                <Text>{props.auth.errorData.errorMessage}</Text> : 
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link>
                 </Text>
@@ -73,4 +71,14 @@ const BandLeaderRegisterPage = props => {
     )
 };
 
-export default BandLeaderRegisterPage;
+const mapStateToProps = state => ({
+    auth : state.auth,
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderRegisterPage);

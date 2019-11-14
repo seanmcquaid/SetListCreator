@@ -68,7 +68,6 @@ export const deleteSongAction = (songName, artistName, songKey) => async dispatc
 }
 
 export const getSongsAction = () => async dispatch => {
-    console.log("starting")
     await dispatch({
         type : GET_SONGS_LOADING,
     })

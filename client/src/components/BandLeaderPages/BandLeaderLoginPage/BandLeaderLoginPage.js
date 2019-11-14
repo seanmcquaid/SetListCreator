@@ -5,13 +5,11 @@ import {Link, Redirect} from "react-router-dom";
 import styles from "./BandLeaderLoginPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
-import {useSelector, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import { loginAction } from "../../../actions/authActions/authActions";
 
 
 const BandLeaderLoginPage = props => {
-    const authState = useSelector(state => state.auth);
-    const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
@@ -26,10 +24,10 @@ const BandLeaderLoginPage = props => {
 
     const bandLeaderLoginSubmitHandler = event => {
         event.preventDefault();
-        dispatch(loginAction(username, password));
+        props.loginAction(username, password);
     };
     
-    if(authState.isAuthenticated){
+    if(props.auth.isAuthenticated){
         return <Redirect to="/bandLeaderHome"/>
     }
 
@@ -37,8 +35,8 @@ const BandLeaderLoginPage = props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Band Leader Login</Text>
-            {authState.errorData.errorMessage && !authState.isAuthenticated ? 
-                <Text>{authState.errorData.errorMessage}</Text> : 
+            {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
+                <Text>{props.auth.errorData.errorMessage}</Text> : 
                 <Text>
                     Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link>
                 </Text>
@@ -66,4 +64,14 @@ const BandLeaderLoginPage = props => {
     )
 };
 
-export default BandLeaderLoginPage;
+const mapStateToProps = state => ({
+    auth : state.auth,
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginAction : (username, password) => dispatch(loginAction(username, password))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderLoginPage);
