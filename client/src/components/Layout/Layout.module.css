@@ -1,4 +1,6 @@
 .mainContentContainer{
     margin-top : 6rem;
     margin-bottom : 6rem;
+    min-height: 100%;
+    height: 100%;
 }

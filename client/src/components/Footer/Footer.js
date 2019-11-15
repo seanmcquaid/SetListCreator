@@ -8,6 +8,6 @@ const Footer = props => {
             <Text>© Sean McQuaid 2019</Text>
         </div>
     )
-}
+};
 
-export default Footer
+export default Footer;
