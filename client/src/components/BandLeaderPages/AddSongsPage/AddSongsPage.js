@@ -54,35 +54,37 @@ const AddSongsPage = props => {
     });
 
     return(
-        <Container centered={true}>
+        <Container centered={true} additionalStyles={{"flexDirection" : "row"}}>
+            <Container centered={true}>
             <Text headerText={true}>Song List</Text>
-            <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
-                <Input
-                    name="songName"
-                    title="Song Name"
-                    type="text"
-                    placeholder="Enter song name here"
-                    value={songName}
-                    onChangeHandler={songNameOnChangeHandler}
-                />
-                <Input
-                    name="artistName"
-                    title="Artist Name"
-                    type="text"
-                    placeholder="Enter artist name here"
-                    value={artistName}
-                    onChangeHandler={artistNameOnChangeHandler}
-                />
-                <Input
-                    name="keyName"
-                    title="Key"
-                    type="text"
-                    placeholder="Enter key here"
-                    value={songKey}
-                    onChangeHandler={songKeyOnChangeHandler}
-                />
-                <Button title="Add Song" type="submit"/>
-            </form>
+                <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
+                    <Input
+                        name="songName"
+                        title="Song Name"
+                        type="text"
+                        placeholder="Enter song name here"
+                        value={songName}
+                        onChangeHandler={songNameOnChangeHandler}
+                    />
+                    <Input
+                        name="artistName"
+                        title="Artist Name"
+                        type="text"
+                        placeholder="Enter artist name here"
+                        value={artistName}
+                        onChangeHandler={artistNameOnChangeHandler}
+                    />
+                    <Input
+                        name="keyName"
+                        title="Key"
+                        type="text"
+                        placeholder="Enter key here"
+                        value={songKey}
+                        onChangeHandler={songKeyOnChangeHandler}
+                    />
+                    <Button title="Add Song" type="submit"/>
+                </form>
+            </Container>
             <div className={styles.songsListContainer}>
                 {songsList}
             </div>

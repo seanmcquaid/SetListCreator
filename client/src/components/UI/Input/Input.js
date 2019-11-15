@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Input = props => {
     return(
-        <Container centered={true}>
+        <Container centered={true} additionalStyles={{"margin" : "0.5rem 0"}}>
             <label htmlFor={props.name} className={styles.inputLabel}>{props.title}</label>
             <input
             className={styles.input}

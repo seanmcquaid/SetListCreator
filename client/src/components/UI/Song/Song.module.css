@@ -1,0 +1,18 @@
+.songContainer {
+    display : flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    border: 2px solid #00a118;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.songName, .artistName, .songKey{
+    margin : 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+} 
