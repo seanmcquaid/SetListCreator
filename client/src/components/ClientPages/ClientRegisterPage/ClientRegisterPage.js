@@ -73,4 +73,6 @@ const ClientRegisterPage = props => {
     )
 };
 
+// add map state and map dispatch
+
 export default ClientRegisterPage;

@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
-import LinkButton from "../../UI/LinkButton/LinkButton";
+import Input from "../../UI/Input/Input";
 
 const ClientHomePage = props => {
     return(
@@ -11,7 +11,9 @@ const ClientHomePage = props => {
             <div>
                 <div>
                     <Text>Requested Songs</Text>
-                    <form></form>
+                    <form>
+                        
+                    </form>
                     <div></div>
                     Play List with form
                 </div>
