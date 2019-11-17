@@ -50,9 +50,9 @@ const bandLeaderReducer = (state = initialState, action) => {
                 ...initialState
             }
         default :
-        return {
-            ...state
-        }
+            return {
+                ...state
+            }
     }
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
+import {connect} from "react-redux";
 
 const ClientHomePage = props => {
     return(
@@ -28,4 +29,14 @@ const ClientHomePage = props => {
     )
 };
 
-export default ClientHomePage;
+const mapStateToProps = state => ({
+    client : state.client
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        // insert actions here
+    }
+}
+
+export default connect(mapStateToProps, null)(ClientHomePage);
