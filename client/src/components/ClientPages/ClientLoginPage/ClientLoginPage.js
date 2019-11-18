@@ -5,14 +5,11 @@ import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientLoginPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
-import {useSelector, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import { loginAction } from "../../../actions/authActions/authActions";
 
 
 const ClientLoginPage = props => {
-    const authState = useSelector(state => state.auth);
-    const dispatch = useDispatch();
-
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     
@@ -26,10 +23,10 @@ const ClientLoginPage = props => {
 
     const clientLoginSubmitHandler = event => {
         event.preventDefault();
-        dispatch(loginAction(username, password));
+        props.loginAction(username, password);
     };
 
-    if(authState.isAuthenticated){
+    if(props.auth.isAuthenticated){
         return <Redirect to="/clientHome"/>
     }
 
@@ -37,8 +34,8 @@ const ClientLoginPage = props => {
     return(
         <Container centered={true}>
             <Text headerText={true}>Client Login</Text>
-            {authState.errorData.errorMessage && !authState.isAuthenticated ? 
-                <Text>{authState.errorData.errorMessage}</Text> : 
+            {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
+                <Text>{props.auth.errorData.errorMessage}</Text> : 
                 <Text>
                     Don't have an account? Register <Link className={styles.registerLink} to="/clientRegister">Here</Link>
                 </Text>
@@ -66,6 +63,12 @@ const ClientLoginPage = props => {
     )
 };
 
-// add map state and map dispatch
+const mapStateToProps = state => ({
+    auth : state.auth
+})
 
-export default ClientLoginPage;
+const mapDispatchToProps = dispatch => ({
+    loginAction : (username, password) => dispatch(loginAction(username, password)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClientLoginPage);

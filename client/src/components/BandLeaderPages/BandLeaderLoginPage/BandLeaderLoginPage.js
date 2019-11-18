@@ -68,10 +68,8 @@ const mapStateToProps = state => ({
     auth : state.auth,
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        loginAction : (username, password) => dispatch(loginAction(username, password))
-    }
-}
+const mapDispatchToProps = dispatch => ({
+    loginAction : (username, password) => dispatch(loginAction(username, password))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderLoginPage);

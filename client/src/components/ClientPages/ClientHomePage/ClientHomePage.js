@@ -13,14 +13,26 @@ const ClientHomePage = props => {
                 <div>
                     <Text>Requested Songs</Text>
                     <form>
-                        
+                        <Input
+                            name="requestedSongName"
+                        />
+                        <Input
+                            name="requestedSongArtist"
+                        />
                     </form>
                     <div></div>
                     Play List with form
                 </div>
                 <div>
                     <Text>DO NOT play list</Text>
-                    <form></form>
+                    <form>
+                        <Input
+                            name="doNotPlaylistSongName"
+                        />
+                        <Input
+                            name="doNotPlaylistSongArtist"
+                        />
+                    </form>
                     <div></div>
                     Do Not List with form
                 </div>
@@ -39,4 +51,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, null)(ClientHomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientHomePage);
