@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Container.module.css";
+import PropTypes from "prop-types";
 
 const Container = props => {
     const className = props.centered ? styles.centeredContainer : props.right ? styles.rightContainer : styles.leftContainer;
@@ -8,6 +9,11 @@ const Container = props => {
             {props.children}
         </div>
     )
+};
+
+Container.propTypes = {
+    centered : PropTypes.bool.isRequired,
+    additionalStyles : PropTypes.object
 }
 
 export default Container;

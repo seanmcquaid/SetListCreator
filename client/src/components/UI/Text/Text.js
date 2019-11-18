@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Text.module.css";
+import PropTypes from "prop-types";
 
 const Text = props => {
 
@@ -14,6 +15,10 @@ const Text = props => {
     return(
         <p className={styles.normalText}>{props.children}</p>
     )
+};
+
+Text.propTypes = {
+    headerText : PropTypes.bool
 };
 
 export default Text;
