@@ -19,8 +19,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const usersRouter = require('./routes/users');
 const bandLeaderRouter = require("./routes/bandLeader");
+const clientRouter = require("./routes/client");
 
 app.use('/users', usersRouter);
 app.use("/bandLeader", bandLeaderRouter);
+app.use("/client", clientRouter)
 
 module.exports = app;

@@ -1,22 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import styles from "./Navbar.module.css";
 import Aux from "../../hoc/Aux";
 import {logoutAction} from "../../actions/authActions/authActions";
 
 const Navbar = props => {
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const accountType = useSelector(state => state.auth.accountType);
-    const dispatch = useDispatch();
-    
+    const {isAuthenticated, accountType, logoutAction} = props;
 
     const rightNav = isAuthenticated ? 
         <Aux>
             {accountType === "client" ? 
             <Aux>
-                <Link className={styles.navLink} to="/client/songListCreator">Song List Creator</Link>
-                <Link className={styles.navLink} to="/client/contactBandleader">Contact Band Leader</Link>
+                <Link className={styles.navLink} to="/clientHome">Home</Link>
             </Aux>:
             <Aux>
                 <Link className={styles.navLink} to="/bandLeader/setListCreator">Set List Creator</Link>
@@ -24,7 +20,7 @@ const Navbar = props => {
                 <Link className={styles.navLink} to="/bandLeader/emailBand">Email Band</Link>
                 <Link className={styles.navLink} to="/bandLeader/addSongs">Add Songs</Link>
             </Aux>}
-            <button className={styles.navLinkButton} onClick={() => dispatch(logoutAction())}type="button">Logout</button>
+            <button className={styles.navLinkButton} onClick={() => logoutAction()}type="button">Logout</button>
         </Aux> : 
         <Aux>
             <Link className={styles.navLink} to="/clientLogin">Client Login</Link>
@@ -41,6 +37,15 @@ const Navbar = props => {
             </ul>
         </nav>
     )
-}
+};
 
-export default Navbar;
+const mapStateToProps = state => ({
+    isAuthenticated : state.auth.isAuthenticated,
+    accountType : state.auth.accountType,
+});
+
+const mapDispatchToProps = dispatch => ({
+    logoutAction : () => dispatch(logoutAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
