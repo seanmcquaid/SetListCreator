@@ -4,7 +4,7 @@ import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import styles from "./AddSongsPage.module.css";
-import {addSongAction, getSongsAction, deleteSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
 import {connect} from "react-redux";
 import Song from "../../UI/Song/Song";
 
@@ -12,11 +12,11 @@ const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
-    const {getSongsAction} = props;
+    const {getBandleaderSongsAction} = props;
 
     useEffect(() => {
-        getSongsAction();
-    },[getSongsAction])
+        getBandleaderSongsAction();
+    },[getBandleaderSongsAction])
 
     const songNameOnChangeHandler = async event => {
         await setSongName(event.target.value);
@@ -32,14 +32,14 @@ const AddSongsPage = props => {
 
     const addSongSubmitHandler = async event => {
         event.preventDefault();
-        await props.addSongAction(songName, artistName, songKey);
+        await props.addBandleaderSongAction(songName, artistName, songKey);
         await setSongName("");
         await setArtistName("");
         await setSongKey("");
     };
 
     const deleteSongHandler = async (songName, artistName, songKey) => {
-        await props.deleteSongAction(songName, artistName, songKey);
+        await props.deleteBandleaderSongAction(songName, artistName, songKey);
     };
 
     const songsList = props.songList.map((song, key) => {
@@ -98,9 +98,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        getSongsAction : () => dispatch(getSongsAction()),
-        addSongAction : (songName, artistName, songKey) => dispatch(addSongAction(songName, artistName, songKey)),
-        deleteSongAction : (songName, artistName, songKey) => dispatch(deleteSongAction(songName, artistName, songKey)),
+        getBandleaderSongsAction : () => dispatch(getBandleaderSongsAction()),
+        addBandleaderSongAction : (songName, artistName, songKey) => dispatch(addBandleaderSongAction(songName, artistName, songKey)),
+        deleteBandleaderSongAction : (songName, artistName, songKey) => dispatch(deleteBandleaderSongAction(songName, artistName, songKey)),
     }
 }
 
