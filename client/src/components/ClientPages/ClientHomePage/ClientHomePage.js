@@ -6,12 +6,14 @@ import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
 import Song from "../../UI/Song/Song";
+import {addClientRequestedSongAction} from "../../../actions/clientActions/clientActions";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");
     const [requestedArtistName, setRequestedArtistName] = useState("");
     const [doNotPlaySongName, setDoNotPlaySongName] = useState("");
     const [doNotPlayArtistName, setDoNotPlayArtistName] = useState("");
+    const {addClientRequestedSongAction} = props;
 
     const requestedSongNameOnChangeHandler = event => {
         setRequestedSongName(event.target.value);
@@ -29,13 +31,20 @@ const ClientHomePage = props => {
         setDoNotPlayArtistName(event.target.value);
     };
 
+    const requestedSongSubmitHandler = async event => {
+        await event.preventDefault();
+        await addClientRequestedSongAction(requestedSongName, requestedArtistName);
+        await setRequestedSongName("");
+        await setRequestedArtistName("");
+    }
+
     return(
         <Container centered={true}>
             <Text headerText={true}>Musical Preferences Page</Text>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>
                     <Text>Requested Songs</Text>
-                    <form>
+                    <form onSubmit={requestedSongSubmitHandler}>
                         <Input
                             name="songName"
                             title="Song Name"
@@ -98,8 +107,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        // insert actions here
+        addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName))
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientHomePage);

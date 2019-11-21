@@ -8,7 +8,7 @@ import {checkTokenAction} from "./actions/authActions/authActions"
 const App = props => {
   const {token, checkTokenAction} = props;
   useEffect(() => {
-    if(token){
+    if(!token){
       checkTokenAction();
     }
   },[token, checkTokenAction])
