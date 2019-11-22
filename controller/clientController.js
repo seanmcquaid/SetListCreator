@@ -9,7 +9,7 @@ exports.postAddSong = (req, res, next) => {
     ClientSongListModel.addSong(songName, artistName, songType, username)
                         .then(response => {
                             return res.status(200).send({
-                                requestedSongsList : response
+                                clientSongs : response
                             });
                         })
                         .catch(err => {
@@ -18,3 +18,37 @@ exports.postAddSong = (req, res, next) => {
 
 
 };
+
+exports.deleteSong = (req, res, next) => {
+    const {songName, artistName} = req.body;
+    const {songType} = req.params;
+    const token = req.token;
+    const {username} = token;
+
+    ClientSongListModel.deleteSong(songName, artistName, songType, username)
+                        .then(response => {
+                            return res.status(200).send({
+                                clientSongs : response
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+
+};
+
+exports.getSongs = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+
+    ClientSongListModel.getSongs(username)
+                        .then(response => {
+                            return res.status(200).send({
+                                clientSongs : response
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+
+}

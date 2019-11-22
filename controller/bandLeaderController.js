@@ -39,7 +39,6 @@ exports.deleteSong = (req, res, next) => {
     
     BandLeaderSongListModel.deleteSong(songName, artistName, songKey, username)
                             .then(response => {
-                                console.log(response);
                                 return res.status(200).send({
                                     songList : response
                                 })

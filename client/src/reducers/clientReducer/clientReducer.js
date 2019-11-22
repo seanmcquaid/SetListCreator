@@ -1,16 +1,13 @@
 import {
+    GET_CLIENT_SONGS_LOADING,
+    GET_CLIENT_SONGS_SUCCESS,
+    GET_CLIENT_SONGS_ERROR,
     ADD_CLIENT_REQUESTED_SONG_LOADING,
     ADD_CLIENT_REQUESTED_SONG_SUCCESS,
     ADD_CLIENT_REQUESTED_SONG_ERROR,
     ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
     ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
     ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
-    GET_CLIENT_REQUESTED_SONGS_LOADING,
-    GET_CLIENT_REQUESTED_SONGS_SUCCESS,
-    GET_CLIENT_REQUESTED_SONGS_ERROR,
-    GET_CLIENT_DO_NOT_PLAY_SONGS_LOADING,
-    GET_CLIENT_DO_NOT_PLAY_SONGS_SUCCESS,
-    GET_CLIENT_DO_NOT_PLAY_SONGS_ERROR,
     DELETE_CLIENT_REQUESTED_SONG_LOADING,
     DELETE_CLIENT_REQUESTED_SONG_SUCCESS,
     DELETE_CLIENT_REQUESTED_SONG_ERROR,
@@ -22,7 +19,7 @@ import { LOGOUT_SUCCESS } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
     bandLeader : "",
-    doNotPlayList : [],
+    doNotPlaySongsList : [],
     requestedSongsList : [],
     isLoading : false,
     errorData : {
@@ -33,20 +30,33 @@ const initialState = {
 
 const clientReducer = (state = initialState, action) => {
     switch(action.type){
-        case ADD_CLIENT_REQUESTED_SONG_LOADING :
+        case GET_CLIENT_SONGS_LOADING : 
+        case ADD_CLIENT_REQUESTED_SONG_LOADING : 
+        case ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING :
+        case DELETE_CLIENT_REQUESTED_SONG_LOADING :
+        case DELETE_CLIENT_DO_NOT_PLAY_SONG_LOADING :
             return {
                 ...state,
                 isLoading : true,
             }
-        case ADD_CLIENT_REQUESTED_SONG_SUCCESS :
-            console.log(action.payload)
+        case GET_CLIENT_SONGS_SUCCESS : 
+        case ADD_CLIENT_REQUESTED_SONG_SUCCESS : 
+        case ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS :
+        case DELETE_CLIENT_REQUESTED_SONG_SUCCESS :
+        case DELETE_CLIENT_DO_NOT_PLAY_SONG_SUCCESS :
+            const requestedSongsList = action.payload.clientSongs.filter(song => song.songtype === "requestedSong");
+            const doNotPlaySongsList = action.payload.clientSongs.filter(song => song.songtype === "doNotPlaySong");
             return {
                 ...state,
-                requestedSongsList : action.payload.requestedSongsList,
+                requestedSongsList,
+                doNotPlaySongsList,
                 isLoading : false,
             }
+        case GET_CLIENT_SONGS_ERROR : 
         case ADD_CLIENT_REQUESTED_SONG_ERROR :
-            console.log(action.payload)
+        case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
+        case DELETE_CLIENT_REQUESTED_SONG_ERROR :
+        case DELETE_CLIENT_DO_NOT_PLAY_SONG_ERROR :
             return {
                 ...state,
                 errorData : {

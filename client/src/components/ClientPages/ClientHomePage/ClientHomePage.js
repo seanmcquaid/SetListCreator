@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
@@ -6,14 +6,24 @@ import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
 import Song from "../../UI/Song/Song";
-import {addClientRequestedSongAction, addClientDoNotPlaySongAction} from "../../../actions/clientActions/clientActions";
+import {addClientRequestedSongAction, addClientDoNotPlaySongAction, getClientSongsAction} from "../../../actions/clientActions/clientActions";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");
     const [requestedArtistName, setRequestedArtistName] = useState("");
     const [doNotPlaySongName, setDoNotPlaySongName] = useState("");
     const [doNotPlayArtistName, setDoNotPlayArtistName] = useState("");
-    const {addClientRequestedSongAction, addClientDoNotPlaySongAction} = props;
+    const {
+        addClientRequestedSongAction, 
+        addClientDoNotPlaySongAction, 
+        getClientSongsAction,
+        requestedSongsList,
+        doNotPlaySongsList
+    } = props;
+
+    useEffect(() => {
+        getClientSongsAction();
+    }, [getClientSongsAction])
 
     const requestedSongNameOnChangeHandler = event => {
         setRequestedSongName(event.target.value);
@@ -36,14 +46,20 @@ const ClientHomePage = props => {
         await addClientRequestedSongAction(requestedSongName, requestedArtistName);
         await setRequestedSongName("");
         await setRequestedArtistName("");
-    }
+    };
 
     const doNotPlaySongSubmitHandler = async event => {
         await event.preventDefault();
         await addClientDoNotPlaySongAction(doNotPlaySongName, doNotPlayArtistName);
         await setDoNotPlaySongName("");
         await setDoNotPlayArtistName("");
-    }
+    };
+
+    const deleteSongHandler = () => {
+        
+    };
+
+    console.log(props)
 
     return(
         <Container centered={true}>
@@ -73,8 +89,16 @@ const ClientHomePage = props => {
                             type="Submit"
                         />
                     </form>
-                    <div></div>
-                    Play List with form
+                    <div>
+                        {requestedSongsList.map((song, i) => 
+                            <Song
+                                songName={song.songname}
+                                artistName={song.artistname}
+                                deleteSongHandler={deleteSongHandler}
+                                key={i}
+                            />    
+                        )}
+                    </div>
                 </div>
                 <div className={styles.doNotPlaySongsContainer}>
                     <Text>DO NOT Play List</Text>
@@ -100,7 +124,16 @@ const ClientHomePage = props => {
                             type="Submit"
                         />
                     </form>
-                    <div></div>
+                    <div>
+                    {doNotPlaySongsList.map((song, i) => 
+                            <Song
+                                songName={song.songname}
+                                artistName={song.artistname}
+                                deleteSongHandler={deleteSongHandler}
+                                key={i}
+                            />    
+                        )}
+                    </div>
                     Do Not List with form
                 </div>
             </div>
@@ -109,13 +142,15 @@ const ClientHomePage = props => {
 };
 
 const mapStateToProps = state => ({
-    client : state.client
+    requestedSongsList : state.client.requestedSongsList,
+    doNotPlaySongsList : state.client.doNotPlaySongsList,
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
         addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
+        getClientSongsAction : () => dispatch(getClientSongsAction()),
     }
 };
 
