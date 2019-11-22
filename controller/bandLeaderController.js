@@ -19,7 +19,7 @@ exports.postAddSong = (req, res, next) => {
 
 exports.getSongs = (req, res, next) => {
     const token = req.token;
-    const {username} = req.token;
+    const {username} = token;
 
     BandLeaderSongListModel.getSongs(username)
                             .then(response =>{

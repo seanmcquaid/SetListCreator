@@ -45,6 +45,25 @@ export const addClientRequestedSongAction = (songName, artistName) => async disp
         });
 };
 
-const addClientDoNotPlaySongAction = () => async dispatch => {
+export const addClientDoNotPlaySongAction = (songName, artistName) => async dispatch => {
+    await dispatch({
+        type : ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
+    })
 
+    const requestBody = {songName, artistName};
+    const headers = tokenConfig();
+
+    axios.post(`${window.apiHost}/client/addSong/doNotPlaySong`, requestBody, headers)
+        .then(async response => {
+            await dispatch({
+                type : ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
+                payload : response.data,
+            });
+        })
+        .catch(async err => {
+            await dispatch({
+                type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
+                payload : err.response,
+            })
+        });
 };

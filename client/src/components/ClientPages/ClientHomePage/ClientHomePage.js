@@ -6,14 +6,14 @@ import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
 import Song from "../../UI/Song/Song";
-import {addClientRequestedSongAction} from "../../../actions/clientActions/clientActions";
+import {addClientRequestedSongAction, addClientDoNotPlaySongAction} from "../../../actions/clientActions/clientActions";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");
     const [requestedArtistName, setRequestedArtistName] = useState("");
     const [doNotPlaySongName, setDoNotPlaySongName] = useState("");
     const [doNotPlayArtistName, setDoNotPlayArtistName] = useState("");
-    const {addClientRequestedSongAction} = props;
+    const {addClientRequestedSongAction, addClientDoNotPlaySongAction} = props;
 
     const requestedSongNameOnChangeHandler = event => {
         setRequestedSongName(event.target.value);
@@ -36,6 +36,13 @@ const ClientHomePage = props => {
         await addClientRequestedSongAction(requestedSongName, requestedArtistName);
         await setRequestedSongName("");
         await setRequestedArtistName("");
+    }
+
+    const doNotPlaySongSubmitHandler = async event => {
+        await event.preventDefault();
+        await addClientDoNotPlaySongAction(doNotPlaySongName, doNotPlayArtistName);
+        await setDoNotPlaySongName("");
+        await setDoNotPlayArtistName("");
     }
 
     return(
@@ -71,7 +78,7 @@ const ClientHomePage = props => {
                 </div>
                 <div className={styles.doNotPlaySongsContainer}>
                     <Text>DO NOT Play List</Text>
-                    <form>
+                    <form onSubmit={doNotPlaySongSubmitHandler}>
                         <Input
                             name="songName"
                             title="Song Name"
@@ -107,7 +114,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName))
+        addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
+        addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
     }
 };
 
