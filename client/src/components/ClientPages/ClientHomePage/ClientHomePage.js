@@ -55,7 +55,7 @@ const ClientHomePage = props => {
         await setDoNotPlayArtistName("");
     };
 
-    const deleteSongHandler = () => {
+    const deleteSongHandler = (songName, artistName, songType) => {
         
     };
 

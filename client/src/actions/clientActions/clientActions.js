@@ -88,3 +88,30 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => async disp
             })
         });
 };
+
+export const deleteClientRequestedSongAction = (songName, artistName) => async dispatch => {
+
+    await dispatch({
+        type : DELETE_CLIENT_REQUESTED_SONG_LOADING,
+    });
+
+    // refactor this to use the following object format for all delete requests
+
+    const headers = tokenConfig();
+
+    const config = {
+        headers : headers.headers,
+        params : {
+            id : songId
+        }
+    }
+    
+};
+
+export const deleteClientDoNotPlaySongAction = (songName, artistName) => async dipsatch => {
+
+    await dispatch({
+        type : DELETE_CLIENT_DO_NOT_PLAY_SONG_LOADING,
+    });
+
+};
