@@ -33,17 +33,17 @@ exports.getSongs = (req, res, next) => {
 }
 
 exports.deleteSong = (req, res, next) => {
-    const {songName, artistName, songKey} = req.body;
+    const {songId} = req.params;
     const token = req.token;
     const {username} = token;
-    
-    BandLeaderSongListModel.deleteSong(songName, artistName, songKey, username)
-                            .then(response => {
-                                return res.status(200).send({
-                                    songList : response
-                                })
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            })
+
+    BandLeaderSongListModel.deleteSong(username, songId)
+                        .then(response => {
+                            return res.status(200).send({
+                                songList : response
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 }

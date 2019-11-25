@@ -9,12 +9,9 @@ import {
     ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
     ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
     ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
-    DELETE_CLIENT_REQUESTED_SONG_LOADING,
-    DELETE_CLIENT_REQUESTED_SONG_SUCCESS,
-    DELETE_CLIENT_REQUESTED_SONG_ERROR,
-    DELETE_CLIENT_DO_NOT_PLAY_SONG_LOADING,
-    DELETE_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
-    DELETE_CLIENT_DO_NOT_PLAY_SONG_ERROR,
+    DELETE_CLIENT_SONG_LOADING,
+    DELETE_CLIENT_SONG_SUCCESS,
+    DELETE_CLIENT_SONG_ERROR,
 } from "./clientActionTypes";
 import {tokenConfig} from "../authActions/authActions";
 
@@ -89,29 +86,27 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => async disp
         });
 };
 
-export const deleteClientRequestedSongAction = (songName, artistName) => async dispatch => {
+export const deleteClientSongAction = songId => async dispatch => {
 
     await dispatch({
-        type : DELETE_CLIENT_REQUESTED_SONG_LOADING,
+        type : DELETE_CLIENT_SONG_LOADING,
     });
 
-    // refactor this to use the following object format for all delete requests
 
     const headers = tokenConfig();
 
-    const config = {
-        headers : headers.headers,
-        params : {
-            id : songId
-        }
-    }
+    axios.delete(`${window.apiHost}/client/deleteSong/${songId}`, headers)
+        .then(async response => {
+            await dispatch({
+                type : DELETE_CLIENT_SONG_SUCCESS,
+                payload : response.data,
+            });
+        })
+        .catch(async err =>{
+            await dispatch({
+                type : DELETE_CLIENT_SONG_ERROR,
+                payload : err.response
+            });
+        })
     
-};
-
-export const deleteClientDoNotPlaySongAction = (songName, artistName) => async dipsatch => {
-
-    await dispatch({
-        type : DELETE_CLIENT_DO_NOT_PLAY_SONG_LOADING,
-    });
-
 };

@@ -37,21 +37,15 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => async 
 
 };
 
-export const deleteBandleaderSongAction = (songName, artistName, songKey) => async dispatch => {
+export const deleteBandleaderSongAction = songId => async dispatch => {
 
     await dispatch({
         type : DELETE_BANDLEADER_SONG_LOADING,
     })
-
-    const requestBody = {songName, artistName, songKey};
+    
     const headers = tokenConfig();
 
-    const config = {
-        data : requestBody,
-        headers : headers.headers
-    }
-
-    axios.delete(`${window.apiHost}/bandLeader/deleteSong`, config)
+    axios.delete(`${window.apiHost}/bandLeader/deleteSong/${songId}`, headers)
             .then(async response => {
                 await dispatch({
                     type : DELETE_BANDLEADER_SONG_SUCCESS,

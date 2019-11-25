@@ -20,12 +20,11 @@ exports.postAddSong = (req, res, next) => {
 };
 
 exports.deleteSong = (req, res, next) => {
-    const {songName, artistName} = req.body;
-    const {songType} = req.params;
+    const {songId} = req.params;
     const token = req.token;
     const {username} = token;
 
-    ClientSongListModel.deleteSong(songName, artistName, songType, username)
+    ClientSongListModel.deleteSong(username, songId)
                         .then(response => {
                             return res.status(200).send({
                                 clientSongs : response

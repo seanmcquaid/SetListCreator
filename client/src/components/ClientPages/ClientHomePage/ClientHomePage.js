@@ -6,7 +6,12 @@ import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
 import Song from "../../UI/Song/Song";
-import {addClientRequestedSongAction, addClientDoNotPlaySongAction, getClientSongsAction} from "../../../actions/clientActions/clientActions";
+import {
+    addClientRequestedSongAction, 
+    addClientDoNotPlaySongAction, 
+    getClientSongsAction,
+    deleteClientSongAction
+} from "../../../actions/clientActions/clientActions";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");
@@ -18,7 +23,8 @@ const ClientHomePage = props => {
         addClientDoNotPlaySongAction, 
         getClientSongsAction,
         requestedSongsList,
-        doNotPlaySongsList
+        doNotPlaySongsList,
+        deleteClientSongAction
     } = props;
 
     useEffect(() => {
@@ -55,11 +61,9 @@ const ClientHomePage = props => {
         await setDoNotPlayArtistName("");
     };
 
-    const deleteSongHandler = (songName, artistName, songType) => {
-        
+    const deleteSongHandler = async (songId) => {
+        await deleteClientSongAction(songId);
     };
-
-    console.log(props)
 
     return(
         <Container centered={true}>
@@ -90,11 +94,11 @@ const ClientHomePage = props => {
                         />
                     </form>
                     <div>
-                        {requestedSongsList.map((song, i) => 
+                        {requestedSongsList.map((song, i) =>
                             <Song
                                 songName={song.songname}
                                 artistName={song.artistname}
-                                deleteSongHandler={deleteSongHandler}
+                                deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
                             />    
                         )}
@@ -129,7 +133,7 @@ const ClientHomePage = props => {
                             <Song
                                 songName={song.songname}
                                 artistName={song.artistname}
-                                deleteSongHandler={deleteSongHandler}
+                                deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
                             />    
                         )}
@@ -150,6 +154,7 @@ const mapDispatchToProps = dispatch => {
     return {
         addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
         addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
+        deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
         getClientSongsAction : () => dispatch(getClientSongsAction()),
     }
 };

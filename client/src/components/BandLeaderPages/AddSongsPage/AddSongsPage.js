@@ -12,7 +12,7 @@ const AddSongsPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
-    const {getBandleaderSongsAction} = props;
+    const {getBandleaderSongsAction, deleteBandleaderSongAction} = props;
 
     useEffect(() => {
         getBandleaderSongsAction();
@@ -38,18 +38,18 @@ const AddSongsPage = props => {
         await setSongKey("");
     };
 
-    const deleteSongHandler = async (songName, artistName, songKey) => {
-        await props.deleteBandleaderSongAction(songName, artistName, songKey);
+    const deleteSongHandler = async songId => {
+        await deleteBandleaderSongAction(songId);
     };
 
     const songsList = props.songList.map((song, key) => {
-        const {songname, artistname, songkey} = song;
+        const {songname, artistname, songkey, id} = song;
         return <Song
                     key={key}
                     songName={songname}
                     artistName={artistname}
                     songKey={songkey}
-                    deleteSongHandler={() => deleteSongHandler(songname, artistname, songkey)}
+                    deleteSongHandler={() => deleteSongHandler(id)}
                 />
     });
 
@@ -100,7 +100,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getBandleaderSongsAction : () => dispatch(getBandleaderSongsAction()),
         addBandleaderSongAction : (songName, artistName, songKey) => dispatch(addBandleaderSongAction(songName, artistName, songKey)),
-        deleteBandleaderSongAction : (songName, artistName, songKey) => dispatch(deleteBandleaderSongAction(songName, artistName, songKey)),
+        deleteBandleaderSongAction : (songId) => dispatch(deleteBandleaderSongAction(songId)),
     }
 }
 
