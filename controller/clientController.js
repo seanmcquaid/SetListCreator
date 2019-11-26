@@ -51,3 +51,20 @@ exports.getSongs = (req, res, next) => {
                         });
 
 }
+
+exports.getSong = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+    const {songId} = req.params;
+    
+    ClientSongListModel.getSong(username, songId)
+                        .then(response => {
+                            return res.status(200).send({
+                                clientSongs : response
+                            });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+
+}

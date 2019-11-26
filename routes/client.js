@@ -7,6 +7,8 @@ router.post("/addSong/:songType", checkToken, clientController.postAddSong);
 
 router.get("/getSongs", checkToken, clientController.getSongs);
 
+router.get("/getSong/:songId", checkToken, clientController.getSong);
+
 router.delete("/deleteSong/:songId", checkToken, clientController.deleteSong);
 
 module.exports = router;
