@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientLoginPage.module.css";
@@ -32,7 +31,7 @@ const ClientLoginPage = props => {
 
 
     return(
-        <Container centered={true}>
+        <div>
             <Text headerText={true}>Client Login</Text>
             {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
                 <Text>{props.auth.errorData.errorMessage}</Text> : 
@@ -59,7 +58,7 @@ const ClientLoginPage = props => {
                 />
                 <Button title="Login" type="submit"/>
             </form>
-        </Container>
+        </div>
     )
 };
 

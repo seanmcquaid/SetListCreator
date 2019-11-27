@@ -1,20 +1,19 @@
 import React from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import LinkButton from "../../UI/LinkButton/LinkButton";
 
 const BandLeaderHomePage = props => {
     return(
-        <Container centered={true}>
+        <div>
             <Text headerText={true}>Band Leader Home Page</Text>
-            <Container centered={true}>
+            <div>
                 <LinkButton route="/bandLeader/setListCreator">Set List Creator</LinkButton>
                 <LinkButton route="/bandLeader/clientList">Client List</LinkButton>
                 <LinkButton route="/bandLeader/clientSongRequestLists">Client Song Request Lists</LinkButton>
                 <LinkButton route="/bandLeader/emailBand">Email Band</LinkButton>
                 <LinkButton route="/bandLeader/addSongs">Add Songs To Your Database</LinkButton>
-            </Container>
-        </Container>
+            </div>
+        </div>
     )
 };
 

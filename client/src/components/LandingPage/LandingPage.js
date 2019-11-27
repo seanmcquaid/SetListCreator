@@ -1,20 +1,19 @@
 import React from "react";
 import Text from "../UI/Text/Text";
-import Container from "../UI/Container/Container";
 import LinkButton from "../UI/LinkButton/LinkButton";
 
 const LandingPage = props => {
     return (
-        <Container centered={true}>
-            <Container centered={true}>
+        <div>
+            <div>
                 <Text headerText={true}>Set List Creator</Text>
                 <Text>Are you a Client or a Bandleader?</Text>
-            </Container>
-            <Container centered={true} additionalStyles={{"flexDirection" : "row"}}>
+            </div>
+            <div>
                 <LinkButton route="/clientLogin">Client</LinkButton>
                 <LinkButton route="/bandLeaderLogin">Bandleader</LinkButton>
-            </Container>
-        </Container>
+            </div>
+        </div>
     )
 };
 

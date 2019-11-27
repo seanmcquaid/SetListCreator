@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
@@ -54,9 +53,9 @@ const AddSongsPage = props => {
     });
 
     return(
-        <Container centered={true} additionalStyles={{"flexDirection" : "row"}}>
-            <Container centered={true}>
-            <Text headerText={true}>Song List</Text>
+        <div>
+            <div>
+                <Text headerText={true}>Song List</Text>
                 <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
                     <Input
                         name="songName"
@@ -84,11 +83,11 @@ const AddSongsPage = props => {
                     />
                     <Button title="Add Song" type="submit"/>
                 </form>
-            </Container>
+            </div>
             <div className={styles.songsListContainer}>
                 {songsList}
             </div>
-        </Container>
+        </div>
     )
 };
 

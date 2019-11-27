@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./BandLeaderLoginPage.module.css";
@@ -33,7 +32,7 @@ const BandLeaderLoginPage = props => {
 
 
     return(
-        <Container centered={true}>
+        <div>
             <Text headerText={true}>Band Leader Login</Text>
             {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
                 <Text>{props.auth.errorData.errorMessage}</Text> : 
@@ -60,7 +59,7 @@ const BandLeaderLoginPage = props => {
                 />
                 <Button title="Login" type="submit"/>
             </form>
-        </Container>
+        </div>
     )
 };
 

@@ -1,11 +1,10 @@
 import React from "react";
 import styles from "./Input.module.css";
-import Container from "../Container/Container";
 import PropTypes from "prop-types";
 
 const Input = props => {
     return(
-        <Container centered={true} additionalStyles={{"margin" : "0.5rem 0"}}>
+        <div>
             <label htmlFor={props.name} className={styles.inputLabel}>{props.title}</label>
             <input
             className={styles.input}
@@ -15,7 +14,7 @@ const Input = props => {
                 onChange={props.onChangeHandler}
                 placeholder={props.placeholder}
             />
-        </Container>
+        </div>
     )
 };
 

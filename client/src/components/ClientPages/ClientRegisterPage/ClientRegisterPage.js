@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import {Link} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
@@ -34,7 +33,7 @@ const ClientRegisterPage = props => {
     };
 
     return(
-        <Container centered={true}>
+        <div>
             <Text headerText={true}>Client Register</Text>
             {authState.errorData.errorMessage && !authState.isAuthenticated ? 
                 <Text>{authState.errorData.errorMessage}</Text> : 
@@ -69,7 +68,7 @@ const ClientRegisterPage = props => {
                 />
                 <Button title="Register" type="submit"/>
             </form>
-        </Container>
+        </div>
     )
 };
 

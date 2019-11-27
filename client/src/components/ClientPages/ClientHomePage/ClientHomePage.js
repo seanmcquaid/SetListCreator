@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Container from "../../UI/Container/Container";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
@@ -66,7 +65,7 @@ const ClientHomePage = props => {
     };
 
     return(
-        <Container centered={true}>
+        <div>
             <Text headerText={true}>Musical Preferences Page</Text>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>
@@ -93,7 +92,7 @@ const ClientHomePage = props => {
                             type="Submit"
                         />
                     </form>
-                    <div>
+                    <div className={styles.songsContainer}>
                         {requestedSongsList.map((song, i) =>
                             <Song
                                 songName={song.songname}
@@ -128,7 +127,7 @@ const ClientHomePage = props => {
                             type="Submit"
                         />
                     </form>
-                    <div>
+                    <div className={styles.songsContainer}>
                     {doNotPlaySongsList.map((song, i) => 
                             <Song
                                 songName={song.songname}
@@ -138,10 +137,9 @@ const ClientHomePage = props => {
                             />    
                         )}
                     </div>
-                    Do Not List with form
                 </div>
             </div>
-        </Container>
+        </div>
     )
 };
 
