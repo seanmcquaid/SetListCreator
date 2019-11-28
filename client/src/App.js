@@ -6,9 +6,9 @@ import {connect} from "react-redux";
 import {checkTokenAction} from "./actions/authActions/authActions"
 
 const App = props => {
-  const {token, checkTokenAction} = props;
+  const {token, checkTokenAction, isAuthenticated} = props;
   useEffect(() => {
-    if(!token){
+    if(token && isAuthenticated){
       checkTokenAction();
     }
   },[token, checkTokenAction])
@@ -23,7 +23,8 @@ const App = props => {
 }
 
 const mapStateToProps = state => ({
-  token : state.auth.token
+  token : state.auth.token,
+  isAuthenticated : state.auth.isAuthenticated,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,0 +1,12 @@
+.landingPageContainer, .textContainer, .buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    margin : 1rem;
+}
+
+.buttonContainer{
+    flex-direction: row;
+}

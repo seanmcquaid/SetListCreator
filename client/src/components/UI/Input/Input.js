@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Input = props => {
     return(
-        <div>
+        <div className={styles.inputContainer}>
             <label htmlFor={props.name} className={styles.inputLabel}>{props.title}</label>
             <input
             className={styles.input}
