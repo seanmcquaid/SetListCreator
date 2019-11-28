@@ -58,7 +58,6 @@ const authReducer = (state = initialState, action) => {
             }
         case CHECK_TOKEN_FAILURE:
             localStorage.removeItem("token");
-            console.log(action.payload)
             return {
                 ...initialState,
                 errorData : {

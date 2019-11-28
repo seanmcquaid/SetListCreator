@@ -12,6 +12,7 @@ const BandLeaderRegisterPage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const {registerAction} = props;
     
     const usernameOnChangeHandler = event => {
         setUsername(event.target.value);
@@ -76,10 +77,8 @@ const mapStateToProps = state => ({
     auth : state.auth,
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
-    }
-}
+const mapDispatchToProps = dispatch => ({
+    registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderRegisterPage);

@@ -53,8 +53,8 @@ const AddSongsPage = props => {
     });
 
     return(
-        <div>
-            <div>
+        <div className={styles.addSongsPageContainer}>
+            <div className={styles.addSongContainer}>
                 <Text headerText={true}>Song List</Text>
                 <form className={styles.addSongForm} onSubmit={addSongSubmitHandler}>
                     <Input

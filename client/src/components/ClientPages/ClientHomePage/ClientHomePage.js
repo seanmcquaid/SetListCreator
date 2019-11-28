@@ -65,12 +65,12 @@ const ClientHomePage = props => {
     };
 
     return(
-        <div>
+        <div className={styles.clientHomePageContainer}>
             <Text headerText={true}>Musical Preferences Page</Text>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>
                     <Text>Requested Songs</Text>
-                    <form onSubmit={requestedSongSubmitHandler}>
+                    <form className={styles.addSongFormContainer} onSubmit={requestedSongSubmitHandler}>
                         <Input
                             name="songName"
                             title="Song Name"
@@ -105,7 +105,7 @@ const ClientHomePage = props => {
                 </div>
                 <div className={styles.doNotPlaySongsContainer}>
                     <Text>DO NOT Play List</Text>
-                    <form onSubmit={doNotPlaySongSubmitHandler}>
+                    <form className={styles.addSongFormContainer} onSubmit={doNotPlaySongSubmitHandler}>
                         <Input
                             name="songName"
                             title="Song Name"

@@ -4,12 +4,11 @@ import {Link} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
-import {useSelector, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import {registerAction} from "../../../actions/authActions/authActions";
 
 const ClientRegisterPage = props => {
-    const authState = useSelector(state => state.auth);
-    const dispatch = useDispatch();
+    const {registerAction} = props;
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
@@ -29,15 +28,15 @@ const ClientRegisterPage = props => {
 
     const clientRegisterSubmitHandler = event => {
         event.preventDefault();
-        dispatch(registerAction(username, password, confirmPassword, "client"));
+        registerAction(username, password, confirmPassword, "client");
     };
 
     return(
         <div className={styles.clientRegisterContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Client Register</Text>
-                {authState.errorData.errorMessage && !authState.isAuthenticated ? 
-                    <Text>{authState.errorData.errorMessage}</Text> : 
+                {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
+                    <Text>{props.auth.errorData.errorMessage}</Text> : 
                     <Text>
                         Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
                     </Text>
@@ -74,6 +73,12 @@ const ClientRegisterPage = props => {
     )
 };
 
-// add map state and map dispatch
+const mapStateToProps = state => ({
+    auth : state.auth
+});
 
-export default ClientRegisterPage;
+const mapDispatchToProps = dispatch => ({
+    registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClientRegisterPage);

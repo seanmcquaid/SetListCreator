@@ -1,12 +1,13 @@
 import React from "react";
 import Text from "../../UI/Text/Text";
 import LinkButton from "../../UI/LinkButton/LinkButton";
+import styles from "./BandLeaderHomePage.module.css";
 
 const BandLeaderHomePage = props => {
     return(
-        <div>
+        <div className={styles.bandLeaderHomePageContainer}>
             <Text headerText={true}>Band Leader Home Page</Text>
-            <div>
+            <div className={styles.linkButtonsContainer}>
                 <LinkButton route="/bandLeader/setListCreator">Set List Creator</LinkButton>
                 <LinkButton route="/bandLeader/clientList">Client List</LinkButton>
                 <LinkButton route="/bandLeader/clientSongRequestLists">Client Song Request Lists</LinkButton>

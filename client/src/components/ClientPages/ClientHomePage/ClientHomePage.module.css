@@ -1,3 +1,19 @@
+.clientHomePageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.addSongFormContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
 .songsContainer {
     display: flex;
     width: 100%;

@@ -7,11 +7,12 @@ import {checkTokenAction} from "./actions/authActions/authActions"
 
 const App = props => {
   const {token, checkTokenAction, isAuthenticated} = props;
+  
   useEffect(() => {
     if(token && isAuthenticated){
       checkTokenAction();
     }
-  },[token, checkTokenAction])
+  },[token, checkTokenAction, isAuthenticated])
 
   return (
     <Router>
