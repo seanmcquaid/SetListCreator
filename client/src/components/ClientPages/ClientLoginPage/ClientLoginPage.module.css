@@ -1,3 +1,13 @@
+.clientLoginContainer, .loginForm, .textContainer {
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin : 1rem;
+}
+
+
 .registerLink{
     text-decoration: none;
     color:#555555;

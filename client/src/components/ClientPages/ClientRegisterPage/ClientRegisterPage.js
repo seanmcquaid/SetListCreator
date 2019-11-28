@@ -33,15 +33,17 @@ const ClientRegisterPage = props => {
     };
 
     return(
-        <div>
-            <Text headerText={true}>Client Register</Text>
-            {authState.errorData.errorMessage && !authState.isAuthenticated ? 
-                <Text>{authState.errorData.errorMessage}</Text> : 
-                <Text>
-                    Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
-                </Text>
-            }
-            <form onSubmit={clientRegisterSubmitHandler}>
+        <div className={styles.clientRegisterContainer}>
+            <div className={styles.textContainer}>
+                <Text headerText={true}>Client Register</Text>
+                {authState.errorData.errorMessage && !authState.isAuthenticated ? 
+                    <Text>{authState.errorData.errorMessage}</Text> : 
+                    <Text>
+                        Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
+                    </Text>
+                }
+            </div>
+            <form className={styles.registerForm} onSubmit={clientRegisterSubmitHandler}>
                 <Input 
                     name="username"
                     title="Username"
