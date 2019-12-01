@@ -12,6 +12,9 @@ import {
     DELETE_CLIENT_SONG_LOADING,
     DELETE_CLIENT_SONG_SUCCESS,
     DELETE_CLIENT_SONG_ERROR,
+    GET_CLIENT_SONG_LOADING,
+    GET_CLIENT_SONG_SUCCESS,
+    GET_CLIENT_SONG_ERROR
 } from "./clientActionTypes";
 import {tokenConfig} from "../authActions/authActions";
 
