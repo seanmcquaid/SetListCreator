@@ -6,14 +6,16 @@ import { tokenConfig } from "../../../actions/authActions/authActions";
 const BandLeaderEditSongPage = props => {
     const [songInfo, setSongInfo] = useState([]);
 
+    // look up way to get params from url via react router for a refresher
+
     useEffect(() => {
         const headers = tokenConfig();
         axios.get(`${window.apiHost}/bandLeader/getSong/${props.songId}`, headers)
             .then(response => {
-
+                console.log(response);
             })
             .catch(err => {
-
+                console.log(err);
             });
     }, [])
     

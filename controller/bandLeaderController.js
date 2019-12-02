@@ -62,4 +62,9 @@ exports.deleteSong = (req, res, next) => {
                         .catch(err => {
                             console.log(err);
                         });
-}
+};
+
+exports.editSong = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+};

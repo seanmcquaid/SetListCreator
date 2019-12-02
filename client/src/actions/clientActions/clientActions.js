@@ -113,3 +113,10 @@ export const deleteClientSongAction = songId => async dispatch => {
         })
     
 };
+
+export const clientEditSongAction = (songId, newSongName, newArtistName, playListType) => dispatch => {
+    
+    
+
+
+};

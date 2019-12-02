@@ -60,11 +60,19 @@ exports.getSong = (req, res, next) => {
     ClientSongListModel.getSong(username, songId)
                         .then(response => {
                             return res.status(200).send({
-                                clientSongs : response
+                                songInfo : response
                             });
                         })
                         .catch(err => {
                             console.log(err);
                         })
 
-}
+};
+
+exports.editSong = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+    
+
+
+};

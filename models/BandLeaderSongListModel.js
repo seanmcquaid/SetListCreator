@@ -22,6 +22,11 @@ const BandLeaderSongListModel = {
 
     getListOfMatchedSongs : async (clientName, bandLeaderName) => {
         
+    },
+
+    editSong : async () => {
+        await database.query("UPDATE QUERY HERE");
+        return await database.query("SELECT UPDATED SONG HERE TO SHOW INFO");
     }
 
 };
