@@ -40,7 +40,7 @@ exports.getSong = (req, res, next) => {
     BandLeaderSongListModel.getSong(username, songId)
                         .then(response => {
                             return res.status(200).send({
-                                songList : response
+                                songInfo : response
                             });
                         })
                         .catch(err => {
@@ -55,6 +55,7 @@ exports.deleteSong = (req, res, next) => {
 
     BandLeaderSongListModel.deleteSong(username, songId)
                         .then(response => {
+                            console.log(response)
                             return res.status(200).send({
                                 songList : response
                             });
