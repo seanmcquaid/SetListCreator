@@ -48,6 +48,7 @@ const AddSongsPage = props => {
                     songName={songname}
                     artistName={artistname}
                     songKey={songkey}
+                    songId={id}
                     deleteSongHandler={() => deleteSongHandler(id)}
                 />
     });
@@ -99,7 +100,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getBandleaderSongsAction : () => dispatch(getBandleaderSongsAction()),
         addBandleaderSongAction : (songName, artistName, songKey) => dispatch(addBandleaderSongAction(songName, artistName, songKey)),
-        deleteBandleaderSongAction : (songId) => dispatch(deleteBandleaderSongAction(songId)),
+        deleteBandleaderSongAction : songId => dispatch(deleteBandleaderSongAction(songId)),
     }
 }
 

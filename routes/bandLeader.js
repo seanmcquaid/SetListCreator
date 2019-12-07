@@ -11,4 +11,6 @@ router.get("/getSong/:songId", checkToken, bandLeaderController.getSong);
 
 router.delete("/deleteSong/:songId", checkToken, bandLeaderController.deleteSong);
 
+router.patch("/editSong/:songId", checkToken, bandLeaderController.editSong);
+
 module.exports = router;

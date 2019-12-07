@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
+import LinkButton from "../LinkButton/LinkButton";
 import styles from "./Song.module.css";
 
 const Song = props => {
-    const {songName, artistName, songKey,deleteSongHandler} = props;
+    const {songName, artistName, songKey, deleteSongHandler, songId} = props;
     return(
         <div className={styles.songContainer}>
             <h4 className={styles.songName}>Song Name : {songName}</h4>
@@ -18,6 +19,8 @@ const Song = props => {
                 type="button"
                 title="Remove"
             />
+            <LinkButton route={songKey ? `/bandLeader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton>
+
         </div>
     )
 };

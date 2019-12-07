@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const LinkButton = props => {
     return(
         <Link className={styles.linkButton} to={props.route}>
-            <Text>{props.children}</Text>
+            {props.children}
         </Link>
     )
 };

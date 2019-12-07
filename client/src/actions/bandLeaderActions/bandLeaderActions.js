@@ -3,6 +3,9 @@ import {
     ADD_BANDLEADER_SONG_LOADING,
     ADD_BANDLEADER_SONG_SUCCESS,
     ADD_BANDLEADER_SONG_ERROR,
+    EDIT_BANDLEADER_SONG_LOADING,
+    EDIT_BANDLEADER_SONG_SUCCESS,
+    EDIT_BANDLEADER_SONG_ERROR,
     GET_BANDLEADER_SONGS_LOADING,
     GET_BANDLEADER_SONGS_SUCCESS,
     GET_BANDLEADER_SONGS_ERROR,
@@ -62,6 +65,7 @@ export const deleteBandleaderSongAction = songId => async dispatch => {
 }
 
 export const getBandleaderSongsAction = () => async dispatch => {
+
     await dispatch({
         type : GET_BANDLEADER_SONGS_LOADING,
     })
@@ -81,4 +85,34 @@ export const getBandleaderSongsAction = () => async dispatch => {
                 payload : err.response
             });
         });
+};
+
+export const editBandleaderSongAction = (songName, artistName, songKey, songId) => async dispatch => {
+
+    await dispatch({
+        type : EDIT_BANDLEADER_SONG_LOADING,
+    });
+
+    const requestBody = {
+        songName,
+        artistName,
+        songKey
+    };
+
+    const headers = tokenConfig();
+
+    axios.patch(`${window.apiHost}/bandLeader/editSong/${songId}`, requestBody, headers)
+        .then(async response => {
+            await dispatch({
+                type : EDIT_BANDLEADER_SONG_SUCCESS,
+                payload : response.data
+            });
+        })
+        .catch(async err => {
+            await dispatch({
+                type : EDIT_BANDLEADER_SONG_ERROR,
+                payload : err.response
+            })
+        });
+
 };

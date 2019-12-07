@@ -11,6 +11,6 @@ router.get("/getSong/:songId", checkToken, clientController.getSong);
 
 router.delete("/deleteSong/:songId", checkToken, clientController.deleteSong);
 
-router.put("/editSong/:songId", checkToken, );
+router.patch("/editSong/:songId", checkToken, clientController.editSong);
 
 module.exports = router;

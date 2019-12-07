@@ -24,9 +24,9 @@ const BandLeaderSongListModel = {
         
     },
 
-    editSong : async () => {
-        await database.query("UPDATE QUERY HERE");
-        return await database.query("SELECT UPDATED SONG HERE TO SHOW INFO");
+    editSong : async (songId, songName, artistName, songKey, username) => {
+        await database.query("UPDATE bandleadersonglist SET songname=$1, artistname=$2, songkey=$3 WHERE id=$4 AND username=$5", [songName, artistName, songKey, songId, username]);
+        return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     }
 
 };

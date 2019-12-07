@@ -20,9 +20,9 @@ const ClientSongListModel = {
         return database.query("SELECT * FROM clientsonglist where username=$1", [username]);
     },
 
-    editSong : async () => {
-        await database.query("UPDATE QUERY HERE");
-        return await database.query("SELECT UPDATED SONG HERE TO SHOW INFO");
+    editSong : async (songId, songName, artistName, songType, username) => {
+        await database.query("UPDATE clientsonglist SET songname=$1, artistname=$2, songtype=$3 WHERE id=$4 AND username=$5", [songName, artistName, songType, songId, username]);
+        return await database.query("SELECT * FROM clientsonglist where username=$1", [username]);
     }
 
 };

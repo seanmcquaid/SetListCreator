@@ -66,6 +66,20 @@ exports.deleteSong = (req, res, next) => {
 };
 
 exports.editSong = (req, res, next) => {
+    const {songId} = req.params;
     const token = req.token;
     const {username} = token;
+    const {songName, artistName, songKey} = req.body;
+
+    BandLeaderSongListModel.editSong(songId, songName, artistName, songKey, username)
+                            .then(response => {
+                                console.log(response);
+                                return res.status(200).send({
+                                    songList : response
+                                });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+
 };
