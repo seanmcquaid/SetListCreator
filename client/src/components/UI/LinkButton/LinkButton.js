@@ -1,7 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import styles from "./LinkButton.module.css"; 
-import Text from "../Text/Text";
 import PropTypes from "prop-types";
 
 const LinkButton = props => {

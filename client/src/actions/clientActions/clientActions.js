@@ -12,9 +12,6 @@ import {
     DELETE_CLIENT_SONG_LOADING,
     DELETE_CLIENT_SONG_SUCCESS,
     DELETE_CLIENT_SONG_ERROR,
-    GET_CLIENT_SONG_LOADING,
-    GET_CLIENT_SONG_SUCCESS,
-    GET_CLIENT_SONG_ERROR
 } from "./clientActionTypes";
 import {tokenConfig} from "../authActions/authActions";
 
@@ -114,9 +111,8 @@ export const deleteClientSongAction = songId => async dispatch => {
     
 };
 
-export const clientEditSongAction = (songId, newSongName, newArtistName, playListType) => dispatch => {
-    
-    
+export const editClientSongAction = (songId, newSongName, newArtistName, playListType) => async dispatch => {
 
+    
 
 };

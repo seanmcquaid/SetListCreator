@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+import Navbar from "../UI/Navbar/Navbar";
+import Footer from "../UI/Footer/Footer";
 import Aux from "../../hoc/Aux";
 import styles from "./Layout.module.css";
 

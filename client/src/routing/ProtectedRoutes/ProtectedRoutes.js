@@ -12,6 +12,7 @@ import ClientHomePage from "../../components/ClientPages/ClientHomePage/ClientHo
 import AddSongsPage from "../../components/BandLeaderPages/AddSongsPage/AddSongsPage";
 import ClientListPage from "../../components/BandLeaderPages/ClientListPage/ClientListPage";
 import BandLeaderEditSongPage from "../../components/BandLeaderPages/BandLeaderEditSongPage/BandLeaderEditSongPage";
+import ClientEditSongPage from "../../components/ClientPages/ClientEditSongPage/ClientEditSongPage";
 
 const ProtectedRoutes = props => {
     const {isAuthenticated, accountType} = props;
@@ -31,6 +32,7 @@ const ProtectedRoutes = props => {
             <Route exact path="/bandLeader/addSongs" component={protectedBandLeaderRouteCheck(AddSongsPage)}/>
             <Route exact path="/bandLeader/editSong/:songId" component={protectedBandLeaderRouteCheck(BandLeaderEditSongPage)}/>
             <Route exact path="/clientHome" component={protectedClientRouteCheck(ClientHomePage)}/>
+            <Route exact path="/client/editSong/:songId" component={protectedClientRouteCheck(ClientEditSongPage)}/>
             <Route component={ErrorPage}/>
         </Switch>
     )

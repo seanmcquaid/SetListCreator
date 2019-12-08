@@ -99,6 +99,7 @@ const ClientHomePage = props => {
                                 artistName={song.artistname}
                                 deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
+                                songId={song.id}
                             />    
                         )}
                     </div>
@@ -134,6 +135,7 @@ const ClientHomePage = props => {
                                 artistName={song.artistname}
                                 deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
+                                songId={song.id}
                             />    
                         )}
                     </div>
