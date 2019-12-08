@@ -70,9 +70,19 @@ exports.getSong = (req, res, next) => {
 };
 
 exports.editSong = (req, res, next) => {
+    const {songId} = req.params;
     const token = req.token;
     const {username} = token;
-    
+    const {songName, artistName, playListType} = req.body;
 
+    ClientSongListModel.editSong(songId, songName, artistName, playListType, username)
+                        .then(response => {
+                            return res.status(200).send({
+                                clientSongs : response
+                            })
+                        })    
+                        .catch(err => {
+                            console.log(err);
+                        })
 
 };
