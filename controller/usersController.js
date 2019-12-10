@@ -6,6 +6,9 @@ const bcrypt = require("bcrypt");
 exports.postRegister = (req, res, next) => {
     const {username, password, duplicatePassword} = req.body;
     const {accountType} = req.params;
+
+    // add logic here for the band leader set up???? - create drop down of band leader options 
+
     UserModel.userExists(username)
             .then(userInfo => {
                 if(userInfo.length > 0){
@@ -121,3 +124,11 @@ exports.getCheckToken = (req,res,next) => {
 
 
 };
+
+exports.getBandleaders = (req, res, next) => {
+    return UserModel.getAllBandleaders()
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(err => console.log);
+}

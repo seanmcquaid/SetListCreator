@@ -7,6 +7,8 @@ router.post("/register/:accountType", usersController.postRegister);
 
 router.post("/login", usersController.postLogin);
 
-router.get("/checkToken", checkToken, usersController.getCheckToken)
+router.get("/checkToken", checkToken, usersController.getCheckToken);
+
+router.get("/getBandleaders", usersController.getBandleaders);
 
 module.exports = router;

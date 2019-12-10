@@ -15,6 +15,10 @@ const UserModel = {
     register : (username, password, accountType) => {
         const hashedPassword = bcrypt.hashSync(password, 10);
         return database.query("INSERT INTO users (username, password, accounttype) values($1, $2, $3) RETURNING *;", [username, hashedPassword, accountType]);
+    },
+
+    getAllBandleaders : () => {
+        return database.query("SELECT * FROM USERS where accounttype=bandleader");
     }
 
 };

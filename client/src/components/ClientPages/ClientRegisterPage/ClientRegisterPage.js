@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Text from "../../UI/Text/Text";
 import {Link} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
@@ -13,6 +13,10 @@ const ClientRegisterPage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    useEffect(() => {
+        // make call here for storing all bandleaders for drop down
+    },[])
     
     const usernameOnChangeHandler = event => {
         setUsername(event.target.value);
