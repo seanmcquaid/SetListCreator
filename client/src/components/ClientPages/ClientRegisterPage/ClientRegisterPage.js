@@ -6,6 +6,8 @@ import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import {registerAction} from "../../../actions/authActions/authActions";
+import axios from "axios";
+import Dropdown from "../../UI/Dropdown/Dropdown";
 
 const ClientRegisterPage = props => {
     const {registerAction} = props;
@@ -13,9 +15,17 @@ const ClientRegisterPage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [bandleaders, setBandleaders] = useState([""]);
+    const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
         // make call here for storing all bandleaders for drop down
+        axios.get(`${window.apiHost}/users/getBandleaders`)
+            .then(async response => {
+                const bandLeadersArray = response.data.bandLeaders.map(bandLeader => (bandLeader.username));
+                await setBandleaders(bandLeadersArray);
+            })
+            .catch(err => console.log(err));
     },[])
     
     const usernameOnChangeHandler = event => {
@@ -29,6 +39,10 @@ const ClientRegisterPage = props => {
     const confirmPasswordChangeHandler = event => {
         setConfirmPassword(event.target.value);
     };
+
+    const selectedBandleaderOnChangeHandler = event => {
+        setSelectedBandleader(event.target.value);
+    }
 
     const clientRegisterSubmitHandler = event => {
         event.preventDefault();
@@ -70,6 +84,11 @@ const ClientRegisterPage = props => {
                     value={confirmPassword}
                     onChangeHandler={confirmPasswordChangeHandler}
                     placeholder="Enter your password again here"
+                />
+                <Dropdown 
+                    selectedItem={selectedBandleader}
+                    selectedItemOnChangeHandler={selectedBandleaderOnChangeHandler}
+                    items={bandleaders}
                 />
                 <Button title="Register" type="submit"/>
             </form>

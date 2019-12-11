@@ -18,7 +18,7 @@ const UserModel = {
     },
 
     getAllBandleaders : () => {
-        return database.query("SELECT * FROM USERS where accounttype=bandleader");
+        return database.query("SELECT username FROM USERS where accounttype='bandLeader'");
     }
 
 };

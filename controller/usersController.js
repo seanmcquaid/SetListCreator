@@ -128,7 +128,9 @@ exports.getCheckToken = (req,res,next) => {
 exports.getBandleaders = (req, res, next) => {
     return UserModel.getAllBandleaders()
                 .then(response => {
-                    console.log(response)
+                    return res.status(200).json({
+                        bandLeaders : response
+                    })
                 })
                 .catch(err => console.log);
 }
