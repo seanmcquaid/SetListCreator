@@ -5,7 +5,7 @@ const Dropdown = props => {
     const {selectedItem, selectedItemOnChangeHandler, items, name, title} = props;
     return (
         <div className={styles.dropDownContainer}>
-            <label htmlfor={name} className={styles.dropdownLabel}>{title}</label>
+            <label htmlFor={name} className={styles.dropdownLabel}>{title}</label>
             <select name={name} value={selectedItem} onChange={selectedItemOnChangeHandler} className={styles.selectDropDown}>
                 {items.map((item, i) => <option key={i} value={item}>{item}</option>)}
             </select>

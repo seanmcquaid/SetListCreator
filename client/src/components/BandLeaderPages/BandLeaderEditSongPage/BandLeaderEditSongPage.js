@@ -28,7 +28,7 @@ const BandLeaderEditSongPage = props => {
             .catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [songId])
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
