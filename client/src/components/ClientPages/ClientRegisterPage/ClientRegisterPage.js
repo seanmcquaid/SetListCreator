@@ -85,8 +85,10 @@ const ClientRegisterPage = props => {
                     onChangeHandler={confirmPasswordChangeHandler}
                     placeholder="Enter your password again here"
                 />
-                <Dropdown 
+                <Dropdown
                     selectedItem={selectedBandleader}
+                    name="selectedBandleader"
+                    title="Select Your Bandleader"
                     selectedItemOnChangeHandler={selectedBandleaderOnChangeHandler}
                     items={bandleaders}
                 />

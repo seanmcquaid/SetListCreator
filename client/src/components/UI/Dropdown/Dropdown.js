@@ -1,12 +1,15 @@
 import React from "react";
+import styles from "./Dropdown.module.css";
 
 const Dropdown = props => {
-    const {selectedItem, selectedItemOnChangeHandler, items} = props;
-    console.log(props);
+    const {selectedItem, selectedItemOnChangeHandler, items, name, title} = props;
     return (
-        <select value={selectedItem} onChange={selectedItemOnChangeHandler}>
-            {items.map((item, i) => <option key={i} value={item}>{item}</option>)}
-        </select>
+        <div className={styles.dropDownContainer}>
+            <label htmlfor={name} className={styles.dropdownLabel}>{title}</label>
+            <select name={name} value={selectedItem} onChange={selectedItemOnChangeHandler} className={styles.selectDropDown}>
+                {items.map((item, i) => <option key={i} value={item}>{item}</option>)}
+            </select>
+        </div>
     )
 };
 
