@@ -132,5 +132,22 @@ exports.getBandleaders = (req, res, next) => {
                         bandLeaders : response
                     })
                 })
-                .catch(err => console.log);
-}
+                .catch(err => console.log(err));
+};
+
+exports.getClientsForBandLeader = (req, res, next) => {
+
+};
+
+exports.getUserInfo = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+
+    return UserModel.getUserInfo(username)
+                    .then(response => {
+                        return res.status(200).json({
+                            userInfo : response
+                        })
+                    })
+                    .catch(err => console.log(err));
+};
