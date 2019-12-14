@@ -19,7 +19,6 @@ const ClientRegisterPage = props => {
     const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
-        // make call here for storing all bandleaders for drop down
         axios.get(`${window.apiHost}/users/getBandleaders`)
             .then(async response => {
                 const bandLeadersArray = response.data.bandLeaders.map(bandLeader => (bandLeader.username));

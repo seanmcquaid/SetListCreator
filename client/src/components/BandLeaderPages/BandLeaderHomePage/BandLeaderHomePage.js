@@ -8,6 +8,7 @@ const BandLeaderHomePage = props => {
         <div className={styles.bandLeaderHomePageContainer}>
             <Text headerText={true}>Band Leader Home Page</Text>
             <div className={styles.linkButtonsContainer}>
+                <LinkButton route="/bandLeader/editProfile">Edit Profile</LinkButton>
                 <LinkButton route="/bandLeader/setListCreator">Set List Creator</LinkButton>
                 <LinkButton route="/bandLeader/clientList">Client List</LinkButton>
                 <LinkButton route="/bandLeader/clientSongRequestLists">Client Song Request Lists</LinkButton>

@@ -111,3 +111,7 @@ export const checkTokenAction = () => async dispatch => {
         })
 
 }
+
+export const editUserInfoAction = () => async dispatch => {
+
+};
