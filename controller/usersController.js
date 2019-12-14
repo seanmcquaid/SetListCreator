@@ -7,7 +7,7 @@ exports.postRegister = (req, res, next) => {
     const {username, password, duplicatePassword} = req.body;
     const {accountType} = req.params;
 
-    // add logic here for the band leader set up???? - create drop down of band leader options 
+    // add logic here for the band leader set up???? - create drop down of band leader options for client 
 
     UserModel.userExists(username)
             .then(userInfo => {
@@ -150,4 +150,9 @@ exports.getUserInfo = (req, res, next) => {
                         })
                     })
                     .catch(err => console.log(err));
+};
+
+exports.editUserInfo = (req, res, next) => {
+    // if passwords match when submitted, then continue
+    // remember to return NEW TOKEN
 };

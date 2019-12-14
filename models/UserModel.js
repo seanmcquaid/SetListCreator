@@ -23,6 +23,10 @@ const UserModel = {
 
     getUserInfo : username => {
         return database.query("SELECT * FROM USERS where username=$1;", [username])
+    },
+
+    editUserInfo : async (username, password) => {
+        
     }
 
 };
