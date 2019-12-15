@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import styles from "./BandLeaderProfilePage.module.css";
 import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
+import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 
 const BandLeaderProfilePage = props => {
@@ -9,19 +10,51 @@ const BandLeaderProfilePage = props => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    useEffect(() => {
+        
+    },[])
+
+    const userNameOnChangeHandler = event => {
+        setUsername(event.target.value);
+    }
+
+    const passwordOnChangeHandler = event => {
+        setPassword(event.target.value);
+    }
+
+    const confirmPasswordOnChangeHandler = event => {
+        setConfirmPassword(event.target.value);
+    }
+
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <form>
+            <form className={styles.bandLeaderEditProfileForm} >
                 <Input
-                placeholder="Username here"
+                    name="username"
+                    title="Edit Username Here"
+                    type="text"
+                    value={username}
+                    onChangeHandler={userNameOnChangeHandler}
+                    placeholder="Edit Username Here"
                 />
-                <Input 
-                placeholder="Password here"
+                <Input
+                    name="password"
+                    title="Edit Password Here"
+                    type="text"
+                    value={password}
+                    onChangeHandler={passwordOnChangeHandler}
+                    placeholder="Edit Password Here"
                 />
-                <Input 
-                placeholder="Confirm Password here"
+                <Input
+                    name="confirmPassword"
+                    title="Confirm Password Here"
+                    type="text"
+                    value={confirmPassword}
+                    onChangeHandler={confirmPasswordOnChangeHandler}
+                    placeholder="Confirm Password Here"
                 />
+                <Button title="Edit Profile" type="submit"/>
             </form>
         </div>
     )
