@@ -4,6 +4,8 @@ import Text from "../../UI/Text/Text";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
+import { tokenConfig } from "../../../actions/authActions/authActions";
+import axios from "axios";
 
 const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
@@ -11,7 +13,13 @@ const BandLeaderProfilePage = props => {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     useEffect(() => {
-        
+        const headers = tokenConfig();
+        axios.get(`${window.apiHost}/users/getUserInfo`, headers)
+            .then(response => {
+                const userInfo = response.data.userInfo[0].username;
+                setUsername(userInfo);
+            })
+            .catch(err => console.log(err));
     },[])
 
     const userNameOnChangeHandler = event => {
@@ -39,20 +47,20 @@ const BandLeaderProfilePage = props => {
                     placeholder="Edit Username Here"
                 />
                 <Input
-                    name="password"
-                    title="Edit Password Here"
+                    name="newPassword"
+                    title="Edit New Password Here"
                     type="text"
                     value={password}
                     onChangeHandler={passwordOnChangeHandler}
-                    placeholder="Edit Password Here"
+                    placeholder="Enter New Password Here"
                 />
                 <Input
-                    name="confirmPassword"
-                    title="Confirm Password Here"
+                    name="confirmNewPassword"
+                    title="Confirm New Password Here"
                     type="text"
                     value={confirmPassword}
                     onChangeHandler={confirmPasswordOnChangeHandler}
-                    placeholder="Confirm Password Here"
+                    placeholder="Confirm New Password Here"
                 />
                 <Button title="Edit Profile" type="submit"/>
             </form>

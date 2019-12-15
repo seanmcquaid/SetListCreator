@@ -11,6 +11,6 @@ router.get("/checkToken", checkToken, usersController.getCheckToken);
 
 router.get("/getBandleaders", usersController.getBandleaders);
 
-router.get("/getUserInfo", checkToken, );
+router.get("/getUserInfo", checkToken, usersController.getUserInfo);
 
 module.exports = router;
