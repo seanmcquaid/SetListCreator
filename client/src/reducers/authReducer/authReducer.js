@@ -9,7 +9,10 @@ import {
     LOGOUT_SUCCESS,
     CHECK_TOKEN_LOADING,
     CHECK_TOKEN_SUCCESS,
-    CHECK_TOKEN_FAILURE
+    CHECK_TOKEN_ERROR,
+    EDIT_USER_INFO_LOADING,
+    EDIT_USER_INFO_SUCCESS,
+    EDIT_USER_INFO_ERROR
 } from "../../actions/authActions/authActionTypes";
 
 const initialState = {
@@ -26,12 +29,19 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
-        case REGISTER_LOADING: case LOGIN_LOADING: case LOGOUT_LOADING: case CHECK_TOKEN_LOADING:
+        case REGISTER_LOADING: 
+        case LOGIN_LOADING: 
+        case LOGOUT_LOADING: 
+        case CHECK_TOKEN_LOADING:
+        case EDIT_USER_INFO_LOADING:
             return {
                 ...state,
                 isLoading : true
             }
-        case REGISTER_SUCCESS: case LOGIN_SUCCESS: case CHECK_TOKEN_SUCCESS:
+        case REGISTER_SUCCESS: 
+        case LOGIN_SUCCESS: 
+        case CHECK_TOKEN_SUCCESS:
+        case EDIT_USER_INFO_SUCCESS:
             localStorage.setItem("token", action.payload.token);
             return{
                 ...state,
@@ -41,7 +51,9 @@ const authReducer = (state = initialState, action) => {
                 accountType : action.payload.accountType,
                 isLoading : false,
             }
-        case REGISTER_ERROR: case LOGIN_ERROR:
+        case REGISTER_ERROR: 
+        case LOGIN_ERROR:
+        case EDIT_USER_INFO_ERROR:
             localStorage.removeItem("token");
             return {
                 ...state,
@@ -56,14 +68,10 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...initialState,
             }
-        case CHECK_TOKEN_FAILURE:
+        case CHECK_TOKEN_ERROR:
             localStorage.removeItem("token");
             return {
                 ...initialState,
-                errorData : {
-                    status : action.payload.status,
-                    errorMessage : action.payload.data.errorMessage
-                }
             }
         default :
             return {

@@ -6,11 +6,14 @@ import Button from "../../UI/Button/Button";
 import {connect} from "react-redux";
 import { tokenConfig } from "../../../actions/authActions/authActions";
 import axios from "axios";
+import {editUserInfoAction} from "../../../actions/authActions/authActions";
 
 const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const {editUserInfoAction} = props;
 
     useEffect(() => {
         const headers = tokenConfig();
@@ -34,10 +37,19 @@ const BandLeaderProfilePage = props => {
         setConfirmPassword(event.target.value);
     }
 
+    const bandLeaderEditProfileSubmitHandler = async event => {
+        event.preventDefault();
+        if(password !== confirmPassword){
+            setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING")
+        }else {
+            editUserInfoAction(username, password, "bandLeader");
+        }
+    }
+
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <form className={styles.bandLeaderEditProfileForm} >
+            <form className={styles.bandLeaderEditProfileForm} onSubmit={bandLeaderEditProfileSubmitHandler}>
                 <Input
                     name="username"
                     title="Edit Username Here"
@@ -49,7 +61,7 @@ const BandLeaderProfilePage = props => {
                 <Input
                     name="newPassword"
                     title="Edit New Password Here"
-                    type="text"
+                    type="password"
                     value={password}
                     onChangeHandler={passwordOnChangeHandler}
                     placeholder="Enter New Password Here"
@@ -57,7 +69,7 @@ const BandLeaderProfilePage = props => {
                 <Input
                     name="confirmNewPassword"
                     title="Confirm New Password Here"
-                    type="text"
+                    type="password"
                     value={confirmPassword}
                     onChangeHandler={confirmPasswordOnChangeHandler}
                     placeholder="Confirm New Password Here"
@@ -73,7 +85,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+    editUserInfoAction : (newUsername, newPassword, accountType) => dispatch(editUserInfoAction(newUsername, newPassword, accountType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderProfilePage);

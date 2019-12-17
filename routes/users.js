@@ -13,4 +13,6 @@ router.get("/getBandleaders", usersController.getBandleaders);
 
 router.get("/getUserInfo", checkToken, usersController.getUserInfo);
 
+router.patch("/editUserInfo", checkToken, usersController.editUserInfo);
+
 module.exports = router;

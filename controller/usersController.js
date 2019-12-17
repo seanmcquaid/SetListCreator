@@ -154,5 +154,8 @@ exports.getUserInfo = (req, res, next) => {
 
 exports.editUserInfo = (req, res, next) => {
     // if passwords match when submitted, then continue
+    // COMPARE CURRENT PASSWORD VS OLD
     // remember to return NEW TOKEN
+    
+    console.log(req.body);
 };

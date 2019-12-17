@@ -10,7 +10,10 @@ import {
     LOGOUT_SUCCESS,
     CHECK_TOKEN_SUCCESS,
     CHECK_TOKEN_LOADING,
-    CHECK_TOKEN_FAILURE
+    CHECK_TOKEN_ERROR,
+    EDIT_USER_INFO_LOADING,
+    EDIT_USER_INFO_SUCCESS,
+    EDIT_USER_INFO_ERROR
 } from "./authActionTypes";
 
 export const loginAction = (username, password) => async dispatch => {
@@ -105,13 +108,40 @@ export const checkTokenAction = () => async dispatch => {
         })
         .catch(err => {
             dispatch({
-                type : CHECK_TOKEN_FAILURE,
+                type : CHECK_TOKEN_ERROR,
                 payload : err.response
             })
         })
 
 }
 
-export const editUserInfoAction = () => async dispatch => {
+export const editUserInfoAction = (newUsername, newPassword, accountType) => async dispatch => {
+    
+    dispatch({
+        type : EDIT_USER_INFO_LOADING,
+    })
+
+    const requestBody = {
+        newUsername,
+        newPassword,
+        accountType
+    }
+
+    const headers = tokenConfig();
+
+    axios.patch(`${window.apiHost}/users/editUserInfo`, requestBody, headers)
+        .then(response => {
+            dispatch({
+                type : EDIT_USER_INFO_SUCCESS,
+                payload : response.data,
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type : EDIT_USER_INFO_ERROR,
+                payload : err.response,
+            })
+        })
+
 
 };
