@@ -26,7 +26,7 @@ const UserModel = {
     },
 
     editUserInfo : async (username, password, id) => {
-        await database.query("UPDATE USERS SET username=$1 AND password=$2 WHERE id=$3;", [susername, password, id]);
+        await database.query("UPDATE USERS SET username=$1 AND password=$2 WHERE id=$3;", [username, password, id]);
         return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     }
 

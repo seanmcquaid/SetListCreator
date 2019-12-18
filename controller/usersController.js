@@ -158,15 +158,40 @@ exports.editUserInfo = (req, res, next) => {
     // if passwords match when submitted, then continue
     // COMPARE CURRENT PASSWORD VS OLD
     // remember to return NEW TOKEN
-    console.log(req.token);
     const {id, username} = req.token;
     const {newUsername, newPassword} = req.body;
 
     UserModel.getUserInfo(id)
-            .then(response => {
-                console.log(response);
+            .then(async response => {
+                const userInfo = response[0];
+                bcrypt.compare(newPassword, userInfo.password)
+                    .then(isMatch => {
+                        // passwords are the same, no change made
+                        if(isMatch){
+                            return res.status(401).send({
+
+                            })
+                        }
+
+                        if(newUsername === userInfo.username){
+                            // user name is the same, no change made
+                            return res.status(401).send({
+        
+                            })
+                        }
+
+                    })
+
+                // username and password are not the same, can update now
+
+                UserModel.editUserInfo(newUsername, newPassword, id)
+                        .then(response => {
+                            return res.status(200).send({
+
+                            })
+                        })
+
             })
             .catch(err => console.log(err));
-    
-    console.log(req.body);
+
 };
