@@ -23,6 +23,8 @@ exports.postRegister = (req, res, next) => {
                     });
                 }
 
+                // remove this top part and move that to the front end
+
                 return UserModel.register(username, password, accountType)
                         .then(userInfoResponse => {
                             const specificUserInfo = userInfoResponse[0];
@@ -141,9 +143,9 @@ exports.getClientsForBandLeader = (req, res, next) => {
 
 exports.getUserInfo = (req, res, next) => {
     const token = req.token;
-    const {username} = token;
+    const {id} = token;
 
-    return UserModel.getUserInfo(username)
+    return UserModel.getUserInfo(id)
                     .then(response => {
                         return res.status(200).json({
                             userInfo : response
@@ -156,6 +158,15 @@ exports.editUserInfo = (req, res, next) => {
     // if passwords match when submitted, then continue
     // COMPARE CURRENT PASSWORD VS OLD
     // remember to return NEW TOKEN
+    console.log(req.token);
+    const {id, username} = req.token;
+    const {newUsername, newPassword} = req.body;
+
+    UserModel.getUserInfo(id)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => console.log(err));
     
     console.log(req.body);
 };

@@ -21,12 +21,13 @@ const UserModel = {
         return database.query("SELECT username FROM USERS where accounttype='bandLeader';");
     },
 
-    getUserInfo : username => {
-        return database.query("SELECT username FROM USERS where username=$1;", [username])
+    getUserInfo : id => {
+        return database.query("SELECT * FROM USERS where id=$1;", [id]);
     },
 
-    editUserInfo : async (username, password) => {
-        
+    editUserInfo : async (username, password, id) => {
+        await database.query("UPDATE USERS SET username=$1 AND password=$2 WHERE id=$3;", [susername, password, id]);
+        return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     }
 
 };

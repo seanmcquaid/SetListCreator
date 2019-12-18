@@ -40,7 +40,7 @@ const BandLeaderProfilePage = props => {
     const bandLeaderEditProfileSubmitHandler = async event => {
         event.preventDefault();
         if(password !== confirmPassword){
-            setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING")
+            setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
             editUserInfoAction(username, password, "bandLeader");
         }
@@ -49,6 +49,7 @@ const BandLeaderProfilePage = props => {
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
+            <Text>{errorMessage}</Text>
             <form className={styles.bandLeaderEditProfileForm} onSubmit={bandLeaderEditProfileSubmitHandler}>
                 <Input
                     name="username"
