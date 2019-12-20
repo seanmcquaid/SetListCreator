@@ -166,17 +166,15 @@ exports.editUserInfo = (req, res, next) => {
                 const userInfo = response[0];
                 bcrypt.compare(newPassword, userInfo.password)
                     .then(isMatch => {
-                        // passwords are the same, no change made
                         if(isMatch){
                             return res.status(401).send({
-
+                                errorMessage : "The new password is presently being used"
                             })
                         }
 
                         if(newUsername === userInfo.username){
-                            // user name is the same, no change made
                             return res.status(401).send({
-        
+                                errorMessage : "The new username is presently being used"
                             })
                         }
 
@@ -186,9 +184,23 @@ exports.editUserInfo = (req, res, next) => {
 
                 UserModel.editUserInfo(newUsername, newPassword, id)
                         .then(response => {
-                            return res.status(200).send({
+                            const specificUserInfo = response[0];
+                            const newToken = jwt.sign(
+                                {
+                                    id : specificUserInfo.id,
+                                    username : specificUserInfo.username,
+                                    accountType : specificUserInfo.accounttype
+                                },
+                                config.jwtSecret,
+                                {expiresIn : 3600000}
+                            );
 
-                            })
+                            return res.status(200).json({
+                                isAuthenticated : true,
+                                token : newToken,
+                                username : specificUserInfo.username,
+                                accountType : specificUserInfo.accounttype
+                            });
                         })
 
             })
