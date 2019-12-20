@@ -166,21 +166,14 @@ exports.editUserInfo = (req, res, next) => {
                 const userInfo = response[0];
                 bcrypt.compare(newPassword, userInfo.password)
                     .then(isMatch => {
+                        
                         if(isMatch){
                             return res.status(401).send({
                                 errorMessage : "The new password is presently being used"
                             })
                         }
 
-                        if(newUsername === userInfo.username){
-                            return res.status(401).send({
-                                errorMessage : "The new username is presently being used"
-                            })
-                        }
-
                     })
-
-                // username and password are not the same, can update now
 
                 UserModel.editUserInfo(newUsername, newPassword, id)
                         .then(response => {

@@ -13,7 +13,7 @@ const App = props => {
       checkTokenAction();
     }
   },[token, checkTokenAction, isAuthenticated])
-
+  
   return (
     <Router>
       <Layout>

@@ -27,7 +27,7 @@ const UserModel = {
 
     editUserInfo : async (username, password, id) => {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        await database.query("UPDATE USERS SET username=$1 AND password=$2 WHERE id=$3;", [username, hashedPassword, id]);
+        await database.query("UPDATE USERS SET username=$1, password=$2 WHERE id=$3;", [username, hashedPassword, id]);
         return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     }
 
