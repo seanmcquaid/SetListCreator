@@ -12,7 +12,8 @@ const UserModel = {
         return database.query("SELECT id, username, password FROM USERS WHERE username=$1 AND password=$2;", [username, hashedPassword]);
     },
 
-    register : (username, password, accountType) => {
+    register : (username, password, accountType, bandleaderName) => {
+        // logic check here? going to read articles to see where to put logic
         const hashedPassword = bcrypt.hashSync(password, 10);
         return database.query("INSERT INTO users (username, password, accounttype) values($1, $2, $3) RETURNING *;", [username, hashedPassword, accountType]);
     },
@@ -29,7 +30,11 @@ const UserModel = {
         const hashedPassword = bcrypt.hashSync(password, 10);
         await database.query("UPDATE USERS SET username=$1, password=$2 WHERE id=$3;", [username, hashedPassword, id]);
         return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
-    }
+    },
+
+    getClientsForBandleader = bandleaderName => {
+        return database.query("SELECT * FROM USERS where bandleadername=$1", [bandleaderName]);
+    },
 
 };
 

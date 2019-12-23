@@ -4,7 +4,7 @@ const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
 exports.postRegister = (req, res, next) => {
-    const {username, password, duplicatePassword} = req.body;
+    const {username, password, duplicatePassword, selectedBandleader} = req.body;
     const {accountType} = req.params;
 
     // add logic here for the band leader set up???? - create drop down of band leader options for client 
@@ -25,7 +25,7 @@ exports.postRegister = (req, res, next) => {
 
                 // remove this top part and move that to the front end
 
-                return UserModel.register(username, password, accountType)
+                return UserModel.register(username, password, accountType, selectedBandleader)
                         .then(userInfoResponse => {
                             const specificUserInfo = userInfoResponse[0];
                             const token = jwt.sign(
@@ -155,9 +155,6 @@ exports.getUserInfo = (req, res, next) => {
 };
 
 exports.editUserInfo = (req, res, next) => {
-    // if passwords match when submitted, then continue
-    // COMPARE CURRENT PASSWORD VS OLD
-    // remember to return NEW TOKEN
     const {id, username} = req.token;
     const {newUsername, newPassword} = req.body;
 
