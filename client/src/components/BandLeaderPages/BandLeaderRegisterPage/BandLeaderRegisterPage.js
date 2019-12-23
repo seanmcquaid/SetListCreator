@@ -12,6 +12,7 @@ const BandLeaderRegisterPage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const {registerAction} = props;
     
     const usernameOnChangeHandler = event => {
@@ -28,7 +29,11 @@ const BandLeaderRegisterPage = props => {
 
     const bandLeaderRegisterSubmitHandler = event => {
         event.preventDefault();
-        registerAction(username, password, confirmPassword, "bandLeader");
+        if(password !== confirmPassword){
+            setErrorMessage("Passwords don't match");
+        }else {
+            registerAction(username, password, "bandLeader");
+        }
     };
 
     return(

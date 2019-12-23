@@ -4,10 +4,8 @@ const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
 exports.postRegister = (req, res, next) => {
-    const {username, password, duplicatePassword, selectedBandleader} = req.body;
+    const {username, password, selectedBandleader} = req.body;
     const {accountType} = req.params;
-
-    // add logic here for the band leader set up???? - create drop down of band leader options for client 
 
     UserModel.userExists(username)
             .then(userInfo => {
@@ -16,14 +14,6 @@ exports.postRegister = (req, res, next) => {
                         errorMessage : "This user has already been registered"
                     });
                 }
-
-                if(password !== duplicatePassword){
-                    return res.status(401).send({
-                        errorMessage : "Passwords don't match"
-                    });
-                }
-
-                // remove this top part and move that to the front end
 
                 return UserModel.register(username, password, accountType, selectedBandleader)
                         .then(userInfoResponse => {

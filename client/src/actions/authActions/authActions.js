@@ -39,9 +39,9 @@ export const loginAction = (username, password) => async dispatch => {
     });
 };
 
-export const registerAction = (username, password, duplicatePassword, accountType) => async dispatch => {
+export const registerAction = (username, password, accountType, selectedBandleader) => async dispatch => {
 
-    const requestBody = {username, password, duplicatePassword};
+    const requestBody = {username, password, selectedBandleader};
 
     dispatch({
         type : REGISTER_LOADING

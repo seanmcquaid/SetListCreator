@@ -13,7 +13,6 @@ const UserModel = {
     },
 
     register : (username, password, accountType, bandleaderName) => {
-        // logic check here? going to read articles to see where to put logic
         const hashedPassword = bcrypt.hashSync(password, 10);
         return database.query("INSERT INTO users (username, password, accounttype) values($1, $2, $3) RETURNING *;", [username, hashedPassword, accountType]);
     },

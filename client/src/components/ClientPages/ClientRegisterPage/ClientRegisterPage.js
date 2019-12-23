@@ -17,6 +17,7 @@ const ClientRegisterPage = props => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [bandleaders, setBandleaders] = useState([""]);
     const [selectedBandleader, setSelectedBandleader] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         axios.get(`${window.apiHost}/users/getBandleaders`)
@@ -45,7 +46,11 @@ const ClientRegisterPage = props => {
 
     const clientRegisterSubmitHandler = event => {
         event.preventDefault();
-        registerAction(username, password, confirmPassword, "client");
+        if(password !== confirmPassword){
+            setErrorMessage("Passwords don't match");
+        }else {
+            registerAction(username, password, "client", selectedBandleader);
+        }
     };
 
     return(
