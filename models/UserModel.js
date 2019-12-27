@@ -13,8 +13,9 @@ const UserModel = {
     },
 
     register : (username, password, accountType, bandleaderName) => {
+        console.log(bandleaderName);
         const hashedPassword = bcrypt.hashSync(password, 10);
-        return database.query("INSERT INTO users (username, password, accounttype) values($1, $2, $3) RETURNING *;", [username, hashedPassword, accountType]);
+        return database.query("INSERT INTO users (username, password, accounttype, bandleadername) values($1, $2, $3, $4) RETURNING *;", [username, hashedPassword, accountType, bandleaderName]);
     },
 
     getAllBandleaders : () => {
@@ -31,7 +32,7 @@ const UserModel = {
         return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     },
 
-    getClientsForBandleader = bandleaderName => {
+    getClientsForBandleader : bandleaderName => {
         return database.query("SELECT * FROM USERS where bandleadername=$1", [bandleaderName]);
     },
 

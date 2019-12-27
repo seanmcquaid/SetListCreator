@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 
 exports.postRegister = (req, res, next) => {
     const {username, password, selectedBandleader} = req.body;
+    console.log(username, password, selectedBandleader);
     const {accountType} = req.params;
 
     UserModel.userExists(username)

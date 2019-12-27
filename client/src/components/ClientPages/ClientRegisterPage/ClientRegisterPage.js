@@ -23,7 +23,9 @@ const ClientRegisterPage = props => {
         axios.get(`${window.apiHost}/users/getBandleaders`)
             .then(async response => {
                 const bandLeadersArray = response.data.bandLeaders.map(bandLeader => (bandLeader.username));
-                await setBandleaders(bandLeadersArray);
+                let initialArray = [""];
+                const newArray = initialArray.concat(bandLeadersArray);
+                await setBandleaders(newArray);
             })
             .catch(err => console.log(err));
     },[])
@@ -48,7 +50,9 @@ const ClientRegisterPage = props => {
         event.preventDefault();
         if(password !== confirmPassword){
             setErrorMessage("Passwords don't match");
-        }else {
+        } else if(selectedBandleader === "") {
+            setErrorMessage("SELECT A BANDLEADER")
+        } else {
             registerAction(username, password, "client", selectedBandleader);
         }
     };
