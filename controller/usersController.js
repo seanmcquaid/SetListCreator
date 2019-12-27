@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 
 exports.postRegister = (req, res, next) => {
     const {username, password, selectedBandleader} = req.body;
-    console.log(username, password, selectedBandleader);
     const {accountType} = req.params;
 
     UserModel.userExists(username)
@@ -28,7 +27,7 @@ exports.postRegister = (req, res, next) => {
                                 config.jwtSecret,
                                 {expiresIn : 3600000}
                             );
-                            return res.status(200).json({
+                            return res.status(200).send({
                                 isAuthenticated : true,
                                 token,
                                 username : specificUserInfo.username,
@@ -69,7 +68,7 @@ exports.postLogin = (req, res, next) => {
                                     {expiresIn : 3600000}
                                 );
                 
-                                return res.status(200).json({
+                                return res.status(200).send({
                                     isAuthenticated : true,
                                     token,
                                     username : specificUserInfo.username,
@@ -101,7 +100,7 @@ exports.getCheckToken = (req,res,next) => {
                     {expiresIn : 3600000}
                 );
 
-                return res.status(200).json({
+                return res.status(200).send({
                     isAuthenticated : true,
                     token : newToken,
                     username : specificUserInfo.username,
@@ -121,7 +120,7 @@ exports.getCheckToken = (req,res,next) => {
 exports.getBandleaders = (req, res, next) => {
     return UserModel.getAllBandleaders()
                 .then(response => {
-                    return res.status(200).json({
+                    return res.status(200).send({
                         bandLeaders : response
                     })
                 })
@@ -129,7 +128,16 @@ exports.getBandleaders = (req, res, next) => {
 };
 
 exports.getClientsForBandLeader = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
 
+    return UserModel.getClientsForBandleader(username)
+                    .then(response => {
+                        return res.status(200).send({
+                            clientsList : response
+                        })
+                    })
+                    .catch(err => console.log(err));
 };
 
 exports.getUserInfo = (req, res, next) => {
@@ -138,7 +146,7 @@ exports.getUserInfo = (req, res, next) => {
 
     return UserModel.getUserInfo(id)
                     .then(response => {
-                        return res.status(200).json({
+                        return res.status(200).send({
                             userInfo : response
                         })
                     })
@@ -146,7 +154,7 @@ exports.getUserInfo = (req, res, next) => {
 };
 
 exports.editUserInfo = (req, res, next) => {
-    const {id, username} = req.token;
+    const {id} = req.token;
     const {newUsername, newPassword} = req.body;
 
     UserModel.getUserInfo(id)
@@ -158,7 +166,7 @@ exports.editUserInfo = (req, res, next) => {
                         if(isMatch){
                             return res.status(401).send({
                                 errorMessage : "The new password is presently being used"
-                            })
+                            });
                         }
 
                     })

@@ -51,7 +51,7 @@ const ClientRegisterPage = props => {
         if(password !== confirmPassword){
             setErrorMessage("Passwords don't match");
         } else if(selectedBandleader === "") {
-            setErrorMessage("SELECT A BANDLEADER")
+            setErrorMessage("SELECT A BANDLEADER");
         } else {
             registerAction(username, password, "client", selectedBandleader);
         }
