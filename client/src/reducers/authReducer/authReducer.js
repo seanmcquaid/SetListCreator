@@ -28,7 +28,6 @@ const initialState = {
 }
 
 const authReducer = (state = initialState, action) => {
-    console.log(state)
     switch(action.type){
         case REGISTER_LOADING: 
         case LOGIN_LOADING: 
