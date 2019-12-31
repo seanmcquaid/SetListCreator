@@ -53,7 +53,6 @@ const bandLeaderReducer = (state = initialState, action) => {
                 ...state,
                 isLoading : false,
                 errorData : {
-                    status : action.payload.status,
                     errorMessage : action.payload.data.errorMessage
                 }
             }

@@ -59,7 +59,6 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 errorData : {
-                    status : action.payload.status,
                     errorMessage : action.payload.data.errorMessage
                 },
                 isLoading : false,
