@@ -7,3 +7,4 @@ To Do :
 6) Restructure Architecture for Pages, Components, Reducers, etc? 
 7) Rearchitect reducers - I feel like it's getting a bit cluttered now - Will need to figure out error handling properly - componentDidCatch could be a solution and maybe we can make an error component ? 
 https://flaviocopes.com/react-handle-errors/
+https://itnext.io/javascript-error-handling-from-express-js-to-react-810deb5e5e28
