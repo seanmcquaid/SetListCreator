@@ -2,8 +2,8 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import styles from "./Navbar.module.css";
-import Aux from "../../../hoc/Aux";
-import {logoutAction} from "../../../actions/authActions/authActions";
+import Aux from "../../hoc/Aux";
+import {logoutAction} from "../../actions/authActions/authActions";
 
 const Navbar = props => {
     const {isAuthenticated, accountType, logoutAction} = props;

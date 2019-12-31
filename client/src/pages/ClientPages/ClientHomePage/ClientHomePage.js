@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
-import Text from "../../UI/Text/Text";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
+import Text from "../../../components/Text/Text";
+import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
-import Song from "../../UI/Song/Song";
+import Song from "../../../components/Song/Song";
 import {
     addClientRequestedSongAction, 
     addClientDoNotPlaySongAction, 

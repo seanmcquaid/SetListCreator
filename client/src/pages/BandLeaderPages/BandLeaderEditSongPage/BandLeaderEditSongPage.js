@@ -2,9 +2,9 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {connect} from "react-redux";
 import { tokenConfig } from "../../../actions/authActions/authActions";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
-import Text from "../../UI/Text/Text";
+import Input from "../../../components/Input/Input";
+import Button from "../../../components/Button/Button";
+import Text from "../../../components/Text/Text";
 import styles from "./BandLeaderEditSongPage.module.css";
 import {editBandleaderSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
 

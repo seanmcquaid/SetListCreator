@@ -1,6 +1,6 @@
 import React from "react";
-import Text from "../UI/Text/Text";
-import LinkButton from "../UI/LinkButton/LinkButton";
+import Text from "../../components/Text/Text";
+import LinkButton from "../../components/LinkButton/LinkButton";
 import styles from "./LandingPage.module.css";
 
 const LandingPage = props => {
