@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import styles from "./BandLeaderProfilePage.module.css";
-import Text from "../../UI/Text/Text";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
+import Text from "components/Text/Text";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import {connect} from "react-redux";
-import { tokenConfig } from "../../../actions/authActions/authActions";
+import { tokenConfig } from "actions/authActions/authActions";
 import axios from "axios";
-import {editUserInfoAction} from "../../../actions/authActions/authActions";
+import {editUserInfoAction} from "actions/authActions/authActions";
 
 const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");

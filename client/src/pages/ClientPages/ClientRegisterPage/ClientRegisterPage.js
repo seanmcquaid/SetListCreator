@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
-import Text from "../../UI/Text/Text";
+import Text from "components/Text/Text";
 import {Link} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import {connect} from "react-redux";
-import {registerAction} from "../../../actions/authActions/authActions";
+import {registerAction} from "actions/authActions/authActions";
 import axios from "axios";
-import Dropdown from "../../UI/Dropdown/Dropdown";
+import Dropdown from "components/Dropdown/Dropdown";
 
 const ClientRegisterPage = props => {
     const {registerAction} = props;

@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../UI/Navbar/Navbar";
-import Footer from "../UI/Footer/Footer";
-import Aux from "../../hoc/Aux";
+import Navbar from "components/Navbar/Navbar";
+import Footer from "components/Footer/Footer";
+import Aux from "hoc/Aux/Aux";
 import styles from "./Layout.module.css";
 
 const Layout = props => {

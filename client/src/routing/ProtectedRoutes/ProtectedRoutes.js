@@ -1,19 +1,19 @@
 import React from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import LandingPage from "../../components/LandingPage/LandingPage";
-import ClientLoginPage from "../../components/ClientPages/ClientLoginPage/ClientLoginPage";
-import ClientRegisterPage from "../../components/ClientPages/ClientRegisterPage/ClientRegisterPage";
-import BandLeaderLoginPage from "../../components/BandLeaderPages/BandLeaderLoginPage/BandLeaderLoginPage";
-import BandLeaderRegisterPage from "../../components/BandLeaderPages/BandLeaderRegisterPage/BandLeaderRegisterPage";
-import ErrorPage from "../../components/ErrorPage/ErrorPage";
-import BandLeaderHomePage from "../../components/BandLeaderPages/BandLeaderHomePage/BandLeaderHomePage";
-import ClientHomePage from "../../components/ClientPages/ClientHomePage/ClientHomePage";
-import AddSongsPage from "../../components/BandLeaderPages/AddSongsPage/AddSongsPage";
-import ClientListPage from "../../components/BandLeaderPages/ClientListPage/ClientListPage";
-import BandLeaderEditSongPage from "../../components/BandLeaderPages/BandLeaderEditSongPage/BandLeaderEditSongPage";
-import ClientEditSongPage from "../../components/ClientPages/ClientEditSongPage/ClientEditSongPage";
-import BandLeaderProfilePage from "../../components/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
+import LandingPage from "pages/LandingPage/LandingPage";
+import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
+import ClientRegisterPage from "pages/ClientPages/ClientRegisterPage/ClientRegisterPage";
+import BandLeaderLoginPage from "pages/BandLeaderPages/BandLeaderLoginPage/BandLeaderLoginPage";
+import BandLeaderRegisterPage from "pages/BandLeaderPages/BandLeaderRegisterPage/BandLeaderRegisterPage";
+import ErrorPage from "pages/ErrorPage/ErrorPage";
+import BandLeaderHomePage from "pages/BandLeaderPages/BandLeaderHomePage/BandLeaderHomePage";
+import ClientHomePage from "pages/ClientPages/ClientHomePage/ClientHomePage";
+import AddSongsPage from "pages/BandLeaderPages/AddSongsPage/AddSongsPage";
+import ClientListPage from "pages/BandLeaderPages/ClientListPage/ClientListPage";
+import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage/BandLeaderEditSongPage";
+import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
+import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
 
 const ProtectedRoutes = props => {
     const {isAuthenticated, accountType} = props;

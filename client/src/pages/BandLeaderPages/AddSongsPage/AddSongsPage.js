@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import Text from "../../UI/Text/Text";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
+import Text from "components/Text/Text";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import styles from "./AddSongsPage.module.css";
-import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "actions/bandLeaderActions/bandLeaderActions";
 import {connect} from "react-redux";
-import Song from "../../UI/Song/Song";
+import Song from "components/Song/Song";
 
 const AddSongsPage = props => {
     const [songName, setSongName] = useState("");

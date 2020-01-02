@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import Text from "../../UI/Text/Text";
+import Text from "components/Text/Text";
 import {Link} from "react-router-dom";
 import styles from "./BandLeaderRegisterPage.module.css";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import {connect} from "react-redux";
-import {registerAction} from "../../../actions/authActions/authActions";
+import {registerAction} from "actions/authActions/authActions";
 
 const BandLeaderRegisterPage = props => {
 

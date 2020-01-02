@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {connect} from "react-redux";
-import { tokenConfig } from "../../../actions/authActions/authActions";
-import Input from "../../UI/Input/Input";
-import Button from "../../UI/Button/Button";
-import Text from "../../UI/Text/Text";
+import { tokenConfig } from "actions/authActions/authActions";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
+import Text from "components/Text/Text";
 import styles from "./ClientEditSongPage.module.css";
-import {editClientSongAction} from "../../../actions/clientActions/clientActions";
-import Dropdown from "../../UI/Dropdown/Dropdown";
+import {editClientSongAction} from "actions/clientActions/clientActions";
+import Dropdown from "components/Dropdown/Dropdown";
 
 const ClientEditSongPage = props => {
     const [songName, setSongName] = useState("");
