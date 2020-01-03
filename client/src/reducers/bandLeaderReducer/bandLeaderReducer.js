@@ -11,8 +11,8 @@ import {
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
-} from "../../actions/bandLeaderActions/bandLeaderActionTypes";
-import { LOGOUT_SUCCESS } from "../../actions/authActions/authActionTypes";
+} from "actions/bandLeaderActions/bandLeaderActionTypes";
+import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
 
 const initialState = {
     setLists : [],

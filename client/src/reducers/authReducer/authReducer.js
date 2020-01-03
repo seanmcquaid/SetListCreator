@@ -13,7 +13,7 @@ import {
     EDIT_USER_INFO_LOADING,
     EDIT_USER_INFO_SUCCESS,
     EDIT_USER_INFO_ERROR
-} from "../../actions/authActions/authActionTypes";
+} from "actions/authActions/authActionTypes";
 
 const initialState = {
     isAuthenticated : false,
