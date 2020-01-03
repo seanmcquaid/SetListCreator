@@ -20,12 +20,8 @@ const initialState = {
     token : null,
     username : null,
     accountType : null,
-    errorData : {
-        status : null,
-        errorMessage : null
-    },
     isLoading : false,
-}
+};
 
 const authReducer = (state = initialState, action) => {
     switch(action.type){
@@ -57,9 +53,6 @@ const authReducer = (state = initialState, action) => {
             localStorage.removeItem("token");
             return {
                 ...state,
-                errorData : {
-                    errorMessage : action.payload.data.errorMessage
-                },
                 isLoading : false,
             }
         case LOGOUT_SUCCESS:

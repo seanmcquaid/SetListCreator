@@ -8,3 +8,5 @@ To Do :
 https://flaviocopes.com/react-handle-errors/
 https://itnext.io/javascript-error-handling-from-express-js-to-react-810deb5e5e28
 7) Consider an error reducer? - Maybe look into how to only save part of my state to local storage
+8) Write unit tests for front and back end
+9) Maybe consider getting rid of saving state to local storage and rely on JUST the token to be stored in local storage??

@@ -20,11 +20,7 @@ const initialState = {
     bandLists : [],
     songList : [],
     isLoading : false,
-    errorData : {
-        status : null,
-        errorMessage : null,
-    }
-}
+};
 
 const bandLeaderReducer = (state = initialState, action) => {
     switch(action.type){
@@ -52,9 +48,6 @@ const bandLeaderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading : false,
-                errorData : {
-                    errorMessage : action.payload.data.errorMessage
-                }
             }
         case LOGOUT_SUCCESS:
             return {

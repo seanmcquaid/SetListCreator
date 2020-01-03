@@ -14,18 +14,14 @@ import {
     EDIT_CLIENT_SONG_LOADING,
     EDIT_CLIENT_SONG_SUCCESS,
     EDIT_CLIENT_SONG_ERROR,
-} from "../../actions/clientActions/clientActionTypes";
-import { LOGOUT_SUCCESS } from "../../actions/authActions/authActionTypes";
+} from "actions/clientActions/clientActionTypes";
+import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
 
 const initialState = {
     bandLeader : "",
     doNotPlaySongsList : [],
     requestedSongsList : [],
     isLoading : false,
-    errorData : {
-        status : null,
-        errorMessage : null,
-    }
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -59,9 +55,6 @@ const clientReducer = (state = initialState, action) => {
         case EDIT_CLIENT_SONG_ERROR :
             return {
                 ...state,
-                errorData : {
-                    errorMessage : action.payload.data.errorMessage
-                },
                 isLoading : false,
             }
         case LOGOUT_SUCCESS :
