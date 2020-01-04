@@ -35,12 +35,9 @@ const BandLeaderLoginPage = props => {
         <div className={styles.bandLeaderLoginContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Band Leader Login</Text>
-                {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
-                    <Text>{props.auth.errorData.errorMessage}</Text> : 
-                    <Text>
-                        Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link>
-                    </Text>
-                }
+                <Text>
+                    Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link>
+                </Text>
             </div>
             <form className={styles.loginForm} onSubmit={bandLeaderLoginSubmitHandler}>
                 <Input 

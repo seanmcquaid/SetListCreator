@@ -33,13 +33,10 @@ const ClientLoginPage = props => {
     return(
         <div className={styles.clientLoginContainer}>
             <div className={styles.textContainer}>
-                <Text headerText={true}>Client Login</Text>
-                {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
-                    <Text>{props.auth.errorData.errorMessage}</Text> : 
+                <Text headerText={true}>Client Login</Text> 
                     <Text>
                         Don't have an account? Register <Link className={styles.registerLink} to="/clientRegister">Here</Link>
                     </Text>
-                }
             </div>
             <form className={styles.loginForm} onSubmit={clientLoginSubmitHandler}>
                 <Input 

@@ -9,10 +9,10 @@ const App = props => {
   const {token, checkTokenAction, isAuthenticated} = props;
   
   useEffect(() => {
-    if(token && isAuthenticated){
+    if(token){
       checkTokenAction();
     }
-  },[token, checkTokenAction, isAuthenticated])
+  },[token, checkTokenAction])
   
   return (
     <Router>

@@ -5,8 +5,6 @@ import {store, saveToLocalStorage} from "./store/store";
 import {Provider} from "react-redux";
 import "./index.css";
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
-
 ReactDOM.render(
     <Provider store={store}>
         <App/>

@@ -61,12 +61,9 @@ const ClientRegisterPage = props => {
         <div className={styles.clientRegisterContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Client Register</Text>
-                {props.auth.errorData.errorMessage && !props.auth.isAuthenticated ? 
-                    <Text>{props.auth.errorData.errorMessage}</Text> : 
                     <Text>
                         Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
                     </Text>
-                }
             </div>
             <form className={styles.registerForm} onSubmit={clientRegisterSubmitHandler}>
                 <Input 

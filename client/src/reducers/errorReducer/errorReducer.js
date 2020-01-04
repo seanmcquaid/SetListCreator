@@ -25,7 +25,23 @@ const intialState = {
 
 const errorReducer = (state = intialState, action) => {
     switch(action.type){
-
+        case REGISTER_ERROR :
+        case LOGIN_ERROR : 
+        case CHECK_TOKEN_ERROR :
+        case EDIT_USER_INFO_ERROR :
+        case ADD_BANDLEADER_SONG_ERROR :
+        case EDIT_BANDLEADER_SONG_ERROR :
+        case GET_BANDLEADER_SONGS_ERROR :
+        case DELETE_BANDLEADER_SONG_ERROR :
+        case GET_CLIENT_SONGS_ERROR :
+        case ADD_CLIENT_REQUESTED_SONG_ERROR :
+        case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
+        case DELETE_CLIENT_SONG_ERROR :
+        case EDIT_CLIENT_SONG_ERROR :
+            console.log(action);
+            return {
+                ...state,
+            }
     }
 };
 

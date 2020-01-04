@@ -32,6 +32,7 @@ export const loginAction = (username, password) => async dispatch => {
         })
     })
     .catch(err => {
+        console.log(err.response)
         dispatch({
             type : LOGIN_ERROR,
             payload : err.response
