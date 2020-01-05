@@ -18,12 +18,12 @@ import {
     EDIT_CLIENT_SONG_ERROR,
 } from "../../actions/clientActions/clientActionTypes";
 
-const intialState = {
+const initialState = {
     errorStatus : null,
     errorMessage : null,
 };
 
-const errorReducer = (state = intialState, action) => {
+const errorReducer = (state = initialState, action) => {
     switch(action.type){
         case REGISTER_ERROR :
         case LOGIN_ERROR : 
@@ -38,10 +38,14 @@ const errorReducer = (state = intialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
         case DELETE_CLIENT_SONG_ERROR :
         case EDIT_CLIENT_SONG_ERROR :
-            console.log(action);
             return {
                 ...state,
-            }
+                errorMessage : action.payload.data.errorMessage
+            };
+        default :
+            return{
+                ...state,
+            };
     }
 };
 
