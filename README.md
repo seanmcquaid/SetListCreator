@@ -8,3 +8,4 @@ https://itnext.io/javascript-error-handling-from-express-js-to-react-810deb5e5e2
 9) Validate account type and pass in account type for login - refactor
 10) rearchitect map state to props to have specific props mapped
 11) Re add in error messages
+13) CI/CD Pipeline with AWS set up

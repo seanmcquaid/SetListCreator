@@ -5,7 +5,7 @@ import styles from "./BandLeaderLoginPage.module.css";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import {connect} from "react-redux";
-import { loginAction } from "../../../actions/authActions/authActions";
+import { loginAction } from "actions/authActions/authActions";
 
 
 const BandLeaderLoginPage = props => {

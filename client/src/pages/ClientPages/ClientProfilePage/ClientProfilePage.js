@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import styles from "./ClientProfilePage.module.css";
-import Text from "../../UI/Text/Text";
-import Input from "../../UI/Input/Input";
-import Dropdown from "../../UI/Dropdown/Dropdown";
+import Text from "components/Text/Text";
+import Input from "components/Input/Input";
+import Dropdown from "components/Dropdown/Dropdown";
 import {connect} from "react-redux";
 
 const ClientProfilePage = props => {

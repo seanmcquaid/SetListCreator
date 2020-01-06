@@ -14,6 +14,7 @@ import {
     DELETE_BANDLEADER_SONG_ERROR
 } from "./bandLeaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
+import { apiHost } from "config";
 
 export const addBandleaderSongAction = (songName, artistName, songKey) => async dispatch => {
 
@@ -24,7 +25,7 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => async 
     const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
 
-    axios.post(`${window.apiHost}/bandLeader/addSong`, requestBody, headers)
+    axios.post(`${apiHost}/bandLeader/addSong`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : ADD_BANDLEADER_SONG_SUCCESS,
@@ -48,7 +49,7 @@ export const deleteBandleaderSongAction = songId => async dispatch => {
     
     const headers = tokenConfig();
 
-    axios.delete(`${window.apiHost}/bandLeader/deleteSong/${songId}`, headers)
+    axios.delete(`${apiHost}/bandLeader/deleteSong/${songId}`, headers)
             .then(async response => {
                 await dispatch({
                     type : DELETE_BANDLEADER_SONG_SUCCESS,
@@ -72,7 +73,7 @@ export const getBandleaderSongsAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-     axios.get(`${window.apiHost}/bandLeader/getSongs`, headers)
+     axios.get(`${apiHost}/bandLeader/getSongs`, headers)
         .then(async response => {
             await dispatch({
                 type : GET_BANDLEADER_SONGS_SUCCESS,
@@ -101,7 +102,7 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
 
     const headers = tokenConfig();
 
-    axios.patch(`${window.apiHost}/bandLeader/editSong/${songId}`, requestBody, headers)
+    axios.patch(`${apiHost}/bandLeader/editSong/${songId}`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : EDIT_BANDLEADER_SONG_SUCCESS,

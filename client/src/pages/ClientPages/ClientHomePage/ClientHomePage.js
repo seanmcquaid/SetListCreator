@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from "react";
-import Text from "../../../components/Text/Text";
-import Input from "../../../components/Input/Input";
-import Button from "../../../components/Button/Button";
+import Text from "components/Text/Text";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import {connect} from "react-redux";
 import styles from "./ClientHomePage.module.css";
-import Song from "../../../components/Song/Song";
+import Song from "components/Song/Song";
 import {
     addClientRequestedSongAction, 
     addClientDoNotPlaySongAction, 
     getClientSongsAction,
     deleteClientSongAction
-} from "../../../actions/clientActions/clientActions";
+} from "actions/clientActions/clientActions";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");

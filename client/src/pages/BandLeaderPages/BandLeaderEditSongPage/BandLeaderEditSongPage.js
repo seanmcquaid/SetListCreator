@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {connect} from "react-redux";
-import { tokenConfig } from "../../../actions/authActions/authActions";
-import Input from "../../../components/Input/Input";
-import Button from "../../../components/Button/Button";
-import Text from "../../../components/Text/Text";
+import { tokenConfig } from "actions/authActions/authActions";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
+import Text from "components/Text/Text";
 import styles from "./BandLeaderEditSongPage.module.css";
-import {editBandleaderSongAction} from "../../../actions/bandLeaderActions/bandLeaderActions";
+import {editBandleaderSongAction} from "actions/bandLeaderActions/bandLeaderActions";
+import {apiHost} from "config";
 
 const BandLeaderEditSongPage = props => {
     const [songName, setSongName] = useState("");
@@ -17,7 +18,7 @@ const BandLeaderEditSongPage = props => {
 
     useEffect(() => {
         const headers = tokenConfig();
-        axios.get(`${window.apiHost}/bandLeader/getSong/${songId}`, headers)
+        axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
             .then(async response => {
                 const songInfo = response.data.songInfo[0];
                 const {songname, artistname, songkey} = songInfo;

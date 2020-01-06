@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
 import axios from "axios";
 import {editUserInfoAction} from "actions/authActions/authActions";
+import {apiHost} from "config";
 
 const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ const BandLeaderProfilePage = props => {
 
     useEffect(() => {
         const headers = tokenConfig();
-        axios.get(`${window.apiHost}/users/getUserInfo`, headers)
+        axios.get(`${apiHost}/users/getUserInfo`, headers)
             .then(response => {
                 const userInfo = response.data.userInfo[0].username;
                 setUsername(userInfo);

@@ -15,6 +15,7 @@ import {
     EDIT_USER_INFO_SUCCESS,
     EDIT_USER_INFO_ERROR
 } from "./authActionTypes";
+import {apiHost} from "config";
 
 export const loginAction = (username, password) => async dispatch => {
 
@@ -24,7 +25,7 @@ export const loginAction = (username, password) => async dispatch => {
         type : LOGIN_LOADING
     });
 
-    axios.post(`${window.apiHost}/users/login`, requestBody)
+    axios.post(`${apiHost}/users/login`, requestBody)
     .then(response =>{
         dispatch({
             type : LOGIN_SUCCESS,
@@ -48,7 +49,7 @@ export const registerAction = (username, password, accountType, selectedBandlead
         type : REGISTER_LOADING
     });
 
-    axios.post(`${window.apiHost}/users/register/${accountType}`, requestBody)
+    axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
     .then(response =>{
         dispatch({
             type : REGISTER_SUCCESS,
@@ -100,7 +101,7 @@ export const checkTokenAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-    axios.get(`${window.apiHost}/users/checkToken`, headers)
+    axios.get(`${apiHost}/users/checkToken`, headers)
         .then(response => {
             dispatch({
                 type : CHECK_TOKEN_SUCCESS,
@@ -130,7 +131,7 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
 
     const headers = tokenConfig();
 
-    axios.patch(`${window.apiHost}/users/editUserInfo`, requestBody, headers)
+    axios.patch(`${apiHost}/users/editUserInfo`, requestBody, headers)
         .then(response => {
             dispatch({
                 type : EDIT_USER_INFO_SUCCESS,

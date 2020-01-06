@@ -8,6 +8,7 @@ import Text from "components/Text/Text";
 import styles from "./ClientEditSongPage.module.css";
 import {editClientSongAction} from "actions/clientActions/clientActions";
 import Dropdown from "components/Dropdown/Dropdown";
+import {apiHost} from "config";
 
 const ClientEditSongPage = props => {
     const [songName, setSongName] = useState("");
@@ -19,7 +20,7 @@ const ClientEditSongPage = props => {
 
     useEffect(() => {
         const headers = tokenConfig();
-        axios.get(`${window.apiHost}/client/getSong/${songId}`, headers)
+        axios.get(`${apiHost}/client/getSong/${songId}`, headers)
             .then(async response => {
                 const songInfo = response.data.songInfo[0];
                 const {songname, artistname, songtype} = songInfo;

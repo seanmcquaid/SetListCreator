@@ -17,6 +17,7 @@ import {
     EDIT_CLIENT_SONG_ERROR,
 } from "./clientActionTypes";
 import {tokenConfig} from "../authActions/authActions";
+import {apiHost} from "config";
 
 export const getClientSongsAction = () => async dispatch => {
 
@@ -26,7 +27,7 @@ export const getClientSongsAction = () => async dispatch => {
 
     const headers = await tokenConfig();
 
-    axios.get(`${window.apiHost}/client/getSongs`, headers)
+    axios.get(`${apiHost}/client/getSongs`, headers)
         .then(async response => {
             await dispatch({
                 type : GET_CLIENT_SONGS_SUCCESS,
@@ -51,7 +52,7 @@ export const addClientRequestedSongAction = (songName, artistName) => async disp
     const requestBody = {songName, artistName};
     const headers = await tokenConfig();
 
-    axios.post(`${window.apiHost}/client/addSong/requestedSong`, requestBody, headers)
+    axios.post(`${apiHost}/client/addSong/requestedSong`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_SUCCESS,
@@ -74,7 +75,7 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => async disp
     const requestBody = {songName, artistName};
     const headers = await tokenConfig();
 
-    axios.post(`${window.apiHost}/client/addSong/doNotPlaySong`, requestBody, headers)
+    axios.post(`${apiHost}/client/addSong/doNotPlaySong`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
@@ -98,7 +99,7 @@ export const deleteClientSongAction = songId => async dispatch => {
 
     const headers = tokenConfig();
 
-    axios.delete(`${window.apiHost}/client/deleteSong/${songId}`, headers)
+    axios.delete(`${apiHost}/client/deleteSong/${songId}`, headers)
         .then(async response => {
             await dispatch({
                 type : DELETE_CLIENT_SONG_SUCCESS,
@@ -128,7 +129,7 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
 
     const headers = tokenConfig();
 
-    axios.patch(`${window.apiHost}/client/editSong/${songId}`, requestBody, headers)
+    axios.patch(`${apiHost}/client/editSong/${songId}`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : EDIT_CLIENT_SONG_SUCCESS,

@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import {registerAction} from "actions/authActions/authActions";
 import axios from "axios";
 import Dropdown from "components/Dropdown/Dropdown";
+import {apiHost} from "config";
 
 const ClientRegisterPage = props => {
     const {registerAction} = props;
@@ -20,7 +21,7 @@ const ClientRegisterPage = props => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        axios.get(`${window.apiHost}/users/getBandleaders`)
+        axios.get(`${apiHost}/users/getBandleaders`)
             .then(async response => {
                 const bandLeadersArray = response.data.bandLeaders.map(bandLeader => (bandLeader.username));
                 let initialArray = [""];
