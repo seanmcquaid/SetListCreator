@@ -12,7 +12,6 @@ const BandLeaderRegisterPage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
     const {registerAction} = props;
     
     const usernameOnChangeHandler = event => {
@@ -36,6 +35,10 @@ const BandLeaderRegisterPage = props => {
         }
     };
 
+    if(props.isAuthenticated){
+        return <Redirect to="/bandLeaderHome"/>
+    }
+
     return(
         <div className={styles.bandLeaderRegisterContainer}>
             <div className={styles.textContainer}>
@@ -43,6 +46,7 @@ const BandLeaderRegisterPage = props => {
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link>
                 </Text>
+                <Text>{props.errorMessage}</Text>
             </div>
             <form className={styles.registerForm} onSubmit={bandLeaderRegisterSubmitHandler}>
                 <Input 
@@ -76,7 +80,8 @@ const BandLeaderRegisterPage = props => {
 };
 
 const mapStateToProps = state => ({
-    auth : state.auth,
+    isAuthenticated : state.auth.isAuthenticated,
+    errorMessage : state.error.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -26,7 +26,7 @@ const BandLeaderLoginPage = props => {
         props.loginAction(username, password);
     };
     
-    if(props.auth.isAuthenticated){
+    if(props.isAuthenticated){
         return <Redirect to="/bandLeaderHome"/>
     }
 
@@ -38,6 +38,7 @@ const BandLeaderLoginPage = props => {
                 <Text>
                     Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link>
                 </Text>
+                <Text>{props.errorMessage}</Text>
             </div>
             <form className={styles.loginForm} onSubmit={bandLeaderLoginSubmitHandler}>
                 <Input 
@@ -63,7 +64,8 @@ const BandLeaderLoginPage = props => {
 };
 
 const mapStateToProps = state => ({
-    auth : state.auth,
+    isAuthenticated : state.auth.isAuthenticated,
+    errorMessage : state.error.errorMessage,
 });
 
 const mapDispatchToProps = dispatch => ({

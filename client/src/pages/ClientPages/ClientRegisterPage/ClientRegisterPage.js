@@ -18,7 +18,6 @@ const ClientRegisterPage = props => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [bandleaders, setBandleaders] = useState([""]);
     const [selectedBandleader, setSelectedBandleader] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         axios.get(`${apiHost}/users/getBandleaders`)
@@ -58,13 +57,18 @@ const ClientRegisterPage = props => {
         }
     };
 
+    if(props.isAuthenticated){
+        return <Redirect to="/clientHome"/>
+    }
+
     return(
         <div className={styles.clientRegisterContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Client Register</Text>
-                    <Text>
-                        Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
-                    </Text>
+                <Text>
+                    Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
+                </Text>
+                <Text>{props.errorMessage}</Text>
             </div>
             <form className={styles.registerForm} onSubmit={clientRegisterSubmitHandler}>
                 <Input 
@@ -105,7 +109,8 @@ const ClientRegisterPage = props => {
 };
 
 const mapStateToProps = state => ({
-    auth : state.auth
+    isAuthenticated : state.auth.isAuthenticated,
+    errorMessage : state.error.errorMessage
 });
 
 const mapDispatchToProps = dispatch => ({

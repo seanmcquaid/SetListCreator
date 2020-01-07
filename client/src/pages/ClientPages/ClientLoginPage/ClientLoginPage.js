@@ -25,7 +25,7 @@ const ClientLoginPage = props => {
         props.loginAction(username, password);
     };
 
-    if(props.auth.isAuthenticated){
+    if(props.isAuthenticated){
         return <Redirect to="/clientHome"/>
     }
 
@@ -34,9 +34,10 @@ const ClientLoginPage = props => {
         <div className={styles.clientLoginContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Client Login</Text> 
-                    <Text>
-                        Don't have an account? Register <Link className={styles.registerLink} to="/clientRegister">Here</Link>
-                    </Text>
+                <Text>
+                    Don't have an account? Register <Link className={styles.registerLink} to="/clientRegister">Here</Link>
+                </Text>
+                <Text>{props.errorMessage}</Text>
             </div>
             <form className={styles.loginForm} onSubmit={clientLoginSubmitHandler}>
                 <Input 
@@ -62,7 +63,8 @@ const ClientLoginPage = props => {
 };
 
 const mapStateToProps = state => ({
-    auth : state.auth
+    isAuthenticated : state.auth.isAuthenticated,
+    errorMessage : state.error.errorMessage
 })
 
 const mapDispatchToProps = dispatch => ({

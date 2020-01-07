@@ -50,8 +50,6 @@ const ClientEditSongPage = props => {
         await editClientSongAction(songName, artistName, songPlayListType, songId);
         await props.history.push("/clientHome");
     };
-    
-    console.log(songPlayListType);
 
     return(
         <div className={styles.editSongPageContainer}>
