@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Text from "components/Text/Text";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -17,6 +17,7 @@ const ClientRegisterPage = props => {
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [bandleaders, setBandleaders] = useState([""]);
+    const [errorMessage, setErrorMessage] = useState("");
     const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
@@ -68,7 +69,7 @@ const ClientRegisterPage = props => {
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
                 </Text>
-                <Text>{props.errorMessage}</Text>
+                <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
             </div>
             <form className={styles.registerForm} onSubmit={clientRegisterSubmitHandler}>
                 <Input 

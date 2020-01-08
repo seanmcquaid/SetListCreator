@@ -13,6 +13,7 @@ const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const {editUserInfoAction} = props;
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const BandLeaderProfilePage = props => {
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.rrrorMessage}</Text>
+            <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
             <form className={styles.bandLeaderEditProfileForm} onSubmit={bandLeaderEditProfileSubmitHandler}>
                 <Input
                     name="username"

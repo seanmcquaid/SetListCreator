@@ -23,7 +23,7 @@ const BandLeaderLoginPage = props => {
 
     const bandLeaderLoginSubmitHandler = event => {
         event.preventDefault();
-        props.loginAction(username, password);
+        props.loginAction(username, password, "bandLeader");
     };
     
     if(props.isAuthenticated){
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loginAction : (username, password) => dispatch(loginAction(username, password))
+    loginAction : (username, password, accountType) => dispatch(loginAction(username, password, accountType))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderLoginPage);

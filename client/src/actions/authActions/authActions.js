@@ -17,7 +17,7 @@ import {
 } from "./authActionTypes";
 import {apiHost} from "config";
 
-export const loginAction = (username, password) => async dispatch => {
+export const loginAction = (username, password, accountType) => async dispatch => {
 
     const requestBody = {username, password};
 
@@ -25,20 +25,19 @@ export const loginAction = (username, password) => async dispatch => {
         type : LOGIN_LOADING
     });
 
-    axios.post(`${apiHost}/users/login`, requestBody)
-    .then(response =>{
-        dispatch({
-            type : LOGIN_SUCCESS,
-            payload : response.data
+    axios.post(`${apiHost}/users/login/${accountType}`, requestBody)
+        .then(response =>{
+            dispatch({
+                type : LOGIN_SUCCESS,
+                payload : response.data
+            })
         })
-    })
-    .catch(err => {
-        console.log(err.response)
-        dispatch({
-            type : LOGIN_ERROR,
-            payload : err.response
-        })
-    });
+        .catch(err => {
+            dispatch({
+                type : LOGIN_ERROR,
+                payload : err.response
+            })
+        });
 };
 
 export const registerAction = (username, password, accountType, selectedBandleader) => async dispatch => {
@@ -50,18 +49,18 @@ export const registerAction = (username, password, accountType, selectedBandlead
     });
 
     axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
-    .then(response =>{
-        dispatch({
-            type : REGISTER_SUCCESS,
-            payload : response.data
+        .then(response =>{
+            dispatch({
+                type : REGISTER_SUCCESS,
+                payload : response.data
+            })
         })
-    })
-    .catch(err => {
-        dispatch({
-            type : REGISTER_ERROR,
-            payload : err.response
-        })
-    });
+        .catch(err => {
+            dispatch({
+                type : REGISTER_ERROR,
+                payload : err.response
+            })
+        });
 
 };
 

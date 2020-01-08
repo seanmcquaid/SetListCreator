@@ -22,7 +22,7 @@ const ClientLoginPage = props => {
 
     const clientLoginSubmitHandler = event => {
         event.preventDefault();
-        props.loginAction(username, password);
+        props.loginAction(username, password, "client");
     };
 
     if(props.isAuthenticated){
@@ -68,7 +68,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    loginAction : (username, password) => dispatch(loginAction(username, password)),
+    loginAction : (username, password, accountType) => dispatch(loginAction(username, password, accountType)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientLoginPage);

@@ -5,7 +5,7 @@ const checkToken = require("../middleware/checkToken");
 
 router.post("/register/:accountType", usersController.postRegister);
 
-router.post("/login", usersController.postLogin);
+router.post("/login/:accountType", usersController.postLogin);
 
 router.get("/checkToken", checkToken, usersController.getCheckToken);
 

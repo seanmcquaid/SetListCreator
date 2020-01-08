@@ -40,6 +40,8 @@ exports.postRegister = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
     const {username, password} = req.body;
+    const {accountType} = req.params;
+
     UserModel.userExists(username)
             .then(userInfo => {
                 if(userInfo.length == 0){
@@ -49,6 +51,12 @@ exports.postLogin = (req, res, next) => {
                 }
 
                 const specificUserInfo = userInfo[0];
+
+                if(specificUserInfo.accountType !== accountType){
+                    return res.status(401).send({
+                        errorMessage : "Wrong account type for this user!"
+                    })
+                }
 
                 return bcrypt.compare(password, specificUserInfo.password)
                             .then(isMatch => {
