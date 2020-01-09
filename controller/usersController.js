@@ -52,10 +52,10 @@ exports.postLogin = (req, res, next) => {
 
                 const specificUserInfo = userInfo[0];
 
-                if(specificUserInfo.accountType !== accountType){
+                if(specificUserInfo.accounttype !== accountType){
                     return res.status(401).send({
                         errorMessage : "Wrong account type for this user!"
-                    })
+                    });
                 }
 
                 return bcrypt.compare(password, specificUserInfo.password)
