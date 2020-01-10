@@ -150,13 +150,11 @@ const mapStateToProps = state => ({
     doNotPlaySongsList : state.client.doNotPlaySongsList,
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
-        addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
-        deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
-        getClientSongsAction : () => dispatch(getClientSongsAction()),
-    }
-};
+const mapDispatchToProps = dispatch => ({
+    addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
+    addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
+    deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
+    getClientSongsAction : () => dispatch(getClientSongsAction()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientHomePage);
