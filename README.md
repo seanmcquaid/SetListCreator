@@ -7,3 +7,4 @@ To Do :
 Client Send Setlist Page :
 1) Structure out Page
 2) Create Action for Sending Client Setlist to Bandleader (includes notifying/updating status for bandleader)
+3) Styling

@@ -14,6 +14,7 @@ import ClientListPage from "pages/BandLeaderPages/ClientListPage/ClientListPage"
 import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage/BandLeaderEditSongPage";
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
+import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
 
 const ProtectedRoutes = props => {
     const {isAuthenticated, accountType} = props;
@@ -35,6 +36,7 @@ const ProtectedRoutes = props => {
             <Route exact path="/bandLeader/editSong/:songId" component={protectedBandLeaderRouteCheck(BandLeaderEditSongPage)}/>
             <Route exact path="/clientHome" component={protectedClientRouteCheck(ClientHomePage)}/>
             <Route exact path="/client/editSong/:songId" component={protectedClientRouteCheck(ClientEditSongPage)}/>
+            <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
             <Route component={ErrorPage}/>
         </Switch>
     )
@@ -46,4 +48,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, null)(ProtectedRoutes);
-
