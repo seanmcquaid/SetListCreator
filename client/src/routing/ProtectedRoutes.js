@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Route, Switch, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import LandingPage from "pages/LandingPage/LandingPage";
@@ -15,12 +15,11 @@ import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
 import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
+import {checkTokenAction} from "actions/authActions/authActions";
+import ProtectedBandLeaderRoute from "./ProtectedBandleaderRoute";
+import ProtectedClientRoute from "./ProtectedClientRoute";
 
 const ProtectedRoutes = props => {
-    const {isAuthenticated, accountType} = props;
-
-    const protectedClientRouteCheck = Component => isAuthenticated && accountType === "client" ? Component : () => <Redirect to="/"/>;
-    const protectedBandLeaderRouteCheck = Component => isAuthenticated && accountType === "bandLeader" ? Component : () => <Redirect to="/"/>;
 
     return (
         <Switch>
@@ -29,13 +28,13 @@ const ProtectedRoutes = props => {
             <Route exact path="/clientRegister" component={ClientRegisterPage}/>
             <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
             <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-            <Route exact path="/bandLeaderHome" component={protectedBandLeaderRouteCheck(BandLeaderHomePage)}/>
+            <Route exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
             <Route exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
             <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
-            <Route exact path="/bandLeader/addSongs" component={protectedBandLeaderRouteCheck(AddSongsPage)}/>
-            <Route exact path="/bandLeader/editSong/:songId" component={protectedBandLeaderRouteCheck(BandLeaderEditSongPage)}/>
-            <Route exact path="/clientHome" component={protectedClientRouteCheck(ClientHomePage)}/>
-            <Route exact path="/client/editSong/:songId" component={protectedClientRouteCheck(ClientEditSongPage)}/>
+            <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
+            <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
+            <ProtectedClientRoute exact path="/clientHome" stuff={ClientHomePage}/>
+            <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
             <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
             <Route component={ErrorPage}/>
         </Switch>
@@ -44,7 +43,12 @@ const ProtectedRoutes = props => {
 
 const mapStateToProps = state => ({
     accountType : state.auth.accountType,
-    isAuthenticated : state.auth.isAuthenticated
+    isAuthenticated : state.auth.isAuthenticated,
+    token : state.auth.token,
 });
 
-export default connect(mapStateToProps, null)(ProtectedRoutes);
+const mapDispatchToProps = dispatch => ({
+    checkTokenAction : () => dispatch(checkTokenAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoutes);
