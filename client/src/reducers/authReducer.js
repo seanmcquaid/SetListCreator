@@ -39,6 +39,8 @@ const authReducer = (state = initialState, action) => {
         case CHECK_TOKEN_SUCCESS:
         case EDIT_USER_INFO_SUCCESS:
             localStorage.setItem("token", action.payload.token);
+            console.log("token success");
+            console.log(action.payload)
             return{
                 ...state,
                 isAuthenticated : action.payload.isAuthenticated,

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Route, Switch, Redirect} from "react-router-dom";
-import {connect} from "react-redux";
+import React from "react";
+import {Route, Switch} from "react-router-dom";
 import LandingPage from "pages/LandingPage/LandingPage";
 import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
 import ClientRegisterPage from "pages/ClientPages/ClientRegisterPage/ClientRegisterPage";
@@ -15,7 +14,6 @@ import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
 import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
-import {checkTokenAction} from "actions/authActions/authActions";
 import ProtectedBandLeaderRoute from "./ProtectedBandleaderRoute";
 import ProtectedClientRoute from "./ProtectedClientRoute";
 
@@ -33,7 +31,7 @@ const ProtectedRoutes = props => {
             <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
             <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
             <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
-            <ProtectedClientRoute exact path="/clientHome" stuff={ClientHomePage}/>
+            <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
             <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
             <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
             <Route component={ErrorPage}/>
@@ -41,14 +39,4 @@ const ProtectedRoutes = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    accountType : state.auth.accountType,
-    isAuthenticated : state.auth.isAuthenticated,
-    token : state.auth.token,
-});
-
-const mapDispatchToProps = dispatch => ({
-    checkTokenAction : () => dispatch(checkTokenAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoutes);
+export default ProtectedRoutes;

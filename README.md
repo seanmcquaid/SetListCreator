@@ -6,6 +6,7 @@ To Do :
 5) Change check token action from app to protected routes
 6) come up with new protected route solution that will wait for use effect to be done bc now I am not saving state to local storage
 7) set up protected route components for client/bandleaders
+8) fix token error again
 
 Client Send Setlist Page :
 1) Structure out Page

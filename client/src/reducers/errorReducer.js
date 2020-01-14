@@ -38,6 +38,7 @@ const errorReducer = (state = initialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
         case DELETE_CLIENT_SONG_ERROR :
         case EDIT_CLIENT_SONG_ERROR :
+            console.log(action.payload);
             return {
                 ...state,
                 errorMessage : action.payload.data.errorMessage

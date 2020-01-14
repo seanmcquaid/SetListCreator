@@ -4,29 +4,32 @@ import Loading from "components/Loading/Loading";
 import {Redirect, Route} from "react-router-dom";
 import {checkTokenAction} from "actions/authActions/authActions";
 
-const ProtectedClientRoute = props => {
+const ProtectedClientRoute = ({accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const {accountType, isAuthenticated, token, exact, path, stuff} = props;
-    console.log(stuff);
-    console.log(props);
 
     useEffect(() => {
         if(token){
           checkTokenAction();
-          setIsLoading(false);
         }
-    },[token])
+        setIsLoading(false);
+    },[])
+
+    console.log(isLoading)
 
     if(isLoading){
-        return () => <Route exact={exact} path={path} component={<Loading/>}/>
+        return <Route {...props} component={Loading}/>
     }
+
 
     if(isAuthenticated && accountType === "client"){
-        return <Route exact={exact} path={path} component={<stuff/>}/>
+        return <Route {...props} component={props.component}/>
     }
 
-    return () => <Redirect to="/"/>
+    console.log(accountType, isAuthenticated, token)
 
+    if(!isLoading){
+        
+    }
 
 };
 
