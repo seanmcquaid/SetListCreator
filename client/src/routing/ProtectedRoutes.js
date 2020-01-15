@@ -14,7 +14,7 @@ import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
 import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
-import ProtectedBandLeaderRoute from "./ProtectedBandleaderRoute";
+import ProtectedBandleaderRoute from "./ProtectedBandleaderRoute";
 import ProtectedClientRoute from "./ProtectedClientRoute";
 
 const ProtectedRoutes = props => {
@@ -26,14 +26,14 @@ const ProtectedRoutes = props => {
             <Route exact path="/clientRegister" component={ClientRegisterPage}/>
             <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
             <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-            <Route exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
-            <Route exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
-            <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
-            <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
-            <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
+            <ProtectedBandleaderRoute exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
+            <ProtectedBandleaderRoute exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
+            <ProtectedBandleaderRoute exact path="/bandLeader/clientList" component={ClientListPage}/>
+            <ProtectedBandleaderRoute exact path="/bandLeader/addSongs" component={AddSongsPage}/>
+            <ProtectedBandleaderRoute exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
             <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-            <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-            <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
+            <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
+            <ProtectedClientRoute exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
             <Route component={ErrorPage}/>
         </Switch>
     )
