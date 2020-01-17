@@ -50,6 +50,7 @@ const AddSongsPage = props => {
                     songKey={songkey}
                     songId={id}
                     deleteSongHandler={() => deleteSongHandler(id)}
+                    isEditable
                 />
     });
 

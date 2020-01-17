@@ -11,6 +11,7 @@ import {
     getClientSongsAction,
     deleteClientSongAction
 } from "actions/clientActions/clientActions";
+import LinkButton from "components/LinkButton/LinkButton";
 
 const ClientHomePage = props => {
     const [requestedSongName, setRequestedSongName] = useState("");
@@ -66,7 +67,7 @@ const ClientHomePage = props => {
 
     return(
         <div className={styles.clientHomePageContainer}>
-            <Text headerText={true}>Musical Preferences Page</Text>
+            <Text headerText={true}>Musical Preferences Page - <LinkButton route="/client/sendSetList">Send Set List</LinkButton></Text>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>
                     <Text>Requested Songs</Text>
@@ -100,6 +101,7 @@ const ClientHomePage = props => {
                                 deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
                                 songId={song.id}
+                                isEditable
                             />    
                         )}
                     </div>
@@ -136,6 +138,7 @@ const ClientHomePage = props => {
                                 deleteSongHandler={() => deleteSongHandler(song.id)}
                                 key={i}
                                 songId={song.id}
+                                isEditable
                             />    
                         )}
                     </div>

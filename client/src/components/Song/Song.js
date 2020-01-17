@@ -5,7 +5,7 @@ import LinkButton from "../LinkButton/LinkButton";
 import styles from "./Song.module.css";
 
 const Song = props => {
-    const {songName, artistName, songKey, deleteSongHandler, songId} = props;
+    const {songName, artistName, songKey, deleteSongHandler, songId, isEditable} = props;
     return(
         <div className={styles.songContainer}>
             <h4 className={styles.songName}>Song Name : {songName}</h4>
@@ -19,8 +19,7 @@ const Song = props => {
                 type="button"
                 title="Remove"
             />
-            <LinkButton route={songKey ? `/bandLeader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton>
-
+            {isEditable ? <LinkButton route={songKey ? `/bandLeader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton> : null}
         </div>
     )
 };

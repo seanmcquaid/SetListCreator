@@ -4,15 +4,15 @@ import Loading from "components/Loading/Loading";
 import {Redirect, Route} from "react-router-dom";
 import {checkTokenAction} from "actions/authActions/authActions";
 
-const ProtectedBandleaderRoute = ({accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
+const ProtectedBandleaderRoute = ({isLoading, accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     useEffect(() => {
-        if(token && isLoadingPage){
+        if(isLoadingPage && token){
             checkTokenAction();
         }
         setIsLoadingPage(false);
-    }, [checkTokenAction, token, isLoadingPage])
+    }, [checkTokenAction, isLoadingPage, token])
 
 
     if(isLoadingPage === true){
@@ -26,7 +26,7 @@ const ProtectedBandleaderRoute = ({accountType, isAuthenticated, token, checkTok
 
     if(isAuthenticated === true && accountType !== null){
         if(isLoadingPage === false && accountType !== "bandLeader"){
-            console.log("redirect - isLoading and accounttype")
+            console.log("redirect - isLoadingPage and accounttype")
             console.log(isLoadingPage, accountType);
             return <Redirect to="/"/>;
         }
@@ -41,7 +41,7 @@ const ProtectedBandleaderRoute = ({accountType, isAuthenticated, token, checkTok
         return <Redirect to="/"/>;
     }
 
-    return null;
+    return <Redirect to="/"/>;
 
 };
 
@@ -49,10 +49,11 @@ const mapStateToProps = state => ({
     accountType : state.auth.accountType,
     isAuthenticated : state.auth.isAuthenticated,
     token : state.auth.token,
+    isLoading : state.auth.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
     checkTokenAction : () => dispatch(checkTokenAction()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProtectedBandleaderRoute);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./ClientSendSetlistPage.module.css";
 import Button from "components/Button/Button";
 import Text from "components/Text/Text";
@@ -8,9 +8,15 @@ import Song from "components/Song/Song";
 
 const ClientSendSetlistPage = props => {
     const {
+        getClientSongsAction,
         requestedSongsList,
         doNotPlaySongsList,
+        deleteClientSongAction
     } = props;
+
+    useEffect(() => {
+        getClientSongsAction();
+    }, [getClientSongsAction])
 
     const deleteSongHandler = async (songId) => {
         await deleteClientSongAction(songId);

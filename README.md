@@ -4,7 +4,7 @@ To Do :
 3) Write unit tests for front and back end
 4) CI/CD Pipeline with AWS set up
 5) fix token error again
-6) fix logic for redirect
+6) fix logic for redirect - circle back on this later
 
 Client Send Setlist Page :
 1) Structure out Page

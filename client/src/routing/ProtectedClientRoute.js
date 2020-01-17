@@ -4,18 +4,18 @@ import Loading from "components/Loading/Loading";
 import {Redirect, Route} from "react-router-dom";
 import {checkTokenAction} from "actions/authActions/authActions";
 
-const ProtectedClientRoute = ({accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
+const ProtectedClientRoute = ({isLoading, accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
     const [isLoadingPage, setIsLoadingPage] = useState(true);
 
     useEffect(() => {
-        if(token && isLoadingPage){
+        if(isLoadingPage && token){
             checkTokenAction();
         }
         setIsLoadingPage(false);
-    }, [checkTokenAction, token, isLoadingPage])
+    }, [checkTokenAction, isLoadingPage, token])
 
 
-    if(isLoadingPage === true){
+    if(isLoading === true){
         return <Route {...props} component={Loading}/>;
     }
 
@@ -25,27 +25,21 @@ const ProtectedClientRoute = ({accountType, isAuthenticated, token, checkTokenAc
     }
 
     if(isAuthenticated === true && accountType !== null){
-        if(isLoadingPage === false && accountType !== "client"){
+        if(isLoading === false && accountType !== "client"){
             console.log("redirect - isLoading and accounttype")
-            console.log(isLoadingPage, accountType);
+            console.log(isLoading, accountType);
             return <Redirect to="/"/>;
         }
     }
 
 
-    if(isLoadingPage === false && isAuthenticated === true){
+    if(isLoading === false && isAuthenticated === true){
         return <Redirect to="/"/>;
     }
 
-    if(isAuthenticated === false && isLoadingPage === false && accountType !== null){
+    if(isAuthenticated === false && isLoading === false && accountType !== null){
         return <Redirect to="/"/>;
     }
-
-    if(isAuthenticated === false && isLoadingPage === false && accountType === null){
-        return null;
-    }
-
-    console.log("props");
 
     return <Redirect to="/"/>;
 
@@ -55,6 +49,7 @@ const mapStateToProps = state => ({
     accountType : state.auth.accountType,
     isAuthenticated : state.auth.isAuthenticated,
     token : state.auth.token,
+    isLoading : state.auth.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
