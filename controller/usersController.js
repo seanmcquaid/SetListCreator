@@ -31,7 +31,8 @@ exports.postRegister = (req, res, next) => {
                                 isAuthenticated : true,
                                 token,
                                 username : specificUserInfo.username,
-                                accountType : specificUserInfo.accounttype
+                                accountType : specificUserInfo.accounttype,
+                                setListAvailable : specificUserInfo.setlistavailable === "true" ? true : false,
                             });
                         })
             })
@@ -52,6 +53,8 @@ exports.postLogin = (req, res, next) => {
 
                 const specificUserInfo = userInfo[0];
 
+                console.log(specificUserInfo);
+
                 if(specificUserInfo.accounttype !== accountType){
                     return res.status(401).send({
                         errorMessage : "Wrong account type for this user!"
@@ -70,7 +73,7 @@ exports.postLogin = (req, res, next) => {
                                     {
                                         id : specificUserInfo.id,
                                         username : specificUserInfo.username,
-                                        accountType : specificUserInfo.accounttype
+                                        accountType : specificUserInfo.accounttype,
                                     },
                                     config.jwtSecret,
                                     {expiresIn : 3600000}
@@ -80,7 +83,8 @@ exports.postLogin = (req, res, next) => {
                                     isAuthenticated : true,
                                     token,
                                     username : specificUserInfo.username,
-                                    accountType : specificUserInfo.accounttype
+                                    accountType : specificUserInfo.accounttype,
+                                    setListAvailable : specificUserInfo.setlistavailable === "true" ? true : false,
                                 });
 
 
@@ -208,12 +212,12 @@ exports.editUserInfo = (req, res, next) => {
 exports.sendClientSetlist = (req, res, next) => {
     const token = req.token;
     const {username} = token;
-    const {setListAvailability} = req.body;
+    const {setlistAvailability} = req.body;
 
-    UserModel.setClientSetlistAvailability(username, setListAvailability)
+    UserModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(response => {
                 return res.status(200).send({
-                    userInfo : response
+                    setListAvailable : response.setlistavailable === "true" ? true : false,
                 });
             })
             .catch(err => console.log(err));

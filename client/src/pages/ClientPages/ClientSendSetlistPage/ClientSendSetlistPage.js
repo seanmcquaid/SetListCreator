@@ -3,7 +3,7 @@ import styles from "./ClientSendSetlistPage.module.css";
 import Button from "components/Button/Button";
 import Text from "components/Text/Text";
 import {connect} from "react-redux";
-import {getClientSongsAction, deleteClientSongAction} from "actions/clientActions/clientActions";
+import {getClientSongsAction, deleteClientSongAction, sendClientSetlistAction} from "actions/clientActions/clientActions";
 import Song from "components/Song/Song";
 
 const ClientSendSetlistPage = props => {
@@ -11,7 +11,9 @@ const ClientSendSetlistPage = props => {
         getClientSongsAction,
         requestedSongsList,
         doNotPlaySongsList,
-        deleteClientSongAction
+        deleteClientSongAction,
+        sendClientSetlistAction,
+        setListAvailabile,
     } = props;
 
     useEffect(() => {
@@ -22,8 +24,9 @@ const ClientSendSetlistPage = props => {
         await deleteClientSongAction(songId);
     };
 
-    const sendSetlistHandler = () => {
-        
+    const sendSetlistHandler = async () => {
+        await sendClientSetlistAction(true);
+        await props.history.push("/clientHome");
     };
 
     return(
@@ -59,10 +62,12 @@ const ClientSendSetlistPage = props => {
                     </div>
                 </div>
             </div>
+            {setListAvailabile ? <Text>Setlist Sent Already!</Text> : 
             <Button
                 title="Send Playlist"
                 type="Button"
-            />
+                onClick={sendSetlistHandler}
+            />}
         </div>
     )
 };
@@ -70,11 +75,13 @@ const ClientSendSetlistPage = props => {
 const mapStateToProps = state => ({
     requestedSongsList : state.client.requestedSongsList,
     doNotPlaySongsList : state.client.doNotPlaySongsList,
+    setListAvailabile : state.client.setListAvailable,
 });
 
 const mapDispatchToProps = dispatch => ({
     getClientSongsAction : () => dispatch(getClientSongsAction()),
     deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
+    sendClientSetlistAction : (setListAvailability) => dispatch(sendClientSetlistAction(setListAvailability)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientSendSetlistPage);

@@ -15,6 +15,6 @@ router.get("/getUserInfo", checkToken, usersController.getUserInfo);
 
 router.patch("/editUserInfo", checkToken, usersController.editUserInfo);
 
-router.post("/sendClientSendlist", checkToken, usersController.sendClientSetlist);
+router.patch("/sendClientSetlist", checkToken, usersController.sendClientSetlist);
 
 module.exports = router;

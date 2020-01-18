@@ -15,6 +15,9 @@ import {
     EDIT_CLIENT_SONG_LOADING,
     EDIT_CLIENT_SONG_SUCCESS,
     EDIT_CLIENT_SONG_ERROR,
+    SEND_CLIENT_SETLIST_ERROR,
+    SEND_CLIENT_SETLIST_SUCCESS,
+    SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
 import {tokenConfig} from "../authActions/authActions";
 import {apiHost} from "config";
@@ -142,5 +145,35 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
                 payload : err.response
             })
         });
+
+};
+
+export const sendClientSetlistAction = setlistAvailability => async dispatch => {
+
+    await dispatch({
+        type : SEND_CLIENT_SETLIST_LOADING,
+    });
+
+    const requestBody = {
+        setlistAvailability,
+    };
+
+    console.log(setlistAvailability);
+
+    const headers = tokenConfig();
+
+    axios.patch(`${apiHost}/users/sendClientSetlist`, requestBody, headers)
+        .then(response => {
+            dispatch({
+                type : SEND_CLIENT_SETLIST_SUCCESS,
+                payload : response.data
+            });
+        })
+        .catch(err => {
+            dispatch({
+                type : SEND_CLIENT_SETLIST_ERROR,
+                payload : err.response
+            });
+        })
 
 };

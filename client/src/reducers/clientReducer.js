@@ -14,14 +14,18 @@ import {
     EDIT_CLIENT_SONG_LOADING,
     EDIT_CLIENT_SONG_SUCCESS,
     EDIT_CLIENT_SONG_ERROR,
+    SEND_CLIENT_SETLIST_SUCCESS,
+    SEND_CLIENT_SETLIST_LOADING,
+    SEND_CLIENT_SETLIST_ERROR,
 } from "actions/clientActions/clientActionTypes";
-import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
+import {LOGIN_SUCCESS, LOGOUT_SUCCESS} from "actions/authActions/authActionTypes";
 
 const initialState = {
     bandLeader : "",
     doNotPlaySongsList : [],
     requestedSongsList : [],
     isLoading : false,
+    setListAvailable : false,
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -31,6 +35,7 @@ const clientReducer = (state = initialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING :
         case DELETE_CLIENT_SONG_LOADING :
         case EDIT_CLIENT_SONG_LOADING :
+        case SEND_CLIENT_SETLIST_LOADING :
             return {
                 ...state,
                 isLoading : true,
@@ -48,11 +53,20 @@ const clientReducer = (state = initialState, action) => {
                 doNotPlaySongsList,
                 isLoading : false,
             }
+        case SEND_CLIENT_SETLIST_SUCCESS :
+        case LOGIN_SUCCESS: 
+            const setListAvailable = action.payload.setListAvailable;
+            return {
+                ...state,
+                isLoading : false,
+                setListAvailable,
+            }
         case GET_CLIENT_SONGS_ERROR : 
         case ADD_CLIENT_REQUESTED_SONG_ERROR :
         case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
         case DELETE_CLIENT_SONG_ERROR :
         case EDIT_CLIENT_SONG_ERROR :
+        case SEND_CLIENT_SETLIST_ERROR :
             return {
                 ...state,
                 isLoading : false,
