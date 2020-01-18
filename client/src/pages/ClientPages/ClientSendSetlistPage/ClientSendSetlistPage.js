@@ -18,8 +18,12 @@ const ClientSendSetlistPage = props => {
         getClientSongsAction();
     }, [getClientSongsAction])
 
-    const deleteSongHandler = async (songId) => {
+    const deleteSongHandler = async songId => {
         await deleteClientSongAction(songId);
+    };
+
+    const sendSetlistHandler = () => {
+        
     };
 
     return(

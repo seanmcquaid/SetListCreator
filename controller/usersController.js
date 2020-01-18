@@ -204,3 +204,18 @@ exports.editUserInfo = (req, res, next) => {
             .catch(err => console.log(err));
 
 };
+
+exports.sendClientSetlist = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+    const {setListAvailability} = req.body;
+
+    UserModel.setClientSetlistAvailability(username, setListAvailability)
+            .then(response => {
+                return res.status(200).send({
+                    userInfo : response
+                });
+            })
+            .catch(err => console.log(err));
+
+};

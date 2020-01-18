@@ -28,11 +28,16 @@ class UserModel {
     static async editUserInfo(username, password, id){
         const hashedPassword = bcrypt.hashSync(password, 10);
         await database.query("UPDATE USERS SET username=$1, password=$2 WHERE id=$3;", [username, hashedPassword, id]);
-        return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
+        return await database.query("SELECT * FROM USERS where username=$1", [username]);
     }
 
     static async getClientsForBandleader(bandleaderName){
         return await database.query("SELECT * FROM USERS where bandleadername=$1", [bandleaderName]);
+    }
+
+    static async setClientSetlistAvailability(clientName, setlistAvailability){
+        await database.query("UPDATE USERS SET setlistavailable=$1 WHERE username=$2", [setlistAvailability, clientName]);
+        return await database.query("SELECT * FROM USERS where username=$1", [clientName]);
     }
 
 }
