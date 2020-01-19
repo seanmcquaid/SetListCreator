@@ -29,6 +29,8 @@ const ClientSendSetlistPage = props => {
         await props.history.push("/clientHome");
     };
 
+    console.log(setListAvailabile);
+
     return(
         <div className={styles.clientSendSetlistPageContainer}>
             <Text headerText={true}>Send Setlist</Text>

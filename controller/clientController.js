@@ -1,16 +1,21 @@
 const ClientSongListModel = require("../models/ClientSongListModel");
+const UserModel = require("../models/UserModel");
 
 exports.postAddSong = (req, res, next) => {
     const {songName, artistName} = req.body;
     const {songType} = req.params;
     const token = req.token;
-    const {username} = token;
+    const {username, id} = token;
     
     ClientSongListModel.addSong(songName, artistName, songType, username)
-                        .then(response => {
-                            return res.status(200).send({
-                                clientSongs : response
-                            });
+                        .then(clientSongs => {
+                            UserModel.getUserInfo(id)
+                                    .then(userInfo => {
+                                        return res.status(200).send({
+                                            clientSongs,
+                                            setListAvailable : userInfo[0].setlistavailable,
+                                        });
+                                    })
                         })
                         .catch(err => {
                             console.log(err);
@@ -22,13 +27,17 @@ exports.postAddSong = (req, res, next) => {
 exports.deleteSong = (req, res, next) => {
     const {songId} = req.params;
     const token = req.token;
-    const {username} = token;
+    const {username, id} = token;
 
     ClientSongListModel.deleteSong(username, songId)
-                        .then(response => {
-                            return res.status(200).send({
-                                clientSongs : response
-                            });
+                        .then(clientSongs => {
+                            UserModel.getUserInfo(id)
+                                    .then(userInfo => {
+                                        return res.status(200).send({
+                                            clientSongs,
+                                            setListAvailable : userInfo[0].setlistavailable,
+                                        });
+                                    })
                         })
                         .catch(err => {
                             console.log(err);
@@ -38,13 +47,17 @@ exports.deleteSong = (req, res, next) => {
 
 exports.getSongs = (req, res, next) => {
     const token = req.token;
-    const {username} = token;
+    const {username, id} = token;
 
     ClientSongListModel.getSongs(username)
-                        .then(response => {
-                            return res.status(200).send({
-                                clientSongs : response
-                            });
+                        .then(clientSongs => {
+                            UserModel.getUserInfo(id)
+                                    .then(userInfo => {
+                                        return res.status(200).send({
+                                            clientSongs,
+                                            setListAvailable : userInfo[0].setlistavailable,
+                                        });
+                                    })
                         })
                         .catch(err => {
                             console.log(err);
@@ -72,14 +85,18 @@ exports.getSong = (req, res, next) => {
 exports.editSong = (req, res, next) => {
     const {songId} = req.params;
     const token = req.token;
-    const {username} = token;
+    const {username, id} = token;
     const {songName, artistName, playListType} = req.body;
 
     ClientSongListModel.editSong(songId, songName, artistName, playListType, username)
-                        .then(response => {
-                            return res.status(200).send({
-                                clientSongs : response
-                            })
+                        .then(clientSongs=> {
+                            UserModel.getUserInfo(id)
+                                    .then(userInfo => {
+                                        return res.status(200).send({
+                                            clientSongs,
+                                            setListAvailable : userInfo[0].setlistavailable,
+                                        });
+                                    })
                         })    
                         .catch(err => {
                             console.log(err);

@@ -216,8 +216,9 @@ exports.sendClientSetlist = (req, res, next) => {
 
     UserModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(response => {
+                console.log(response);
                 return res.status(200).send({
-                    setListAvailable : response.setlistavailable,
+                    setListAvailable : response[0].setlistavailable,
                 });
             })
             .catch(err => console.log(err));

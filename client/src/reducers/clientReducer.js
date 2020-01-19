@@ -51,6 +51,7 @@ const clientReducer = (state = initialState, action) => {
                 ...state,
                 requestedSongsList,
                 doNotPlaySongsList,
+                setListAvailable : action.payload.setListAvailable,
                 isLoading : false,
             }
         case SEND_CLIENT_SETLIST_SUCCESS :
