@@ -32,7 +32,7 @@ exports.postRegister = (req, res, next) => {
                                 token,
                                 username : specificUserInfo.username,
                                 accountType : specificUserInfo.accounttype,
-                                setListAvailable : specificUserInfo.setlistavailable === "true" ? true : false,
+                                setListAvailable : specificUserInfo.setlistavailable,
                             });
                         })
             })
@@ -84,7 +84,7 @@ exports.postLogin = (req, res, next) => {
                                     token,
                                     username : specificUserInfo.username,
                                     accountType : specificUserInfo.accounttype,
-                                    setListAvailable : specificUserInfo.setlistavailable === "true" ? true : false,
+                                    setListAvailable : specificUserInfo.setlistavailable,
                                 });
 
 
@@ -217,7 +217,7 @@ exports.sendClientSetlist = (req, res, next) => {
     UserModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(response => {
                 return res.status(200).send({
-                    setListAvailable : response.setlistavailable === "true" ? true : false,
+                    setListAvailable : response.setlistavailable,
                 });
             })
             .catch(err => console.log(err));
