@@ -9,6 +9,9 @@ import {
     GET_BANDLEADER_SONGS_LOADING,
     GET_BANDLEADER_SONGS_SUCCESS,
     GET_BANDLEADER_SONGS_ERROR,
+    GET_BANDLEADER_CLIENTS_LOADING,
+    GET_BANDLEADER_CLIENTS_SUCCESS,
+    GET_BANDLEADER_CLIENTS_ERROR,
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR
@@ -115,5 +118,30 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
                 payload : err.response
             })
         });
+
+};
+
+export const getBandleaderClientsAction = () => async dispatch => {
+
+    await dispatch({
+        type : GET_BANDLEADER_CLIENTS_LOADING,
+    });
+
+    const headers = tokenConfig();
+
+    axios.get(`${apiHost}/users/getClientsForBandleaders`, headers)
+        .then(async response => {
+            await dispatch({
+                type : GET_BANDLEADER_CLIENTS_SUCCESS,
+                payload : response.data,
+            });
+        })
+        .catch(async err => {
+            await dispatch({
+                type : GET_BANDLEADER_CLIENTS_ERROR,
+                payload : err.response,
+            });
+        });
+
 
 };

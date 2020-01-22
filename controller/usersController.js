@@ -146,7 +146,7 @@ exports.getClientsForBandLeader = (req, res, next) => {
     return UserModel.getClientsForBandleader(username)
                     .then(response => {
                         return res.status(200).send({
-                            clientsList : response
+                            clientList : response
                         })
                     })
                     .catch(err => console.log(err));

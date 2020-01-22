@@ -8,6 +8,9 @@ import {
     GET_BANDLEADER_SONGS_LOADING,
     GET_BANDLEADER_SONGS_SUCCESS,
     GET_BANDLEADER_SONGS_ERROR,
+    GET_BANDLEADER_CLIENTS_LOADING,
+    GET_BANDLEADER_CLIENTS_SUCCESS,
+    GET_BANDLEADER_CLIENTS_ERROR,
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
@@ -28,6 +31,7 @@ const bandLeaderReducer = (state = initialState, action) => {
         case GET_BANDLEADER_SONGS_LOADING: 
         case DELETE_BANDLEADER_SONG_LOADING:
         case EDIT_BANDLEADER_SONG_LOADING:
+        case GET_BANDLEADER_CLIENTS_LOADING:
         return {
             ...state,
             isLoading : true
@@ -41,10 +45,17 @@ const bandLeaderReducer = (state = initialState, action) => {
                 songList : action.payload.songList,
                 isLoading : false,
             }
+        case GET_BANDLEADER_CLIENTS_SUCCESS:
+            return {
+                ...state,
+                clientList : action.payload.clientList,
+                isLoading : false,
+            }
         case ADD_BANDLEADER_SONG_ERROR: 
         case GET_BANDLEADER_SONGS_ERROR: 
         case DELETE_BANDLEADER_SONG_ERROR:
         case EDIT_BANDLEADER_SONG_ERROR:
+        case GET_BANDLEADER_CLIENTS_ERROR:
             return {
                 ...state,
                 isLoading : false,
