@@ -32,7 +32,7 @@ class UserModel {
     }
 
     static async getClientsForBandleader(bandleaderName){
-        return await database.query("SELECT * FROM USERS where bandleadername=$1", [bandleaderName]);
+        return await database.query("SELECT username, setlistavailable, id FROM USERS where bandleadername=$1", [bandleaderName]);
     }
 
     static async setClientSetlistAvailability(clientName, setlistAvailability){

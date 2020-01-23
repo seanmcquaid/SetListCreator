@@ -129,7 +129,7 @@ export const getBandleaderClientsAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-    axios.get(`${apiHost}/users/getClientsForBandleaders`, headers)
+    axios.get(`${apiHost}/users/getClientsForBandleader`, headers)
         .then(async response => {
             await dispatch({
                 type : GET_BANDLEADER_CLIENTS_SUCCESS,

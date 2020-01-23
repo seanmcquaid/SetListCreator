@@ -11,7 +11,7 @@ router.get("/checkToken", checkToken, usersController.getCheckToken);
 
 router.get("/getBandleaders", usersController.getBandleaders);
 
-router.get("/getClientsForBandleaders", usersController.getClientsForBandLeader);
+router.get("/getClientsForBandleader", checkToken, usersController.getClientsForBandLeader);
 
 router.get("/getUserInfo", checkToken, usersController.getUserInfo);
 
