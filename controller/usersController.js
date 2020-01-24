@@ -166,6 +166,19 @@ exports.getUserInfo = (req, res, next) => {
                     .catch(err => console.log(err));
 };
 
+exports.getClientInfo = (req, res, next) => {
+    const {clientId} = req.params;
+
+    return UserModel.getUserInfo(clientId)
+                    .then(response => {
+                        return res.status(200).send({
+                            clientInfo : response,
+                        })
+                    })
+                    .catch(err => console.log(err));
+
+};
+
 exports.editUserInfo = (req, res, next) => {
     const {id} = req.token;
     const {newUsername, newPassword} = req.body;

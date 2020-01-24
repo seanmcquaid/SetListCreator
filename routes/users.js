@@ -13,6 +13,8 @@ router.get("/getBandleaders", usersController.getBandleaders);
 
 router.get("/getClientsForBandleader", checkToken, usersController.getClientsForBandLeader);
 
+router.get("/clientInfo/:clientId", checkToken, usersController.getClientInfo);
+
 router.get("/getUserInfo", checkToken, usersController.getUserInfo);
 
 router.patch("/editUserInfo", checkToken, usersController.editUserInfo);

@@ -13,4 +13,6 @@ router.delete("/deleteSong/:songId", checkToken, bandLeaderController.deleteSong
 
 router.patch("/editSong/:songId", checkToken, bandLeaderController.editSong);
 
+router.get("/getClientSongs/:clientName", checkToken)
+
 module.exports = router;

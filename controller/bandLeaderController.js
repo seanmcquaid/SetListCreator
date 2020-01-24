@@ -1,4 +1,5 @@
 const UserModel = require("../models/UserModel");
+const ClientSongListModel = require("../models/ClientSongListModel");
 const BandLeaderSongListModel = require("../models/BandLeaderSongListModel");
 
 exports.postAddSong = (req, res, next) => {
@@ -81,5 +82,18 @@ exports.editSong = (req, res, next) => {
                             .catch(err => {
                                 console.log(err);
                             })
+
+};
+
+exports.getClientSongs = (req, res, next) => {
+    const {clientName} = req.params;
+
+    ClientSongListModel.getSongs(clientName)
+                        .then(response => {
+                            return res.status(200).send({
+                                clientSongs : response,
+                            })
+                        })
+                        .catch(err => console.log(err));
 
 };
