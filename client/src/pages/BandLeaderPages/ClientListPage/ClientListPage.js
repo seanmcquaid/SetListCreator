@@ -3,6 +3,7 @@ import {getBandleaderClientsAction} from "actions/bandLeaderActions/bandLeaderAc
 import { connect } from "react-redux";
 import Text from "components/Text/Text";
 import ClientInfo from "components/ClientInfo/ClientInfo";
+import styles from "./ClientListPage.module.css";
 
 const ClientListPage = props => {
     const {clientList, getBandleaderClientsAction} = props;
@@ -11,17 +12,21 @@ const ClientListPage = props => {
         getBandleaderClientsAction();
     },[getBandleaderClientsAction])
 
-    console.log(clientList)
+
+    const clientPageRedirect = async clientId => {
+        await props.history.push(`/clientInfo/${clientId}`);
+    };
 
     return(
-        <div>
+        <div className={styles.clientListPageContainer}>
             <Text headerText>Clients Page</Text>
-            <div>
+            <div className={styles.clientsContainer}>
                 {clientList.map(clientInfo => 
                     <ClientInfo 
                         key={clientInfo.id} 
                         clientName={clientInfo.username} 
                         setListAvailable={clientInfo.setlistavailable}
+                        clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
                     />
                 )}
             </div>

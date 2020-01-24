@@ -6,6 +6,5 @@ To Do :
 5) fix logic for redirect - circle back on this later
 
 Client List Page : 
-Show client status
 If client is done w/ setlist, add option to click and see their list of songs
 Also include routing to set list creator for that particular client
