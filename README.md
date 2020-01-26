@@ -5,6 +5,6 @@ To Do :
 4) fix token error again
 5) fix logic for redirect - circle back on this later
 
-Client List Page : 
-If client is done w/ setlist, add option to click and see their list of songs
-Also include routing to set list creator for that particular client
+Client Info Page :
+1) Set up styling
+2) Revisit back end decisions for extracting username of client

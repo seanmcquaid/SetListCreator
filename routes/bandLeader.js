@@ -13,6 +13,8 @@ router.delete("/deleteSong/:songId", checkToken, bandLeaderController.deleteSong
 
 router.patch("/editSong/:songId", checkToken, bandLeaderController.editSong);
 
-router.get("/getClientSongs/:clientName", checkToken)
+// req.query for client name? look into best practices for this
+
+router.get("/getClientSongs/:clientName", checkToken, bandLeaderController.getClientSongs);
 
 module.exports = router;
