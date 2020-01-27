@@ -88,10 +88,11 @@ exports.editSong = (req, res, next) => {
 exports.getClientSongs = (req, res, next) => {
     const {clientName} = req.params;
 
-    ClientSongListModel.getSongs(clientName)
+    UserModel.getClientInfoAndSongs(clientName)
                         .then(response => {
+                            console.log(response);
                             return res.status(200).send({
-                                clientSongs : response,
+                                clientInfo : response
                             })
                         })
                         .catch(err => console.log(err));

@@ -40,6 +40,10 @@ class UserModel {
         return await database.query("SELECT * FROM USERS where username=$1", [clientName]);
     }
 
+    static async getClientInfoAndSongs(clientName){
+        return await database.query("SELECT users.setlistavailable, clientsonglist.songname, clientsonglist.artistname, clientsonglist.songtype, users.username FROM clientsonglist INNER JOIN users ON users.username = clientsonglist.username WHERE users.username=$1;", [clientName]);
+    }
+
 }
 
 module.exports = UserModel;

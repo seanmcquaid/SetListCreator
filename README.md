@@ -8,3 +8,4 @@ To Do :
 Client Info Page :
 1) Set up styling
 2) Revisit back end decisions for extracting username of client
+3) Work on model for inner joining between users and clients to extract all info needed
