@@ -41,7 +41,12 @@ class UserModel {
     }
 
     static async getClientInfoAndSongs(clientName){
-        return await database.query("SELECT users.setlistavailable, clientsonglist.songname, clientsonglist.artistname, clientsonglist.songtype, users.username FROM clientsonglist INNER JOIN users ON users.username = clientsonglist.username WHERE users.username=$1;", [clientName]);
+        const query = `SELECT users.setlistavailable, clientsonglist.songname, clientsonglist.artistname, clientsonglist.songtype, users.username 
+                        FROM clientsonglist 
+                        INNER JOIN users ON users.username = clientsonglist.username WHERE users.username=$1;`;
+        const result = await database.query(query, [clientName]);
+        return result;
+        // store query result in variable then go through process of using JS to sanitize the data
     }
 
 }
