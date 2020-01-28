@@ -11,3 +11,5 @@ Client Info Page :
 
 Working On Now : 
 1) Restructuring model to sanitize data for cleaner controllers
+2) Unit tests for front and back end
+3) reviewing controllers and data sent to clean up models

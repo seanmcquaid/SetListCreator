@@ -45,6 +45,9 @@ class UserModel {
                         FROM clientsonglist 
                         INNER JOIN users ON users.username = clientsonglist.username WHERE users.username=$1;`;
         const result = await database.query(query, [clientName]);
+        const data = {
+            
+        }
         return result;
         // store query result in variable then go through process of using JS to sanitize the data
     }
