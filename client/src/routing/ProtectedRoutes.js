@@ -35,7 +35,7 @@ const ProtectedRoutes = props => {
             <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
             <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
             <ProtectedClientRoute exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
-            <Route exact path="/clientInfo/:clientName" component={ClientInfoPage}/>
+            <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
             <Route component={ErrorPage}/>
         </Switch>
     )

@@ -4,11 +4,11 @@ import {apiHost} from "config";
 import axios from "axios";
 
 const ClientInfoPage = props => {
-    const {clientName} = props.match.params;
+    const {clientId} = props.match.params;
 
     useEffect(() => {
         const headers = tokenConfig();
-        axios.get(`${apiHost}/bandLeader/getClientSongs/${clientName}`, headers)
+        axios.get(`${apiHost}/bandLeader/getClientSongs/${clientId}`, headers)
             .then(response => {
                 console.log(response.data)
             })

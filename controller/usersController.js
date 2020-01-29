@@ -53,8 +53,6 @@ exports.postLogin = (req, res, next) => {
 
                 const specificUserInfo = userInfo[0];
 
-                console.log(specificUserInfo);
-
                 if(specificUserInfo.accounttype !== accountType){
                     return res.status(401).send({
                         errorMessage : "Wrong account type for this user!"
@@ -86,11 +84,7 @@ exports.postLogin = (req, res, next) => {
                                     accountType : specificUserInfo.accounttype,
                                     setListAvailable : specificUserInfo.setlistavailable,
                                 });
-
-
                             });
-
-                
             })
             .catch(err => console.log(err))
 };
@@ -102,6 +96,7 @@ exports.getCheckToken = (req,res,next) => {
     return UserModel.userExists(username)
             .then(userInfo => {
                 const specificUserInfo = userInfo[0];
+
                 const newToken = jwt.sign(
                     {
                         id : specificUserInfo.id,
@@ -188,18 +183,17 @@ exports.editUserInfo = (req, res, next) => {
                 const userInfo = response[0];
                 bcrypt.compare(newPassword, userInfo.password)
                     .then(isMatch => {
-                        
                         if(isMatch){
                             return res.status(401).send({
                                 errorMessage : "The new password is presently being used"
                             });
                         }
-
                     })
 
                 UserModel.editUserInfo(newUsername, newPassword, id)
                         .then(response => {
                             const specificUserInfo = response[0];
+                            
                             const newToken = jwt.sign(
                                 {
                                     id : specificUserInfo.id,
@@ -230,7 +224,6 @@ exports.sendClientSetlist = (req, res, next) => {
 
     UserModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(response => {
-                console.log(response);
                 return res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
                 });

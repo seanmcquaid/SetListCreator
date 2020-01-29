@@ -86,15 +86,19 @@ exports.editSong = (req, res, next) => {
 };
 
 exports.getClientSongs = (req, res, next) => {
-    const {clientName} = req.params;
+    const {clientId} = req.params;
 
-    UserModel.getClientInfoAndSongs(clientName)
-                        .then(response => {
-                            console.log(response);
-                            return res.status(200).send({
-                                clientInfo : response
-                            })
-                        })
-                        .catch(err => console.log(err));
+    UserModel.getUserInfo(clientId)
+            .then(clientInfo => {
+                const userInfo = clientInfo[0];
+                ClientSongListModel.getSongs(userInfo.username)
+                                    .then(clientSongs => {
+                                        return res.status(200).send({
+                                            clientSongs,
+                                            setListAvailable : userInfo[0].setlistavailable,
+                                        });
+                                    })
+            })
+            .catch(err => console.log(err));
 
 };

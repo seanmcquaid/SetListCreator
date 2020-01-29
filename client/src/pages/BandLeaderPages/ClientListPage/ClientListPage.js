@@ -13,8 +13,8 @@ const ClientListPage = props => {
     },[getBandleaderClientsAction])
 
 
-    const clientPageRedirect = async clientName => {
-        await props.history.push(`/clientInfo/${clientName}`);
+    const clientPageRedirect = async clientId => {
+        await props.history.push(`/clientInfo/${clientId}`);
     };
 
     return(
@@ -26,7 +26,7 @@ const ClientListPage = props => {
                         key={clientInfo.id} 
                         clientName={clientInfo.username} 
                         setListAvailable={clientInfo.setlistavailable}
-                        clientPageRedirect={() => clientPageRedirect(clientInfo.username)}
+                        clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
                     />
                 )}
             </div>

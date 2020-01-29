@@ -40,18 +40,6 @@ class UserModel {
         return await database.query("SELECT * FROM USERS where username=$1", [clientName]);
     }
 
-    static async getClientInfoAndSongs(clientName){
-        const query = `SELECT users.setlistavailable, clientsonglist.songname, clientsonglist.artistname, clientsonglist.songtype, users.username 
-                        FROM clientsonglist 
-                        INNER JOIN users ON users.username = clientsonglist.username WHERE users.username=$1;`;
-        const result = await database.query(query, [clientName]);
-        const data = {
-            
-        }
-        return result;
-        // store query result in variable then go through process of using JS to sanitize the data
-    }
-
 }
 
 module.exports = UserModel;
