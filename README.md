@@ -12,3 +12,4 @@ Client Info Page :
 Working On Now : 
 1) reviewing controllers and data sent to clean up models and look at reducers
 2) Unit tests for front and back end
+3) Clean models to exclude password from response for users
