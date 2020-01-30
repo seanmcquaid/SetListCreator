@@ -23,4 +23,7 @@ app.use("/users", usersRouter);
 app.use("/bandLeader", bandLeaderRouter);
 app.use("/client", clientRouter)
 
+// prevents 304
+app.disable("etag");
+
 module.exports = app;

@@ -13,7 +13,7 @@ const ClientInfoPage = props => {
                 console.log(response.data)
             })
             .catch(err => console.log(err));
-    },[clientName])
+    },[clientId])
 
     return(
         <div>

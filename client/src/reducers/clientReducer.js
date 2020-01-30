@@ -56,7 +56,7 @@ const clientReducer = (state = initialState, action) => {
             }
         case SEND_CLIENT_SETLIST_SUCCESS :
         case LOGIN_SUCCESS: 
-            const setListAvailable = action.payload.setListAvailable;
+            const {setListAvailable} = action.payload;
             return {
                 ...state,
                 isLoading : false,

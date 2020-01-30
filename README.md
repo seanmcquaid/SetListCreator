@@ -10,6 +10,5 @@ Client Info Page :
 2) Revisit back end decisions for extracting username of client
 
 Working On Now : 
-1) Restructuring model to sanitize data for cleaner controllers
+1) reviewing controllers and data sent to clean up models and look at reducers
 2) Unit tests for front and back end
-3) reviewing controllers and data sent to clean up models

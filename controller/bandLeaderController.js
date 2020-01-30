@@ -94,8 +94,8 @@ exports.getClientSongs = (req, res, next) => {
                 ClientSongListModel.getSongs(userInfo.username)
                                     .then(clientSongs => {
                                         return res.status(200).send({
+                                            userInfo,
                                             clientSongs,
-                                            setListAvailable : userInfo[0].setlistavailable,
                                         });
                                     })
             })
