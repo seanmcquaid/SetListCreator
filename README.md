@@ -6,10 +6,8 @@ To Do :
 5) fix logic for redirect - circle back on this later
 
 Client Info Page :
-1) Set up styling
-2) Revisit back end decisions for extracting username of client
+1) Set up styling and components
 
 Working On Now : 
-1) reviewing controllers and data sent to clean up models and look at reducers
-2) Unit tests for front and back end
-3) Clean models to exclude password from response for users
+1) Unit tests for front and back end
+2) Clean models to exclude password from response for users

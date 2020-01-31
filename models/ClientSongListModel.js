@@ -8,7 +8,10 @@ class ClientSongListModel{
     }
 
     static async getSongs(username){
-        return await database.query("SELECT * FROM clientsonglist where username=$1", [username]);
+        const returnedSongs  = await database.query("SELECT * FROM clientsonglist where username=$1", [username]);
+        const requestedSongsList = returnedSongs.filter(song => song.songtype === "requestedSong");
+        const doNotPlaySongsList = returnedSongs.filter(song => song.songtype === "doNotPlaySong");
+        return {requestedSongsList, doNotPlaySongsList};
     }
 
     static async getSong(username, songId){

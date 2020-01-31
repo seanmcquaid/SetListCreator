@@ -45,22 +45,19 @@ const clientReducer = (state = initialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS :
         case DELETE_CLIENT_SONG_SUCCESS :
         case EDIT_CLIENT_SONG_SUCCESS :
-            const requestedSongsList = action.payload.clientSongs.filter(song => song.songtype === "requestedSong");
-            const doNotPlaySongsList = action.payload.clientSongs.filter(song => song.songtype === "doNotPlaySong");
             return {
                 ...state,
-                requestedSongsList,
-                doNotPlaySongsList,
+                requestedSongsList : action.payload.requestedSongsList,
+                doNotPlaySongsList : action.payload.doNotPlaySongsList,
                 setListAvailable : action.payload.setListAvailable,
                 isLoading : false,
             }
         case SEND_CLIENT_SETLIST_SUCCESS :
         case LOGIN_SUCCESS: 
-            const {setListAvailable} = action.payload;
             return {
                 ...state,
                 isLoading : false,
-                setListAvailable,
+                setListAvailable : action.payload.setListAvailable,
             }
         case GET_CLIENT_SONGS_ERROR : 
         case ADD_CLIENT_REQUESTED_SONG_ERROR :

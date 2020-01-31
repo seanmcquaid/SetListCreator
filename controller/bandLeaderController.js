@@ -93,9 +93,11 @@ exports.getClientSongs = (req, res, next) => {
                 const userInfo = clientInfo[0];
                 ClientSongListModel.getSongs(userInfo.username)
                                     .then(clientSongs => {
+                                        const {requestedSongsList, doNoPlaySongsList} = clientSongs;
                                         return res.status(200).send({
                                             userInfo,
-                                            clientSongs,
+                                            requestedSongsList, 
+                                            doNoPlaySongsList
                                         });
                                     })
             })
