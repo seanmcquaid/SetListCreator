@@ -11,3 +11,17 @@ Client Info Page :
 Working On Now : 
 1) Unit tests for front and back end
 2) Clean models to exclude password from response for users
+
+Unit Testing Strat : 
+1) Enzyme / Jest
+2) Mocha/ Chai 
+
+Mocha / Chai Resources and Ideas :
+1) https://www.techighness.com/post/unit-testing-expressjs-controller-part-1/
+2) https://www.freecodecamp.org/news/how-to-write-a-production-ready-node-and-express-app-f214f0b17d8c/
+3) http://gregjopa.com/2014/02/testing-and-code-coverage-with-node-js-apps/
+
+Enzyme / Jest Resources and Ideas :
+1) https://www.toptal.com/react/tdd-react-unit-testing-enzyme-jest
+2) https://www.robinwieruch.de/react-testing-jest-enzyme
+3) https://blog.bitsrc.io/how-to-test-react-components-with-jest-and-enzyme-in-depth-145fcd06b90
