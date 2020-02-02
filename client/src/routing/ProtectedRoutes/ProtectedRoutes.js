@@ -14,8 +14,8 @@ import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
 import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
-import ProtectedBandleaderRoute from "./ProtectedBandleaderRoute";
-import ProtectedClientRoute from "./ProtectedClientRoute";
+import ProtectedBandleaderRoute from "../ProtectedBandleaderRoute/ProtectedBandleaderRoute";
+import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
 import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
 
 const ProtectedRoutes = props => {

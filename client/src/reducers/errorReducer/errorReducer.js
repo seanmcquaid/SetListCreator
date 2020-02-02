@@ -16,7 +16,7 @@ import {
     ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
     DELETE_CLIENT_SONG_ERROR,
     EDIT_CLIENT_SONG_ERROR,
-} from "../actions/clientActions/clientActionTypes";
+} from "../../actions/clientActions/clientActionTypes";
 
 const initialState = {
     errorStatus : null,
