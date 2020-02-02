@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha tests/**/*.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "mocha-junit-reporter": "^1.23.3"
   }
 }
