@@ -1,50 +1,70 @@
+const assert = require("assert");
 const expect = require("chai").expect;
+const request = require("chai").request;
+const server = require("../../app");
 
 describe("User Routes", () => {
 
-    it("register", done => {
-        expect(2).to.equal(2);
-        done();
+    describe("Register", () => {
+        it("register creates a new user", done => {
+            done();
+         })
+
+         it("register will not be successful if a user exists", done => {
+            request(server)
+    
+           done();
+        })
     })
 
-    it("login", done => {
-        expect(2).to.equal(2);
-        done();
+    describe("Login", () => {
+
+        it("login fails", done => {
+            done();
+         })
+
+         it("login passes", done => {
+            done();
+         })
+
+         it("login will not work if the password is incorrect", done => {
+            done();
+         })
     })
 
-    it("checkToken", done => {
-        expect(2).to.equal(2);
-        done();
+    describe("checkToken", () => {
+
+        it("checkToken works when provided valid jwt", done => {
+            done();
+         })
+
+         it("checkToken will fail", done => {
+            done();
+         })
     })
 
     it("getBandleaders", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
     it("getClientsForBandleader", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
     it("clientInfo", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
     it("getUserInfo", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
     it("editUserInfo", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
     it("sendClientSetlist", done => {
-        expect(2).to.equal(2);
-        done();
+       done();
     })
 
 });
