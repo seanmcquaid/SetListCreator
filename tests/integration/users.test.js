@@ -36,17 +36,10 @@ describe("User Routes", () => {
 
                      expect(res.status).to.equal(200);
 
-                     const response = {
-                        isAuthenticated: res.body.isAuthenticated,
-                        username: res.body.username,
-                        accountType: res.body.accountType,
-                        setListAvailable: res.body.setListAvailable
-                     }
-
-                     expect(response.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
-                     expect(response.username).to.equal(expectedResponse.username);
-                     expect(response.accountType).to.equal(expectedResponse.accountType);
-                     expect(response.setListAvailable).to.equal(expectedResponse.setListAvailable);
+                     expect(res.body.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
+                     expect(res.body.username).to.equal(expectedResponse.username);
+                     expect(res.body.accountType).to.equal(expectedResponse.accountType);
+                     expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
 
                      done();
                   });
@@ -75,19 +68,18 @@ describe("User Routes", () => {
                   .post("/users/register/client")
                   .send(body)
                   .end((err, res) => {
+                     const errorMessage = 'This user has already been registered';
+
                      expect(res.status).to.equal(401);
-                     if(err){
-                        console.log(res.body);
-                     }
+                     expect(res.body.errorMessage).to.equal(errorMessage);
+
                      done();
                });
            });
    
            afterEach(done => {
             UserModel.deleteUser(username)
-                     .then(response => {
-                        done();
-                     })
+                     .then(response => done())
                      .catch(err => console.log(err));
             });
 
