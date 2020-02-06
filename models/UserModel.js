@@ -7,6 +7,10 @@ class UserModel {
         return await database.query("SELECT * FROM USERS where username=$1;", [username]);
     }
 
+    static async deleteUser(username){
+        return await database.query("DELETE from users WHERE username=$1",[username]);
+    }
+
     static async login(username, password){
         const hashedPassword = bcrypt.hashSync(password, 10);
         return await database.query("SELECT id, username, password FROM USERS WHERE username=$1 AND password=$2;", [username, hashedPassword]);

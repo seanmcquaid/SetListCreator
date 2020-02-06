@@ -18,6 +18,8 @@ Mocha / Chai Resources and Ideas :
 3) http://gregjopa.com/2014/02/testing-and-code-coverage-with-node-js-apps/
 4) https://medium.com/kanssfer-consulting/testing-expressjs-rest-api-with-mocha-and-chai-90bf4178f15e
 http://developmentnow.com/2015/02/05/make-your-node-js-api-bulletproof-how-to-test-with-mocha-chai-and-supertest/
+https://itnext.io/mocking-expressjs-request-and-response-objects-63405e9c58ff
+https://stackoverflow.com/questions/28053206/node-express-testing-mock-res-statusstatus-jsonobj
 
 Mock Server for Testing Back End?
 
