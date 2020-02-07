@@ -1,16 +1,21 @@
 To Do :
 1) Client List Page => Set List Creation Page - Band Leader - Check for client setlistavailable status on users table for client list page for statuses - populate clients that have the bandleader marked as their bandleader
-2) Write unit tests for front and back end
-3) CI/CD Pipeline with AWS set up
-4) fix token error again
-5) fix logic for redirect - circle back on this later
+2) Unit tests for front and back end
+3) Clean models/routes/controllers to exclude password from response for users
+4) Review all controllers and create cohesion with responses
+5) CI/CD Pipeline with AWS set up
+6) fix token error again
+7) fix logic for redirect - circle back on this later
+8) Review all pages and lifecycle methods selected
 
 Client Info Page :
 1) Set up styling and components
 
 Working On Now : 
-1) Unit tests for front and back end
-2) Clean models/routes/controllers to exclude password from response for users
+1) Integration Tests - Users, client, bandleaders
+2) Controller Tests - Users, client, bandleaders
+3) Model Tests - Users, Client, Bandleaders
+4) Middleware Tests - CheckToken
 
 Mocha / Chai Resources and Ideas :
 1) https://www.techighness.com/post/unit-testing-expressjs-controller-part-1/
