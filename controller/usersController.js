@@ -106,11 +106,13 @@ exports.getCheckToken = (req,res,next) => {
             .then(userInfo => {
                 const specificUserInfo = userInfo[0];
 
+                const {id, accounttype, setlistavailable, bandleadername} = specificUserInfo;
+
                 const newToken = jwt.sign(
                     {
-                        id : specificUserInfo.id,
+                        id : id,
                         username : specificUserInfo.username,
-                        accountType : specificUserInfo.accounttype
+                        accountType : accounttype
                     },
                     config.jwtSecret,
                     {expiresIn : 3600000}
@@ -119,8 +121,10 @@ exports.getCheckToken = (req,res,next) => {
                 return res.status(200).send({
                     isAuthenticated : true,
                     token : newToken,
-                    username : specificUserInfo.username,
-                    accountType : specificUserInfo.accounttype
+                    username : username,
+                    accountType : accounttype,
+                    setListAvailable : setlistavailable,
+                    selectedBandleader : bandleadername,
                 });
             })
             .catch(err => {

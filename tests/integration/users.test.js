@@ -3,6 +3,8 @@ const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const server = require("../../app");
 const UserModel = require("../../models/UserModel");
+const config = require("../../config/config");
+const jwt = require("jsonwebtoken");
 
 chai.use(chaiHttp);
 
@@ -201,13 +203,65 @@ describe("User Routes", () => {
 
     describe("checkToken", () => {
 
-        it("checkToken works when provided valid jwt", done => {
-            done();
-         })
+         let token;
 
-         it("checkToken will fail", done => {
-            done();
-         })
+         const body = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "fillerbandleader@gmail.com"
+         };
+
+         const {username, password, selectedBandleader} = body;
+
+         beforeEach(done => {
+            UserModel.register(username, password, "client", selectedBandleader)
+                     .then(response => {
+                        const specificUserInfo = response[0];
+                        const {id, accounttype} = specificUserInfo;
+                        token = jwt.sign(
+                           {
+                              id : id,
+                              username : specificUserInfo.username,
+                              accountType : accounttype
+                           },
+                           config.jwtSecret,
+                           {expiresIn : 3600000}
+                        )
+                        done()
+                     })
+                     .catch(err => console.log(err));
+         });
+
+         it("checkToken works when provided valid jwt in the headers", done => {
+
+            chai.request(server)
+               .get("/users/checkToken")
+               .set("Authorization", token)
+               .end((err, res) => {
+                  const expectedResponse = { 
+                     isAuthenticated: true,
+                     username: "testClient",
+                     accountType: "client",
+                     setListAvailable: false,
+                     selectedBandleader: "fillerbandleader@gmail.com" 
+                  }
+
+                  expect(res.body.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
+                  expect(res.body.username).to.equal(expectedResponse.username);
+                  expect(res.body.accountType).to.equal(expectedResponse.accountType);
+                  expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
+                  expect(typeof(res.body.token)).to.equal("string");
+
+                  done();
+               })
+         });
+
+         afterEach(done => {
+            UserModel.deleteUser(username)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+         });
+
     })
 
     it("getBandleaders", done => {
