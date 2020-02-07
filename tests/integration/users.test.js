@@ -109,12 +109,21 @@ describe("User Routes", () => {
                   .send(body)
                   .end((err, res) => {
                      const expectedResponse = { 
+                        isAuthenticated: true,
                         username: 'testBandleader',
-                        accounttype: 'bandLeader',
-                        bandleadername: null,
-                        setlistavailable: false 
+                        accountType: 'bandLeader',
+                        selectedBandleader: null,
+                        setListAvailable: false 
                      };
+                     
                      expect(res.status).to.equal(200);
+
+                     expect(res.body.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
+                     expect(res.body.username).to.equal(expectedResponse.username);
+                     expect(res.body.accountType).to.equal(expectedResponse.accountType);
+                     expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
+                     expect(res.body.selectedBandleader).to.equal(expectedResponse.selectedBandleader);
+                     
                      done();
                   });
 
@@ -129,17 +138,63 @@ describe("User Routes", () => {
          });
 
          describe("Login will not pass", () => {
+
+            beforeEach(done => {
+               UserModel.register(username, password, "bandLeader", null)
+                        .then(response => done())
+                        .catch(err => console.log(err));
+            });
+            
             it("User isn't registered", done => {
-               done();
+               const requestBody = {
+                  username : "testClient",
+                  password : "testPassword",
+               }
+
+               chai.request(server)
+                  .post("/users/login/bandLeader")
+                  .send(requestBody)
+                  .end((err, res) => {
+                     const expectedResponse = { errorMessage: "This user isn't registered on our site!" };
+                     expect(res.status).to.equal(401);
+                     expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+                     done();
+                  });
             })
 
             it("Wrong account type is provided", done => {
-               done();
+               chai.request(server)
+                  .post("/users/login/client")
+                  .send(body)
+                  .end((err, res) => {
+                     const expectedResponse = { errorMessage: "Wrong account type for this user!" };
+                     expect(res.status).to.equal(401);
+                     expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+                     done();
+                  });
             })
    
             it("Incorrect password provided", done => {
-               done();
+               const requestBody = {
+                  username : "testBandleader",
+                  password : "testPassword123",
+               };
+               chai.request(server)
+                  .post("/users/login/bandLeader")
+                  .send(requestBody)
+                  .end((err, res) => {
+                     const expectedResponse = { errorMessage: "Entered password doesn't match our records" };
+                     expect(res.status).to.equal(401);
+                     expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+                     done();
+                  });
             })
+
+            afterEach(done => {
+               UserModel.deleteUser(username)
+                        .then(response => done())
+                        .catch(err => console.log(err));
+            });
          })
 
     })

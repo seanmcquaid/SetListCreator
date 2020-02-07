@@ -59,6 +59,8 @@ exports.postLogin = (req, res, next) => {
 
                 const specificUserInfo = userInfo[0];
 
+                const {id, username, accounttype, setlistavailable, bandleadername} = specificUserInfo;
+
                 if(specificUserInfo.accounttype !== accountType){
                     return res.status(401).send({
                         errorMessage : "Wrong account type for this user!"
@@ -75,9 +77,9 @@ exports.postLogin = (req, res, next) => {
 
                                 const token = jwt.sign(
                                     {
-                                        id : specificUserInfo.id,
-                                        username : specificUserInfo.username,
-                                        accountType : specificUserInfo.accounttype,
+                                        id : id,
+                                        username : username,
+                                        accountType : accounttype,
                                     },
                                     config.jwtSecret,
                                     {expiresIn : 3600000}
@@ -86,9 +88,10 @@ exports.postLogin = (req, res, next) => {
                                 return res.status(200).send({
                                     isAuthenticated : true,
                                     token,
-                                    username : specificUserInfo.username,
-                                    accountType : specificUserInfo.accounttype,
-                                    setListAvailable : specificUserInfo.setlistavailable,
+                                    username : username,
+                                    accountType : accounttype,
+                                    setListAvailable : setlistavailable,
+                                    selectedBandleader : bandleadername,
                                 });
                             });
             })
