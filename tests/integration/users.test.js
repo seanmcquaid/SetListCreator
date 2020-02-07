@@ -264,9 +264,37 @@ describe("User Routes", () => {
 
     })
 
-    it("getBandleaders", done => {
-       done();
-    })
+    describe("Get Bandleaders", () => {
+      const body = {
+         username : "testBandleader",
+         password : "testPassword",
+      };
+
+      const {username, password} = body;
+
+      beforeEach(done => {
+         UserModel.register(username, password, "bandLeader", null)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
+      it("getBandleaders", done => {
+         chai.request(server)
+            .get("/users/getBandleaders")
+            .end((err, res) => {
+               expect(res.body.bandLeaders.length).to.equal(1);
+            });
+         done();
+      });
+
+      afterEach(done => {
+         UserModel.deleteUser(username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
+    });
+
 
     it("getClientsForBandleader", done => {
        done();
