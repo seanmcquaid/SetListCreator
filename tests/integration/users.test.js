@@ -508,9 +508,69 @@ describe("User Routes", () => {
     });
 
     describe("editUserInfo", () => {
+
+      let token;
+
+      const newUserInfo = {
+         newUsername : "testBandleader123",
+         newPassword : "testing123"
+      };
+
+      const originalUserInfo = {
+         username : "testBandleader",
+         password : "testPassword",
+      };
+
+      before(done => {
+         UserModel.register(originalUserInfo.username, originalUserInfo.password, "bandLeader", null)
+                  .then(response => {
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
+                     done();
+                  })
+                  .catch(err => console.log(err));
+      });
+
+
       it("editUserInfo", done => {
-         done();
-      })
+         chai.request(server)
+            .patch("/users/editUserInfo")
+            .send(newUserInfo)
+            .set("Authorization", token)
+            .end((err, res) => {
+
+               const expectedResponse = { 
+                  isAuthenticated: true,
+                  username: "testBandleader123",
+                  accountType: "bandLeader" 
+               };
+
+               expect(res.status).to.equal(200);
+
+               expect(res.body.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
+               expect(typeof(res.body.token)).to.equal("string");
+               expect(res.body.username).to.equal(expectedResponse.username);
+               expect(res.body.accountType).to.equal(expectedResponse.accountType);
+
+               done();
+            });
+      });
+
+      after(done => {
+         UserModel.deleteUser(newUserInfo.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
     });
 
     describe("sendClientSetlist", () => {
