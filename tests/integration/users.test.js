@@ -446,17 +446,57 @@ describe("User Routes", () => {
 
     describe("getUserInfo", () => {
 
+      let token;
+
+      const clientBody = {
+         username : "testClient",
+         password : "testPassword",
+         selectedBandleader : "testBandleader"
+      };
+
       before(done => {
          UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                   .then(response => {
-                     clientId = response[0].id;
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
                      done();
                   })
                   .catch(err => console.log(err));
       });
 
       it("getUserInfo works", done => {
-         done();
+         chai.request(server)
+            .get("/users/getUserInfo")
+            .set("Authorization", token)
+            .end((err, res) => {
+
+               expect(res.status).to.equal(200);
+               
+               const expectedResponse = { 
+                  username: "testClient",
+                  accountType: "client",
+                  bandleaderName: "testBandleader",
+                  setlistAvailable: false 
+               };
+
+               const {userInfo} = res.body;
+
+               expect(userInfo.username).to.equal(expectedResponse.username);
+               expect(userInfo.accounttype).to.equal(expectedResponse.accountType);
+               expect(userInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
+               expect(userInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+
+               done();
+            })
       });
 
       after(done => {
@@ -464,6 +504,7 @@ describe("User Routes", () => {
                   .then(response => done())
                   .catch(err => console.log(err));
       });
+
     });
 
     describe("editUserInfo", () => {
