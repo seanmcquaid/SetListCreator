@@ -283,7 +283,8 @@ describe("User Routes", () => {
          chai.request(server)
             .get("/users/getBandleaders")
             .end((err, res) => {
-               expect(res.body.bandLeaders.length).to.equal(1);
+               expect(res.status).to.equal(200);
+               expect(res.body.bandLeaders.length).to.be.greaterThan(0);
             });
          done();
       });
@@ -296,10 +297,71 @@ describe("User Routes", () => {
 
     });
 
+    describe("getClientsforBandLeader", () => {
 
-    it("getClientsForBandleader", done => {
-       done();
+      let token;
+
+      const bandleaderBody = {
+         username : "testBandleader",
+         password : "testPassword",
+      };
+
+      const clientBody = {
+         username : "testClient",
+         password : "testPassword",
+         selectedBandleader : "testBandleader"
+      };
+
+      before(done => {
+         UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
+                     done();
+                  })
+                  .catch(err => console.log(err));
+      });
+
+      before(done => {
+         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      })
+
+      it("getClientsForBandleader works", done => {
+         chai.request(server)
+               .get("/users/getClientsForBandleader")
+               .set("Authorization", token)
+               .end((err, res) => {
+                  expect(res.status).to.equal(200);
+                  expect(res.body.clientList.length).to.be.greaterThan(0);
+                  done();
+               })
+      });
+
+      after(done => {
+         UserModel.deleteUser(bandleaderBody.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
+      after(done => {
+         UserModel.deleteUser(clientBody.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
     })
+
 
     it("clientInfo", done => {
        done();

@@ -149,7 +149,6 @@ exports.getBandleaders = (req, res, next) => {
 
 exports.getClientsForBandLeader = (req, res, next) => {
     const token = req.token;
-    console.log(req.token);
     const {username} = token;
 
     return UserModel.getClientsForBandleader(username)

@@ -31,7 +31,9 @@ Mock Server for Testing Back End?
 ALWAYS use set up and clean up steps
 
 Routes - Integration Tests - Test that these routes return valid info with proper set up
+
 Controller - That the the controller method itself responds properly
+
 Model - Test That Each of the DB Methods respond properly
 
 Enzyme / Jest Resources and Ideas :
