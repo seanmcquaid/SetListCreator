@@ -167,7 +167,7 @@ exports.getUserInfo = (req, res, next) => {
     return UserModel.getUserInfo(id)
                     .then(response => {
                         return res.status(200).send({
-                            userInfo : response
+                            userInfo : response[0]
                         })
                     })
                     .catch(err => console.log(err));
@@ -179,7 +179,7 @@ exports.getClientInfo = (req, res, next) => {
     return UserModel.getUserInfo(clientId)
                     .then(response => {
                         return res.status(200).send({
-                            clientInfo : response,
+                            clientInfo : response[0],
                         })
                     })
                     .catch(err => console.log(err));

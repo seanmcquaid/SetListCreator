@@ -363,26 +363,81 @@ describe("User Routes", () => {
     })
 
     describe("clientInfo", () => {
-      const body = {
+      const clientBody = {
          username : "testClient",
          password : "testPassword",
          selectedBandleader : "testBandleader"
       };
 
-      let clientId;
+      const bandleaderBody = {
+         username : "testBandleader",
+         password : "testPassword",
+      };
+
+      let clientId, token;
 
       before(done => {
          UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                  .then(response => done())
+                  .then(response => {
+                     clientId = response[0].id;
+                     done();
+                  })
+                  .catch(err => console.log(err));
+      });
+
+      before(done => {
+         UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
+                     done();
+                  })
                   .catch(err => console.log(err));
       });
 
       it("clientInfo works", done => {
-         done();
+         chai.request(server)
+               .get(`/users/clientInfo/${clientId}`)
+               .set("Authorization", token)
+               .end((err, res) => {
+                  expect(res.status).to.equal(200);
+
+                  const expectedResponse = { 
+                     id: clientId,
+                     username: "testClient",
+                     accountType: "client",
+                     bandleaderName: "testBandleader",
+                     setlistAvailable: false 
+                  }
+                  const {clientInfo} = res.body;
+
+                  expect(clientInfo.id).to.equal(expectedResponse.id);
+                  expect(clientInfo.username).to.equal(expectedResponse.username);
+                  expect(clientInfo.accounttype).to.equal(expectedResponse.accountType);
+                  expect(clientInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
+                  expect(clientInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+
+                  done();
+               })
       })
 
       after(done => {
-         UserModel.deleteUser(body.username)
+         UserModel.deleteUser(clientBody.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
+      after(done => {
+         UserModel.deleteUser(bandleaderBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -390,9 +445,25 @@ describe("User Routes", () => {
     });
 
     describe("getUserInfo", () => {
+
+      before(done => {
+         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                  .then(response => {
+                     clientId = response[0].id;
+                     done();
+                  })
+                  .catch(err => console.log(err));
+      });
+
       it("getUserInfo works", done => {
          done();
-      })
+      });
+
+      after(done => {
+         UserModel.deleteUser(clientBody.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
     });
 
     describe("editUserInfo", () => {
