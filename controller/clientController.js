@@ -53,10 +53,10 @@ exports.getSongs = (req, res, next) => {
                         .then(clientSongs => {
                             UserModel.getUserInfo(id)
                                     .then(userInfo => {
-                                        const {requestedSongsList, doNoPlaySongsList} = clientSongs;
+                                        const {requestedSongsList, doNotPlaySongsList} = clientSongs;
                                         return res.status(200).send({
                                             requestedSongsList, 
-                                            doNoPlaySongsList,
+                                            doNotPlaySongsList,
                                             setListAvailable : userInfo[0].setlistavailable,
                                         });
                                     })

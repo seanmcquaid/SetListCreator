@@ -17,6 +17,7 @@ Working On Now :
 3) Model Tests - Users, Client, Bandleaders
 4) Middleware Tests - CheckToken
 5) Review all naming conventions and refactor for unit tests
+6) Add in end to end tests with cypress
 
 Mocha / Chai Resources and Ideas :
 1) https://www.techighness.com/post/unit-testing-expressjs-controller-part-1/

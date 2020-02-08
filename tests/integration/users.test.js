@@ -363,9 +363,30 @@ describe("User Routes", () => {
     })
 
     describe("clientInfo", () => {
+      const body = {
+         username : "testClient",
+         password : "testPassword",
+         selectedBandleader : "testBandleader"
+      };
+
+      let clientId;
+
+      before(done => {
+         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
       it("clientInfo works", done => {
          done();
       })
+
+      after(done => {
+         UserModel.deleteUser(body.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
     });
 
     describe("getUserInfo", () => {
