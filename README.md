@@ -16,6 +16,7 @@ Working On Now :
 2) Controller Tests - Users, client, bandleaders
 3) Model Tests - Users, Client, Bandleaders
 4) Middleware Tests - CheckToken
+5) Review all naming conventions and refactor for unit tests
 
 Mocha / Chai Resources and Ideas :
 1) https://www.techighness.com/post/unit-testing-expressjs-controller-part-1/

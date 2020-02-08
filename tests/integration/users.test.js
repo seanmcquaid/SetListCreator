@@ -362,21 +362,28 @@ describe("User Routes", () => {
 
     })
 
+    describe("clientInfo", () => {
+      it("clientInfo works", done => {
+         done();
+      })
+    });
 
-    it("clientInfo", done => {
-       done();
-    })
+    describe("getUserInfo", () => {
+      it("getUserInfo works", done => {
+         done();
+      })
+    });
 
-    it("getUserInfo", done => {
-       done();
-    })
+    describe("editUserInfo", () => {
+      it("editUserInfo", done => {
+         done();
+      })
+    });
 
-    it("editUserInfo", done => {
-       done();
-    })
-
-    it("sendClientSetlist", done => {
-       done();
+    describe("sendClientSetlist", () => {
+      it("sendClientSetlist works", done => {
+         done();
+      })
     })
 
 });
