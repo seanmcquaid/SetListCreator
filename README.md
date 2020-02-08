@@ -1,23 +1,24 @@
 To Do :
 1) Client List Page => Set List Creation Page - Band Leader - Check for client setlistavailable status on users table for client list page for statuses - populate clients that have the bandleader marked as their bandleader
-2) Unit tests for front and back end
-3) Clean models/routes/controllers to exclude password from response for users
-4) Review all controllers and create cohesion with responses
-5) CI/CD Pipeline with AWS set up
-6) fix token error again
-7) fix logic for redirect - circle back on this later
-8) Review all pages and lifecycle methods selected
+2) Unit tests for front end
+3) Unit tests for back end
+4) Clean models/routes/controllers to exclude password from response for users
+5) Review all controllers and create cohesion with responses
+6) CI/CD Pipeline with AWS set up
+7) fix token error again
+8) fix logic for redirect - circle back on this later
+9) Review all pages and lifecycle methods selected
+10) Add in end to end tests with cypress
 
 Client Info Page :
 1) Set up styling and components
 
 Working On Now : 
-1) Integration Tests - Users, client, bandleaders
+1) Integration Tests - client, bandleaders
 2) Controller Tests - Users, client, bandleaders
 3) Model Tests - Users, Client, Bandleaders
 4) Middleware Tests - CheckToken
 5) Review all naming conventions and refactor for unit tests
-6) Add in end to end tests with cypress
 
 Mocha / Chai Resources and Ideas :
 1) https://www.techighness.com/post/unit-testing-expressjs-controller-part-1/
