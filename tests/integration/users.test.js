@@ -574,9 +574,58 @@ describe("User Routes", () => {
     });
 
     describe("sendClientSetlist", () => {
+
+      let token;
+
+      const userInfo = {
+         username : "testClient",
+         password : "testPassword",
+         selectedBandleader : "testBandleader"
+      };
+
+      const body = {
+         setlistAvailability : true
+      };
+
+      before(done => {
+         UserModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
+                  .then(response => {
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
+                     done();
+                  })
+                  .catch(err => console.log(err));
+      });
+
       it("sendClientSetlist works", done => {
-         done();
-      })
+         chai.request(server)
+            .patch("/users/sendClientSetlist")
+            .set("Authorization", token)
+            .send(body)
+            .end((err, res) => {
+               const expectedResponse = { setListAvailable: true };
+
+               expect(res.status).to.equal(200);
+               expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
+               done();
+            });
+      });
+
+      after(done => {
+         UserModel.deleteUser(userInfo.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+      });
+
     })
 
 });
