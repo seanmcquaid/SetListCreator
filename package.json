@@ -21,7 +21,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "jest": "^25.1.0",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.23.3",
     "sinon": "^8.1.1"
