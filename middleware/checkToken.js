@@ -6,7 +6,7 @@ const checkToken = (req,res,next) => {
     if(!token){
         return res.status(401).send({
             errorMessage : "Invalid token"
-        })
+        });
     }
 
     try{
@@ -16,7 +16,7 @@ const checkToken = (req,res,next) => {
     }catch(err){
         return res.status(401).send({
             errorMessage : "Expired Token"
-        })
+        });
     }
 
 }

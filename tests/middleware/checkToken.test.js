@@ -78,18 +78,52 @@ describe("Check Token Middleware", () => {
                   .catch(err => console.log(err));
         });
 
-    })
-
-    it("checkToken denies unauthorized", done => {
-        // create jwt with invalid user info or user that doesnt exist 
-        expect(2).to.equal(2);
-        done();
     });
 
-    it("checkToken denies expired token", done => {
-        // figure out how to produce an expired token for testing
-        expect(2).to.equal(2);
-        done();
+    describe("checkToken denies when no token is provided", () => {
+        it("checkToken denies unauthorized", done => {
+            const headers = {};
+    
+            const req = mockRequest(headers, {});
+            const res = mockResponse();
+            const next = mockNext;
+
+            checkToken(req, res, next);
+            
+            expect(res.status.calledWith(401)).to.equal(true);
+
+            const responseBody = {
+                errorMessage : "Invalid token"
+            };
+
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+            
+            done();
+        });
+    });
+
+    describe("checkToken denies for invalid token", () => {
+        it("checkToken denies expired token", done => {
+            const headers = {
+                Authorization : "fakeToken"
+            };
+    
+            const req = mockRequest(headers, {});
+            const res = mockResponse();
+            const next = mockNext;
+
+            checkToken(req, res, next);
+            
+            expect(res.status.calledWith(401)).to.equal(true);
+
+            const responseBody = {
+                errorMessage : "Expired Token"
+            };
+
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+            
+            done();
+        });
     });
 
 });
