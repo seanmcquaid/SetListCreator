@@ -1,6 +1,9 @@
 const expect = require("chai").expect;
 const sinon = require("sinon");
 const checkToken = require("../../middleware/checkToken");
+const config = require("../../config/config");
+const UserModel = require("../../models/UserModel");
+const jwt = require("jsonwebtoken");
 
 const mockRequest = (headers, body) => ({
     header : headerName => {
@@ -23,12 +26,59 @@ const mockNext = sinon.stub();
 
 describe("Check Token Middleware", () => {
 
-    it("checkToken validates", done => {
-        expect(2).to.equal(2);
-        // check that next is called
-        
-        done();
-    });
+    describe("", () => {
+
+        const bandleaderBody = {
+            username : "testBandleader",
+            password : "testPassword",
+         };
+   
+         let token;
+
+        before(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                     const specificUserInfo = response[0];
+                     const {id, username, accounttype} = specificUserInfo;
+                     token = jwt.sign(
+                        {
+                           id : id,
+                           username : username,
+                           accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                     )
+                     done();
+                  })
+                  .catch(err => console.log(err));
+        });
+
+        it("checkToken validates correctly", done => {
+
+            const headers = {
+                Authorization : token
+            };
+    
+            const req = mockRequest(headers, {});
+            const res = mockResponse();
+            const next = mockNext;
+
+            checkToken(req, res, next);
+            
+            expect(next.calledOnce).to.equal(true);
+            
+            done();
+        });
+
+
+        after(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+        });
+
+    })
 
     it("checkToken denies unauthorized", done => {
         // create jwt with invalid user info or user that doesnt exist 
