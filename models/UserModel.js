@@ -10,12 +10,7 @@ class UserModel {
     static async deleteUser(username){
         return await database.query("DELETE from users WHERE username=$1",[username]);
     }
-
-    static async login(username, password){
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        return await database.query("SELECT id, username, password FROM USERS WHERE username=$1 AND password=$2;", [username, hashedPassword]);
-    }
-
+    
     static async register(username, password, accountType, bandleaderName){
         const hashedPassword = bcrypt.hashSync(password, 10);
         return await database.query("INSERT INTO users (username, password, accounttype, bandleadername) values($1, $2, $3, $4) RETURNING *;", [username, hashedPassword, accountType, bandleaderName]);

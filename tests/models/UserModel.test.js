@@ -10,7 +10,7 @@ describe("UserModel", () => {
             selectedBandleader : "fillerbandleader@gmail.com"
          };
 
-         const {username, password, selectedBandleader} = body;
+        const {username, password, selectedBandleader} = body;
 
         beforeEach(done => {
             UserModel.register(username, password, "client", selectedBandleader)
@@ -47,7 +47,7 @@ describe("UserModel", () => {
 
     });
 
-    describe("login", () => {
+    describe("register", () => {
         const body = {
             username : "testClient1",
             password : "testPassword1",
@@ -56,30 +56,32 @@ describe("UserModel", () => {
 
         const {username, password, selectedBandleader} = body;
 
-        before(done => {
+        it("register works", done => {
             UserModel.register(username, password, "client", selectedBandleader)
-                     .then(response => done())
-                     .catch(err => console.log(err));
-         });
+                        .then(response => {
+                            const expectedResponse = { 
+                                username: "testClient1",
+                                accountType: "client",
+                                bandleaderName: "fillerbandleader@gmail.com",
+                                setlistAvailable: false 
+                            };
+    
+                            const userInfo = response[0];
+    
+                            expect(userInfo.username).to.equal(expectedResponse.username);
+                            expect(userInfo.accounttype).to.equal(expectedResponse.accountType);
+                            expect(userInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
+                            expect(userInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+                            done();
+                        })
+                        .catch(err => console.log(err));
+        })
 
-        it("Login returns as expected", done => {
-            UserModel.login(username, password)
-                    .then(response => {
-                        console.log(response)
-                        const expectedResponse = { 
-                            username: "testClient",
-                        };
-
-                        done();
-                    })
-                    .catch(err => console.log(err));
-        });
-
-        after(done => { 
+        after(done => {
             UserModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
-         });
+        });
     });
 
     it("register", done => {
