@@ -12,7 +12,7 @@ describe("UserModel", () => {
 
         const {username, password, selectedBandleader} = body;
 
-        beforeEach(done => {
+        before(done => {
             UserModel.register(username, password, "client", selectedBandleader)
                      .then(response => done())
                      .catch(err => console.log(err));
@@ -39,7 +39,7 @@ describe("UserModel", () => {
                     .catch(err => console.log(err));
         });
 
-        afterEach(done => { 
+        after(done => { 
             UserModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
@@ -84,15 +84,37 @@ describe("UserModel", () => {
         });
     });
 
-    it("register", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getAllBandleaders", () => {
 
-    it("getAllBandleaders", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+        const body = {
+            username : "testBandleader",
+            password : "testPassword",
+         };
+
+         const {username, password} = body;
+
+         before(done => {
+            UserModel.register(username, password, "bandLeader", null)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+         });
+
+        it("getAllBandleaders works", done => {
+            UserModel.getAllBandleaders()
+                    .then(response => {
+                        expect(response.length).to.be.greaterThan(0);
+                        done();
+                    })
+                    .catch(err => console.log(err));
+        });
+
+        after(done => {
+            UserModel.deleteUser(username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+
+    });
 
     it("getUserInfo", done => {
         expect(2).to.equal(2);

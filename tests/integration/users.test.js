@@ -566,8 +566,8 @@ describe("User Routes", () => {
       });
 
       after(done => {
-         UserModel.deleteUser(newUserInfo.username)
-                  .then(response => done())
+         UserModel.deleteUser(newUserInfo.newUsername)
+                  .then(response =>done())
                   .catch(err => console.log(err));
       });
 
