@@ -204,14 +204,101 @@ describe("UserModel", () => {
         });
     });
 
-    it("getClientsForBandleader", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getClientsForBandleader", () => {
 
-    it("setClientSetlistAvailability", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+        const bandleaderBody = {
+            username : "testBandleader",
+            password : "testPassword",
+        };
+   
+         const clientBody = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "testBandleader"
+        };
+
+        before(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                     .then(response =>done())
+                     .catch(err => console.log(err));
+         });
+   
+         before(done => {
+            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+         })
+
+        it("getClientsForBandleader works", done => {
+            UserModel.getClientsForBandleader(bandleaderBody.username)
+                    .then(response => {
+                        const expectedResponse = { username: "testClient", setlistavailable: false};
+
+                        expect(response[0].username).to.equal(expectedResponse.username);
+                        expect(response[0].setlistavailable).to.equal(expectedResponse.setlistavailable);
+                        done();
+                    })
+                    .catch(err => console.log(err));
+        });
+
+        after(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+         });
+   
+        after(done => {
+            UserModel.deleteUser(clientBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+    });
+
+    describe("setClientSetlistAvailability", () => {
+
+        const userInfo = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "testBandleader"
+        };
+
+        const body = {
+            setlistAvailability : true
+        };
+
+        before(done => {
+            UserModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+
+        it("setClientSetlistAvailability works", done => {
+            UserModel.setClientSetlistAvailability(userInfo.username, body.setlistAvailability)
+                    .then(response => {
+                        const expectedResponse = { 
+                            username: "testClient",
+                            accounttype: "client",
+                            bandleadername: "testBandleader",
+                            setlistavailable: true 
+                        }
+
+                        expect(response[0].username).to.equal(expectedResponse.username);
+                        expect(response[0].accounttype).to.equal(expectedResponse.accounttype);
+                        expect(response[0].bandleadername).to.equal(expectedResponse.bandleadername);
+                        expect(response[0].setlistavailable).to.equal(expectedResponse.setlistavailable);
+
+                        done();
+                    })
+                    .catch(err => console.log(err));
+        });
+
+        after(done => {
+            UserModel.deleteUser(userInfo.username)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+         });
+
+
+    });
     
 });
