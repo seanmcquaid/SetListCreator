@@ -198,7 +198,7 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser(username)
+            UserModel.deleteUser("newUsername")
                     .then(response => done())
                     .catch(err => console.log(err));
         });

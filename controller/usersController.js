@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
 
-exports.postRegister = (req, res, next) => {
+exports.postRegister = async (req, res, next) => {
     const {username, password, selectedBandleader} = req.body;
     const {accountType} = req.params;
 
-    UserModel.userExists(username)
+    await UserModel.userExists(username)
             .then(userInfo => {
                 if(userInfo.length > 0){
                     return res.status(401).send({
