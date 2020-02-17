@@ -7,22 +7,22 @@ exports.postRegister = async (req, res, next) => {
     const {username, password, selectedBandleader} = req.body;
     const {accountType} = req.params;
 
-    await UserModel.userExists(username)
-            .then(userInfo => {
+    return await UserModel.userExists(username)
+            .then(async userInfo => {
                 if(userInfo.length > 0){
-                    return res.status(401).send({
+                    return await res.status(401).send({
                         errorMessage : "This user has already been registered"
                     });
                 }
 
-                return UserModel.register(username, password, accountType, selectedBandleader)
-                        .then(userInfoResponse => {
+                return await UserModel.register(username, password, accountType, selectedBandleader)
+                        .then(async userInfoResponse => {
 
                             const specificUserInfo = userInfoResponse[0];
 
                             const {id, username, accounttype, setlistavailable, bandleadername} = specificUserInfo;
 
-                            const token = jwt.sign(
+                            const token = await jwt.sign(
                                 {
                                     id : id,
                                     username : username,
@@ -32,7 +32,7 @@ exports.postRegister = async (req, res, next) => {
                                 {expiresIn : 3600000}
                             );
                             
-                            return res.status(200).send({
+                            return await res.status(200).send({
                                 isAuthenticated : true,
                                 token,
                                 username : username,

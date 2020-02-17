@@ -61,7 +61,7 @@ describe("usersController", () => {
         };
 
 
-        before( async () => {
+        before(async () => {
 
             await UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => console.log(response))
@@ -82,7 +82,7 @@ describe("usersController", () => {
             const res = await mockResponse();
             const next = mockNext;
 
-            usersController.postRegister(req, res, next);
+            await usersController.postRegister(req, res, next);
 
             const responseBody = {
                 errorMessage : "This user has already been registered"
