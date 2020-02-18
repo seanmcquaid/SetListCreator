@@ -148,39 +148,51 @@ describe("usersController", () => {
 
     });
 
-    it("postLogin", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getCheckToken", () => {
+        it("getCheckToken", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("getCheckToken", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getBandleaders", () => {
+        it("getBandleaders", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("getBandleaders", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getClientsForBandleader", () => {
+        it("getClientsForBandleader", done => {
+            expect(2).to.equal(2);
+            done();
+        });    
+    });
 
-    it("getClientsForBandleader", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getUserInfo", () => {
+        it("getUserInfo", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("getUserInfo", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getClientInfo", () => {
+        it("getClientInfo", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("editUserInfo", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("editUserInfo - password currently used", () => {
+        
+    });
 
-    it("sendClientSetlist", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("editUserInfo", () => {
+        
+    });
+
+    describe("sendClientSetlist", () => {
+        
+    });
     
 });
