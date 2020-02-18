@@ -31,7 +31,7 @@ exports.postRegister = async (req, res, next) => {
                                 config.jwtSecret,
                                 {expiresIn : 3600000}
                             );
-                            
+
                             return await res.status(200).send({
                                 isAuthenticated : true,
                                 token,

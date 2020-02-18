@@ -61,10 +61,9 @@ describe("usersController", () => {
         };
 
 
-        before(async () => {
-
-            await UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
-                  .then(response => console.log(response))
+        before(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => done())
                   .catch(err => console.log(err));
         });
 
@@ -89,6 +88,7 @@ describe("usersController", () => {
             };
 
             expect(res.status.calledWith(401)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
             expect(res.send.calledWith(responseBody)).to.equal(true);
 
         });
@@ -102,10 +102,50 @@ describe("usersController", () => {
     });
 
     describe("postRegister - no user already exists", () => {
-        it("postRegister - no user already exists", done => {
-            expect(2).to.equal(2);
-            done();
+
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+        it("postRegister - no user already exists", async () => {
+
+            const params = {
+                accountType : "bandLeader"
+            };
+
+            const req = await mockRequest({}, bandleaderBody, params, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.postRegister(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
         });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+    });
+
+    describe("postLogin - user exists", () => {
+
+    });
+
+    describe("postLogin - no user exists", () => {
+
+    });
+
+    describe("postLogin - wrong account type", () => {
+
+    });
+
+    describe("postLogin - wrong password", () => {
+
     });
 
     it("postLogin", done => {
