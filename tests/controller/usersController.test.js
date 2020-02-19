@@ -236,16 +236,55 @@ describe("usersController", () => {
     });
 
     describe("getCheckToken", () => {
-        it("getCheckToken", done => {
-            expect(2).to.equal(2);
-            done();
+
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+        });
+
+        it("getCheckToken works", async () => {
+
+            const token = {
+                username : "testBandleader333"
+            };
+
+            const req = await mockRequest({}, {}, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.getCheckToken(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
         });
     });
 
     describe("getBandleaders", () => {
-        it("getBandleaders", done => {
-            expect(2).to.equal(2);
-            done();
+        it("getBandleaders works", async () => {
+
+            const req = await mockRequest({}, {}, {}, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.getBandleaders(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
         });
     });
 
