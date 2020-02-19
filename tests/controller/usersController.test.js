@@ -26,31 +26,6 @@ const mockResponse = () => {
 
 const mockNext = sinon.stub();
 
-// before(done => {
-//     UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
-//             .then(response => {
-//                 const specificUserInfo = response[0];
-//                 const {id, username, accounttype} = specificUserInfo;
-//                 token = jwt.sign(
-//                 {
-//                     id : id,
-//                     username : username,
-//                     accountType : accounttype
-//                 },
-//                 config.jwtSecret,
-//                 {expiresIn : 3600000}
-//                 )
-//                 done();
-//             })
-//             .catch(err => console.log(err));
-// });
-
-// after(done => {
-//     UserModel.deleteUser(bandleaderBody.username)
-//             .then(response => done())
-//             .catch(err => console.log(err));
-// });
-
 describe("usersController", () => {
 
     describe("postRegister - user already exists", () => {
@@ -61,7 +36,7 @@ describe("usersController", () => {
         };
 
 
-        before(done => {
+        beforeEach(done => {
             UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
@@ -134,17 +109,129 @@ describe("usersController", () => {
 
     describe("postLogin - user exists", () => {
 
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+        });
+
+        it("postLogin - user already exists", async () => {
+
+            const body = {
+                username : "testBandleader333",
+                password : "testPassword",
+            };
+
+            const params = {
+                accountType : "bandLeader"
+            };
+
+            const req = await mockRequest({}, body, params, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.postLogin(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        it("postLogin - wrong account type", async () => {
+
+            const body = {
+                username : "testBandleader333",
+                password : "testPassword",
+            };
+
+            const params = {
+                accountType : "client"
+            };
+
+            const req = await mockRequest({}, body, params, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.postLogin(req, res, next);
+
+            const responseBody = {
+                errorMessage : "This user isn't registered on our site!"
+            };
+
+            expect(res.status.calledWith(401)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+
+        });
+
+        it("postLogin - wrong password", async () => {
+
+            const body = {
+                username : "testBandleader333",
+                password : "testPassword333",
+            };
+
+            const params = {
+                accountType : "bandLeader"
+            };
+
+            const req = await mockRequest({}, body, params, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.postLogin(req, res, next);
+
+            const responseBody = {
+                errorMessage : "Wrong account type for this user!"
+            };
+
+            expect(res.status.calledWith(401)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
     });
 
     describe("postLogin - no user exists", () => {
 
-    });
+        it("postLogin - wrong password", async () => {
 
-    describe("postLogin - wrong account type", () => {
+            const body = {
+                username : "testBandleader333",
+                password : "testPassword",
+            };
 
-    });
+            const params = {
+                accountType : "bandLeader"
+            };
 
-    describe("postLogin - wrong password", () => {
+            const req = await mockRequest({}, body, params, {});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.postLogin(req, res, next);
+
+            const responseBody = {
+                errorMessage : "Entered password doesn't match our records"
+            };
+
+            expect(res.status.calledWith(401)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+
+        });
 
     });
 
