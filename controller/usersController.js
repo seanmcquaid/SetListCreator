@@ -192,6 +192,7 @@ exports.editUserInfo = (req, res, next) => {
 
     UserModel.getUserInfo(id)
             .then(async response => {
+                // circle back and add functionality to check new username against DB
                 const userInfo = response[0];
                 bcrypt.compare(newPassword, userInfo.password)
                     .then(isMatch => {

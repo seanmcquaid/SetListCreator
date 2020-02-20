@@ -289,31 +289,201 @@ describe("usersController", () => {
     });
 
     describe("getClientsForBandleader", () => {
-        it("getClientsForBandleader", done => {
-            expect(2).to.equal(2);
-            done();
-        });    
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+        const clientBody = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "testBandleader333"
+         };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => done())
+                  .catch(err => console.log(err));
+        });
+
+        beforeEach(done => {
+            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+        });
+
+        it("getClientsForBandLeader", async () => {
+
+            const token = {
+                username : "testBandleader333"
+            };
+
+            const req = await mockRequest({}, {}, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.getClientsForBandLeader(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });  
+
+        afterEach(done => {
+            UserModel.deleteUser(clientBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+
     });
 
     describe("getUserInfo", () => {
-        it("getUserInfo", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                      id = response[0].id
+                      done();
+                    })
+                  .catch(err => console.log(err));
+        });
+
+        it("getUserInfo", async () => {
+
+            const token = {
+                id
+            };
+
+            const req = await mockRequest({}, {}, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.getUserInfo(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
         });
     });
 
     describe("getClientInfo", () => {
-        it("getClientInfo", done => {
-            expect(2).to.equal(2);
-            done();
+
+        let clientId;
+
+        const clientBody = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "testBandleader333"
+         };
+
+
+        beforeEach(done => {
+            UserModel.register(clientBody.username, clientBody.password, "client", null)
+                  .then(response => {
+                      clientId = response[0].id;
+                      done();
+                    })
+                  .catch(err => console.log(err));
+        });
+
+        it("getClientInfo", async () => {
+
+            const params = {
+                clientId
+            };
+
+            const req = await mockRequest({}, {}, params,{});
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.getUserInfo(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(clientBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
         });
     });
 
-    describe("editUserInfo - password currently used", () => {
-        
+    describe("editUserInfo", () => {
+        let id;
+
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                      id = response[0].id
+                      done();
+                    })
+                  .catch(err => console.log(err));
+        });
+
+        it("editUserInfo", async () => {
+
+            const token = {
+                id
+            };
+
+            const body = {
+                newUsername : "testBandleader321",
+                newPassword : "passwordTest"
+            };
+
+            const req = await mockRequest({}, body, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.editUserInfo(req, res, next);
+
+            const responseBody = {
+                errorMessage : "The new password is presently being used"
+            };
+
+            expect(res.status.calledWith(401)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+            expect(res.send.calledWith(responseBody)).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
+
     });
 
-    describe("editUserInfo", () => {
+    describe("editUserInfo - password currently used", () => {
         
     });
 
