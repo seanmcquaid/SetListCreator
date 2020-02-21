@@ -430,7 +430,7 @@ describe("usersController", () => {
         });
     });
 
-    describe("editUserInfo", () => {
+    describe("editUserInfo - password currently used ", () => {
         let id;
 
         const bandleaderBody = {
@@ -448,7 +448,7 @@ describe("usersController", () => {
                   .catch(err => console.log(err));
         });
 
-        it("editUserInfo", async () => {
+        it("editUserInfo - password currently used", async () => {
 
             const token = {
                 id
@@ -456,7 +456,7 @@ describe("usersController", () => {
 
             const body = {
                 newUsername : "testBandleader321",
-                newPassword : "passwordTest"
+                newPassword : "testPassword"
             };
 
             const req = await mockRequest({}, body, {}, token);
@@ -483,12 +483,92 @@ describe("usersController", () => {
 
     });
 
-    describe("editUserInfo - password currently used", () => {
+    describe("editUserInfo", () => {
+        let id;
+
+        const bandleaderBody = {
+            username : "testBandleader333",
+            password : "testPassword",
+        };
+
+
+        beforeEach(done => {
+            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+                  .then(response => {
+                      id = response[0].id
+                      done();
+                    })
+                  .catch(err => console.log(err));
+        });
+
+        it("editUserInfo", async () => {
+
+            const token = {
+                id
+            };
+
+            const body = {
+                newUsername : "testBandleader333",
+                newPassword : "testPassword321"
+            };
+
+            const req = await mockRequest({}, body, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.editUserInfo(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(bandleaderBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
         
     });
 
     describe("sendClientSetlist", () => {
-        
+        const clientBody = {
+            username : "testClient",
+            password : "testPassword",
+            selectedBandleader : "testBandleader333"
+        };
+
+        beforeEach(done => {
+            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+                     .then(response => done())
+                     .catch(err => console.log(err));
+        });
+
+        it("sendClientSetlist", () => {
+
+            const token = {
+                username : clientBody.username
+            };
+
+            const body = {
+                setlistAvailability : true
+            };
+            
+            const req = await mockRequest({}, body, {}, token);
+            const res = await mockResponse();
+            const next = mockNext;
+
+            await usersController.sendClientSetlist(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
+        });
+
+        afterEach(done => {
+            UserModel.deleteUser(clientBody.username)
+                    .then(response => done())
+                    .catch(err => console.log(err));
+        });
     });
     
 });
