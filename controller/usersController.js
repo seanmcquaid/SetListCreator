@@ -206,6 +206,7 @@ exports.editUserInfo = (req, res, next) => {
                 UserModel.editUserInfo(newUsername, newPassword, id)
                         .then(response => {
                             const specificUserInfo = response[0];
+                            console.log(specificUserInfo)
                             
                             const newToken = jwt.sign(
                                 {
@@ -237,6 +238,7 @@ exports.sendClientSetlist = (req, res, next) => {
 
     UserModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(response => {
+                console.log(response[0].setlistavailable)
                 return res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
                 });
