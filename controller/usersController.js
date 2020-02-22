@@ -45,14 +45,14 @@ exports.postRegister = async (req, res, next) => {
             .catch(err => console.log(err));
 };
 
-exports.postLogin = (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
     const {username, password} = req.body;
     const {accountType} = req.params;
 
-    UserModel.userExists(username)
-            .then(userInfo => {
+    return await UserModel.userExists(username)
+            .then(async userInfo => {
                 if(userInfo.length == 0){
-                    return res.status(401).send({
+                    return await res.status(401).send({
                         errorMessage : "This user isn't registered on our site!"
                     });
                 }
@@ -62,20 +62,20 @@ exports.postLogin = (req, res, next) => {
                 const {id, username, accounttype, setlistavailable, bandleadername} = specificUserInfo;
 
                 if(specificUserInfo.accounttype !== accountType){
-                    return res.status(401).send({
+                    return await res.status(401).send({
                         errorMessage : "Wrong account type for this user!"
                     });
                 }
 
-                return bcrypt.compare(password, specificUserInfo.password)
-                            .then(isMatch => {
+                return await bcrypt.compare(password, specificUserInfo.password)
+                            .then(async isMatch => {
                                 if(!isMatch){
-                                    return res.status(401).send({
+                                    return await res.status(401).send({
                                         errorMessage : "Entered password doesn't match our records"
                                     });
                                 }
 
-                                const token = jwt.sign(
+                                const token = await jwt.sign(
                                     {
                                         id : id,
                                         username : username,
@@ -85,7 +85,7 @@ exports.postLogin = (req, res, next) => {
                                     {expiresIn : 3600000}
                                 );
                 
-                                return res.status(200).send({
+                                return await res.status(200).send({
                                     isAuthenticated : true,
                                     token,
                                     username : username,

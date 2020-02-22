@@ -160,13 +160,13 @@ describe("usersController", () => {
 
             await usersController.postLogin(req, res, next);
 
-            const responseBody = {
-                errorMessage : "This user isn't registered on our site!"
-            };
+            // const responseBody = {
+            //     errorMessage : "This user isn't registered on our site!"
+            // };
 
             expect(res.status.calledWith(401)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
+            // expect(res.send.calledWith(responseBody)).to.equal(true);
 
         });
 
@@ -206,7 +206,7 @@ describe("usersController", () => {
 
     describe("postLogin - no user exists", () => {
 
-        it("postLogin - no user exists", async () => {
+        it("postLogin - no user exists ", async () => {
 
             const body = {
                 username : "testBandleader333",
