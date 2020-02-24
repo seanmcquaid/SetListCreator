@@ -186,16 +186,17 @@ exports.getClientInfo = (req, res, next) => {
 
 };
 
-exports.editUserInfo = (req, res, next) => {
+exports.editUserInfo = async (req, res, next) => {
     const {id} = req.token;
     const {newUsername, newPassword} = req.body;
 
-    UserModel.getUserInfo(id)
+    await UserModel.getUserInfo(id)
             .then(async response => {
                 // circle back and add functionality to check new username against DB
                 const userInfo = response[0];
-                bcrypt.compare(newPassword, userInfo.password)
+                await bcrypt.compare(newPassword, userInfo.password)
                     .then(isMatch => {
+                        console.log(isMatch)
                         if(isMatch){
                             return res.status(401).send({
                                 errorMessage : "The new password is presently being used"
@@ -203,10 +204,9 @@ exports.editUserInfo = (req, res, next) => {
                         }
                     })
 
-                UserModel.editUserInfo(newUsername, newPassword, id)
+                return await UserModel.editUserInfo(newUsername, newPassword, id)
                         .then(response => {
                             const specificUserInfo = response[0];
-                            console.log(specificUserInfo)
                             
                             const newToken = jwt.sign(
                                 {
@@ -218,7 +218,7 @@ exports.editUserInfo = (req, res, next) => {
                                 {expiresIn : 3600000}
                             );
 
-                            return res.status(200).json({
+                            return res.status(200).send({
                                 isAuthenticated : true,
                                 token : newToken,
                                 username : specificUserInfo.username,

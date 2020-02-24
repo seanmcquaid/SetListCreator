@@ -1,9 +1,7 @@
 const usersController = require("../../controller/usersController");
 const expect = require("chai").expect;
 const sinon = require("sinon");
-const config = require("../../config/config");
 const UserModel = require("../../models/UserModel");
-const jwt = require("jsonwebtoken");
 
 const mockRequest = (headers, body, params, token) => ({
     header : headerName => {
@@ -160,13 +158,13 @@ describe("usersController", () => {
 
             await usersController.postLogin(req, res, next);
 
-            // const responseBody = {
-            //     errorMessage : "This user isn't registered on our site!"
-            // };
+            const responseBody = {
+                errorMessage : "Wrong account type for this user!"
+            };
 
             expect(res.status.calledWith(401)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-            // expect(res.send.calledWith(responseBody)).to.equal(true);
+            expect(res.send.calledWith(responseBody)).to.equal(true);
 
         });
 
@@ -188,7 +186,7 @@ describe("usersController", () => {
             await usersController.postLogin(req, res, next);
 
             const responseBody = {
-                errorMessage : "Wrong account type for this user!"
+                errorMessage : "Entered password doesn't match our records"
             };
 
             expect(res.status.calledWith(401)).to.equal(true);
@@ -224,7 +222,7 @@ describe("usersController", () => {
             await usersController.postLogin(req, res, next);
 
             const responseBody = {
-                errorMessage : "Entered password doesn't match our records"
+                errorMessage : "This user isn't registered on our site!"
             };
 
             expect(res.status.calledWith(401)).to.equal(true);
@@ -501,9 +499,7 @@ describe("usersController", () => {
                   .catch(err => console.log(err));
         });
 
-        it("editUserInfo", async () => {
-
-            console.log(id);
+        it("editUserInfo success", async () => {
 
             const token = {
                 id

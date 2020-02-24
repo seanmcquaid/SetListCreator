@@ -25,10 +25,8 @@ class UserModel {
     }
 
     static async editUserInfo(username, password, id){
-        console.log(username, password, id)
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        await database.query("UPDATE USERS SET username=$1, password=$2 WHERE id=$3;", [username, hashedPassword, id]);
-        return await database.query("SELECT * FROM USERS where username=$1", [username]);
+        const hashedPassword = await bcrypt.hashSync(password, 10);
+        return await database.query("UPDATE USERS SET username=$1, password=$2 WHERE id=$3 RETURNING *;", [username, hashedPassword, id, username]);
     }
 
     static async getClientsForBandleader(bandleaderName){
