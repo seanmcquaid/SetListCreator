@@ -558,7 +558,8 @@ describe("usersController", () => {
 
             await usersController.sendClientSetlist(req, res, next);
 
-            console.log(res.status.calledWith(200));
+            console.log(res.status.calledWith(200), "test");
+            console.log(res.send.calledOnce)
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);

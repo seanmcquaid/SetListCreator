@@ -194,52 +194,52 @@ exports.editUserInfo = async (req, res, next) => {
             .then(async response => {
                 // circle back and add functionality to check new username against DB
                 const userInfo = response[0];
-                await bcrypt.compare(newPassword, userInfo.password)
-                    .then(isMatch => {
-                        console.log(isMatch)
+
+                return await bcrypt.compare(newPassword, userInfo.password)
+                    .then(async isMatch => {
                         if(isMatch){
-                            return res.status(401).send({
+                            return await res.status(401).send({
                                 errorMessage : "The new password is presently being used"
                             });
                         }
+
+                        return await UserModel.editUserInfo(newUsername, newPassword, id)
+                                        .then(response => {
+                                            const specificUserInfo = response[0];
+                                            
+                                            const newToken = jwt.sign(
+                                                {
+                                                    id : specificUserInfo.id,
+                                                    username : specificUserInfo.username,
+                                                    accountType : specificUserInfo.accounttype
+                                                },
+                                                config.jwtSecret,
+                                                {expiresIn : 3600000}
+                                            );
+
+                                            return res.status(200).send({
+                                                isAuthenticated : true,
+                                                token : newToken,
+                                                username : specificUserInfo.username,
+                                                accountType : specificUserInfo.accounttype
+                                            });
+                                        });
                     })
 
-                return await UserModel.editUserInfo(newUsername, newPassword, id)
-                        .then(response => {
-                            const specificUserInfo = response[0];
-                            
-                            const newToken = jwt.sign(
-                                {
-                                    id : specificUserInfo.id,
-                                    username : specificUserInfo.username,
-                                    accountType : specificUserInfo.accounttype
-                                },
-                                config.jwtSecret,
-                                {expiresIn : 3600000}
-                            );
-
-                            return res.status(200).send({
-                                isAuthenticated : true,
-                                token : newToken,
-                                username : specificUserInfo.username,
-                                accountType : specificUserInfo.accounttype
-                            });
-                        })
 
             })
             .catch(err => console.log(err));
 
 };
 
-exports.sendClientSetlist = (req, res, next) => {
+exports.sendClientSetlist = async (req, res, next) => {
     const token = req.token;
     const {username} = token;
     const {setlistAvailability} = req.body;
 
-    UserModel.setClientSetlistAvailability(username, setlistAvailability)
-            .then(response => {
-                console.log(response[0].setlistavailable)
-                return res.status(200).send({
+    return await UserModel.setClientSetlistAvailability(username, setlistAvailability)
+            .then(async response => {
+                return await res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
                 });
             })

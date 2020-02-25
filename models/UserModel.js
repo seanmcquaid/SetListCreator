@@ -34,8 +34,7 @@ class UserModel {
     }
 
     static async setClientSetlistAvailability(clientName, setlistAvailability){
-        await database.query("UPDATE USERS SET setlistavailable=$1 WHERE username=$2", [setlistAvailability, clientName]);
-        return await database.query("SELECT * FROM USERS where username=$1", [clientName]);
+        return await database.query("UPDATE USERS SET setlistavailable=$1 WHERE username=$2 RETURNING *", [setlistAvailability, clientName]);
     }
 
 }
