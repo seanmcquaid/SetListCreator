@@ -38,21 +38,28 @@ describe("BandLeaderSongListModel", () => {
                                         .catch(err => console.log(err));
         });
 
-        afterEach(async () => {
-            await BandLeaderSongListModel.deleteSong(id)
-                                        .then(response => {})
+        afterEach(done => {
+            BandLeaderSongListModel.deleteSong(id)
+                                        .then(response => done())
                                         .catch(err => console.log(err));
         });
     });
 
 
     it("getSongs", done => {
-        let id;
+        let id, id2;
         
         const songInfo = {
             songName : "Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
+            username : "testuser@gmail.com"
+        };
+
+        const songInfo2 = {
+            songName : "Treasure",
+            artistName : "Bruno Mars",
+            songKey : "Eb Major",
             username : "testuser@gmail.com"
         };
 
@@ -69,12 +76,36 @@ describe("BandLeaderSongListModel", () => {
                                         .catch(err => console.log(err));
         });
 
+        beforeEach(done => {
+            BandLeaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
+                                        .then(response => {
+                                            id2 = response[0].id
+                                            done();
+                                        })
+                                        .catch(err => console.log(err));
+        });
+
         it("getSongs", async () => {
-            
+            await BandLeaderSongListModel.getSongs(songInfo2)
+                                        .then(async response => {
+
+                                            expect(response.length).to.equal(2);
+
+                                            console.log(response)
+
+                                        })
+                                        .catch(err => console.log(err));
+
         });
 
         afterEach(done => {
             BandLeaderSongListModel.deleteSong(id)
+                                        .then(response => done())
+                                        .catch(err => console.log(err));
+        });
+
+        afterEach(done => {
+            BandLeaderSongListModel.deleteSong(id2)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -185,7 +216,19 @@ describe("BandLeaderSongListModel", () => {
         });
 
         it("editSong", async () => {
-            
+
+            const updatedSong = {
+                songName : "Treasure",
+                artistName : "Bruno Mars",
+                songKey : "Eb Major",
+                username : "testuser@gmail.com"
+            };
+
+            await BandLeaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
+                                .then(async response => {
+                                    console.log(response);
+                                })
+                                .catch(err => console.log(err));
         });
 
         afterEach(done => {
