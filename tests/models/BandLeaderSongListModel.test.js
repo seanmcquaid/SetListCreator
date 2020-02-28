@@ -39,7 +39,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(id)
+            BandLeaderSongListModel.deleteSong(username, id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -99,13 +99,13 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(id)
+            BandLeaderSongListModel.deleteSong(username, id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(id2)
+            BandLeaderSongListModel.deleteSong(username , id2)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -156,7 +156,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(id)
+            BandLeaderSongListModel.deleteSong(username , id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -185,7 +185,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         it("deleteSong", async () => {
-            await BandLeaderSongListModel.deleteSong(id)
+            await BandLeaderSongListModel.deleteSong(username, id)
                                         .then(response => {
                                             console.log(response);
                                         })
@@ -232,7 +232,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(id)
+            BandLeaderSongListModel.deleteSong(username , id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
