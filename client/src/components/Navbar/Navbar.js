@@ -5,8 +5,7 @@ import styles from "./Navbar.module.css";
 import Aux from "hoc/Aux";
 import {logoutAction} from "actions/authActions/authActions";
 
-const Navbar = props => {
-    const {isAuthenticated, accountType, logoutAction} = props;
+const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
 
     const rightNav = isAuthenticated ? 
         <Aux>
@@ -17,7 +16,6 @@ const Navbar = props => {
             <Aux>
                 <Link className={styles.navLink} to="/bandLeader/setListCreator">Set List Creator</Link>
                 <Link className={styles.navLink} to="/bandLeader/clientList">Client List</Link>
-                <Link className={styles.navLink} to="/bandLeader/emailBand">Email Band</Link>
                 <Link className={styles.navLink} to="/bandLeader/addSongs">Add Songs</Link>
             </Aux>}
             <button className={styles.navLinkButton} onClick={() => logoutAction()}type="button">Logout</button>

@@ -18,27 +18,24 @@ import ProtectedBandleaderRoute from "../ProtectedBandleaderRoute/ProtectedBandl
 import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
 import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
 
-const ProtectedRoutes = props => {
-
-    return (
-        <Switch>
-            <Route exact path="/" component={LandingPage}/>
-            <Route exact path="/clientLogin" component={ClientLoginPage}/>
-            <Route exact path="/clientRegister" component={ClientRegisterPage}/>
-            <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
-            <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-            <ProtectedBandleaderRoute exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
-            <ProtectedBandleaderRoute exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
-            <ProtectedBandleaderRoute exact path="/bandLeader/clientList" component={ClientListPage}/>
-            <ProtectedBandleaderRoute exact path="/bandLeader/addSongs" component={AddSongsPage}/>
-            <ProtectedBandleaderRoute exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
-            <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-            <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-            <ProtectedClientRoute exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
-            <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
-            <Route component={ErrorPage}/>
-        </Switch>
-    )
-};
+const ProtectedRoutes = props => (
+    <Switch>
+        <Route exact path="/" component={LandingPage}/>
+        <Route exact path="/clientLogin" component={ClientLoginPage}/>
+        <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+        <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
+        <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
+        <ProtectedBandleaderRoute exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
+        <ProtectedBandleaderRoute exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
+        <ProtectedBandleaderRoute exact path="/bandLeader/clientList" component={ClientListPage}/>
+        <ProtectedBandleaderRoute exact path="/bandLeader/addSongs" component={AddSongsPage}/>
+        <ProtectedBandleaderRoute exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
+        <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
+        <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
+        <ProtectedClientRoute exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
+        <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
+        <Route component={ErrorPage}/>
+    </Switch>
+);
 
 export default ProtectedRoutes;

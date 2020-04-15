@@ -142,7 +142,7 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
                 type : EDIT_USER_INFO_ERROR,
                 payload : err.response,
             })
-        })
+        });
 
 
 };
