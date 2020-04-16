@@ -167,7 +167,9 @@ exports.getUserInfo = (req, res, next) => {
     return UserModel.getUserInfo(id)
                     .then(response => {
                         return res.status(200).send({
-                            userInfo : response[0]
+                            isAuthenticated : true,
+                            username : response[0].username,
+                            accountType : response[0].accounttype
                         })
                     })
                     .catch(err => console.log(err));
@@ -192,8 +194,14 @@ exports.editUserInfo = async (req, res, next) => {
 
     await UserModel.getUserInfo(id)
             .then(async response => {
-                // circle back and add functionality to check new username against DB
+                
                 const userInfo = response[0];
+
+                if(userInfo.username === newUsername){
+                    return await res.status(401).send({
+                        errorMessage : "The new username is currently being used"
+                    });
+                }
 
                 return await bcrypt.compare(newPassword, userInfo.password)
                     .then(async isMatch => {

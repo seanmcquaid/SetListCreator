@@ -13,7 +13,10 @@ import {
     CHECK_TOKEN_ERROR,
     EDIT_USER_INFO_LOADING,
     EDIT_USER_INFO_SUCCESS,
-    EDIT_USER_INFO_ERROR
+    EDIT_USER_INFO_ERROR,
+    GET_USER_INFO_SUCCESS,
+    GET_USER_INFO_ERROR,
+    GET_USER_INFO_LOADING
 } from "./authActionTypes";
 import {apiHost} from "config";
 
@@ -108,6 +111,7 @@ export const checkTokenAction = () => async dispatch => {
             })
         })
         .catch(err => {
+            console.log(err)
             dispatch({
                 type : CHECK_TOKEN_ERROR,
                 payload : err.response
@@ -145,4 +149,25 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
         });
 
 
+};
+
+export const getUserInfoAction = () => dispatch => {
+    dispatch({
+        type : GET_USER_INFO_LOADING,
+    })
+
+    const headers = tokenConfig();
+    axios.get(`${apiHost}/users/getUserInfo`, headers)
+        .then(async response => {
+            dispatch({
+                type : GET_USER_INFO_SUCCESS,
+                payload : response.data
+            });
+        })
+        .catch(err => {
+            dispatch({
+                type : GET_USER_INFO_ERROR,
+                payload : err.response,
+            })
+        });
 };

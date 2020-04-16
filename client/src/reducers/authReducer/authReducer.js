@@ -12,7 +12,10 @@ import {
     CHECK_TOKEN_ERROR,
     EDIT_USER_INFO_LOADING,
     EDIT_USER_INFO_SUCCESS,
-    EDIT_USER_INFO_ERROR
+    EDIT_USER_INFO_ERROR,
+    GET_USER_INFO_LOADING,
+    GET_USER_INFO_SUCCESS,
+    GET_USER_INFO_ERROR,
 } from "actions/authActions/authActionTypes";
 
 const initialState = {
@@ -30,6 +33,7 @@ const authReducer = (state = initialState, action) => {
         case LOGOUT_LOADING: 
         case CHECK_TOKEN_LOADING:
         case EDIT_USER_INFO_LOADING:
+        case GET_USER_INFO_LOADING:
             return {
                 ...state,
                 isLoading : true
@@ -47,6 +51,14 @@ const authReducer = (state = initialState, action) => {
                 accountType : action.payload.accountType,
                 isLoading : false,
             }
+        case GET_USER_INFO_SUCCESS:
+            return{
+                ...state,
+                isAuthenticated : action.payload.isAuthenticated,
+                username : action.payload.username,
+                accountType : action.payload.accountType,
+                isLoading : false,
+            }
         case REGISTER_ERROR: 
         case LOGIN_ERROR:
         case EDIT_USER_INFO_ERROR:
@@ -55,6 +67,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 isLoading : false,
             }
+        case GET_USER_INFO_ERROR:
+            return {
+                ...state,
+                isLoading : false,
+            }            
         case LOGOUT_SUCCESS:
             localStorage.removeItem("token");
             return {

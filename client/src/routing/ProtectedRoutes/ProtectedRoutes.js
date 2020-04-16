@@ -17,6 +17,7 @@ import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/Clien
 import ProtectedBandleaderRoute from "../ProtectedBandleaderRoute/ProtectedBandleaderRoute";
 import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
 import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
+import ClientProfilePage from "pages/ClientPages/ClientProfilePage/ClientProfilePage";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -25,14 +26,15 @@ const ProtectedRoutes = props => (
         <Route exact path="/clientRegister" component={ClientRegisterPage}/>
         <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
         <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-        <ProtectedBandleaderRoute exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
-        <ProtectedBandleaderRoute exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
-        <ProtectedBandleaderRoute exact path="/bandLeader/clientList" component={ClientListPage}/>
-        <ProtectedBandleaderRoute exact path="/bandLeader/addSongs" component={AddSongsPage}/>
-        <ProtectedBandleaderRoute exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
-        <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-        <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-        <ProtectedClientRoute exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
+        <Route exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
+        <Route exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
+        <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
+        <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
+        <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
+        <Route exact path="/clientHome" component={ClientHomePage}/>
+        <Route exact path="/client/editProfile" component={ClientProfilePage}/>
+        <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
+        <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
         <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
         <Route component={ErrorPage}/>
     </Switch>
