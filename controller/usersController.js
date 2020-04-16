@@ -197,12 +197,6 @@ exports.editUserInfo = async (req, res, next) => {
                 
                 const userInfo = response[0];
 
-                if(userInfo.username === newUsername){
-                    return await res.status(401).send({
-                        errorMessage : "The new username is currently being used"
-                    });
-                }
-
                 return await bcrypt.compare(newPassword, userInfo.password)
                     .then(async isMatch => {
                         if(isMatch){

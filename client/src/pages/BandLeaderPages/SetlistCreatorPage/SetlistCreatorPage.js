@@ -1,6 +1,6 @@
 import React from "react";
 
-const SetlistCreator = props => {
+const SetlistCreatorPage = props => {
     return (
         <div>
 
@@ -8,4 +8,4 @@ const SetlistCreator = props => {
     )
 };
 
-export default SetlistCreator;
+export default SetlistCreatorPage;
