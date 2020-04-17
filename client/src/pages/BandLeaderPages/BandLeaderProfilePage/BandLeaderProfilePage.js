@@ -4,27 +4,22 @@ import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import {connect} from "react-redux";
-import { tokenConfig } from "actions/authActions/authActions";
-import axios from "axios";
-import {editUserInfoAction} from "actions/authActions/authActions";
-import {apiHost} from "config";
+import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
 
 const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const {editUserInfoAction} = props;
+    const [successMessage, setSuccessMessage] = useState("");
+    const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
-        const headers = tokenConfig();
-        axios.get(`${apiHost}/users/getUserInfo`, headers)
-            .then(response => {
-                const userInfo = response.data.userInfo[0].username;
-                setUsername(userInfo);
-            })
-            .catch(err => console.log(err));
-    },[])
+        if(username === ""){
+            setUsername(props.username);
+            setSuccessMessage("Loaded username!")
+        }
+        getUserInfoAction();
+    },[getUserInfoAction, username, props.username])
 
     const userNameOnChangeHandler = event => {
         setUsername(event.target.value);
@@ -38,7 +33,7 @@ const BandLeaderProfilePage = props => {
         setConfirmPassword(event.target.value);
     }
 
-    const bandLeaderEditProfileSubmitHandler = async event => {
+    const bandleaderEditProfileSubmitHandler = async event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING");
@@ -50,44 +45,46 @@ const BandLeaderProfilePage = props => {
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
-            <form className={styles.bandLeaderEditProfileForm} onSubmit={bandLeaderEditProfileSubmitHandler}>
-                <Input
-                    name="username"
-                    title="Edit Username Here"
-                    type="text"
-                    value={username}
-                    onChangeHandler={userNameOnChangeHandler}
-                    placeholder="Edit Username Here"
-                />
-                <Input
-                    name="newPassword"
-                    title="Edit New Password Here"
-                    type="password"
-                    value={password}
-                    onChangeHandler={passwordOnChangeHandler}
-                    placeholder="Enter New Password Here"
-                />
-                <Input
-                    name="confirmNewPassword"
-                    title="Confirm New Password Here"
-                    type="password"
-                    value={confirmPassword}
-                    onChangeHandler={confirmPasswordOnChangeHandler}
-                    placeholder="Confirm New Password Here"
-                />
-                <Button title="Edit Profile" type="submit"/>
+            <Text>{props.errorMessage ? props.errorMessage : successMessage}</Text>
+            <form className={styles.bandLeaderEditProfileForm} onSubmit={bandleaderEditProfileSubmitHandler}>
+            <Input
+                name="username"
+                title="Edit Username Here"
+                type="text"
+                value={username}
+                onChangeHandler={userNameOnChangeHandler}
+                placeholder="Edit Username Here"
+            />
+            <Input
+                name="newPassword"
+                title="Edit New Password Here"
+                type="password"
+                value={password}
+                onChangeHandler={passwordOnChangeHandler}
+                placeholder="Enter New Password Here"
+            />
+            <Input
+                name="confirmNewPassword"
+                title="Confirm New Password Here"
+                type="password"
+                value={confirmPassword}
+                onChangeHandler={confirmPasswordOnChangeHandler}
+                placeholder="Confirm New Password Here"
+            />
+            <Button title="Edit Profile" type="submit"/>
             </form>
         </div>
     )
 };
 
 const mapStateToProps = state => ({
-    errorMessage : state.error.errorMessage
+    errorMessage : state.error.errorMessage,
+    username : state.auth.username,
 });
 
 const mapDispatchToProps = dispatch => ({
     editUserInfoAction : (newUsername, newPassword, accountType) => dispatch(editUserInfoAction(newUsername, newPassword, accountType)),
+    getUserInfoAction : () => dispatch(getUserInfoAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderProfilePage);

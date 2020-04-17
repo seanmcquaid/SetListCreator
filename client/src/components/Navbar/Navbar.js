@@ -6,7 +6,7 @@ import Aux from "hoc/Aux";
 import {logoutAction} from "actions/authActions/authActions";
 
 const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
-    console.log(isAuthenticated)
+    
     const rightNav = isAuthenticated ? 
         <Aux>
             {accountType === "client" ? 

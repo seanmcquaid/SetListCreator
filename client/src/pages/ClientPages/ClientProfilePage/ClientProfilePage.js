@@ -10,12 +10,16 @@ const ClientProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
+        if(username === ""){
+            setUsername(props.username);
+            setSuccessMessage("Loaded username!")
+        }
         getUserInfoAction();
-    },[getUserInfoAction])
+    },[getUserInfoAction, username, props.username])
 
     const userNameOnChangeHandler = event => {
         setUsername(event.target.value);
@@ -41,7 +45,7 @@ const ClientProfilePage = props => {
     return (
         <div className={styles.clientProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
+            <Text>{props.errorMessage ? props.errorMessage : successMessage}</Text>
             <form className={styles.clientEditProfileForm} onSubmit={clientEditProfileSubmitHandler}>
             <Input
                 name="username"
