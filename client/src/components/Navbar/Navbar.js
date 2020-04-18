@@ -15,7 +15,6 @@ const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
                 <Link className={styles.navLink} to="/client/editProfile">Profile</Link>
             </Aux>:
             <Aux>
-                <Link className={styles.navLink} to="/bandLeader/setListCreator">Set List Creator</Link>
                 <Link className={styles.navLink} to="/bandLeader/clientList">Client List</Link>
                 <Link className={styles.navLink} to="/bandLeader/addSongs">Add Songs</Link>
                 <Link className={styles.navLink} to="/bandLeader/editProfile">Profile</Link>

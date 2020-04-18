@@ -3,6 +3,7 @@ import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
 import axios from "axios";
 import SongList from "components/SongList/SongList";
+import LinkButton from "components/LinkButton/LinkButton";
 
 const ClientInfoPage = props => {
     const {clientId} = props.match.params;
@@ -34,7 +35,8 @@ const ClientInfoPage = props => {
         <div>
             <div>
                 <p>Client name : {username}</p>
-                <p>Setlist Status : {setlistavailable}</p>
+                <p>Setlist Status : {String(setlistavailable)}</p>
+                {setlistavailable ? <LinkButton route="/">Create Setlist</LinkButton> : null}
             </div>
             <div>
                 <div>
