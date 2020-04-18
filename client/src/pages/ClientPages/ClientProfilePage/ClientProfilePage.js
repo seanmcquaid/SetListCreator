@@ -10,13 +10,13 @@ const ClientProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [message, setMessage] = useState("");
     const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
         if(username === ""){
             setUsername(props.username);
-            setSuccessMessage("Loaded username!")
+            setMessage("Loaded username!")
         }
         getUserInfoAction();
     },[getUserInfoAction, username, props.username])
@@ -36,7 +36,7 @@ const ClientProfilePage = props => {
     const clientEditProfileSubmitHandler = async event => {
         event.preventDefault();
         if(password !== confirmPassword){
-            setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING");
+            setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
             editUserInfoAction(username, password, "client");
         }
@@ -45,7 +45,7 @@ const ClientProfilePage = props => {
     return (
         <div className={styles.clientProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : successMessage}</Text>
+            <Text>{props.errorMessage ? props.errorMessage : message}</Text>
             <form className={styles.clientEditProfileForm} onSubmit={clientEditProfileSubmitHandler}>
             <Input
                 name="username"

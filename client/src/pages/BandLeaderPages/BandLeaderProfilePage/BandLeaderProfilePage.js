@@ -10,13 +10,13 @@ const BandLeaderProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
+    const [message, setMessage] = useState("");
     const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
         if(username === ""){
             setUsername(props.username);
-            setSuccessMessage("Loaded username!")
+            setMessage("Loaded username!")
         }
         getUserInfoAction();
     },[getUserInfoAction, username, props.username])
@@ -36,7 +36,7 @@ const BandLeaderProfilePage = props => {
     const bandleaderEditProfileSubmitHandler = async event => {
         event.preventDefault();
         if(password !== confirmPassword){
-            setErrorMessage("ERROR WITH PASSWORDS NOT MATCHING");
+            setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
             editUserInfoAction(username, password, "bandLeader");
         }
@@ -45,7 +45,7 @@ const BandLeaderProfilePage = props => {
     return (
         <div className={styles.bandLeaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : successMessage}</Text>
+            <Text>{props.errorMessage ? props.errorMessage : message}</Text>
             <form className={styles.bandLeaderEditProfileForm} onSubmit={bandleaderEditProfileSubmitHandler}>
             <Input
                 name="username"
