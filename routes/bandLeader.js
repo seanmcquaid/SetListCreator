@@ -15,4 +15,6 @@ router.patch("/editSong/:songId", checkToken, bandLeaderController.editSong);
 
 router.get("/getClientSongs/:clientId", checkToken, bandLeaderController.getClientSongs);
 
+router.get("/getSuggestedSetlist/:clientId", checkToken, bandLeaderController.getSuggestedSetlist);
+
 module.exports = router;

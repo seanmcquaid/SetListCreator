@@ -104,3 +104,25 @@ exports.getClientSongs = (req, res, next) => {
             .catch(err => console.log(err));
 
 };
+
+exports.getSuggestedSetlist = (req, res, next) => {
+    const {clientId} = req.params;
+    const token = req.token;
+    const {username} = token;
+
+    UserModel.getUserInfo(clientId)
+            .then(clientInfo => {
+                const userInfo = clientInfo[0];
+                ClientSongListModel.getSongs(userInfo.username)
+                    .then(clientSongs => {
+                        const {requestedSongsList, doNotPlaySongsList} = clientSongs;
+                        BandLeaderSongListModel.getSongs(username)
+                            .then(bandLeaderSongs => {
+                                // compare bandLeaderSongs and clientSongs
+                                // return suggestedSetlist
+                            })
+                    })
+            })
+            .catch(err => console.log(err));
+
+};

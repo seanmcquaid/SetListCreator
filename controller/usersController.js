@@ -248,3 +248,6 @@ exports.sendClientSetlist = async (req, res, next) => {
             .catch(err => console.log(err));
 
 };
+
+
+// set up client approval or denial of proposed setlist
