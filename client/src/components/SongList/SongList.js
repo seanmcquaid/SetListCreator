@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styles from "./SongList.module.css";
 
 const SongList = ({list}) => (
-    <ul>
-        {list.map(({songname, artistname}) => <li>{songname} - {artistname}</li>)}
+    <ul className={styles.songList}>
+        {list.map(({songname, artistname}) => <li className={styles.songListItem}>{songname} - {artistname}</li>)}
     </ul>
 );
 

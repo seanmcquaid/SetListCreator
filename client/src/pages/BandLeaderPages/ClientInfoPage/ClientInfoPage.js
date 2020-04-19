@@ -4,6 +4,8 @@ import {apiHost} from "config";
 import axios from "axios";
 import SongList from "components/SongList/SongList";
 import LinkButton from "components/LinkButton/LinkButton";
+import styles from "./ClientInfoPage.module.css";
+import Text from "components/Text/Text";
 
 const ClientInfoPage = props => {
     const {clientId} = props.match.params;
@@ -28,23 +30,25 @@ const ClientInfoPage = props => {
     },[clientId, isLoading])
     
     if(isLoading){
-        return <div>Loading</div>;
+        return null;
     }
 
     return(
-        <div>
-            <div>
-                <p>Client name : {username}</p>
-                <p>Setlist Status : {String(setlistavailable)}</p>
-                {setlistavailable ? <LinkButton route="/">Create Setlist</LinkButton> : null}
+        <div className={styles.clientInfoPageContainer}>
+            <div className={styles.clientInfoContainer}>
+                <Text headerText={true}>Client name : {username}</Text>
+                {setlistavailable ? 
+                    <LinkButton route="/">Create Setlist</LinkButton> :
+                    <Text>In Progress</Text>
+                }
             </div>
-            <div>
-                <div>
-                    requestedSongsList
+            <div className={styles.songsContainer}>
+                <div className={styles.requestedSongsListContainer}>
+                    <Text headerText={true}>Requested Songs List</Text>
                     <SongList list={requestedSongsList}/>
                 </div>
-                <div>
-                    doNotPlaySongsList
+                <div className={styles.doNotPlaySongsListContainer}>
+                    <Text headerText={true}>Do Not Play Songs List</Text>
                     <SongList list={doNotPlaySongsList}/>
                 </div>
             </div>
