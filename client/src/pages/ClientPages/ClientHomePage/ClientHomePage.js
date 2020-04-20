@@ -27,6 +27,8 @@ const ClientHomePage = props => {
         deleteClientSongAction
     } = props;
 
+    console.log(props)
+
     useEffect(() => {
         getClientSongsAction();
     }, [getClientSongsAction])
