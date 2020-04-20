@@ -4,7 +4,7 @@ import styles from "./SongList.module.css";
 
 const SongList = ({list}) => (
     <ul className={styles.songList}>
-        {list.map(({songname, artistname}) => <li className={styles.songListItem}>{songname} - {artistname}</li>)}
+        {list.map(({songname, artistname, id}) => <li className={styles.songListItem} key={id}>{songname} - {artistname}</li>)}
     </ul>
 );
 

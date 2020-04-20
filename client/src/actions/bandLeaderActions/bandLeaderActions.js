@@ -14,7 +14,7 @@ import {
     GET_BANDLEADER_CLIENTS_ERROR,
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
-    DELETE_BANDLEADER_SONG_ERROR
+    DELETE_BANDLEADER_SONG_ERROR,
 } from "./bandLeaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
 import { apiHost } from "config";

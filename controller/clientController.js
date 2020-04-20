@@ -66,7 +66,6 @@ exports.getSongs = (req, res, next) => {
                             UserModel.getUserInfo(id)
                                     .then(userInfo => {
                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                        console.log(clientSongs)
                                         return res.status(200).send({
                                             requestedSongsList, 
                                             doNotPlaySongsList,

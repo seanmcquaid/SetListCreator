@@ -119,7 +119,13 @@ exports.getSuggestedSetlist = (req, res, next) => {
                         BandLeaderSongListModel.getSongs(username)
                             .then(bandLeaderSongs => {
                                 // compare bandLeaderSongs and clientSongs
-                                // return suggestedSetlist
+                                // return suggestedSetlist and additional Song Choices
+                                console.log(clientSongs)
+                                console.log(bandLeaderSongs)
+                                return res.status(200).send({
+                                    suggestedSetlist : [],
+                                    additionalSongChoices : [],
+                                });
                             })
                     })
             })

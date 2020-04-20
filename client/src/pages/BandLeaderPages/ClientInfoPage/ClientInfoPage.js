@@ -13,7 +13,7 @@ const ClientInfoPage = props => {
     const [requestedSongsList, setRequestedSongsList] = useState([]);
     const [doNotPlaySongsList, setDoNotPlaySongsList] = useState([]);
     const [clientInfo, setClientInfo] = useState({});
-    const {username, setlistavailable} = clientInfo;
+    const {username, setlistavailable, id} = clientInfo;
 
     useEffect(() => {
         if(isLoading){
@@ -38,7 +38,7 @@ const ClientInfoPage = props => {
             <div className={styles.clientInfoContainer}>
                 <Text headerText={true}>Client name : {username}</Text>
                 {setlistavailable ? 
-                    <LinkButton route="/">Create Setlist</LinkButton> :
+                    <LinkButton route={`/bandLeader/createSetlist/${id}`}>Create Setlist</LinkButton> :
                     <Text>In Progress</Text>
                 }
             </div>
