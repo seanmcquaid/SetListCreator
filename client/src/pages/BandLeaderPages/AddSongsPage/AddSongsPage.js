@@ -7,11 +7,10 @@ import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongA
 import {connect} from "react-redux";
 import Song from "components/Song/Song";
 
-const AddSongsPage = props => {
+const AddSongsPage = ({getBandleaderSongsAction, deleteBandleaderSongAction, addBandleaderSongAction, songList}) => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
-    const {getBandleaderSongsAction, deleteBandleaderSongAction} = props;
 
     useEffect(() => {
         getBandleaderSongsAction();
@@ -31,7 +30,7 @@ const AddSongsPage = props => {
 
     const addSongSubmitHandler = async event => {
         event.preventDefault();
-        await props.addBandleaderSongAction(songName, artistName, songKey);
+        await addBandleaderSongAction(songName, artistName, songKey);
         await setSongName("");
         await setArtistName("");
         await setSongKey("");
@@ -41,7 +40,7 @@ const AddSongsPage = props => {
         await deleteBandleaderSongAction(songId);
     };
 
-    const songsList = props.songList.map((song, key) => {
+    const songsList = songList.map((song, key) => {
         const {songname, artistname, songkey, id} = song;
         return <Song
                     key={key}

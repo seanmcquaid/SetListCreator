@@ -118,25 +118,20 @@ exports.getSuggestedSetlist = (req, res, next) => {
                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
                         BandLeaderSongListModel.getSongs(username)
                             .then(bandLeaderSongs => {
-                                // compare bandLeaderSongs and clientSongs
-                                // return suggestedSetlist and additional Song Choices
 
-                                const filteredBandLeaderSongList = bandLeaderSongs.filter(bandLeaderSong => {
+                                const suggestedSetList = bandLeaderSongs.filter(bandLeaderSong => {
                                     const isBandLeaderSongInClientDoNotPlayList = doNotPlaySongsList.find(doNotPlaySong => doNotPlaySong.songname === bandLeaderSong.songname);
                                     return isBandLeaderSongInClientDoNotPlayList ? null : bandLeaderSong;
                                 });
 
-
-                                const suggestedSetlist = [...filteredBandLeaderSongList];
-
-                                // figure out how many songs to add
-
-                                // iterate through the rest of the client songs and add until you get 30 songs
-                                // throw the rest in the additional songs list
+                                const additionalClientRequests = requestedSongsList.filter(requestedSong => {
+                                    const isRequestedSongInSuggestedSetlist = suggestedSetList.find(suggestedSong => suggestedSong.songname === requestedSong.songname);
+                                    return isRequestedSongInSuggestedSetlist ? null : requestedSong;
+                                });
 
                                 return res.status(200).send({
-                                    suggestedSetlist : [],
-                                    additionalSongChoices : [],
+                                    suggestedSetList,
+                                    additionalClientRequests,
                                 });
                             })
                     })
