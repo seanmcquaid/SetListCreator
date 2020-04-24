@@ -37,6 +37,8 @@ const SetlistCreatorPage = props => {
     const sendCompletedSetlist = () => {
         const headers = tokenConfig();
 
+        // need to figure out how to get client username or client id sent over as well - maybe make the client id a param
+
         const requestBody = {
             completedSetlist : suggestedSetList,
         };

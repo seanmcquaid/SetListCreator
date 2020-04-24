@@ -144,5 +144,10 @@ exports.getSuggestedSetlist = (req, res, next) => {
 exports.postCompletedSetlist = (req, res, next) => {
     const {completedSetlist} = req.body;
     const token = req.token;
-    const {username} = token;
+    const bandLeaderName = token.username;
+
+    // need to figure out how to get client username or client id sent over as well
+    // https://stackoverflow.com/questions/35081748/how-can-i-insert-into-a-postgresql-json-array
+
+    SetlistsModel.addSetlist()
 };
