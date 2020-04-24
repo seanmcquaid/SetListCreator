@@ -34,17 +34,31 @@ const SetlistCreatorPage = props => {
         setAdditionalClientRequests(additionalClientRequests.filter(additionalClientRequest => additionalClientRequest !== song));
     };
 
+    const sendCompletedSetlist = () => {
+        const headers = tokenConfig();
+
+        const requestBody = {
+            completedSetlist : suggestedSetList,
+        };
+
+        axios.post(`${apiHost}/bandLeader/postCompletedSetlist`, requestBody, headers)
+            .then(response => {
+
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    };
+
     if(isLoading){
         return <div>LOADING</div>
     }
-
-    // use songList component for each songList, maybe add in boolean of somesort to check if it enables adding a song? 
 
     return (
         <div className={styles.setListCreatorPageContainer}>
             <div className={styles.headerContainer}>
                 <Text headerText={true}>Set List Creator</Text>
-                <Button type="button" title="Send Setlist to Client" onClick={() => console.log("placeholder until I create the architecture for the backend")}/>
+                <Button type="button" title="Send Setlist to Client" onClick={sendCompletedSetlist}/>
             </div>
             <div className={styles.songsContainer}>
                 <div className={styles.suggestedSetListContainer}>

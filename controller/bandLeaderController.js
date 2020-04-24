@@ -1,6 +1,7 @@
 const UserModel = require("../models/UserModel");
 const ClientSongListModel = require("../models/ClientSongListModel");
 const BandLeaderSongListModel = require("../models/BandLeaderSongListModel");
+const SetlistsModel = require("../models/SetlistsModel");
 
 exports.postAddSong = (req, res, next) => {
     const {songName, artistName, songKey} = req.body;
@@ -138,4 +139,10 @@ exports.getSuggestedSetlist = (req, res, next) => {
             })
             .catch(err => console.log(err));
 
+};
+
+exports.postCompletedSetlist = (req, res, next) => {
+    const {completedSetlist} = req.body;
+    const token = req.token;
+    const {username} = token;
 };

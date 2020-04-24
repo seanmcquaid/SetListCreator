@@ -17,4 +17,6 @@ router.get("/getClientSongs/:clientId", checkToken, bandLeaderController.getClie
 
 router.get("/getSuggestedSetlist/:clientId", checkToken, bandLeaderController.getSuggestedSetlist);
 
+router.post("/postCompletedSetlist", checkToken, bandLeaderController.postCompletedSetlist);
+
 module.exports = router;
