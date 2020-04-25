@@ -142,13 +142,25 @@ exports.getSuggestedSetlist = (req, res, next) => {
 };
 
 exports.postCompletedSetlist = (req, res, next) => {
-    const {completedSetlist} = req.body;
+    const {completedSetlist, clientId} = req.body;
     const token = req.token;
     const bandLeaderName = token.username;
+
+    UserModel.getUserInfo(clientId)
+            .then(async clientInfo => {
+                const clientName = clientInfo[0].username;
+                await SetlistsModel.addSetlist(clientName, bandLeaderName, completedSetlist)
+                        .then(setlistInfo => {
+                            const parsedSetlist = setlistInfo[0].setlist.map(song => JSON.parse(song));
+                            console.log(parsedSetlist)
+                            return res.status(200).send({
+                                setlistInfo
+                            })
+                        });
+            })
+            .catch(err => console.log(err));
 
     // need to figure out how to get client username or client id sent over as well
     // https://stackoverflow.com/questions/35081748/how-can-i-insert-into-a-postgresql-json-array
     // https://rollout.io/blog/unleash-the-power-of-storing-json-in-postgres/
-
-    SetlistsModel.addSetlist()
 };
