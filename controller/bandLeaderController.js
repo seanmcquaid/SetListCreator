@@ -159,8 +159,4 @@ exports.postCompletedSetlist = (req, res, next) => {
                         });
             })
             .catch(err => console.log(err));
-
-    // need to figure out how to get client username or client id sent over as well
-    // https://stackoverflow.com/questions/35081748/how-can-i-insert-into-a-postgresql-json-array
-    // https://rollout.io/blog/unleash-the-power-of-storing-json-in-postgres/
 };
