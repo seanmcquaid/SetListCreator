@@ -1,0 +1,8 @@
+.commentsList {
+    list-style: none;
+}
+
+.commentListItem{
+    font-size : 1rem;
+    margin : 0.5rem;
+}

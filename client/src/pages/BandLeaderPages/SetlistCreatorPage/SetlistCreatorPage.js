@@ -6,12 +6,16 @@ import Text from "components/Text/Text";
 import Button from "components/Button/Button";
 import styles from "./SetlistCreatorPage.module.css";
 import SongList from "components/SongList/SongList";
+import Input from "components/Input/Input";
+import CommentsList from "components/CommentsList/CommentsList";
 
 const SetlistCreatorPage = props => {
     const {clientId} = props.match.params;
     const [isLoading, setIsLoading] = useState(true);
     const [suggestedSetList, setSuggestedSetList] = useState([]);
     const [additionalClientRequests, setAdditionalClientRequests] = useState([]);
+    const [setListComment, setSetListComment] = useState("");
+    const [setListComments, setSetListComments] = useState([]);
 
     useEffect(() => {
         if(isLoading){
@@ -29,6 +33,15 @@ const SetlistCreatorPage = props => {
         
     }, [isLoading, clientId]);
 
+    const setListCommentOnChangeHandler = event => {
+        setSetListComment(event.target.value);
+    };
+
+    const addSetListCommentHandler = () => {
+        setSetListComments(setListComments.push(setListComment));
+        setSetListComment("");
+    };
+
     const addSongToSetlist = song => {
         setSuggestedSetList([...suggestedSetList, song]);
         setAdditionalClientRequests(additionalClientRequests.filter(additionalClientRequest => additionalClientRequest !== song));
@@ -40,6 +53,7 @@ const SetlistCreatorPage = props => {
         const requestBody = {
             completedSetlist : suggestedSetList,
             clientId,
+            bandLeaderComments : setListComments,
         };
 
         axios.post(`${apiHost}/bandLeader/postCompletedSetlist`, requestBody, headers)
@@ -60,6 +74,19 @@ const SetlistCreatorPage = props => {
             <div className={styles.headerContainer}>
                 <Text headerText={true}>Set List Creator</Text>
                 <Button type="button" title="Send Setlist to Client" onClick={sendCompletedSetlist}/>
+            </div>
+            <div className={styles.commentsContainer}>
+                <Text headerText={true}>Comments List</Text>
+                <CommentsList list={setListComments}/>
+                <Input 
+                    name="setListComments"
+                    title="Comments"
+                    type="text"
+                    placeholder="Enter comments on the setlist for the client here"
+                    value={setListComments}
+                    onChangeHandler={setListCommentOnChangeHandler}
+                />
+                <Button type="button" title="Add Comment" onClick={addSetListCommentHandler}/>
             </div>
             <div className={styles.songsContainer}>
                 <div className={styles.suggestedSetListContainer}>

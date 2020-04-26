@@ -1,4 +1,4 @@
-.setListCreatorPageContainer, .headerContainer{
+.setListCreatorPageContainer, .headerContainer, .commentsContainer{
     display: flex;
     flex-direction: column;
     justify-content: center;
