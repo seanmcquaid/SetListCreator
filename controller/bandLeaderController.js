@@ -142,17 +142,15 @@ exports.getSuggestedSetlist = (req, res, next) => {
 };
 
 exports.postCompletedSetlist = (req, res, next) => {
-    const {completedSetlist, clientId} = req.body;
+    const {completedSetlist, clientId, bandLeaderComments} = req.body;
     const token = req.token;
     const bandLeaderName = token.username;
 
     UserModel.getUserInfo(clientId)
             .then(async clientInfo => {
                 const clientName = clientInfo[0].username;
-                await SetlistsModel.addSetlist(clientName, bandLeaderName, completedSetlist)
+                await SetlistsModel.addSetlist(clientName, bandLeaderName, completedSetlist, bandLeaderComments)
                         .then(setlistInfo => {
-                            const parsedSetlist = setlistInfo[0].setlist.map(song => JSON.parse(song));
-                            console.log(parsedSetlist)
                             return res.status(200).send({
                                 setlistInfo
                             })

@@ -38,7 +38,7 @@ const SetlistCreatorPage = props => {
     };
 
     const addSetListCommentHandler = () => {
-        setSetListComments(setListComments.push(setListComment));
+        setSetListComments([...setListComments, setListComment]);
         setSetListComment("");
     };
 
@@ -83,7 +83,7 @@ const SetlistCreatorPage = props => {
                     title="Comments"
                     type="text"
                     placeholder="Enter comments on the setlist for the client here"
-                    value={setListComments}
+                    value={setListComment}
                     onChangeHandler={setListCommentOnChangeHandler}
                 />
                 <Button type="button" title="Add Comment" onClick={addSetListCommentHandler}/>

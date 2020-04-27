@@ -1,5 +1,6 @@
 const ClientSongListModel = require("../models/ClientSongListModel");
 const UserModel = require("../models/UserModel");
+const SetlistsModel = require("../models/SetlistsModel");
 
 exports.postAddSong = (req, res, next) => {
     const {songName, artistName} = req.body;
@@ -122,4 +123,31 @@ exports.editSong = (req, res, next) => {
                         console.log(err);
                     });
 
+};
+
+exports.getCompletedSetlist = (req, res, next) => {
+    const token = req.token;
+    const {username} = token;
+
+    SetlistsModel.getSetlist(username)
+            .then(response => {
+                return res.status(200).send({
+                    setListInfo : response[0],
+                });
+            })
+            .catch(err => console.log(err));
+};
+
+exports.editCompletedSetlistComments = (req, res, next) => {
+    const {clientComments} = req.body;
+    const token = req.token;
+    const {username} = token;
+
+    SetlistsModel.addClientComments(username, clientComments)
+            .then(response => {
+                return res.status(200).send({
+                    setListInfo : response[0],
+                })
+            })
+            .catch(err => console.log(err));
 };
