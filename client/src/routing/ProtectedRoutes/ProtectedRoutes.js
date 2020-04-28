@@ -19,6 +19,7 @@ import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
 import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
 import ClientProfilePage from "pages/ClientPages/ClientProfilePage/ClientProfilePage";
 import SetlistCreatorPage from "pages/BandLeaderPages/SetlistCreatorPage/SetlistCreatorPage";
+import ClientFinalSetlistPage from "pages/ClientPages/ClientFinalSetlistPage/ClientFinalSetlistPage";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -38,6 +39,7 @@ const ProtectedRoutes = props => (
         <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
         <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
         <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
+        <Route exact path="/client/finalSetList" component={ClientFinalSetlistPage}/>
         <Route component={ErrorPage}/>
     </Switch>
 );

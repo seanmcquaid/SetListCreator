@@ -24,7 +24,8 @@ const ClientHomePage = props => {
         getClientSongsAction,
         requestedSongsList,
         doNotPlaySongsList,
-        deleteClientSongAction
+        deleteClientSongAction,
+        setListAvailable
     } = props;
 
     console.log(props)
@@ -67,9 +68,19 @@ const ClientHomePage = props => {
         await deleteClientSongAction(songId);
     };
 
+    if(setListAvailable){
+        return (
+            <div className={styles.clientHomePageContainer}>
+                <Text headerText={true}>Client Home Page</Text>
+                <LinkButton route="/client/finalSetList">Get Final SetList</LinkButton> 
+            </div>
+        )
+    }
+
     return(
         <div className={styles.clientHomePageContainer}>
-            <Text headerText={true}>Musical Preferences Page - <LinkButton route="/client/sendSetList">Send Set List</LinkButton></Text>
+            <Text headerText={true}>Musical Preferences Page</Text>
+            <LinkButton route="/client/sendSetList">Send Set List</LinkButton>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>
                     <Text>Requested Songs</Text>
@@ -153,6 +164,7 @@ const ClientHomePage = props => {
 const mapStateToProps = state => ({
     requestedSongsList : state.client.requestedSongsList,
     doNotPlaySongsList : state.client.doNotPlaySongsList,
+    setListAvailable : state.client.setListAvailable,
 });
 
 const mapDispatchToProps = dispatch => ({

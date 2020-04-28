@@ -131,8 +131,12 @@ exports.getCompletedSetlist = (req, res, next) => {
 
     SetlistsModel.getSetlist(username)
             .then(response => {
+                const {clientname, bandleadername, setlist, bandleadercomments} = response[0];
                 return res.status(200).send({
-                    setListInfo : response[0],
+                    clientName : clientname,
+                    bandLeaderName : bandleadername,
+                    suggestedSetList : setlist.map(song => JSON.parse(song)),
+                    bandLeaderComments : bandleadercomments
                 });
             })
             .catch(err => console.log(err));
