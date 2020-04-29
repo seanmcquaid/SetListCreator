@@ -36,21 +36,38 @@ const ClientFinalSetlistPage = props => {
         setClientComment("");
     };
 
+    const sendClientComments = () => {
+        const headers = tokenConfig();
+
+        const requestBody = {
+            clientComments
+        };
+
+        axios.patch(`${apiHost}/editCompletedSetlistComments`, requestBody, headers)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    };
+
     if(isLoading){
         return <div>Loading</div>
     }
 
-    const {bandLeaderComments, bandLeaderName, clientName, suggestedSetList} = setListInfo;
+    const {bandLeaderComments, suggestedSetList} = setListInfo;
 
     return(
-        <div>
+        <div className={styles.clientFinalSetlistPageContainer}>
             <Text headerText={true}>Final Setlist</Text>
-            <div>
+            <Button type="button" title="Send Comments" onClick={sendClientComments}/>
+            <div className={styles.commentsContainer}>
                 <Text headerText={true}>Client Comments List</Text>
                 <CommentsList list={clientComments}/>
                 <Input 
                     name="clientComments"
-                    title="Comments"
+                    title="Add Comments"
                     type="text"
                     placeholder="Enter comments on the setlist for the bandleader here"
                     value={clientComment}
@@ -58,12 +75,12 @@ const ClientFinalSetlistPage = props => {
                 />
                 <Button type="button" title="Add Comment" onClick={addClientCommentHandler}/>
             </div>
-            <div>
-                <div>
+            <div className={styles.listsContainer}>
+                <div className={styles.commentsContainer}>
                     <Text headerText={true}>Band Leader Comments</Text>
                     <CommentsList list={bandLeaderComments}/>
                 </div>
-                <div>
+                <div className={styles.songsContainer}>
                     <Text headerText={true}>Suggested Setlist</Text>
                     <SongList list={suggestedSetList}/>
                 </div>

@@ -149,6 +149,7 @@ exports.editCompletedSetlistComments = (req, res, next) => {
 
     SetlistsModel.addClientComments(username, clientComments)
             .then(response => {
+                console.log(response[0])
                 return res.status(200).send({
                     setListInfo : response[0],
                 })
