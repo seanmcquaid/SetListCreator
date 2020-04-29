@@ -11,8 +11,8 @@ class SetlistsModel {
         return await database.query("SELECT * FROM setlists WHERE clientname=$1", [clientName]);
     }
 
-    static async addClientComments(clientName, clientComments){
-        return await database.query("UPDATE setlists SET clientcomments=$1 WHERE clientname=$2 RETURNING *;", [clientComments, clientName]);
+    static async addClientCommentsAndApprovalStatus(clientName, clientComments, clientApprovalStatus){
+        return await database.query("UPDATE setlists SET clientcomments=$1, clientapproved=$2 WHERE clientname=$3 RETURNING *;", [clientComments, clientApprovalStatus, clientName]);
     }
 
 }

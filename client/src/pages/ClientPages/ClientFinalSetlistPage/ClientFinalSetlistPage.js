@@ -8,12 +8,15 @@ import CommentsList from "components/CommentsList/CommentsList";
 import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
+import Dropdown from "components/Dropdown/Dropdown";
 
 const ClientFinalSetlistPage = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
     const [clientComment, setClientComment] = useState("");
+    const [clientApprovalOptions, setClientApprovalOptions] = useState(["Yes", "No"]);
+    const [clientApprovalStatus, setClientApprovalStatus] = useState("Yes");
 
     useEffect(() => {
         if(isLoading){
@@ -26,6 +29,10 @@ const ClientFinalSetlistPage = props => {
                 .catch(err => console.log(err));
         }
     }, [isLoading]);
+
+    const clientApprovalOnChangeHandler = event => {
+        setClientApprovalStatus(event.target.value);
+    };
 
     const clientCommentOnChangeHandler = event => {
         setClientComment(event.target.value);
@@ -40,10 +47,13 @@ const ClientFinalSetlistPage = props => {
         const headers = tokenConfig();
 
         const requestBody = {
-            clientComments
+            clientComments,
+            clientApproval : clientApprovalStatus === "Yes" 
         };
 
-        axios.patch(`${apiHost}/editCompletedSetlistComments`, requestBody, headers)
+        console.log(requestBody.clientApproval)
+
+        axios.patch(`${apiHost}/client/editCompletedSetlistComments`, requestBody, headers)
             .then(response => {
                 console.log(response);
             })
@@ -61,6 +71,13 @@ const ClientFinalSetlistPage = props => {
     return(
         <div className={styles.clientFinalSetlistPageContainer}>
             <Text headerText={true}>Final Setlist</Text>
+            <Dropdown
+                selectedItem={clientApprovalStatus}
+                name="isClientApproved"
+                title="Is This Approved?"
+                selectedItemOnChangeHandler={clientApprovalOnChangeHandler}
+                items={clientApprovalOptions}
+            />
             <Button type="button" title="Send Comments" onClick={sendClientComments}/>
             <div className={styles.commentsContainer}>
                 <Text headerText={true}>Client Comments List</Text>

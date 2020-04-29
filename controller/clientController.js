@@ -143,11 +143,11 @@ exports.getCompletedSetlist = (req, res, next) => {
 };
 
 exports.editCompletedSetlistComments = (req, res, next) => {
-    const {clientComments} = req.body;
+    const {clientComments, clientApproval} = req.body;
     const token = req.token;
     const {username} = token;
 
-    SetlistsModel.addClientComments(username, clientComments)
+    SetlistsModel.addClientCommentsAndApprovalStatus(username, clientComments, Boolean(clientApproval))
             .then(response => {
                 console.log(response[0])
                 return res.status(200).send({
