@@ -1,4 +1,5 @@
 const UserModel = require("../models/UserModel");
+const SetlistsModel = require("../models/SetlistsModel");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const bcrypt = require("bcrypt");
@@ -152,9 +153,35 @@ exports.getClientsForBandLeader = (req, res, next) => {
     const {username} = token;
 
     return UserModel.getClientsForBandleader(username)
-                    .then(response => {
+                    .then(clients => {
+                        // match users then use setlistsmodel if setlist is ready
+                        
+                        const clientsWithSetlistsNotAvailable = clients.filter(client => client.setlistavailable === false);
+                        const clientsWithSetlistsAvailable = clients.filter(client => client.setlistavailable === true);
+                        const clientListWithSetlistApproval = clientsWithSetlistsAvailable.map(async client => {
+                            let clientInfo = {
+                                username : client.username,
+                                setlistavailable : client.setlistavailable,
+                                id : client.id,
+                                clientapproved : false,
+                            }
+                            console.log(clientInfo)
+                            
+                            await SetlistsModel.getSetlist(client.username)
+                                    .then(setListInfo => {
+                                        clientInfo.clientapproved = setListInfo[0].clientapproved;
+                                        return clientInfo;
+                                    })
+                            
+                            return clientInfo;
+                        });
+
+                        const clientList = clientsWithSetlistsNotAvailable.concat(clientListWithSetlistApproval);
+
+                        console.log(clientList)
+                        
                         return res.status(200).send({
-                            clientList : response
+                            clientList : clientList
                         })
                     })
                     .catch(err => console.log(err));
@@ -248,6 +275,3 @@ exports.sendClientSetlist = async (req, res, next) => {
             .catch(err => console.log(err));
 
 };
-
-
-// set up client approval or denial of proposed setlist
