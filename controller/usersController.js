@@ -153,36 +153,40 @@ exports.getClientsForBandLeader = (req, res, next) => {
     const {username} = token;
 
     return UserModel.getClientsForBandleader(username)
-                    .then(clients => {
+                    .then(async clients => {
                         // match users then use setlistsmodel if setlist is ready
                         
                         const clientsWithSetlistsNotAvailable = clients.filter(client => client.setlistavailable === false);
                         const clientsWithSetlistsAvailable = clients.filter(client => client.setlistavailable === true);
-                        const clientListWithSetlistApproval = clientsWithSetlistsAvailable.map(async client => {
+                        const clientListWithSetlistApprovalPromises = clientsWithSetlistsAvailable.map(client => {
+
                             let clientInfo = {
                                 username : client.username,
                                 setlistavailable : client.setlistavailable,
                                 id : client.id,
                                 clientapproved : false,
                             }
-                            console.log(clientInfo)
-                            
-                            await SetlistsModel.getSetlist(client.username)
-                                    .then(setListInfo => {
-                                        clientInfo.clientapproved = setListInfo[0].clientapproved;
-                                        return clientInfo;
-                                    })
-                            
-                            return clientInfo;
+                                   
+                            return SetlistsModel.getSetlist(clientInfo.username)
+                                        .then(response => {
+                                            clientInfo.clientapproved = response[0].clientapproved;
+                                            return clientInfo
+                                        })
                         });
 
-                        const clientList = clientsWithSetlistsNotAvailable.concat(clientListWithSetlistApproval);
+                        const clientListWithSetlistApproval = Promise.all(clientListWithSetlistApprovalPromises);
 
-                        console.log(clientList)
+                        clientListWithSetlistApproval.then(response => {
+                            const clientList = clientsWithSetlistsNotAvailable.concat(response);
+
+                            console.log(clientList)
                         
-                        return res.status(200).send({
-                            clientList : clientList
+                            return res.status(200).send({
+                                clientList : clientList
+                            })
                         })
+
+                        
                     })
                     .catch(err => console.log(err));
 };
