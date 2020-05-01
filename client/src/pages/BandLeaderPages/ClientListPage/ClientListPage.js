@@ -16,6 +16,12 @@ const ClientListPage = props => {
     const clientPageRedirect = async clientId => {
         await props.history.push(`/clientInfo/${clientId}`);
     };
+    
+    const clientFinalSetlistPageRedirect = async clientId => {
+        await props.history.push(`/clientFinalSetlist/${clientId}`);
+    };
+
+    console.log(clientList)
 
     return(
         <div className={styles.clientListPageContainer}>
@@ -27,6 +33,8 @@ const ClientListPage = props => {
                         clientName={clientInfo.username} 
                         setListAvailable={clientInfo.setlistavailable}
                         clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
+                        clientFinalSetlistPageRedirect={() => clientFinalSetlistPageRedirect(clientInfo.id)}
+                        clientApproved={clientInfo.clientApproved}
                     />
                 )}
             </div>

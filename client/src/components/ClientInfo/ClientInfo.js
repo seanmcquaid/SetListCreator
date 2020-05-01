@@ -8,11 +8,18 @@ const ClientInfo = props => {
         <div className={styles.clientInfoContainer}>
             <h4 className={styles.clientName}>{props.clientName}</h4>
             <Text>Set List Status : {props.setListAvailable ? "Ready" : "In Progress"}</Text>
-            <Button
-                title="Go To Setlist Page"
-                type="button"
-                onClick={props.clientPageRedirect}
-            />
+            {props.clientApproved ? 
+                <Button 
+                    title="Go To Final Setlist Page"
+                    type="button"
+                    onClick={props.clientFinalSetlistPageRedirect}
+                /> : 
+                <Button
+                    title="Go To Setlist Page"
+                    type="button"
+                    onClick={props.clientPageRedirect}
+                />
+            }
         </div>
     )
 };
