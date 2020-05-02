@@ -25,10 +25,9 @@ const ClientHomePage = props => {
         requestedSongsList,
         doNotPlaySongsList,
         deleteClientSongAction,
-        setListAvailable
+        setListAvailable,
+        clientApproved
     } = props;
-
-    console.log(props)
 
     useEffect(() => {
         getClientSongsAction();
@@ -72,7 +71,9 @@ const ClientHomePage = props => {
         return (
             <div className={styles.clientHomePageContainer}>
                 <Text headerText={true}>Client Home Page</Text>
-                <LinkButton route="/client/setListApproval">Get Final SetList</LinkButton> 
+                <LinkButton route={clientApproved ? "/client/finalizedSetlist" : "/client/setListApproval"}>
+                    {clientApproved ? "Get Finalized SetList" : "Look at Proposed SetList"}
+                </LinkButton> 
             </div>
         )
     }
@@ -165,6 +166,7 @@ const mapStateToProps = state => ({
     requestedSongsList : state.client.requestedSongsList,
     doNotPlaySongsList : state.client.doNotPlaySongsList,
     setListAvailable : state.client.setListAvailable,
+    clientApproved : state.client.clientApproved
 });
 
 const mapDispatchToProps = dispatch => ({

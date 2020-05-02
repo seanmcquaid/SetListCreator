@@ -170,9 +170,13 @@ exports.getClientSetlistInfo = (req, res, next) => {
                 const clientInfo = userInfo[0];
                 SetlistsModel.getSetlist(clientInfo.username)
                             .then(setListInfo => {
+                                const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
                                 return res.status(200).send({
-                                    setListInfo
-                                })
+                                    clientName : clientname,
+                                    bandLeaderName : bandleadername,
+                                    suggestedSetList : setlist.map(song => JSON.parse(song)),
+                                    bandLeaderComments : bandleadercomments
+                                });
                             })
 
             })
