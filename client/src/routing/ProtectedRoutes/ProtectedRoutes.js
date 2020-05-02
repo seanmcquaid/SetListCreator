@@ -19,7 +19,8 @@ import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
 import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
 import ClientProfilePage from "pages/ClientPages/ClientProfilePage/ClientProfilePage";
 import SetlistCreatorPage from "pages/BandLeaderPages/SetlistCreatorPage/SetlistCreatorPage";
-import ClientFinalSetlistPage from "pages/ClientPages/ClientFinalSetlistPage/ClientFinalSetlistPage";
+import ClientFinalSetlistPage from "pages/BandLeaderPages/ClientFinalSetlistPage/ClientFinalSetlistPage";
+import ClientSetlistApprovalPage from "pages/ClientPages/ClientSetlistApprovalPage/ClientSetlistApprovalPage";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -34,12 +35,13 @@ const ProtectedRoutes = props => (
         <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
         <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
         <Route exact path="/bandLeader/createSetlist/:clientId" component={SetlistCreatorPage}/>
+        <Route exact path="/bandLeader/clientFinalSetList/:clientId" component={ClientFinalSetlistPage}/>
         <Route exact path="/clientHome" component={ClientHomePage}/>
         <Route exact path="/client/editProfile" component={ClientProfilePage}/>
         <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
         <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
         <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
-        <Route exact path="/client/finalSetList" component={ClientFinalSetlistPage}/>
+        <Route exact path="/client/setListApproval" component={ClientSetlistApprovalPage}/>
         <Route component={ErrorPage}/>
     </Switch>
 );

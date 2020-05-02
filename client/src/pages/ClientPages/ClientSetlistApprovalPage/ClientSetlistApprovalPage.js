@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import styles from "./ClientFinalSetlistPage.module.css";
+import styles from "./ClientSetlistApprovalPage.module.css";
 import axios from "axios";
 import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
@@ -10,7 +10,7 @@ import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import Dropdown from "components/Dropdown/Dropdown";
 
-const ClientFinalSetlistPage = props => {
+const ClientSetlistApprovalPage = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
@@ -106,4 +106,4 @@ const ClientFinalSetlistPage = props => {
     )
 };
 
-export default ClientFinalSetlistPage;
+export default ClientSetlistApprovalPage;

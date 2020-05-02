@@ -151,10 +151,34 @@ exports.postCompletedSetlist = (req, res, next) => {
                 const clientName = clientInfo[0].username;
                 await SetlistsModel.addSetlist(clientName, bandLeaderName, completedSetlist, bandLeaderComments)
                         .then(setlistInfo => {
+                            // parse data here back into json
                             return res.status(200).send({
                                 setlistInfo
                             })
                         });
             })
             .catch(err => console.log(err));
+};
+
+exports.getClientSetlistInfo = (req, res, next) => {
+    const {clientId} = req.params;
+    const token = req.token;
+    const {username} = token;
+
+    UserModel.getUserInfo(clientId)
+            .then(userInfo => {
+                const clientInfo = userInfo[0];
+                SetlistsModel.getSetlist(clientInfo.username)
+                            .then(setListInfo => {
+                                return res.status(200).send({
+                                    setListInfo
+                                })
+                            })
+
+            })
+            .catch(err => console.log(err));
+};
+
+exports.editCompletedSetlist = (req, res, next) => {
+
 };

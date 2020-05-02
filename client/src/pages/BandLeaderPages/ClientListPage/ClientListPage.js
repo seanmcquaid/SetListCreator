@@ -18,7 +18,7 @@ const ClientListPage = props => {
     };
     
     const clientFinalSetlistPageRedirect = async clientId => {
-        await props.history.push(`/clientFinalSetlist/${clientId}`);
+        await props.history.push(`/bandLeader/clientFinalSetlist/${clientId}`);
     };
 
     console.log(clientList)
@@ -34,7 +34,7 @@ const ClientListPage = props => {
                         setListAvailable={clientInfo.setlistavailable}
                         clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
                         clientFinalSetlistPageRedirect={() => clientFinalSetlistPageRedirect(clientInfo.id)}
-                        clientApproved={clientInfo.clientApproved}
+                        clientApproved={clientInfo.clientapproved}
                     />
                 )}
             </div>

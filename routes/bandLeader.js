@@ -19,4 +19,6 @@ router.get("/getSuggestedSetlist/:clientId", checkToken, bandLeaderController.ge
 
 router.post("/postCompletedSetlist", checkToken, bandLeaderController.postCompletedSetlist);
 
+router.get("/getClientSetlistInfo/:clientId", checkToken, bandLeaderController.getClientSetlistInfo)
+
 module.exports = router;
