@@ -21,6 +21,7 @@ import ClientProfilePage from "pages/ClientPages/ClientProfilePage/ClientProfile
 import SetlistCreatorPage from "pages/BandLeaderPages/SetlistCreatorPage/SetlistCreatorPage";
 import ClientFinalSetlistPage from "pages/BandLeaderPages/ClientFinalSetlistPage/ClientFinalSetlistPage";
 import ClientSetlistApprovalPage from "pages/ClientPages/ClientSetlistApprovalPage/ClientSetlistApprovalPage";
+import FinalizedSetlistPage from "pages/ClientPages/FinalizedSetlistPage/FinalizedSetlistPage";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -42,6 +43,7 @@ const ProtectedRoutes = props => (
         <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
         <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
         <Route exact path="/client/setListApproval" component={ClientSetlistApprovalPage}/>
+        <Route exact path="/client/finalizedSetlist" component={FinalizedSetlistPage}/>
         <Route component={ErrorPage}/>
     </Switch>
 );

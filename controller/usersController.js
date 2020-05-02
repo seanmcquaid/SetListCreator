@@ -154,7 +154,6 @@ exports.getClientsForBandLeader = (req, res, next) => {
 
     return UserModel.getClientsForBandleader(username)
                     .then(async clients => {
-                        // match users then use setlistsmodel if setlist is ready
                         
                         const clientsWithSetlistsNotAvailable = clients.filter(client => client.setlistavailable === false);
                         const clientsWithSetlistsAvailable = clients.filter(client => client.setlistavailable === true);
@@ -169,7 +168,9 @@ exports.getClientsForBandLeader = (req, res, next) => {
                                    
                             return SetlistsModel.getSetlist(clientInfo.username)
                                         .then(response => {
-                                            clientInfo.clientapproved = response[0].clientapproved;
+                                            if(response[0]){
+                                                clientInfo.clientapproved = response[0].clientapproved;
+                                            }
                                             return clientInfo
                                         })
                         });

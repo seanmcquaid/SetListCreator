@@ -9,13 +9,16 @@ const ClientFinalSetlistPage = props => {
     const [clientSetlistInfo, setClientSetlistInfo] = useState({});
 
     useEffect(() => {
-        const headers = tokenConfig();
-        axios.get(`${apiHost}/bandLeader/getClientSetlistInfo/${clientId}`, headers)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(err => console.log(err));
-    },[clientId])
+        if(isLoading){
+            const headers = tokenConfig();
+            axios.get(`${apiHost}/bandLeader/getClientSetlistInfo/${clientId}`, headers)
+                .then(response => {
+                    console.log(response);
+                    setIsLoading(false);
+                })
+                .catch(err => console.log(err));
+        }
+    },[clientId, isLoading])
     
     return (
         <div>

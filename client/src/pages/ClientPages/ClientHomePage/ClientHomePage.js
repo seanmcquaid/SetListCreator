@@ -72,7 +72,7 @@ const ClientHomePage = props => {
         return (
             <div className={styles.clientHomePageContainer}>
                 <Text headerText={true}>Client Home Page</Text>
-                <LinkButton route="/client/finalSetList">Get Final SetList</LinkButton> 
+                <LinkButton route="/client/setListApproval">Get Final SetList</LinkButton> 
             </div>
         )
     }

@@ -9,6 +9,7 @@ import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import Dropdown from "components/Dropdown/Dropdown";
+import { Redirect } from "react-router-dom";
 
 const ClientSetlistApprovalPage = props => {
     const [isLoading, setIsLoading] = useState(true);
@@ -51,11 +52,10 @@ const ClientSetlistApprovalPage = props => {
             clientApproval : clientApprovalStatus === "Yes" 
         };
 
-        console.log(requestBody.clientApproval)
-
         axios.patch(`${apiHost}/client/editCompletedSetlistComments`, requestBody, headers)
             .then(response => {
                 console.log(response);
+                setIsLoading(true);
             })
             .catch(err => {
                 console.log(err);
@@ -64,6 +64,10 @@ const ClientSetlistApprovalPage = props => {
 
     if(isLoading){
         return <div>Loading</div>
+    }
+
+    if(setListInfo.clientapproved){
+        return <Redirect to={`/client/finalizedSetlist`}/>
     }
 
     const {bandLeaderComments, suggestedSetList} = setListInfo;

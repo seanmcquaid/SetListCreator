@@ -16,11 +16,15 @@ exports.postAddSong = (req, res, next) => {
                                     ClientSongListModel.getSongs(userInfo.username)
                                                         .then(clientSongs => {
                                                             const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                            return res.status(200).send({
-                                                                userInfo,
-                                                                requestedSongsList, 
-                                                                doNotPlaySongsList
-                                                            });
+                                                            SetlistsModel.getSetlist(userInfo[0].username)
+                                                                    .then(setListInfo => {
+                                                                        return res.status(200).send({
+                                                                            requestedSongsList, 
+                                                                            doNotPlaySongsList,
+                                                                            setListAvailable : userInfo[0].setlistavailable,
+                                                                            clientApproved : setListInfo[0].clientapproved
+                                                                        });
+                                                                    })
                                                         });
                             })
                         })
@@ -44,11 +48,15 @@ exports.deleteSong = (req, res, next) => {
                                     ClientSongListModel.getSongs(userInfo.username)
                                                         .then(clientSongs => {
                                                             const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                            return res.status(200).send({
-                                                                userInfo,
-                                                                requestedSongsList, 
-                                                                doNotPlaySongsList
-                                                            });
+                                                            SetlistsModel.getSetlist(userInfo[0].username)
+                                                                    .then(setListInfo => {
+                                                                        return res.status(200).send({
+                                                                            requestedSongsList, 
+                                                                            doNotPlaySongsList,
+                                                                            setListAvailable : userInfo[0].setlistavailable,
+                                                                            clientApproved : setListInfo[0].clientapproved
+                                                                        });
+                                                                    })
                                                         });
                             })
                         })
@@ -67,11 +75,15 @@ exports.getSongs = (req, res, next) => {
                             UserModel.getUserInfo(id)
                                     .then(userInfo => {
                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                        return res.status(200).send({
-                                            requestedSongsList, 
-                                            doNotPlaySongsList,
-                                            setListAvailable : userInfo[0].setlistavailable,
-                                        });
+                                        SetlistsModel.getSetlist(userInfo[0].username)
+                                                .then(setListInfo => {
+                                                    return res.status(200).send({
+                                                        requestedSongsList, 
+                                                        doNotPlaySongsList,
+                                                        setListAvailable : userInfo[0].setlistavailable,
+                                                        clientApproved : setListInfo[0].clientapproved
+                                                    });
+                                                })
                                     })
                         })
                         .catch(err => {
@@ -111,11 +123,15 @@ exports.editSong = (req, res, next) => {
                                 ClientSongListModel.getSongs(userInfo.username)
                                                     .then(clientSongs => {
                                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                        return res.status(200).send({
-                                                            userInfo,
-                                                            requestedSongsList, 
-                                                            doNotPlaySongsList
-                                                        });
+                                                        SetlistsModel.getSetlist(userInfo[0].username)
+                                                                .then(setListInfo => {
+                                                                    return res.status(200).send({
+                                                                        requestedSongsList, 
+                                                                        doNotPlaySongsList,
+                                                                        setListAvailable : userInfo[0].setlistavailable,
+                                                                        clientApproved : setListInfo[0].clientapproved
+                                                                    });
+                                                                })
                                                     });
                         })
                     })

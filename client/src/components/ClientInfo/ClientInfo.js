@@ -7,7 +7,9 @@ const ClientInfo = props => {
     return(
         <div className={styles.clientInfoContainer}>
             <h4 className={styles.clientName}>{props.clientName}</h4>
-            <Text>Set List Status : {props.setListAvailable ? "Ready" : "In Progress"}</Text>
+            <Text>Set List Status :  
+                {props.clientApproved ? " Complete" : props.setListAvailable ? "Ready" : "In Progress"}
+            </Text>
             {props.clientApproved ? 
                 <Button 
                     title="Go To Final Setlist Page"

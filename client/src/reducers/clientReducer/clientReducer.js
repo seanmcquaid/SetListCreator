@@ -26,6 +26,7 @@ const initialState = {
     requestedSongsList : [],
     isLoading : false,
     setListAvailable : false,
+    clientApproved : false
 };
 
 const clientReducer = (state = initialState, action) => {
@@ -51,6 +52,7 @@ const clientReducer = (state = initialState, action) => {
                 requestedSongsList : action.payload.requestedSongsList,
                 doNotPlaySongsList : action.payload.doNotPlaySongsList,
                 setListAvailable : action.payload.setListAvailable,
+                clientApproved : action.clientApproved,
                 isLoading : false,
             }
         case SEND_CLIENT_SETLIST_SUCCESS :
