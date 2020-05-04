@@ -1,7 +1,7 @@
 const usersController = require("../../controller/usersController");
 const expect = require("chai").expect;
 const sinon = require("sinon");
-const UserModel = require("../../models/UserModel");
+const UsersModel = require("../../models/UsersModel");
 
 const mockRequest = (headers, body, params, token) => ({
     header : headerName => {
@@ -35,7 +35,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -67,7 +67,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -99,7 +99,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -114,7 +114,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -196,7 +196,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -242,7 +242,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -265,7 +265,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -300,13 +300,13 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
 
         beforeEach(done => {
-            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+            UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                      .then(response => done())
                      .catch(err => console.log(err));
         });
@@ -329,13 +329,13 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });  
 
         afterEach(done => {
-            UserModel.deleteUser(clientBody.username)
+            UsersModel.deleteUser(clientBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -352,7 +352,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                       id = response[0].id
                       done();
@@ -378,7 +378,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -396,7 +396,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(clientBody.username, clientBody.password, "client", null)
+            UsersModel.register(clientBody.username, clientBody.password, "client", null)
                   .then(response => {
                       clientId = response[0].id;
                       done();
@@ -422,7 +422,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(clientBody.username)
+            UsersModel.deleteUser(clientBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -438,7 +438,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                       id = response[0].id
                       done();
@@ -474,7 +474,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -491,7 +491,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                       id = response[0].id
                       done();
@@ -522,7 +522,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -537,7 +537,7 @@ describe("usersController", () => {
         };
 
         beforeEach(done => {
-            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+            UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                      .then(response => done())
                      .catch(err => console.log(err));
         });
@@ -566,7 +566,7 @@ describe("usersController", () => {
         });
 
         afterEach(done => {
-            UserModel.deleteUser(clientBody.username)
+            UsersModel.deleteUser(clientBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });

@@ -1,7 +1,7 @@
 const database = require("../database/database");
 const bcrypt = require("bcrypt");
 
-class UserModel {
+class UsersModel {
 
     static async userExists(username){
         return await database.query("SELECT * FROM USERS where username=$1;", [username]);
@@ -39,4 +39,4 @@ class UserModel {
 
 }
 
-module.exports = UserModel;
+module.exports = UsersModel;

@@ -2,7 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const server = require("../../app");
-const UserModel = require("../../models/UserModel");
+const UsersModel = require("../../models/UsersModel");
 const config = require("../../config/config");
 const jwt = require("jsonwebtoken");
 
@@ -50,7 +50,7 @@ describe("User Routes", () => {
             })
 
             afterEach(done => { 
-               UserModel.deleteUser(username)
+               UsersModel.deleteUser(username)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -60,7 +60,7 @@ describe("User Routes", () => {
          describe("Will not create a new user if the user already exists", () => {
 
             beforeEach(done => {
-               UserModel.register(username, password, "client", selectedBandleader)
+               UsersModel.register(username, password, "client", selectedBandleader)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -80,7 +80,7 @@ describe("User Routes", () => {
            });
 
            afterEach(done => {
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
             });
@@ -100,7 +100,7 @@ describe("User Routes", () => {
          describe("Login works", () => {
 
             beforeEach(done => {
-               UserModel.register(username, password, "bandLeader", null)
+               UsersModel.register(username, password, "bandLeader", null)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -132,7 +132,7 @@ describe("User Routes", () => {
             })
 
             afterEach(done => {
-               UserModel.deleteUser(username)
+               UsersModel.deleteUser(username)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -142,7 +142,7 @@ describe("User Routes", () => {
          describe("Login will not pass", () => {
 
             beforeEach(done => {
-               UserModel.register(username, password, "bandLeader", null)
+               UsersModel.register(username, password, "bandLeader", null)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -193,7 +193,7 @@ describe("User Routes", () => {
             })
 
             afterEach(done => {
-               UserModel.deleteUser(username)
+               UsersModel.deleteUser(username)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -214,7 +214,7 @@ describe("User Routes", () => {
          const {username, password, selectedBandleader} = body;
 
          beforeEach(done => {
-            UserModel.register(username, password, "client", selectedBandleader)
+            UsersModel.register(username, password, "client", selectedBandleader)
                      .then(response => {
                         const specificUserInfo = response[0];
                         const {id, accounttype} = specificUserInfo;
@@ -257,7 +257,7 @@ describe("User Routes", () => {
          });
 
          afterEach(done => {
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
          });
@@ -274,7 +274,7 @@ describe("User Routes", () => {
       const {username, password} = body;
 
       beforeEach(done => {
-         UserModel.register(username, password, "bandLeader", null)
+         UsersModel.register(username, password, "bandLeader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -290,7 +290,7 @@ describe("User Routes", () => {
       });
 
       afterEach(done => {
-         UserModel.deleteUser(username)
+         UsersModel.deleteUser(username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -313,7 +313,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -332,7 +332,7 @@ describe("User Routes", () => {
       });
 
       before(done => {
-         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                   .then(response => done())
                   .catch(err => console.log(err));
       })
@@ -349,13 +349,13 @@ describe("User Routes", () => {
       });
 
       after(done => {
-         UserModel.deleteUser(bandleaderBody.username)
+         UsersModel.deleteUser(bandleaderBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
 
       after(done => {
-         UserModel.deleteUser(clientBody.username)
+         UsersModel.deleteUser(clientBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -377,7 +377,7 @@ describe("User Routes", () => {
       let clientId, token;
 
       before(done => {
-         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                   .then(response => {
                      clientId = response[0].id;
                      done();
@@ -386,7 +386,7 @@ describe("User Routes", () => {
       });
 
       before(done => {
-         UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -431,13 +431,13 @@ describe("User Routes", () => {
       })
 
       after(done => {
-         UserModel.deleteUser(clientBody.username)
+         UsersModel.deleteUser(clientBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
 
       after(done => {
-         UserModel.deleteUser(bandleaderBody.username)
+         UsersModel.deleteUser(bandleaderBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -455,7 +455,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -500,7 +500,7 @@ describe("User Routes", () => {
       });
 
       after(done => {
-         UserModel.deleteUser(clientBody.username)
+         UsersModel.deleteUser(clientBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -522,7 +522,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UserModel.register(originalUserInfo.username, originalUserInfo.password, "bandLeader", null)
+         UsersModel.register(originalUserInfo.username, originalUserInfo.password, "bandLeader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -566,7 +566,7 @@ describe("User Routes", () => {
       });
 
       after(done => {
-         UserModel.deleteUser(newUserInfo.newUsername)
+         UsersModel.deleteUser(newUserInfo.newUsername)
                   .then(response =>done())
                   .catch(err => console.log(err));
       });
@@ -588,7 +588,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UserModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
+         UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -621,7 +621,7 @@ describe("User Routes", () => {
       });
 
       after(done => {
-         UserModel.deleteUser(userInfo.username)
+         UsersModel.deleteUser(userInfo.username)
                   .then(response => done())
                   .catch(err => console.log(err));
       });

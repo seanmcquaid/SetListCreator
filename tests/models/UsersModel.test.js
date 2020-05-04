@@ -1,7 +1,7 @@
-const UserModel = require("../../models/UserModel");
+const UsersModel = require("../../models/UsersModel");
 const expect = require("chai").expect;
 
-describe("UserModel", () => {
+describe("UsersModel", () => {
 
     describe("userExists", () => {
         const body = {
@@ -13,13 +13,13 @@ describe("UserModel", () => {
         const {username, password, selectedBandleader} = body;
 
         before(done => {
-            UserModel.register(username, password, "client", selectedBandleader)
+            UsersModel.register(username, password, "client", selectedBandleader)
                      .then(response => done())
                      .catch(err => console.log(err));
          });
 
         it("userExists returns as expected", done => {
-            UserModel.userExists(username)
+            UsersModel.userExists(username)
                     .then(response => {
                         const expectedResponse = { 
                             username: "testClient",
@@ -40,7 +40,7 @@ describe("UserModel", () => {
         });
 
         after(done => { 
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
          });
@@ -57,7 +57,7 @@ describe("UserModel", () => {
         const {username, password, selectedBandleader} = body;
 
         it("register works", done => {
-            UserModel.register(username, password, "client", selectedBandleader)
+            UsersModel.register(username, password, "client", selectedBandleader)
                         .then(response => {
                             const expectedResponse = { 
                                 username: "testClient1",
@@ -78,7 +78,7 @@ describe("UserModel", () => {
         })
 
         after(done => {
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                      .then(response => done())
                      .catch(err => console.log(err));
         });
@@ -94,13 +94,13 @@ describe("UserModel", () => {
          const {username, password} = body;
 
          before(done => {
-            UserModel.register(username, password, "bandLeader", null)
+            UsersModel.register(username, password, "bandLeader", null)
                     .then(response => done())
                     .catch(err => console.log(err));
          });
 
         it("getAllBandleaders works", done => {
-            UserModel.getAllBandleaders()
+            UsersModel.getAllBandleaders()
                     .then(response => {
                         expect(response.length).to.be.greaterThan(0);
                         done();
@@ -109,7 +109,7 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -127,7 +127,7 @@ describe("UserModel", () => {
         const {username, password} = body;
 
         before(done => {
-            UserModel.register(username, password, "bandLeader", null)
+            UsersModel.register(username, password, "bandLeader", null)
                     .then(response =>{
                         userId = response[0].id;
                         done();
@@ -136,7 +136,7 @@ describe("UserModel", () => {
          });
 
         it("getUserInfo works", done => {
-            UserModel.getUserInfo(userId)
+            UsersModel.getUserInfo(userId)
                     .then(response => {
                         const expectedResponse = { 
                             username: "testBandleader",
@@ -154,7 +154,7 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser(username)
+            UsersModel.deleteUser(username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -171,7 +171,7 @@ describe("UserModel", () => {
         const {username, password} = body;
 
         before(done => {
-            UserModel.register(username, password, "bandLeader", null)
+            UsersModel.register(username, password, "bandLeader", null)
                     .then(response =>{
                         userId = response[0].id;
                         done();
@@ -180,7 +180,7 @@ describe("UserModel", () => {
         });
 
         it("editUserInfo works", done => {
-            UserModel.editUserInfo("newUsername", "newPassword", userId)
+            UsersModel.editUserInfo("newUsername", "newPassword", userId)
                     .then(response => {
                         const expectedResponse = { 
                             username: "newUsername",
@@ -198,7 +198,7 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser("newUsername")
+            UsersModel.deleteUser("newUsername")
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -218,19 +218,19 @@ describe("UserModel", () => {
         };
 
         before(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                      .then(response =>done())
                      .catch(err => console.log(err));
          });
    
          before(done => {
-            UserModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+            UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
                      .then(response => done())
                      .catch(err => console.log(err));
          })
 
         it("getClientsForBandleader works", done => {
-            UserModel.getClientsForBandleader(bandleaderBody.username)
+            UsersModel.getClientsForBandleader(bandleaderBody.username)
                     .then(response => {
                         const expectedResponse = { username: "testClient", setlistavailable: false};
 
@@ -242,13 +242,13 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                      .then(response => done())
                      .catch(err => console.log(err));
          });
    
         after(done => {
-            UserModel.deleteUser(clientBody.username)
+            UsersModel.deleteUser(clientBody.username)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
@@ -267,13 +267,13 @@ describe("UserModel", () => {
         };
 
         before(done => {
-            UserModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
+            UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
                     .then(response => done())
                     .catch(err => console.log(err));
         });
 
         it("setClientSetlistAvailability works", done => {
-            UserModel.setClientSetlistAvailability(userInfo.username, body.setlistAvailability)
+            UsersModel.setClientSetlistAvailability(userInfo.username, body.setlistAvailability)
                     .then(response => {
                         const expectedResponse = { 
                             username: "testClient",
@@ -293,7 +293,7 @@ describe("UserModel", () => {
         });
 
         after(done => {
-            UserModel.deleteUser(userInfo.username)
+            UsersModel.deleteUser(userInfo.username)
                      .then(response => done())
                      .catch(err => console.log(err));
          });

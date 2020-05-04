@@ -1,6 +1,6 @@
 const database = require("../database/database");
 
-class BandLeaderSongListModel {
+class BandleaderSongListModel {
 
     static async addSong(songName, artistName, songKey, username){
         await database.query("INSERT INTO bandleadersonglist (songname, artistname, songkey, username) values($1, $2, $3, $4)", [songName, artistName, songKey, username]);
@@ -27,4 +27,4 @@ class BandLeaderSongListModel {
 
 }
 
-module.exports = BandLeaderSongListModel;
+module.exports = BandleaderSongListModel;

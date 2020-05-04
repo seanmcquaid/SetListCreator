@@ -1,37 +1,33 @@
-const UserModel = require("../models/UserModel");
+const UsersModel = require("../models/UsersModel");
 const ClientSongListModel = require("../models/ClientSongListModel");
-const BandLeaderSongListModel = require("../models/BandLeaderSongListModel");
-const SetlistsModel = require("../models/SetlistsModel");
+const BandleaderSongListModel = require("../models/BandleaderSongListModel");
+const SetListsModel = require("../models/SetListsModel");
 
 exports.postAddSong = (req, res, next) => {
     const {songName, artistName, songKey} = req.body;
     const token = req.token;
     const {username} = token;
 
-    BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+    BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                             .then(response => {
                                 return res.status(200).send({
                                     songList : response
                                 });
                             })
-                            .catch(err => {
-                                console.log(err)
-                            })
+                            .catch(err => res.sendStatus(404));
 };
 
 exports.getSongs = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    BandLeaderSongListModel.getSongs(username)
+    BandleaderSongListModel.getSongs(username)
                             .then(response =>{
                                 return res.status(200).send({
                                     songList : response
                                 })
                             })
-                            .catch(err => {
-                                console.log(err);
-                            })
+                            .catch(err => res.sendStatus(404));
 }
 
 exports.getSong = (req, res, next) => {
@@ -39,15 +35,13 @@ exports.getSong = (req, res, next) => {
     const {username} = token;
     const {songId} = req.params;
     
-    BandLeaderSongListModel.getSong(username, songId)
+    BandleaderSongListModel.getSong(username, songId)
                         .then(response => {
                             return res.status(200).send({
                                 songInfo : response
                             });
                         })
-                        .catch(err => {
-                            console.log(err);
-                        })
+                        .catch(err => res.sendStatus(404))
 }
 
 exports.deleteSong = (req, res, next) => {
@@ -55,16 +49,14 @@ exports.deleteSong = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    BandLeaderSongListModel.deleteSong(username, songId)
+    BandleaderSongListModel.deleteSong(username, songId)
                         .then(response => {
                             console.log(response)
                             return res.status(200).send({
                                 songList : response
                             });
                         })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                        .catch(err => res.sendStatus(404));
 };
 
 exports.editSong = (req, res, next) => {
@@ -73,23 +65,20 @@ exports.editSong = (req, res, next) => {
     const {username} = token;
     const {songName, artistName, songKey} = req.body;
 
-    BandLeaderSongListModel.editSong(songId, songName, artistName, songKey, username)
+    BandleaderSongListModel.editSong(songId, songName, artistName, songKey, username)
                             .then(response => {
-                                console.log(response);
                                 return res.status(200).send({
                                     songList : response
                                 });
                             })
-                            .catch(err => {
-                                console.log(err);
-                            })
+                            .catch(err => res.sendStatus(404));
 
 };
 
 exports.getClientSongs = (req, res, next) => {
     const {clientId} = req.params;
 
-    UserModel.getUserInfo(clientId)
+    UsersModel.getUserInfo(clientId)
             .then(clientInfo => {
                 const userInfo = clientInfo[0];
                 ClientSongListModel.getSongs(userInfo.username)
@@ -102,7 +91,7 @@ exports.getClientSongs = (req, res, next) => {
                                         });
                                     })
             })
-            .catch(err => console.log(err));
+            .catch(err => res.sendStatus(404));
 
 };
 
@@ -111,18 +100,18 @@ exports.getSuggestedSetlist = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    UserModel.getUserInfo(clientId)
+    UsersModel.getUserInfo(clientId)
             .then(clientInfo => {
                 const userInfo = clientInfo[0];
                 ClientSongListModel.getSongs(userInfo.username)
                     .then(clientSongs => {
                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                        BandLeaderSongListModel.getSongs(username)
-                            .then(bandLeaderSongs => {
+                        BandleaderSongListModel.getSongs(username)
+                            .then(bandleaderSongs => {
 
-                                const suggestedSetList = bandLeaderSongs.filter(bandLeaderSong => {
-                                    const isBandLeaderSongInClientDoNotPlayList = doNotPlaySongsList.find(doNotPlaySong => doNotPlaySong.songname === bandLeaderSong.songname);
-                                    return isBandLeaderSongInClientDoNotPlayList ? null : bandLeaderSong;
+                                const suggestedSetList = bandleaderSongs.filter(bandleaderSong => {
+                                    const isBandleaderSongInClientDoNotPlayList = doNotPlaySongsList.find(doNotPlaySong => doNotPlaySong.songname === bandleaderSong.songname);
+                                    return isBandleaderSongInClientDoNotPlayList ? null : bandleaderSong;
                                 });
 
                                 const additionalClientRequests = requestedSongsList.filter(requestedSong => {
@@ -137,27 +126,30 @@ exports.getSuggestedSetlist = (req, res, next) => {
                             })
                     })
             })
-            .catch(err => console.log(err));
+            .catch(err => res.sendStatus(404));
 
 };
 
 exports.postCompletedSetlist = (req, res, next) => {
-    const {completedSetlist, clientId, bandLeaderComments} = req.body;
+    const {completedSetList, clientId, bandLeaderComments} = req.body;
     const token = req.token;
     const bandLeaderName = token.username;
 
-    UserModel.getUserInfo(clientId)
+    UsersModel.getUserInfo(clientId)
             .then(async clientInfo => {
                 const clientName = clientInfo[0].username;
-                await SetlistsModel.addSetlist(clientName, bandLeaderName, completedSetlist, bandLeaderComments)
-                        .then(setlistInfo => {
-                            // parse data here back into json
+                await SetListsModel.addSetlist(clientName, bandLeaderName, completedSetList, bandLeaderComments)
+                        .then(setListInfo => {
+                            const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
                             return res.status(200).send({
-                                setlistInfo
-                            })
+                                clientName : clientname,
+                                bandLeaderName : bandleadername,
+                                suggestedSetList : setlist.map(song => JSON.parse(song)),
+                                bandLeaderComments : bandleadercomments
+                            });
                         });
             })
-            .catch(err => console.log(err));
+            .catch(err => res.sendStatus(404));
 };
 
 exports.getClientSetlistInfo = (req, res, next) => {
@@ -165,10 +157,10 @@ exports.getClientSetlistInfo = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    UserModel.getUserInfo(clientId)
+    UsersModel.getUserInfo(clientId)
             .then(userInfo => {
                 const clientInfo = userInfo[0];
-                SetlistsModel.getSetlist(clientInfo.username)
+                SetListsModel.getSetlist(clientInfo.username)
                             .then(setListInfo => {
                                 const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
                                 return res.status(200).send({
@@ -180,7 +172,7 @@ exports.getClientSetlistInfo = (req, res, next) => {
                             })
 
             })
-            .catch(err => console.log(err));
+            .catch(err => res.sendStatus(404));
 };
 
 exports.editCompletedSetlist = (req, res, next) => {

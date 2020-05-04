@@ -1,6 +1,6 @@
 const ClientSongListModel = require("../models/ClientSongListModel");
-const UserModel = require("../models/UserModel");
-const SetlistsModel = require("../models/SetlistsModel");
+const UsersModel = require("../models/UsersModel");
+const SetListsModel = require("../models/SetListsModel");
 
 exports.postAddSong = (req, res, next) => {
     const {songName, artistName} = req.body;
@@ -10,13 +10,13 @@ exports.postAddSong = (req, res, next) => {
     
     ClientSongListModel.addSong(songName, artistName, songType, username)
                         .then(addedSong => {
-                            UserModel.getUserInfo(id)
+                            UsersModel.getUserInfo(id)
                                 .then(clientInfo => {
                                     const userInfo = clientInfo[0];
                                     ClientSongListModel.getSongs(userInfo.username)
                                                         .then(clientSongs => {
                                                             const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                            SetlistsModel.getSetlist(userInfo[0].username)
+                                                            SetListsModel.getSetlist(userInfo[0].username)
                                                                     .then(setListInfo => {
                                                                         return res.status(200).send({
                                                                             requestedSongsList, 
@@ -28,9 +28,7 @@ exports.postAddSong = (req, res, next) => {
                                                         });
                             })
                         })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                        .catch(err => res.sendStatus(404));
 
 
 };
@@ -42,13 +40,13 @@ exports.deleteSong = (req, res, next) => {
 
     ClientSongListModel.deleteSong(username, songId)
                         .then(deletedSong => {
-                            UserModel.getUserInfo(id)
+                            UsersModel.getUserInfo(id)
                                 .then(clientInfo => {
                                     const userInfo = clientInfo[0];
                                     ClientSongListModel.getSongs(userInfo.username)
                                                         .then(clientSongs => {
                                                             const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                            SetlistsModel.getSetlist(userInfo[0].username)
+                                                            SetListsModel.getSetlist(userInfo[0].username)
                                                                     .then(setListInfo => {
                                                                         return res.status(200).send({
                                                                             requestedSongsList, 
@@ -60,9 +58,7 @@ exports.deleteSong = (req, res, next) => {
                                                         });
                             })
                         })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                        .catch(err => res.sendStatus(404));
 
 };
 
@@ -72,10 +68,10 @@ exports.getSongs = (req, res, next) => {
 
     ClientSongListModel.getSongs(username)
                         .then(clientSongs => {
-                            UserModel.getUserInfo(id)
+                            UsersModel.getUserInfo(id)
                                     .then(userInfo => {
                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                        SetlistsModel.getSetlist(userInfo[0].username)
+                                        SetListsModel.getSetlist(userInfo[0].username)
                                                 .then(setListInfo => {
                                                     return res.status(200).send({
                                                         requestedSongsList, 
@@ -86,9 +82,7 @@ exports.getSongs = (req, res, next) => {
                                                 })
                                     })
                         })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                        .catch(err => res.sendStatus(404));
 
 }
 
@@ -103,9 +97,7 @@ exports.getSong = (req, res, next) => {
                                 songInfo : response
                             });
                         })
-                        .catch(err => {
-                            console.log(err);
-                        })
+                        .catch(err => res.sendStatus(404))
 
 };
 
@@ -117,13 +109,13 @@ exports.editSong = (req, res, next) => {
 
     ClientSongListModel.editSong(songId, songName, artistName, playListType, username)
                     .then(editedSong => {
-                        UserModel.getUserInfo(id)
+                        UsersModel.getUserInfo(id)
                             .then(clientInfo => {
                                 const userInfo = clientInfo[0];
                                 ClientSongListModel.getSongs(userInfo.username)
                                                     .then(clientSongs => {
                                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-                                                        SetlistsModel.getSetlist(userInfo[0].username)
+                                                        SetListsModel.getSetlist(userInfo[0].username)
                                                                 .then(setListInfo => {
                                                                     return res.status(200).send({
                                                                         requestedSongsList, 
@@ -145,7 +137,7 @@ exports.getCompletedSetlist = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    SetlistsModel.getSetlist(username)
+    SetListsModel.getSetlist(username)
             .then(response => {
                 const {clientname, bandleadername, setlist, bandleadercomments} = response[0];
                 return res.status(200).send({
@@ -163,7 +155,7 @@ exports.editCompletedSetlistComments = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    SetlistsModel.addClientCommentsAndApprovalStatus(username, clientComments, Boolean(clientApproval))
+    SetListsModel.addClientCommentsAndApprovalStatus(username, clientComments, Boolean(clientApproval))
             .then(response => {
                 console.log(response[0])
                 return res.status(200).send({

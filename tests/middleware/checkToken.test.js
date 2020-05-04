@@ -2,7 +2,7 @@ const expect = require("chai").expect;
 const sinon = require("sinon");
 const checkToken = require("../../middleware/checkToken");
 const config = require("../../config/config");
-const UserModel = require("../../models/UserModel");
+const UsersModel = require("../../models/UsersModel");
 const jwt = require("jsonwebtoken");
 
 const mockRequest = (headers, body) => ({
@@ -36,7 +36,7 @@ describe("Check Token Middleware", () => {
          let token;
 
         before(done => {
-            UserModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -73,7 +73,7 @@ describe("Check Token Middleware", () => {
 
 
         after(done => {
-            UserModel.deleteUser(bandleaderBody.username)
+            UsersModel.deleteUser(bandleaderBody.username)
                   .then(response => done())
                   .catch(err => console.log(err));
         });

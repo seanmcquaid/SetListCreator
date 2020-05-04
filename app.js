@@ -16,14 +16,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const usersRouter = require("./routes/users");
-const bandLeaderRouter = require("./routes/bandLeader");
+const bandleaderRouter = require("./routes/bandleader");
 const clientRouter = require("./routes/client");
 
 app.use("/users", usersRouter);
-app.use("/bandLeader", bandLeaderRouter);
+app.use("/bandleader", bandleaderRouter);
 app.use("/client", clientRouter)
 
-// prevents 304
 app.disable("etag");
 
 module.exports = app;

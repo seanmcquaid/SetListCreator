@@ -1,4 +1,4 @@
-const UserModel = require("../models/UserModel");
+const UsersModel = require("../models/UsersModel");
 const SetlistsModel = require("../models/SetlistsModel");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
@@ -8,7 +8,7 @@ exports.postRegister = async (req, res, next) => {
     const {username, password, selectedBandleader} = req.body;
     const {accountType} = req.params;
 
-    return await UserModel.userExists(username)
+    return await UsersModel.userExists(username)
             .then(async userInfo => {
                 if(userInfo.length > 0){
                     return await res.status(401).send({
@@ -16,7 +16,7 @@ exports.postRegister = async (req, res, next) => {
                     });
                 }
 
-                return await UserModel.register(username, password, accountType, selectedBandleader)
+                return await UsersModel.register(username, password, accountType, selectedBandleader)
                         .then(async userInfoResponse => {
 
                             const specificUserInfo = userInfoResponse[0];
@@ -50,7 +50,7 @@ exports.postLogin = async (req, res, next) => {
     const {username, password} = req.body;
     const {accountType} = req.params;
 
-    return await UserModel.userExists(username)
+    return await UsersModel.userExists(username)
             .then(async userInfo => {
                 if(userInfo.length == 0){
                     return await res.status(401).send({
@@ -103,7 +103,7 @@ exports.getCheckToken = (req,res,next) => {
     const token = req.token;
     const {username} = token;
 
-    return UserModel.userExists(username)
+    return UsersModel.userExists(username)
             .then(userInfo => {
                 const specificUserInfo = userInfo[0];
 
@@ -139,7 +139,7 @@ exports.getCheckToken = (req,res,next) => {
 };
 
 exports.getBandleaders = (req, res, next) => {
-    return UserModel.getAllBandleaders()
+    return UsersModel.getAllBandleaders()
                 .then(response => {
                     return res.status(200).send({
                         bandLeaders : response
@@ -152,7 +152,7 @@ exports.getClientsForBandLeader = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    return UserModel.getClientsForBandleader(username)
+    return UsersModel.getClientsForBandleader(username)
                     .then(async clients => {
                         
                         const clientsWithSetlistsNotAvailable = clients.filter(client => client.setlistavailable === false);
@@ -196,7 +196,7 @@ exports.getUserInfo = (req, res, next) => {
     const token = req.token;
     const {id} = token;
 
-    return UserModel.getUserInfo(id)
+    return UsersModel.getUserInfo(id)
                     .then(response => {
                         return res.status(200).send({
                             isAuthenticated : true,
@@ -210,7 +210,7 @@ exports.getUserInfo = (req, res, next) => {
 exports.getClientInfo = (req, res, next) => {
     const {clientId} = req.params;
 
-    return UserModel.getUserInfo(clientId)
+    return UsersModel.getUserInfo(clientId)
                     .then(response => {
                         return res.status(200).send({
                             clientInfo : response[0],
@@ -224,7 +224,7 @@ exports.editUserInfo = async (req, res, next) => {
     const {id} = req.token;
     const {newUsername, newPassword} = req.body;
 
-    await UserModel.getUserInfo(id)
+    await UsersModel.getUserInfo(id)
             .then(async response => {
                 
                 const userInfo = response[0];
@@ -237,7 +237,7 @@ exports.editUserInfo = async (req, res, next) => {
                             });
                         }
 
-                        return await UserModel.editUserInfo(newUsername, newPassword, id)
+                        return await UsersModel.editUserInfo(newUsername, newPassword, id)
                                         .then(response => {
                                             const specificUserInfo = response[0];
                                             
@@ -271,7 +271,7 @@ exports.sendClientSetlist = async (req, res, next) => {
     const {username} = token;
     const {setlistAvailability} = req.body;
 
-    return await UserModel.setClientSetlistAvailability(username, setlistAvailability)
+    return await UsersModel.setClientSetlistAvailability(username, setlistAvailability)
             .then(async response => {
                 return await res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
