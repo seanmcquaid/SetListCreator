@@ -172,7 +172,7 @@ exports.getClientsForBandleader = (req, res, next) => {
                                    
                             return SetlistsModel.getSetList(clientInfo.username)
                                         .then(response => {
-                                            if(response[0].clientapproved){
+                                            if(response.length > 0){
                                                 clientInfo.clientapproved = response[0].clientapproved;
                                             }
                                             return clientInfo

@@ -18,6 +18,7 @@ const ClientSetListApprovalPage = props => {
     const [clientComment, setClientComment] = useState("");
     const [clientApprovalOptions, setClientApprovalOptions] = useState(["Yes", "No"]);
     const [clientApprovalStatus, setClientApprovalStatus] = useState("Yes");
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         if(isLoading){
@@ -27,7 +28,10 @@ const ClientSetListApprovalPage = props => {
                     setSetListInfo(response.data);
                     setIsLoading(false);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    setErrorMessage(err.response.data.errorMessage);
+                    setIsLoading(false);
+                });
         }
     }, [isLoading]);
 
@@ -58,7 +62,7 @@ const ClientSetListApprovalPage = props => {
                 setIsLoading(true);
             })
             .catch(err => {
-                console.log(err);
+                console.log(err.response);
             })
     };
 
@@ -70,8 +74,11 @@ const ClientSetListApprovalPage = props => {
         return <Redirect to={`/client/finalizedSetList`}/>
     }
 
+    if(errorMessage.length > 0){
+        return <div>{errorMessage}</div>
+    }
+
     const {bandleaderComments, suggestedSetList} = setListInfo;
-    console.log(setListInfo)
 
     return(
         <div className={styles.clientFinalSetListPageContainer}>

@@ -9,6 +9,7 @@ const ClientInfo = props => {
             <h4 className={styles.clientName}>{props.clientName}</h4>
             {console.log(props)}
             <Text>Set List Status :  
+                {console.log(props.clientApproved, props.setListAvailable)}
                 {props.clientApproved && props.setListAvailable ? " Complete" : 
                 !props.clientApproved && props.setListAvailable ? " Needs Edits" :
                 props.setListAvailable ? " Ready" : " In Progress"}
