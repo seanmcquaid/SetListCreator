@@ -95,7 +95,7 @@ exports.getClientSongs = (req, res, next) => {
 
 };
 
-exports.getSuggestedSetlist = (req, res, next) => {
+exports.getSuggestedSetList = (req, res, next) => {
     const {clientId} = req.params;
     const token = req.token;
     const {username} = token;
@@ -130,7 +130,7 @@ exports.getSuggestedSetlist = (req, res, next) => {
 
 };
 
-exports.postCompletedSetlist = (req, res, next) => {
+exports.postCompletedSetList = (req, res, next) => {
     const {completedSetList, clientId, bandLeaderComments} = req.body;
     const token = req.token;
     const bandLeaderName = token.username;
@@ -152,7 +152,7 @@ exports.postCompletedSetlist = (req, res, next) => {
             .catch(err => res.sendStatus(404));
 };
 
-exports.getClientSetlistInfo = (req, res, next) => {
+exports.getClientSetListInfo = (req, res, next) => {
     const {clientId} = req.params;
     const token = req.token;
     const {username} = token;
@@ -175,6 +175,6 @@ exports.getClientSetlistInfo = (req, res, next) => {
             .catch(err => res.sendStatus(404));
 };
 
-exports.editCompletedSetlist = (req, res, next) => {
+exports.editCompletedSetList = (req, res, next) => {
 
 };

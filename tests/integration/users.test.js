@@ -100,20 +100,20 @@ describe("User Routes", () => {
          describe("Login works", () => {
 
             beforeEach(done => {
-               UsersModel.register(username, password, "bandLeader", null)
+               UsersModel.register(username, password, "bandleader", null)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
             
             it("Login passes", done => {
                chai.request(server)
-                  .post("/users/login/bandLeader")
+                  .post("/users/login/bandleader")
                   .send(body)
                   .end((err, res) => {
                      const expectedResponse = { 
                         isAuthenticated: true,
                         username: 'testBandleader',
-                        accountType: 'bandLeader',
+                        accountType: 'bandleader',
                         selectedBandleader: null,
                         setListAvailable: false 
                      };
@@ -142,7 +142,7 @@ describe("User Routes", () => {
          describe("Login will not pass", () => {
 
             beforeEach(done => {
-               UsersModel.register(username, password, "bandLeader", null)
+               UsersModel.register(username, password, "bandleader", null)
                         .then(response => done())
                         .catch(err => console.log(err));
             });
@@ -154,7 +154,7 @@ describe("User Routes", () => {
                }
 
                chai.request(server)
-                  .post("/users/login/bandLeader")
+                  .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
                      const expectedResponse = { errorMessage: "This user isn't registered on our site!" };
@@ -182,7 +182,7 @@ describe("User Routes", () => {
                   password : "testPassword123",
                };
                chai.request(server)
-                  .post("/users/login/bandLeader")
+                  .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
                      const expectedResponse = { errorMessage: "Entered password doesn't match our records" };
@@ -274,7 +274,7 @@ describe("User Routes", () => {
       const {username, password} = body;
 
       beforeEach(done => {
-         UsersModel.register(username, password, "bandLeader", null)
+         UsersModel.register(username, password, "bandleader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
       });
@@ -284,7 +284,7 @@ describe("User Routes", () => {
             .get("/users/getBandleaders")
             .end((err, res) => {
                expect(res.status).to.equal(200);
-               expect(res.body.bandLeaders.length).to.be.greaterThan(0);
+               expect(res.body.bandleaders.length).to.be.greaterThan(0);
             });
          done();
       });
@@ -297,7 +297,7 @@ describe("User Routes", () => {
 
     });
 
-    describe("getClientsforBandLeader", () => {
+    describe("getClientsforBandleader", () => {
 
       let token;
 
@@ -313,7 +313,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -386,7 +386,7 @@ describe("User Routes", () => {
       });
 
       before(done => {
-         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -522,7 +522,7 @@ describe("User Routes", () => {
       };
 
       before(done => {
-         UsersModel.register(originalUserInfo.username, originalUserInfo.password, "bandLeader", null)
+         UsersModel.register(originalUserInfo.username, originalUserInfo.password, "bandleader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;
@@ -551,7 +551,7 @@ describe("User Routes", () => {
                const expectedResponse = { 
                   isAuthenticated: true,
                   username: "testBandleader123",
-                  accountType: "bandLeader" 
+                  accountType: "bandleader" 
                };
 
                expect(res.status).to.equal(200);

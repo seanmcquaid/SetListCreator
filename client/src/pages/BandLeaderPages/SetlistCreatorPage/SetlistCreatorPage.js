@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { tokenConfig } from "actions/authActions/authActions";
-import {apiHost} from "config";
-import Text from "components/Text/Text";
-import Button from "components/Button/Button";
+import React, { useEffect, useState } from "pages/BandleaderPages/SetListCreatorPage/node_modules/react";
+import axios from "pages/BandleaderPages/SetListCreatorPage/node_modules/axios";
+import { tokenConfig } from "pages/BandleaderPages/SetListCreatorPage/node_modules/actions/authActions/authActions";
+import {apiHost} from "pages/BandleaderPages/SetListCreatorPage/node_modules/config";
+import Text from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Text/Text";
+import Button from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Button/Button";
 import styles from "./SetlistCreatorPage.module.css";
-import SongList from "components/SongList/SongList";
-import Input from "components/Input/Input";
-import CommentsList from "components/CommentsList/CommentsList";
+import SongList from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/SongList/SongList";
+import Input from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Input/Input";
+import CommentsList from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/CommentsList/CommentsList";
 
-const SetlistCreatorPage = props => {
+const SetListCreatorPage = props => {
     const {clientId} = props.match.params;
     const [isLoading, setIsLoading] = useState(true);
     const [suggestedSetList, setSuggestedSetList] = useState([]);
@@ -20,7 +20,7 @@ const SetlistCreatorPage = props => {
     useEffect(() => {
         if(isLoading){
             const headers = tokenConfig();
-            axios.get(`${apiHost}/bandLeader/getSuggestedSetlist/${clientId}`, headers)
+            axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
             .then(async response => {
                 setIsLoading(false);
                 setSuggestedSetList(response.data.suggestedSetList);
@@ -51,12 +51,12 @@ const SetlistCreatorPage = props => {
         const headers = tokenConfig();
 
         const requestBody = {
-            completedSetlist : suggestedSetList,
+            completedSetList : suggestedSetList,
             clientId,
             bandLeaderComments : setListComments,
         };
 
-        axios.post(`${apiHost}/bandLeader/postCompletedSetlist`, requestBody, headers)
+        axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, headers)
             .then(response => {
 
             })
@@ -100,4 +100,4 @@ const SetlistCreatorPage = props => {
     )
 };
 
-export default SetlistCreatorPage;
+export default SetListCreatorPage;

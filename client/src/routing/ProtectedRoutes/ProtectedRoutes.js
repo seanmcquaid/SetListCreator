@@ -3,47 +3,47 @@ import {Route, Switch} from "react-router-dom";
 import LandingPage from "pages/LandingPage/LandingPage";
 import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
 import ClientRegisterPage from "pages/ClientPages/ClientRegisterPage/ClientRegisterPage";
-import BandLeaderLoginPage from "pages/BandLeaderPages/BandLeaderLoginPage/BandLeaderLoginPage";
-import BandLeaderRegisterPage from "pages/BandLeaderPages/BandLeaderRegisterPage/BandLeaderRegisterPage";
+import BandleaderLoginPage from "pages/BandleaderPages/BandleaderLoginPage/BandleaderLoginPage";
+import BandleaderRegisterPage from "pages/BandleaderPages/BandleaderRegisterPage/BandleaderRegisterPage";
 import ErrorPage from "pages/ErrorPage/ErrorPage";
-import BandLeaderHomePage from "pages/BandLeaderPages/BandLeaderHomePage/BandLeaderHomePage";
+import BandleaderHomePage from "pages/BandleaderPages/BandleaderHomePage/BandleaderHomePage";
 import ClientHomePage from "pages/ClientPages/ClientHomePage/ClientHomePage";
-import AddSongsPage from "pages/BandLeaderPages/AddSongsPage/AddSongsPage";
-import ClientListPage from "pages/BandLeaderPages/ClientListPage/ClientListPage";
-import BandLeaderEditSongPage from "pages/BandLeaderPages/BandLeaderEditSongPage/BandLeaderEditSongPage";
+import AddSongsPage from "pages/BandleaderPages/AddSongsPage/AddSongsPage";
+import ClientListPage from "pages/BandleaderPages/ClientListPage/ClientListPage";
+import BandleaderEditSongPage from "pages/BandleaderPages/BandleaderEditSongPage/BandleaderEditSongPage";
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
-import BandLeaderProfilePage from "pages/BandLeaderPages/BandLeaderProfilePage/BandLeaderProfilePage";
-import ClientSendSetlistPage from "pages/ClientPages/ClientSendSetlistPage/ClientSendSetlistPage";
+import BandleaderProfilePage from "pages/BandleaderPages/BandleaderProfilePage/BandleaderProfilePage";
+import ClientSendSetListPage from "pages/ClientPages/ClientSendSetListPage/ClientSendSetListPage";
 import ProtectedBandleaderRoute from "../ProtectedBandleaderRoute/ProtectedBandleaderRoute";
 import ProtectedClientRoute from "../ProtectedClientRoute/ProtectedClientRoute";
-import ClientInfoPage from "pages/BandLeaderPages/ClientInfoPage/ClientInfoPage";
+import ClientInfoPage from "pages/BandleaderPages/ClientInfoPage/ClientInfoPage";
 import ClientProfilePage from "pages/ClientPages/ClientProfilePage/ClientProfilePage";
-import SetlistCreatorPage from "pages/BandLeaderPages/SetlistCreatorPage/SetlistCreatorPage";
-import ClientFinalSetlistPage from "pages/BandLeaderPages/ClientFinalSetlistPage/ClientFinalSetlistPage";
-import ClientSetlistApprovalPage from "pages/ClientPages/ClientSetlistApprovalPage/ClientSetlistApprovalPage";
-import FinalizedSetlistPage from "pages/ClientPages/FinalizedSetlistPage/FinalizedSetlistPage";
+import SetListCreatorPage from "pages/BandleaderPages/SetListCreatorPage/SetListCreatorPage";
+import ClientFinalSetListPage from "pages/BandleaderPages/ClientFinalSetListPage/ClientFinalSetListPage";
+import ClientSetListApprovalPage from "pages/ClientPages/ClientSetListApprovalPage/ClientSetListApprovalPage";
+import FinalizedSetListPage from "pages/ClientPages/FinalizedSetListPage/FinalizedSetListPage";
 
 const ProtectedRoutes = props => (
     <Switch>
         <Route exact path="/" component={LandingPage}/>
         <Route exact path="/clientLogin" component={ClientLoginPage}/>
         <Route exact path="/clientRegister" component={ClientRegisterPage}/>
-        <Route exact path="/bandLeaderLogin" component={BandLeaderLoginPage}/>
-        <Route exact path="/bandLeaderRegister" component={BandLeaderRegisterPage}/>
-        <Route exact path="/bandLeaderHome" component={BandLeaderHomePage}/>
-        <Route exact path="/bandLeader/editProfile" component={BandLeaderProfilePage}/>
-        <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
-        <Route exact path="/bandLeader/addSongs" component={AddSongsPage}/>
-        <Route exact path="/bandLeader/editSong/:songId" component={BandLeaderEditSongPage}/>
-        <Route exact path="/bandLeader/createSetlist/:clientId" component={SetlistCreatorPage}/>
-        <Route exact path="/bandLeader/clientFinalSetList/:clientId" component={ClientFinalSetlistPage}/>
+        <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
+        <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
+        <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+        <Route exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
+        <Route exact path="/bandleader/clientList" component={ClientListPage}/>
+        <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
+        <Route exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
+        <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
+        <Route exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
         <Route exact path="/clientHome" component={ClientHomePage}/>
         <Route exact path="/client/editProfile" component={ClientProfilePage}/>
         <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-        <Route exact path="/client/sendSetlist" component={ClientSendSetlistPage}/>
+        <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
         <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
-        <Route exact path="/client/setListApproval" component={ClientSetlistApprovalPage}/>
-        <Route exact path="/client/finalizedSetlist" component={FinalizedSetlistPage}/>
+        <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
+        <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
         <Route component={ErrorPage}/>
     </Switch>
 );

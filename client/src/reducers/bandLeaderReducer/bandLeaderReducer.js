@@ -14,18 +14,16 @@ import {
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
-} from "actions/bandLeaderActions/bandLeaderActionTypes";
-import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
+} from "reducers/bandleaderReducer/node_modules/actions/bandleaderActions/bandleaderActionTypes";
+import { LOGOUT_SUCCESS } from "reducers/bandleaderReducer/node_modules/actions/authActions/authActionTypes";
 
 const initialState = {
-    setLists : [],
     clientList : [],
-    bandLists : [],
     songList : [],
     isLoading : false,
 };
 
-const bandLeaderReducer = (state = initialState, action) => {
+const bandleaderReducer = (state = initialState, action) => {
     switch(action.type){
         case ADD_BANDLEADER_SONG_LOADING: 
         case GET_BANDLEADER_SONGS_LOADING: 
@@ -71,4 +69,4 @@ const bandLeaderReducer = (state = initialState, action) => {
     }
 }
 
-export default bandLeaderReducer;
+export default bandleaderReducer;

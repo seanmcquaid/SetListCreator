@@ -36,7 +36,7 @@ describe("Check Token Middleware", () => {
          let token;
 
         before(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                      const specificUserInfo = response[0];
                      const {id, username, accounttype} = specificUserInfo;

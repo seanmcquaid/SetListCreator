@@ -1,7 +1,7 @@
-const BandLeaderSongListModel = require("../../models/BandLeaderSongListModel");
+const BandleaderSongListModel = require("../../models/BandleaderSongListModel");
 const expect = require("chai").expect;
 
-describe("BandLeaderSongListModel", () => {
+describe("BandleaderSongListModel", () => {
 
     describe("addSong", () => {
         let id;
@@ -17,7 +17,7 @@ describe("BandLeaderSongListModel", () => {
 
         it("addSong", async () => {
     
-            await BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+            await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(async response => {
                                             const expectedResponse = { 
                                                 username: "testuser@gmail.com",
@@ -39,7 +39,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(username, id)
+            BandleaderSongListModel.deleteSong(username, id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -66,12 +66,12 @@ describe("BandLeaderSongListModel", () => {
         const {songName, artistName, songKey, username} = songInfo;
 
         beforeEach(done => {
-            BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(async response => {
                                             id = response[0].id
                                         })
                                         .catch(err => console.log(err));
-            BandLeaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
+            BandleaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
                                         .then(async response => {
                                             id2 = response[0].id
                                             done();
@@ -80,7 +80,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         it("getSongs", async () => {
-            return await BandLeaderSongListModel.getSongs(username)
+            return await BandleaderSongListModel.getSongs(username)
                                         .then(async response => {
                                             expect(response.length).to.equal(2);
                                         })
@@ -89,10 +89,10 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(username, id)
+            BandleaderSongListModel.deleteSong(username, id)
                                         .then(response => {})
                                         .catch(err => console.log(err));
-            BandLeaderSongListModel.deleteSong(username , id2)
+            BandleaderSongListModel.deleteSong(username , id2)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -112,7 +112,7 @@ describe("BandLeaderSongListModel", () => {
         const {songName, artistName, songKey, username} = songInfo;
 
         beforeEach(done => {
-            BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(response => {
                                             id = response[0].id
                                             done();
@@ -121,7 +121,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         it("getSong", async () => {
-            await BandLeaderSongListModel.getSong(songInfo.username, id)
+            await BandleaderSongListModel.getSong(songInfo.username, id)
                                 .then(async response => {
                                     
                                     const expectedResponse = { 
@@ -144,7 +144,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            BandLeaderSongListModel.deleteSong(username , id)
+            BandleaderSongListModel.deleteSong(username , id)
                                         .then(response => done())
                                         .catch(err => console.log(err));
         });
@@ -164,7 +164,7 @@ describe("BandLeaderSongListModel", () => {
         const {songName, artistName, songKey, username} = songInfo;
 
         beforeEach(done => {
-            BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(response => {
                                             id = response[0].id
                                             done();
@@ -173,7 +173,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         it("deleteSong", async () => {
-            await BandLeaderSongListModel.deleteSong(username, id)
+            await BandleaderSongListModel.deleteSong(username, id)
                                         .then(response => {
                                             // console.log(response);
                                         })
@@ -195,7 +195,7 @@ describe("BandLeaderSongListModel", () => {
         const {songName, artistName, songKey, username} = songInfo;
 
         beforeEach(done => {
-            BandLeaderSongListModel.addSong(songName, artistName, songKey, username)
+            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(response => {
                                             id = response[0].id
                                             console.log(response)
@@ -215,7 +215,7 @@ describe("BandLeaderSongListModel", () => {
 
             console.log(id);
 
-            await BandLeaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
+            await BandleaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
                                 .then(async response => {
                                     console.log(response);
                                 })
@@ -223,7 +223,7 @@ describe("BandLeaderSongListModel", () => {
         });
 
         afterEach(done => {
-            return BandLeaderSongListModel.deleteSong(username , id)
+            return BandleaderSongListModel.deleteSong(username , id)
                                         .then(response => {
                                             console.log(response)
                                             done()

@@ -35,7 +35,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -47,7 +47,7 @@ describe("usersController", () => {
             };
 
             const params = {
-                accountType : "bandLeader"
+                accountType : "bandleader"
             };
 
             const req = await mockRequest({}, body, params, {});
@@ -84,7 +84,7 @@ describe("usersController", () => {
         it("postRegister - no user already exists", async () => {
 
             const params = {
-                accountType : "bandLeader"
+                accountType : "bandleader"
             };
 
             const req = await mockRequest({}, bandleaderBody, params, {});
@@ -114,7 +114,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -127,7 +127,7 @@ describe("usersController", () => {
             };
 
             const params = {
-                accountType : "bandLeader"
+                accountType : "bandleader"
             };
 
             const req = await mockRequest({}, body, params, {});
@@ -176,7 +176,7 @@ describe("usersController", () => {
             };
 
             const params = {
-                accountType : "bandLeader"
+                accountType : "bandleader"
             };
 
             const req = await mockRequest({}, body, params, {});
@@ -212,7 +212,7 @@ describe("usersController", () => {
             };
 
             const params = {
-                accountType : "bandLeader"
+                accountType : "bandleader"
             };
 
             const req = await mockRequest({}, body, params, {});
@@ -242,7 +242,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -300,7 +300,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => done())
                   .catch(err => console.log(err));
         });
@@ -311,7 +311,7 @@ describe("usersController", () => {
                      .catch(err => console.log(err));
         });
 
-        it("getClientsForBandLeader", async () => {
+        it("getClientsForBandleader", async () => {
 
             const token = {
                 username : "testBandleader333"
@@ -321,7 +321,7 @@ describe("usersController", () => {
             const res = await mockResponse();
             const next = mockNext;
 
-            await usersController.getClientsForBandLeader(req, res, next);
+            await usersController.getClientsForBandleader(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
@@ -352,7 +352,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                       id = response[0].id
                       done();
@@ -438,7 +438,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                       id = response[0].id
                       done();
@@ -491,7 +491,7 @@ describe("usersController", () => {
 
 
         beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null)
+            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
                   .then(response => {
                       id = response[0].id
                       done();

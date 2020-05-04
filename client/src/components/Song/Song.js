@@ -19,7 +19,7 @@ const Song = props => {
                 type="button"
                 title="Remove"
             />
-            {isEditable ? <LinkButton route={songKey ? `/bandLeader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton> : null}
+            {isEditable ? <LinkButton route={songKey ? `/bandleader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton> : null}
         </div>
     )
 };

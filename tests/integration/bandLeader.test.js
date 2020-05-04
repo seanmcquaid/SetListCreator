@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 
-describe("BandLeader Routes", () => {
+describe("Bandleader Routes", () => {
 
     it("addSong", done => {
         expect(2).to.equal(2);

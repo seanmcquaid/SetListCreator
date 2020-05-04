@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { apiHost } from "config";
-import { tokenConfig } from "actions/authActions/authActions";
-import SongList from "components/SongList/SongList";
-import Text from "components/Text/Text";
-import styles from "./ClientFinalSetlistPage.module.css";
+import React, { useEffect, useState } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/react";
+import axios from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/axios";
+import { apiHost } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/config";
+import { tokenConfig } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/actions/authActions/authActions";
+import SongList from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/components/SongList/SongList";
+import Text from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/components/Text/Text";
+import styles from "./ClientFinalSetListPage.module.css";
 
-const ClientFinalSetlistPage = props => {
+const ClientFinalSetListPage = props => {
     const {clientId} = props.match.params;
     const [isLoading, setIsLoading] = useState(true);
-    const [clientSetlistInfo, setClientSetlistInfo] = useState({});
+    const [clientSetListInfo, setClientSetListInfo] = useState({});
 
     useEffect(() => {
         if(isLoading){
             const headers = tokenConfig();
-            axios.get(`${apiHost}/bandLeader/getClientSetlistInfo/${clientId}`, headers)
+            axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, headers)
                 .then(response => {
-                    setClientSetlistInfo(response.data);
+                    setClientSetListInfo(response.data);
                     setIsLoading(false);
                 })
                 .catch(err => console.log(err));
@@ -28,11 +28,11 @@ const ClientFinalSetlistPage = props => {
     }
     
     return (
-        <div className={styles.clientFinalSetlistPageContainer}>
-            <Text headerText={true}>Final Setlist For {clientSetlistInfo.clientName}</Text>
-            <SongList list={clientSetlistInfo.suggestedSetList}/>
+        <div className={styles.clientFinalSetListPageContainer}>
+            <Text headerText={true}>Final Set List For {clientSetListInfo.clientName}</Text>
+            <SongList list={clientSetListInfo.suggestedSetList}/>
         </div>
     )
 };
 
-export default ClientFinalSetlistPage;
+export default ClientFinalSetListPage;

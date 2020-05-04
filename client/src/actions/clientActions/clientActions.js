@@ -148,21 +148,19 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
 
 };
 
-export const sendClientSetlistAction = setlistAvailability => async dispatch => {
+export const sendClientSetListAction = setListAvailability => async dispatch => {
 
     await dispatch({
         type : SEND_CLIENT_SETLIST_LOADING,
     });
 
     const requestBody = {
-        setlistAvailability,
+        setListAvailability,
     };
-
-    console.log(setlistAvailability);
 
     const headers = tokenConfig();
 
-    axios.patch(`${apiHost}/users/sendClientSetlist`, requestBody, headers)
+    axios.patch(`${apiHost}/users/sendClientSetList`, requestBody, headers)
         .then(response => {
             console.log(response.data);
             dispatch({

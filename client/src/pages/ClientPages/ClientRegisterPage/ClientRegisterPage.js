@@ -23,7 +23,7 @@ const ClientRegisterPage = props => {
     useEffect(() => {
         axios.get(`${apiHost}/users/getBandleaders`)
             .then(async response => {
-                const bandLeadersArray = response.data.bandLeaders.map(bandLeader => (bandLeader.username));
+                const bandLeadersArray = response.data.bandleaders.map(bandleader => (bandleader.username));
                 let initialArray = [""];
                 const newArray = initialArray.concat(bandLeadersArray);
                 await setBandleaders(newArray);

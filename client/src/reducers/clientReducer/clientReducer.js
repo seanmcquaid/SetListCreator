@@ -21,7 +21,7 @@ import {
 import {LOGIN_SUCCESS, LOGOUT_SUCCESS} from "actions/authActions/authActionTypes";
 
 const initialState = {
-    bandLeader : "",
+    bandleader : "",
     doNotPlaySongsList : [],
     requestedSongsList : [],
     isLoading : false,
@@ -46,7 +46,6 @@ const clientReducer = (state = initialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS :
         case DELETE_CLIENT_SONG_SUCCESS :
         case EDIT_CLIENT_SONG_SUCCESS :
-            console.log(action.payload)
             return {
                 ...state,
                 requestedSongsList : action.payload.requestedSongsList,

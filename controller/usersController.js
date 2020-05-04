@@ -142,13 +142,13 @@ exports.getBandleaders = (req, res, next) => {
     return UsersModel.getAllBandleaders()
                 .then(response => {
                     return res.status(200).send({
-                        bandLeaders : response
+                        bandleaders : response
                     })
                 })
                 .catch(err => console.log(err));
 };
 
-exports.getClientsForBandLeader = (req, res, next) => {
+exports.getClientsForBandleader = (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
@@ -266,12 +266,12 @@ exports.editUserInfo = async (req, res, next) => {
 
 };
 
-exports.sendClientSetlist = async (req, res, next) => {
+exports.sendClientSetList = async (req, res, next) => {
     const token = req.token;
     const {username} = token;
     const {setlistAvailability} = req.body;
 
-    return await UsersModel.setClientSetlistAvailability(username, setlistAvailability)
+    return await UsersModel.setClientSetListAvailability(username, setlistAvailability)
             .then(async response => {
                 return await res.status(200).send({
                     setListAvailable : response[0].setlistavailable,

@@ -1,4 +1,4 @@
-const bandLeaderController = require("../../controller/bandLeaderController");
+const bandleaderController = require("../../controller/bandleaderController");
 const expect = require("chai").expect;
 
 describe("BandLeaderController", () => {

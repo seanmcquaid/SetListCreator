@@ -1,4 +1,4 @@
-.clientFinalSetlistPageContainer, .commentsContainer, .songsContainer{
+.clientFinalSetListPageContainer, .commentsContainer, .songsContainer{
     display : flex;
     flex-direction: column;
     justify-content: center;

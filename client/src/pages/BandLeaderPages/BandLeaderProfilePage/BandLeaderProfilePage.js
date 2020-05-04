@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from "pages/BandleaderPages/BandleaderProfilePage/node_modules/react";
 import styles from "./BandLeaderProfilePage.module.css";
-import Text from "components/Text/Text";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import {connect} from "react-redux";
-import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
+import Text from "pages/BandleaderPages/BandleaderProfilePage/node_modules/components/Text/Text";
+import Input from "pages/BandleaderPages/BandleaderProfilePage/node_modules/components/Input/Input";
+import Button from "pages/BandleaderPages/BandleaderProfilePage/node_modules/components/Button/Button";
+import {connect} from "pages/BandleaderPages/BandleaderProfilePage/node_modules/react-redux";
+import {editUserInfoAction, getUserInfoAction} from "pages/BandleaderPages/BandleaderProfilePage/node_modules/actions/authActions/authActions";
 
-const BandLeaderProfilePage = props => {
+const BandleaderProfilePage = props => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,7 +16,6 @@ const BandLeaderProfilePage = props => {
     useEffect(() => {
         if(username === ""){
             setUsername(props.username);
-            setMessage("Loaded username!")
         }
         getUserInfoAction();
     },[getUserInfoAction, username, props.username])
@@ -38,15 +37,15 @@ const BandLeaderProfilePage = props => {
         if(password !== confirmPassword){
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
-            editUserInfoAction(username, password, "bandLeader");
+            editUserInfoAction(username, password, "bandleader");
         }
     }
 
     return (
-        <div className={styles.bandLeaderProfilePageContainer}>
+        <div className={styles.bandleaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
             <Text>{props.errorMessage ? props.errorMessage : message}</Text>
-            <form className={styles.bandLeaderEditProfileForm} onSubmit={bandleaderEditProfileSubmitHandler}>
+            <form className={styles.bandleaderEditProfileForm} onSubmit={bandleaderEditProfileSubmitHandler}>
             <Input
                 name="username"
                 title="Edit Username Here"
@@ -87,4 +86,4 @@ const mapDispatchToProps = dispatch => ({
     getUserInfoAction : () => dispatch(getUserInfoAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(BandleaderProfilePage);

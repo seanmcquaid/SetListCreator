@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from "pages/ClientPages/ClientSetListApprovalPage/node_modules/react";
 import styles from "./ClientSetlistApprovalPage.module.css";
-import axios from "axios";
-import { tokenConfig } from "actions/authActions/authActions";
-import {apiHost} from "config";
-import Text from "components/Text/Text";
-import CommentsList from "components/CommentsList/CommentsList";
-import SongList from "components/SongList/SongList";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import Dropdown from "components/Dropdown/Dropdown";
-import { Redirect } from "react-router-dom";
+import axios from "pages/ClientPages/ClientSetListApprovalPage/node_modules/axios";
+import { tokenConfig } from "pages/ClientPages/ClientSetListApprovalPage/node_modules/actions/authActions/authActions";
+import {apiHost} from "pages/ClientPages/ClientSetListApprovalPage/node_modules/config";
+import Text from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Text/Text";
+import CommentsList from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/CommentsList/CommentsList";
+import SongList from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/SongList/SongList";
+import Input from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Input/Input";
+import Button from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Button/Button";
+import Dropdown from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Dropdown/Dropdown";
+import { Redirect } from "pages/ClientPages/ClientSetListApprovalPage/node_modules/react-router-dom";
 
-const ClientSetlistApprovalPage = props => {
+const ClientSetListApprovalPage = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
@@ -52,7 +52,7 @@ const ClientSetlistApprovalPage = props => {
             clientApproval : clientApprovalStatus === "Yes" 
         };
 
-        axios.patch(`${apiHost}/client/editCompletedSetlistComments`, requestBody, headers)
+        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
             .then(response => {
                 console.log(response);
                 setIsLoading(true);
@@ -67,14 +67,14 @@ const ClientSetlistApprovalPage = props => {
     }
 
     if(setListInfo.clientapproved){
-        return <Redirect to={`/client/finalizedSetlist`}/>
+        return <Redirect to={`/client/finalizedSetList`}/>
     }
 
-    const {bandLeaderComments, suggestedSetList} = setListInfo;
+    const {bandleaderComments, suggestedSetList} = setListInfo;
 
     return(
-        <div className={styles.clientFinalSetlistPageContainer}>
-            <Text headerText={true}>Final Setlist</Text>
+        <div className={styles.clientFinalSetListPageContainer}>
+            <Text headerText={true}>Final Set List</Text>
             <Dropdown
                 selectedItem={clientApprovalStatus}
                 name="isClientApproved"
@@ -98,8 +98,8 @@ const ClientSetlistApprovalPage = props => {
             </div>
             <div className={styles.listsContainer}>
                 <div className={styles.commentsContainer}>
-                    <Text headerText={true}>Band Leader Comments</Text>
-                    <CommentsList list={bandLeaderComments}/>
+                    <Text headerText={true}>Band leader Comments</Text>
+                    <CommentsList list={bandleaderComments}/>
                 </div>
                 <div className={styles.songsContainer}>
                     <Text headerText={true}>Suggested Setlist</Text>
@@ -110,4 +110,4 @@ const ClientSetlistApprovalPage = props => {
     )
 };
 
-export default ClientSetlistApprovalPage;
+export default ClientSetListApprovalPage;

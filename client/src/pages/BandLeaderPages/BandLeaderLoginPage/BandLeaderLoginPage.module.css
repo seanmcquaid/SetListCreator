@@ -1,4 +1,4 @@
-.bandLeaderLoginContainer, .loginForm, .textContainer {
+.bandleaderLoginContainer, .loginForm, .textContainer {
     display : flex;
     flex-direction: column;
     justify-content: center;

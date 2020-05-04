@@ -20,12 +20,12 @@ const ProtectedBandleaderRoute = ({isLoading, accountType, isAuthenticated, toke
     }
 
 
-    if(isAuthenticated && accountType === "bandLeader"){
+    if(isAuthenticated && accountType === "bandleader"){
         return <Route {...props} component={props.component}/>;
     }
 
     if(isAuthenticated === true && accountType !== null){
-        if(isLoadingPage === false && accountType !== "bandLeader"){
+        if(isLoadingPage === false && accountType !== "bandleader"){
             console.log("redirect - isLoadingPage and accounttype")
             console.log(isLoadingPage, accountType);
             return <Redirect to="/"/>;

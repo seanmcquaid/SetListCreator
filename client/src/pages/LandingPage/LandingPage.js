@@ -12,7 +12,7 @@ const LandingPage = props => {
             </div>
             <div className={styles.buttonContainer}>
                 <LinkButton route="/clientLogin">Client</LinkButton>
-                <LinkButton route="/bandLeaderLogin">Bandleader</LinkButton>
+                <LinkButton route="/bandleaderLogin">Bandleader</LinkButton>
             </div>
         </div>
     )

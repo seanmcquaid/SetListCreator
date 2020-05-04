@@ -15,10 +15,10 @@ router.patch("/editSong/:songId", checkToken, bandleaderController.editSong);
 
 router.get("/getClientSongs/:clientId", checkToken, bandleaderController.getClientSongs);
 
-router.get("/getSuggestedSetlist/:clientId", checkToken, bandleaderController.getSuggestedSetlist);
+router.get("/getSuggestedSetList/:clientId", checkToken, bandleaderController.getSuggestedSetList);
 
-router.post("/postCompletedSetlist", checkToken, bandleaderController.postCompletedSetlist);
+router.post("/postCompletedSetList", checkToken, bandleaderController.postCompletedSetList);
 
-router.get("/getClientSetlistInfo/:clientId", checkToken, bandleaderController.getClientSetlistInfo)
+router.get("/getClientSetListInfo/:clientId", checkToken, bandleaderController.getClientSetListInfo)
 
 module.exports = router;

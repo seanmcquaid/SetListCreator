@@ -17,7 +17,7 @@ class UsersModel {
     }
 
     static async getAllBandleaders(){
-        return await database.query("SELECT username FROM USERS where accounttype='bandLeader';");
+        return await database.query("SELECT username FROM USERS where accounttype='bandleader';");
     }
 
     static async getUserInfo(id){
@@ -33,7 +33,7 @@ class UsersModel {
         return await database.query("SELECT username, setlistavailable, id FROM USERS where bandleadername=$1", [bandleaderName]);
     }
 
-    static async setClientSetlistAvailability(clientName, setlistAvailability){
+    static async setClientSetListAvailability(clientName, setlistAvailability){
         return await database.query("UPDATE USERS SET setlistavailable=$1 WHERE username=$2 RETURNING *", [setlistAvailability, clientName]);
     }
 

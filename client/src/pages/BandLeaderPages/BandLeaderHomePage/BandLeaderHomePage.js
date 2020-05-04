@@ -1,11 +1,11 @@
-import React from "react";
-import Text from "components/Text/Text";
-import LinkButton from "components/LinkButton/LinkButton";
-import styles from "./BandLeaderHomePage.module.css";
+import React from "pages/BandleaderPages/BandleaderHomePage/node_modules/react";
+import Text from "pages/BandleaderPages/BandleaderHomePage/node_modules/components/Text/Text";
+import LinkButton from "pages/BandleaderPages/BandleaderHomePage/node_modules/components/LinkButton/LinkButton";
+import styles from "./BandleaderHomePage.module.css";
 
-const BandLeaderHomePage = props => {
+const BandleaderHomePage = props => {
     return(
-        <div className={styles.bandLeaderHomePageContainer}>
+        <div className={styles.bandleaderHomePageContainer}>
             <Text headerText={true}>Band Leader Home Page</Text>
             <div className={styles.linkButtonsContainer}>
                 <LinkButton route="/bandLeader/editProfile">Edit Profile</LinkButton>
@@ -16,4 +16,4 @@ const BandLeaderHomePage = props => {
     )
 };
 
-export default BandLeaderHomePage;
+export default BandleaderHomePage;

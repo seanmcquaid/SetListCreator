@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import Text from "components/Text/Text";
-import {Link, Redirect} from "react-router-dom";
-import styles from "./BandLeaderRegisterPage.module.css";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import {connect} from "react-redux";
-import {registerAction} from "actions/authActions/authActions";
+import React, {useState} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react";
+import Text from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Text/Text";
+import {Link, Redirect} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react-router-dom";
+import styles from "./BandleaderRegisterPage.module.css";
+import Input from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Input/Input";
+import Button from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Button/Button";
+import {connect} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react-redux";
+import {registerAction} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/actions/authActions/authActions";
 
-const BandLeaderRegisterPage = props => {
+const BandleaderRegisterPage = props => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
@@ -27,17 +27,17 @@ const BandLeaderRegisterPage = props => {
         setConfirmPassword(event.target.value);
     };
 
-    const bandLeaderRegisterSubmitHandler = event => {
+    const bandleaderRegisterSubmitHandler = event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setErrorMessage("Passwords don't match");
         }else {
-            registerAction(username, password, "bandLeader");
+            registerAction(username, password, "bandleader");
         }
     };
 
     if(props.isAuthenticated){
-        return <Redirect to="/bandLeaderHome"/>
+        return <Redirect to="/bandleaderHome"/>
     }
 
     return(
@@ -45,11 +45,11 @@ const BandLeaderRegisterPage = props => {
             <div className={styles.textContainer}>
                 <Text headerText={true}>Band Leader Register</Text>
                 <Text>
-                    Already have an account? Login <Link className={styles.registerLink} to="/bandLeaderLogin">Here</Link>
+                    Already have an account? Login <Link className={styles.registerLink} to="/bandleaderLogin">Here</Link>
                 </Text>
                 <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
             </div>
-            <form className={styles.registerForm} onSubmit={bandLeaderRegisterSubmitHandler}>
+            <form className={styles.registerForm} onSubmit={bandleaderRegisterSubmitHandler}>
                 <Input 
                     name="username"
                     title="Username"
@@ -89,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
     registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderRegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BandleaderRegisterPage);

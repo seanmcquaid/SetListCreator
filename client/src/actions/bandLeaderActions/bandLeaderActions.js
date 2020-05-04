@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "actions/bandleaderActions/node_modules/axios";
 import {
     ADD_BANDLEADER_SONG_LOADING,
     ADD_BANDLEADER_SONG_SUCCESS,
@@ -15,9 +15,9 @@ import {
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
-} from "./bandLeaderActionTypes";
+} from "./bandleaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
-import { apiHost } from "config";
+import { apiHost } from "actions/bandleaderActions/node_modules/config";
 
 export const addBandleaderSongAction = (songName, artistName, songKey) => async dispatch => {
 
@@ -28,7 +28,7 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => async 
     const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
 
-    axios.post(`${apiHost}/bandLeader/addSong`, requestBody, headers)
+    axios.post(`${apiHost}/bandleader/addSong`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : ADD_BANDLEADER_SONG_SUCCESS,
@@ -52,7 +52,7 @@ export const deleteBandleaderSongAction = songId => async dispatch => {
     
     const headers = tokenConfig();
 
-    axios.delete(`${apiHost}/bandLeader/deleteSong/${songId}`, headers)
+    axios.delete(`${apiHost}/bandleader/deleteSong/${songId}`, headers)
             .then(async response => {
                 await dispatch({
                     type : DELETE_BANDLEADER_SONG_SUCCESS,
@@ -76,7 +76,7 @@ export const getBandleaderSongsAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-     axios.get(`${apiHost}/bandLeader/getSongs`, headers)
+     axios.get(`${apiHost}/bandleader/getSongs`, headers)
         .then(async response => {
             await dispatch({
                 type : GET_BANDLEADER_SONGS_SUCCESS,
@@ -105,7 +105,7 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
 
     const headers = tokenConfig();
 
-    axios.patch(`${apiHost}/bandLeader/editSong/${songId}`, requestBody, headers)
+    axios.patch(`${apiHost}/bandleader/editSong/${songId}`, requestBody, headers)
         .then(async response => {
             await dispatch({
                 type : EDIT_BANDLEADER_SONG_SUCCESS,

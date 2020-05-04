@@ -9,7 +9,7 @@ import {
     EDIT_BANDLEADER_SONG_ERROR,
     GET_BANDLEADER_SONGS_ERROR,
     DELETE_BANDLEADER_SONG_ERROR,
-} from "actions/bandLeaderActions/bandLeaderActionTypes";
+} from "actions/bandleaderActions/bandleaderActionTypes";
 import {
     GET_CLIENT_SONGS_ERROR,
     ADD_CLIENT_REQUESTED_SONG_ERROR,

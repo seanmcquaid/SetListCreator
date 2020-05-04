@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from "react";
-import axios from "axios";
-import {connect} from "react-redux";
-import { tokenConfig } from "actions/authActions/authActions";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import Text from "components/Text/Text";
+import React, {useState, useEffect} from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/react";
+import axios from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/axios";
+import {connect} from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/react-redux";
+import { tokenConfig } from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/actions/authActions/authActions";
+import Input from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/components/Input/Input";
+import Button from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/components/Button/Button";
+import Text from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/components/Text/Text";
 import styles from "./BandLeaderEditSongPage.module.css";
-import {editBandleaderSongAction} from "actions/bandLeaderActions/bandLeaderActions";
-import {apiHost} from "config";
+import {editBandleaderSongAction} from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/actions/bandleaderActions/bandleaderActions";
+import {apiHost} from "pages/BandleaderPages/BandleaderEditSongPage/node_modules/config";
 
-const BandLeaderEditSongPage = props => {
+const BandleaderEditSongPage = props => {
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
@@ -89,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
     editBandleaderSongAction : (songName, artistName, songKey, songId) => dispatch(editBandleaderSongAction(songName, artistName, songKey, songId))
 });
 
-export default connect(null, mapDispatchToProps)(BandLeaderEditSongPage);
+export default connect(null, mapDispatchToProps)(BandleaderEditSongPage);

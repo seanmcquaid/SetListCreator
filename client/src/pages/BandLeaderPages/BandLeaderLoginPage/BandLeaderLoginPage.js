@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import Text from "components/Text/Text";
-import {Link, Redirect} from "react-router-dom";
+import React, {useState} from "pages/BandleaderPages/BandleaderLoginPage/node_modules/react";
+import Text from "pages/BandleaderPages/BandleaderLoginPage/node_modules/components/Text/Text";
+import {Link, Redirect} from "pages/BandleaderPages/BandleaderLoginPage/node_modules/react-router-dom";
 import styles from "./BandLeaderLoginPage.module.css";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
-import {connect} from "react-redux";
-import { loginAction } from "actions/authActions/authActions";
+import Input from "pages/BandleaderPages/BandleaderLoginPage/node_modules/components/Input/Input";
+import Button from "pages/BandleaderPages/BandleaderLoginPage/node_modules/components/Button/Button";
+import {connect} from "pages/BandleaderPages/BandleaderLoginPage/node_modules/react-redux";
+import { loginAction } from "pages/BandleaderPages/BandleaderLoginPage/node_modules/actions/authActions/authActions";
 
 
-const BandLeaderLoginPage = props => {
+const BandleaderLoginPage = props => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
@@ -21,26 +21,26 @@ const BandLeaderLoginPage = props => {
         setPassword(event.target.value);
     };
 
-    const bandLeaderLoginSubmitHandler = event => {
+    const bandleaderLoginSubmitHandler = event => {
         event.preventDefault();
-        props.loginAction(username, password, "bandLeader");
+        props.loginAction(username, password, "bandleader");
     };
     
     if(props.isAuthenticated){
-        return <Redirect to="/bandLeaderHome"/>
+        return <Redirect to="/bandleaderHome"/>
     }
 
 
     return(
-        <div className={styles.bandLeaderLoginContainer}>
+        <div className={styles.bandleaderLoginContainer}>
             <div className={styles.textContainer}>
                 <Text headerText={true}>Band Leader Login</Text>
                 <Text>
-                    Don't have an account? Register <Link className={styles.registerLink} to="/bandLeaderRegister">Here</Link>
+                    Don't have an account? Register <Link className={styles.registerLink} to="/bandleaderRegister">Here</Link>
                 </Text>
                 <Text>{props.errorMessage}</Text>
             </div>
-            <form className={styles.loginForm} onSubmit={bandLeaderLoginSubmitHandler}>
+            <form className={styles.loginForm} onSubmit={bandleaderLoginSubmitHandler}>
                 <Input 
                     name="username"
                     title="Username"
@@ -72,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
     loginAction : (username, password, accountType) => dispatch(loginAction(username, password, accountType))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BandLeaderLoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(BandleaderLoginPage);

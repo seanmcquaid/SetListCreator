@@ -1,4 +1,4 @@
-.clientSendSetlistPageContainer, .requestedSongsContainer, .doNotPlaySongsContainer {
+.clientSendSetListPageContainer, .requestedSongsContainer, .doNotPlaySongsContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;

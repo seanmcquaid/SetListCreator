@@ -1,13 +1,13 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
 import authReducer from "reducers/authReducer/authReducer";
-import bandLeaderReducer from "reducers/bandLeaderReducer/bandLeaderReducer";
+import bandleaderReducer from "reducers/bandleaderReducer/bandleaderReducer";
 import clientReducer from "reducers/clientReducer/clientReducer";
 import errorReducer from "reducers/errorReducer/errorReducer";
 
 const rootReducer = combineReducers({
     auth : authReducer,
-    bandLeader : bandLeaderReducer,
+    bandleader : bandleaderReducer,
     client : clientReducer,
     error : errorReducer,
 });

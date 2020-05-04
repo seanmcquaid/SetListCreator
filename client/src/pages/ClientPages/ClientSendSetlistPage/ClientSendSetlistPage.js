@@ -1,18 +1,18 @@
-import React, {useEffect} from "react";
-import styles from "./ClientSendSetlistPage.module.css";
-import Button from "components/Button/Button";
-import Text from "components/Text/Text";
-import {connect} from "react-redux";
-import {getClientSongsAction, deleteClientSongAction, sendClientSetlistAction} from "actions/clientActions/clientActions";
-import Song from "components/Song/Song";
+import React, {useEffect} from "pages/ClientPages/ClientSendSetListPage/node_modules/react";
+import styles from "./ClientSendSetListPage.module.css";
+import Button from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Button/Button";
+import Text from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Text/Text";
+import {connect} from "pages/ClientPages/ClientSendSetListPage/node_modules/react-redux";
+import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} from "pages/ClientPages/ClientSendSetListPage/node_modules/actions/clientActions/clientActions";
+import Song from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Song/Song";
 
-const ClientSendSetlistPage = props => {
+const ClientSendSetListPage = props => {
     const {
         getClientSongsAction,
         requestedSongsList,
         doNotPlaySongsList,
         deleteClientSongAction,
-        sendClientSetlistAction,
+        sendClientSetListAction,
         setListAvailabile,
     } = props;
 
@@ -25,14 +25,14 @@ const ClientSendSetlistPage = props => {
     };
 
     const sendSetlistHandler = async () => {
-        await sendClientSetlistAction(true);
+        await sendClientSetListAction(true);
         await props.history.push("/clientHome");
     };
 
     console.log(setListAvailabile);
 
     return(
-        <div className={styles.clientSendSetlistPageContainer}>
+        <div className={styles.clientSendSetListPageContainer}>
             <Text headerText={true}>Send Setlist</Text>
             <div className={styles.songContainer}>
                 <div className={styles.requestedSongsContainer}>
@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getClientSongsAction : () => dispatch(getClientSongsAction()),
     deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
-    sendClientSetlistAction : (setListAvailability) => dispatch(sendClientSetlistAction(setListAvailability)),
+    sendClientSetListAction : (setListAvailability) => dispatch(sendClientSetListAction(setListAvailability)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClientSendSetlistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientSendSetListPage);
