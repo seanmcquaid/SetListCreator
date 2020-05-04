@@ -28,7 +28,9 @@ exports.postAddSong = (req, res, next) => {
                                                         });
                             })
                         })
-                        .catch(err => res.sendStatus(404));
+                        .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 
 };
@@ -58,7 +60,9 @@ exports.deleteSong = (req, res, next) => {
                                                         });
                             })
                         })
-                        .catch(err => res.sendStatus(404));
+                        .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 };
 
@@ -73,16 +77,19 @@ exports.getSongs = (req, res, next) => {
                                         const {requestedSongsList, doNotPlaySongsList} = clientSongs;
                                         SetListsModel.getSetList(userInfo[0].username)
                                                 .then(setListInfo => {
+                                                    console.log(setListInfo)
                                                     return res.status(200).send({
                                                         requestedSongsList, 
                                                         doNotPlaySongsList,
                                                         setListAvailable : userInfo[0].setlistavailable,
-                                                        clientApproved : setListInfo[0].clientapproved
+                                                        clientApproved : setListInfo.length > 0 ? setListInfo[0].clientapproved : false
                                                     });
                                                 })
                                     })
                         })
-                        .catch(err => res.sendStatus(404));
+                        .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 }
 
@@ -97,7 +104,9 @@ exports.getSong = (req, res, next) => {
                                 songInfo : response
                             });
                         })
-                        .catch(err => res.sendStatus(404))
+                        .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 };
 
@@ -127,9 +136,9 @@ exports.editSong = (req, res, next) => {
                                                     });
                         })
                     })
-                    .catch(err => {
-                        console.log(err);
-                    });
+                    .catch(err => res.status(500).send({
+                        errorMessage : "Server Error"
+                    }));
 
 };
 
@@ -139,6 +148,7 @@ exports.getCompletedSetList = (req, res, next) => {
 
     SetListsModel.getSetList(username)
             .then(response => {
+                console.group(response)
                 const {clientname, bandleadername, setlist, bandleadercomments} = response[0];
                 return res.status(200).send({
                     clientName : clientname,
@@ -147,7 +157,9 @@ exports.getCompletedSetList = (req, res, next) => {
                     bandleaderComments : bandleadercomments
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).send({
+                errorMessage : "No Setlist Available yet"
+            }));
 };
 
 exports.editCompletedSetListComments = (req, res, next) => {
@@ -162,5 +174,7 @@ exports.editCompletedSetListComments = (req, res, next) => {
                     setListInfo : response[0],
                 })
             })
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).send({
+                errorMessage : "Server Error"
+            }));
 };

@@ -162,7 +162,6 @@ export const sendClientSetListAction = setListAvailability => async dispatch => 
 
     axios.patch(`${apiHost}/users/sendClientSetList`, requestBody, headers)
         .then(response => {
-            console.log(response.data);
             dispatch({
                 type : SEND_CLIENT_SETLIST_SUCCESS,
                 payload : response.data

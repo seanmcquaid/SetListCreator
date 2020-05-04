@@ -43,7 +43,9 @@ exports.postRegister = async (req, res, next) => {
                             });
                         })
             })
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -145,7 +147,9 @@ exports.getBandleaders = (req, res, next) => {
                         bandleaders : response
                     })
                 })
-                .catch(err => console.log(err));
+                .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 };
 
 exports.getClientsForBandleader = (req, res, next) => {
@@ -189,7 +193,9 @@ exports.getClientsForBandleader = (req, res, next) => {
 
                         
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 };
 
 exports.getUserInfo = (req, res, next) => {
@@ -204,7 +210,9 @@ exports.getUserInfo = (req, res, next) => {
                             accountType : response[0].accounttype
                         })
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 };
 
 exports.getClientInfo = (req, res, next) => {
@@ -216,7 +224,9 @@ exports.getClientInfo = (req, res, next) => {
                             clientInfo : response[0],
                         })
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 };
 
@@ -262,21 +272,25 @@ exports.editUserInfo = async (req, res, next) => {
 
 
             })
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 };
 
 exports.sendClientSetList = async (req, res, next) => {
     const token = req.token;
     const {username} = token;
-    const {setlistAvailability} = req.body;
+    const {setListAvailability} = req.body;
 
-    return await UsersModel.setClientSetListAvailability(username, setlistAvailability)
+    return await UsersModel.setClientSetListAvailability(username, setListAvailability)
             .then(async response => {
                 return await res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => res.status(500).send({
+                            errorMessage : "Server Error"
+                        }));
 
 };

@@ -19,7 +19,6 @@ import {
 } from "../../actions/clientActions/clientActionTypes";
 
 const initialState = {
-    errorStatus : 0,
     errorMessage : "",
 };
 
@@ -49,7 +48,7 @@ const errorReducer = (state = initialState, action) => {
             };
         default :
             return{
-                ...initialState,
+                errorMessage : "",
             };
     }
 };

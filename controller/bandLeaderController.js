@@ -14,7 +14,9 @@ exports.postAddSong = (req, res, next) => {
                                     songList : response
                                 });
                             })
-                            .catch(err => res.sendStatus(404));
+                            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 };
 
 exports.getSongs = (req, res, next) => {
@@ -27,7 +29,9 @@ exports.getSongs = (req, res, next) => {
                                     songList : response
                                 })
                             })
-                            .catch(err => res.sendStatus(404));
+                            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 }
 
 exports.getSong = (req, res, next) => {
@@ -56,7 +60,9 @@ exports.deleteSong = (req, res, next) => {
                                 songList : response
                             });
                         })
-                        .catch(err => res.sendStatus(404));
+                        .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 };
 
 exports.editSong = (req, res, next) => {
@@ -71,7 +77,9 @@ exports.editSong = (req, res, next) => {
                                     songList : response
                                 });
                             })
-                            .catch(err => res.sendStatus(404));
+                            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 
 };
 
@@ -91,7 +99,9 @@ exports.getClientSongs = (req, res, next) => {
                                         });
                                     })
             })
-            .catch(err => res.sendStatus(404));
+            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 
 };
 
@@ -130,7 +140,9 @@ exports.getSuggestedSetList = (req, res, next) => {
                             })
                     })
             })
-            .catch(err => res.sendStatus(404));
+            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 
 };
 
@@ -153,7 +165,9 @@ exports.postCompletedSetList = (req, res, next) => {
                             });
                         });
             })
-            .catch(err => res.sendStatus(404));
+            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 };
 
 exports.getClientSetListInfo = (req, res, next) => {
@@ -176,7 +190,9 @@ exports.getClientSetListInfo = (req, res, next) => {
                             })
 
             })
-            .catch(err => res.sendStatus(404));
+            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 };
 
 exports.editCompletedSetList = (req, res, next) => {
@@ -198,5 +214,7 @@ exports.editCompletedSetList = (req, res, next) => {
                             });
                         });
             })
-            .catch(err => res.sendStatus(404));
+            .catch(err => res.status(500).send({
+                                errorMessage : "Server Error"
+                            }));
 };
