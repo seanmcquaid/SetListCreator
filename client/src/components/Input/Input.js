@@ -7,7 +7,7 @@ const Input = props => {
         <div className={styles.inputContainer}>
             <label htmlFor={props.name} className={styles.inputLabel}>{props.title}</label>
             <input
-            className={styles.input}
+                className={styles.input}
                 name={props.name}
                 type={props.type}
                 value={props.value}

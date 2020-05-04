@@ -119,10 +119,14 @@ exports.getSuggestedSetList = (req, res, next) => {
                                     return isRequestedSongInSuggestedSetlist ? null : requestedSong;
                                 });
 
-                                return res.status(200).send({
-                                    suggestedSetList,
-                                    additionalClientRequests,
-                                });
+                                SetListsModel.getSetList(userInfo.username)
+                                        .then(setListInfo => {
+                                            console.log(setListInfo[0])
+                                            return res.status(200).send({
+                                                suggestedSetList,
+                                                additionalClientRequests,
+                                            });
+                                        });
                             })
                     })
             })
@@ -131,21 +135,21 @@ exports.getSuggestedSetList = (req, res, next) => {
 };
 
 exports.postCompletedSetList = (req, res, next) => {
-    const {completedSetList, clientId, bandLeaderComments} = req.body;
+    const {completedSetList, clientId, bandleaderComments} = req.body;
     const token = req.token;
-    const bandLeaderName = token.username;
+    const bandleaderName = token.username;
 
     UsersModel.getUserInfo(clientId)
             .then(async clientInfo => {
                 const clientName = clientInfo[0].username;
-                await SetListsModel.addSetlist(clientName, bandLeaderName, completedSetList, bandLeaderComments)
+                await SetListsModel.addSetList(clientName, bandleaderName, completedSetList, bandleaderComments)
                         .then(setListInfo => {
                             const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
                             return res.status(200).send({
                                 clientName : clientname,
-                                bandLeaderName : bandleadername,
+                                bandleaderName : bandleadername,
                                 suggestedSetList : setlist.map(song => JSON.parse(song)),
-                                bandLeaderComments : bandleadercomments
+                                bandleaderComments : bandleadercomments
                             });
                         });
             })
@@ -160,14 +164,14 @@ exports.getClientSetListInfo = (req, res, next) => {
     UsersModel.getUserInfo(clientId)
             .then(userInfo => {
                 const clientInfo = userInfo[0];
-                SetListsModel.getSetlist(clientInfo.username)
+                SetListsModel.getSetList(clientInfo.username)
                             .then(setListInfo => {
                                 const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
                                 return res.status(200).send({
                                     clientName : clientname,
-                                    bandLeaderName : bandleadername,
+                                    bandleaderName : bandleadername,
                                     suggestedSetList : setlist.map(song => JSON.parse(song)),
-                                    bandLeaderComments : bandleadercomments
+                                    bandleaderComments : bandleadercomments
                                 });
                             })
 
@@ -176,5 +180,23 @@ exports.getClientSetListInfo = (req, res, next) => {
 };
 
 exports.editCompletedSetList = (req, res, next) => {
+    const {completedSetList, clientId, bandleaderComments} = req.body;
+    const token = req.token;
+    const bandleaderName = token.username;
 
+    UsersModel.getUserInfo(clientId)
+            .then(async clientInfo => {
+                const clientName = clientInfo[0].username;
+                await SetListsModel.editSetList(clientName, bandleaderName, completedSetList, bandleaderComments)
+                        .then(setListInfo => {
+                            const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
+                            return res.status(200).send({
+                                clientName : clientname,
+                                bandleaderName : bandleadername,
+                                suggestedSetList : setlist.map(song => JSON.parse(song)),
+                                bandleaderComments : bandleadercomments
+                            });
+                        });
+            })
+            .catch(err => res.sendStatus(404));
 };

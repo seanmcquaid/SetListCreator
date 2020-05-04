@@ -19,6 +19,8 @@ router.get("/getSuggestedSetList/:clientId", checkToken, bandleaderController.ge
 
 router.post("/postCompletedSetList", checkToken, bandleaderController.postCompletedSetList);
 
-router.get("/getClientSetListInfo/:clientId", checkToken, bandleaderController.getClientSetListInfo)
+router.get("/getClientSetListInfo/:clientId", checkToken, bandleaderController.getClientSetListInfo);
+
+router.patch("/editCompletedSetList", checkToken, bandleaderController.editCompletedSetList);
 
 module.exports = router;

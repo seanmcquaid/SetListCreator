@@ -7,20 +7,32 @@ const ClientInfo = props => {
     return(
         <div className={styles.clientInfoContainer}>
             <h4 className={styles.clientName}>{props.clientName}</h4>
+            {console.log(props)}
             <Text>Set List Status :  
-                {props.clientApproved ? " Complete" : props.setListAvailable ? "Ready" : "In Progress"}
+                {props.clientApproved && props.setListAvailable ? " Complete" : 
+                !props.clientApproved && props.setListAvailable ? " Needs Edits" :
+                props.setListAvailable ? " Ready" : " In Progress"}
             </Text>
-            {props.clientApproved ? 
+            {props.clientApproved && props.SetListAvailable ? 
                 <Button 
-                    title="Go To Final Setlist Page"
+                    title="Go To Final Set List Page"
                     type="button"
-                    onClick={props.clientFinalSetlistPageRedirect}
+                    onClick={props.clientFinalSetListPageRedirect}
                 /> : 
+                !props.clientApproved && props.setListAvailable ? 
+                <Button 
+                    title="Go To Edit Set List Page"
+                    type="button"
+                    onClick={props.clientEditSetListPageRedirect}
+                />
+                :
+                props.setListAvailable ? 
                 <Button
-                    title="Go To Setlist Page"
+                    title="Go To Set List Page"
                     type="button"
                     onClick={props.clientPageRedirect}
-                />
+                /> : 
+                null
             }
         </div>
     )

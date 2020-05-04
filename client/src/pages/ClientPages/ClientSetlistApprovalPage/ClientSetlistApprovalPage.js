@@ -71,6 +71,7 @@ const ClientSetListApprovalPage = props => {
     }
 
     const {bandleaderComments, suggestedSetList} = setListInfo;
+    console.log(setListInfo)
 
     return(
         <div className={styles.clientFinalSetListPageContainer}>
@@ -102,7 +103,7 @@ const ClientSetListApprovalPage = props => {
                     <CommentsList list={bandleaderComments}/>
                 </div>
                 <div className={styles.songsContainer}>
-                    <Text headerText={true}>Suggested Setlist</Text>
+                    <Text headerText={true}>Suggested Set List</Text>
                     <SongList list={suggestedSetList}/>
                 </div>
             </div>

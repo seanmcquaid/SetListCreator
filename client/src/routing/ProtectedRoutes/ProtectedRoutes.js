@@ -22,6 +22,7 @@ import SetListCreatorPage from "pages/BandleaderPages/SetListCreatorPage/SetList
 import ClientFinalSetListPage from "pages/BandleaderPages/ClientFinalSetListPage/ClientFinalSetListPage";
 import ClientSetListApprovalPage from "pages/ClientPages/ClientSetListApprovalPage/ClientSetListApprovalPage";
 import FinalizedSetListPage from "pages/ClientPages/FinalizedSetListPage/FinalizedSetListPage";
+import ClientEditSetListPage from "pages/BandleaderPages/ClientEditSetListPage/ClientEditSetListPage";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -36,6 +37,7 @@ const ProtectedRoutes = props => (
         <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
         <Route exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
         <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
+        <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
         <Route exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
         <Route exact path="/clientHome" component={ClientHomePage}/>
         <Route exact path="/client/editProfile" component={ClientProfilePage}/>

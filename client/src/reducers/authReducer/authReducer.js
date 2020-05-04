@@ -21,8 +21,8 @@ import {
 const initialState = {
     isAuthenticated : false,
     token : localStorage.getItem("token"),
-    username : null,
-    accountType : null,
+    username : "",
+    accountType : "",
     isLoading : false,
 };
 

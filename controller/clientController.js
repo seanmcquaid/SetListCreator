@@ -142,9 +142,9 @@ exports.getCompletedSetList = (req, res, next) => {
                 const {clientname, bandleadername, setlist, bandleadercomments} = response[0];
                 return res.status(200).send({
                     clientName : clientname,
-                    bandLeaderName : bandleadername,
+                    bandleaderName : bandleadername,
                     suggestedSetList : setlist.map(song => JSON.parse(song)),
-                    bandLeaderComments : bandleadercomments
+                    bandleaderComments : bandleadercomments
                 });
             })
             .catch(err => console.log(err));

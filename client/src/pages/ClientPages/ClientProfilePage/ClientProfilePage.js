@@ -7,18 +7,21 @@ import {connect} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
 
 const ClientProfilePage = props => {
+    const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const {editUserInfoAction, getUserInfoAction} = props;
 
+    console.log(props)
+
     useEffect(() => {
         if(username === ""){
+            getUserInfoAction();
             setUsername(props.username);
-            setMessage("Loaded username!")
         }
-        getUserInfoAction();
+        setIsLoading(false);
     },[getUserInfoAction, username, props.username])
 
     const userNameOnChangeHandler = event => {
@@ -40,6 +43,10 @@ const ClientProfilePage = props => {
         }else {
             editUserInfoAction(username, password, "client");
         }
+    }
+    
+    if(isLoading){
+        return <div>Loading</div>
     }
 
     return (

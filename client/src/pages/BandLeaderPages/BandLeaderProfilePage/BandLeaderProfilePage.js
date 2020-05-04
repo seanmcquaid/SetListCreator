@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
 
 const BandleaderProfilePage = props => {
+    const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,8 +17,9 @@ const BandleaderProfilePage = props => {
     useEffect(() => {
         if(username === ""){
             setUsername(props.username);
+            getUserInfoAction();
         }
-        getUserInfoAction();
+        setIsLoading(false);
     },[getUserInfoAction, username, props.username])
 
     const userNameOnChangeHandler = event => {
@@ -39,6 +41,10 @@ const BandleaderProfilePage = props => {
         }else {
             editUserInfoAction(username, password, "bandleader");
         }
+    }
+
+    if(isLoading){
+        return <div>Loading</div>
     }
 
     return (
