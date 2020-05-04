@@ -1,8 +1,8 @@
-import React, { useEffect } from "pages/BandleaderPages/ClientListPage/node_modules/react";
-import {getBandleaderClientsAction} from "pages/BandleaderPages/ClientListPage/node_modules/actions/bandleaderActions/bandleaderActions";
-import { connect } from "pages/BandleaderPages/ClientListPage/node_modules/react-redux";
-import Text from "pages/BandleaderPages/ClientListPage/node_modules/components/Text/Text";
-import ClientInfo from "pages/BandleaderPages/ClientListPage/node_modules/components/ClientInfo/ClientInfo";
+import React, { useEffect } from "react";
+import {getBandleaderClientsAction} from "actions/bandleaderActions/bandleaderActions";
+import { connect } from "react-redux";
+import Text from "components/Text/Text";
+import ClientInfo from "components/ClientInfo/ClientInfo";
 import styles from "./ClientListPage.module.css";
 
 const ClientListPage = props => {

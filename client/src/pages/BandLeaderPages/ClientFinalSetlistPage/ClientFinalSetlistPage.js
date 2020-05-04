@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/react";
-import axios from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/axios";
-import { apiHost } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/config";
-import { tokenConfig } from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/actions/authActions/authActions";
-import SongList from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/components/SongList/SongList";
-import Text from "pages/BandleaderPages/ClientFinalSetListPage/node_modules/components/Text/Text";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { apiHost } from "config";
+import { tokenConfig } from "actions/authActions/authActions";
+import SongList from "components/SongList/SongList";
+import Text from "components/Text/Text";
 import styles from "./ClientFinalSetListPage.module.css";
 
 const ClientFinalSetListPage = props => {

@@ -13,8 +13,8 @@ router.delete("/deleteSong/:songId", checkToken, clientController.deleteSong);
 
 router.patch("/editSong/:songId", checkToken, clientController.editSong);
 
-router.get("/getCompletedSetList", checkToken, clientController.getCompletedSetlist);
+router.get("/getCompletedSetList", checkToken, clientController.getCompletedSetList);
 
-router.patch("/editCompletedSetListComments", checkToken, clientController.editCompletedSetlistComments);
+router.patch("/editCompletedSetListComments", checkToken, clientController.editCompletedSetListComments);
 
 module.exports = router;

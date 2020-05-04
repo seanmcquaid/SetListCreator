@@ -1,10 +1,10 @@
-import React, {useEffect} from "pages/ClientPages/ClientSendSetListPage/node_modules/react";
+import React, {useEffect} from "react";
 import styles from "./ClientSendSetListPage.module.css";
-import Button from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Button/Button";
-import Text from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Text/Text";
-import {connect} from "pages/ClientPages/ClientSendSetListPage/node_modules/react-redux";
-import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} from "pages/ClientPages/ClientSendSetListPage/node_modules/actions/clientActions/clientActions";
-import Song from "pages/ClientPages/ClientSendSetListPage/node_modules/components/Song/Song";
+import Button from "components/Button/Button";
+import Text from "components/Text/Text";
+import {connect} from "react-redux";
+import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} from "actions/clientActions/clientActions";
+import Song from "components/Song/Song";
 
 const ClientSendSetListPage = props => {
     const {

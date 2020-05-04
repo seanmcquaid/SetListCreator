@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "pages/ClientPages/FinalizedSetListPage/node_modules/react";
-import {tokenConfig} from "pages/ClientPages/FinalizedSetListPage/node_modules/actions/authActions/authActions";
-import axios from "pages/ClientPages/FinalizedSetListPage/node_modules/axios";
-import {apiHost} from "pages/ClientPages/FinalizedSetListPage/node_modules/config";
-import Text from "pages/ClientPages/FinalizedSetListPage/node_modules/components/Text/Text";
-import SongList from "pages/ClientPages/FinalizedSetListPage/node_modules/components/SongList/SongList";
-import styles from "./FinalizedSetlistPage.module.css";
+import React, {useState, useEffect} from "react";
+import {tokenConfig} from "actions/authActions/authActions";
+import axios from "axios";
+import {apiHost} from "config";
+import Text from "components/Text/Text";
+import SongList from "components/SongList/SongList";
+import styles from "./FinalizedSetListPage.module.css";
 
 const FinalizedSetListPage = props => {
     const [isLoading, setIsLoading] = useState(true);

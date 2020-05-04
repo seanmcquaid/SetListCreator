@@ -1,4 +1,4 @@
-import axios from "actions/bandleaderActions/node_modules/axios";
+import axios from "axios";
 import {
     ADD_BANDLEADER_SONG_LOADING,
     ADD_BANDLEADER_SONG_SUCCESS,
@@ -17,7 +17,7 @@ import {
     DELETE_BANDLEADER_SONG_ERROR,
 } from "./bandleaderActionTypes";
 import { tokenConfig } from "../authActions/authActions";
-import { apiHost } from "actions/bandleaderActions/node_modules/config";
+import { apiHost } from "config";
 
 export const addBandleaderSongAction = (songName, artistName, songKey) => async dispatch => {
 

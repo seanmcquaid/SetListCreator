@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "pages/BandleaderPages/SetListCreatorPage/node_modules/react";
-import axios from "pages/BandleaderPages/SetListCreatorPage/node_modules/axios";
-import { tokenConfig } from "pages/BandleaderPages/SetListCreatorPage/node_modules/actions/authActions/authActions";
-import {apiHost} from "pages/BandleaderPages/SetListCreatorPage/node_modules/config";
-import Text from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Text/Text";
-import Button from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Button/Button";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { tokenConfig } from "actions/authActions/authActions";
+import {apiHost} from "config";
+import Text from "components/Text/Text";
+import Button from "components/Button/Button";
 import styles from "./SetlistCreatorPage.module.css";
-import SongList from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/SongList/SongList";
-import Input from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/Input/Input";
-import CommentsList from "pages/BandleaderPages/SetListCreatorPage/node_modules/components/CommentsList/CommentsList";
+import SongList from "components/SongList/SongList";
+import Input from "components/Input/Input";
+import CommentsList from "components/CommentsList/CommentsList";
 
 const SetListCreatorPage = props => {
     const {clientId} = props.match.params;

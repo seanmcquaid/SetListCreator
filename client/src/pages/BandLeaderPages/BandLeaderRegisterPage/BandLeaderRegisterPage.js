@@ -1,11 +1,11 @@
-import React, {useState} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react";
-import Text from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Text/Text";
-import {Link, Redirect} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react-router-dom";
+import React, {useState} from "react";
+import Text from "components/Text/Text";
+import {Link, Redirect} from "react-router-dom";
 import styles from "./BandleaderRegisterPage.module.css";
-import Input from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Input/Input";
-import Button from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/components/Button/Button";
-import {connect} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/react-redux";
-import {registerAction} from "pages/BandleaderPages/BandleaderRegisterPage/node_modules/actions/authActions/authActions";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
+import {connect} from "react-redux";
+import {registerAction} from "actions/authActions/authActions";
 
 const BandleaderRegisterPage = props => {
 

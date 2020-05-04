@@ -1,6 +1,6 @@
-import React from "pages/BandleaderPages/BandleaderHomePage/node_modules/react";
-import Text from "pages/BandleaderPages/BandleaderHomePage/node_modules/components/Text/Text";
-import LinkButton from "pages/BandleaderPages/BandleaderHomePage/node_modules/components/LinkButton/LinkButton";
+import React from "react";
+import Text from "components/Text/Text";
+import LinkButton from "components/LinkButton/LinkButton";
 import styles from "./BandleaderHomePage.module.css";
 
 const BandleaderHomePage = props => {

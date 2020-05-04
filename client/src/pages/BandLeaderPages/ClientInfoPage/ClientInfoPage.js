@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "pages/BandleaderPages/ClientInfoPage/node_modules/react";
-import { tokenConfig } from "pages/BandleaderPages/ClientInfoPage/node_modules/actions/authActions/authActions";
-import {apiHost} from "pages/BandleaderPages/ClientInfoPage/node_modules/config";
-import axios from "pages/BandleaderPages/ClientInfoPage/node_modules/axios";
-import SongList from "pages/BandleaderPages/ClientInfoPage/node_modules/components/SongList/SongList";
-import LinkButton from "pages/BandleaderPages/ClientInfoPage/node_modules/components/LinkButton/LinkButton";
+import React, { useEffect, useState } from "react";
+import { tokenConfig } from "actions/authActions/authActions";
+import {apiHost} from "config";
+import axios from "axios";
+import SongList from "components/SongList/SongList";
+import LinkButton from "components/LinkButton/LinkButton";
 import styles from "./ClientInfoPage.module.css";
-import Text from "pages/BandleaderPages/ClientInfoPage/node_modules/components/Text/Text";
+import Text from "components/Text/Text";
 
 const ClientInfoPage = props => {
     const {clientId} = props.match.params;

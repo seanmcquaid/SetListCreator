@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "pages/BandleaderPages/AddSongsPage/node_modules/react";
-import Text from "pages/BandleaderPages/AddSongsPage/node_modules/components/Text/Text";
-import Input from "pages/BandleaderPages/AddSongsPage/node_modules/components/Input/Input";
-import Button from "pages/BandleaderPages/AddSongsPage/node_modules/components/Button/Button";
+import React, {useState, useEffect} from "react";
+import Text from "components/Text/Text";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
 import styles from "./AddSongsPage.module.css";
-import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "pages/BandleaderPages/AddSongsPage/node_modules/actions/bandleaderActions/bandleaderActions";
-import {connect} from "pages/BandleaderPages/AddSongsPage/node_modules/react-redux";
-import Song from "pages/BandleaderPages/AddSongsPage/node_modules/components/Song/Song";
+import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "actions/bandleaderActions/bandleaderActions";
+import {connect} from "react-redux";
+import Song from "components/Song/Song";
 
 const AddSongsPage = ({getBandleaderSongsAction, deleteBandleaderSongAction, addBandleaderSongAction, songList}) => {
     const [songName, setSongName] = useState("");

@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from "pages/ClientPages/ClientSetListApprovalPage/node_modules/react";
-import styles from "./ClientSetlistApprovalPage.module.css";
-import axios from "pages/ClientPages/ClientSetListApprovalPage/node_modules/axios";
-import { tokenConfig } from "pages/ClientPages/ClientSetListApprovalPage/node_modules/actions/authActions/authActions";
-import {apiHost} from "pages/ClientPages/ClientSetListApprovalPage/node_modules/config";
-import Text from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Text/Text";
-import CommentsList from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/CommentsList/CommentsList";
-import SongList from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/SongList/SongList";
-import Input from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Input/Input";
-import Button from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Button/Button";
-import Dropdown from "pages/ClientPages/ClientSetListApprovalPage/node_modules/components/Dropdown/Dropdown";
-import { Redirect } from "pages/ClientPages/ClientSetListApprovalPage/node_modules/react-router-dom";
+import React, {useState, useEffect} from "react";
+import styles from "./ClientSetListApprovalPage.module.css";
+import axios from "axios";
+import { tokenConfig } from "actions/authActions/authActions";
+import {apiHost} from "config";
+import Text from "components/Text/Text";
+import CommentsList from "components/CommentsList/CommentsList";
+import SongList from "components/SongList/SongList";
+import Input from "components/Input/Input";
+import Button from "components/Button/Button";
+import Dropdown from "components/Dropdown/Dropdown";
+import { Redirect } from "react-router-dom";
 
 const ClientSetListApprovalPage = props => {
     const [isLoading, setIsLoading] = useState(true);

@@ -14,8 +14,8 @@ import {
     DELETE_BANDLEADER_SONG_LOADING,
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
-} from "reducers/bandleaderReducer/node_modules/actions/bandleaderActions/bandleaderActionTypes";
-import { LOGOUT_SUCCESS } from "reducers/bandleaderReducer/node_modules/actions/authActions/authActionTypes";
+} from "actions/bandleaderActions/bandleaderActionTypes";
+import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
 
 const initialState = {
     clientList : [],
