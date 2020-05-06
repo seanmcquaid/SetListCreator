@@ -15,7 +15,7 @@ exports.postAddSong = (req, res, next) => {
                                 });
                             })
                             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
+                                errorMessage : "There was a problem adding that song"
                             }));
 };
 
@@ -30,7 +30,7 @@ exports.getSongs = (req, res, next) => {
                                 })
                             })
                             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
+                                errorMessage : "There was a problem getting all the songs"
                             }));
 }
 
@@ -45,7 +45,9 @@ exports.getSong = (req, res, next) => {
                                 songInfo : response
                             });
                         })
-                        .catch(err => res.sendStatus(404))
+                        .catch(err => res.status(500).send({
+                            errorMessage : "There was a problem getting the song information"
+                        }));
 }
 
 exports.deleteSong = (req, res, next) => {
@@ -61,8 +63,8 @@ exports.deleteSong = (req, res, next) => {
                             });
                         })
                         .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                            errorMessage : "There was a problem deleting the song"
+                        }));
 };
 
 exports.editSong = (req, res, next) => {
@@ -78,7 +80,7 @@ exports.editSong = (req, res, next) => {
                                 });
                             })
                             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
+                                errorMessage : "There was a problem editing the song"
                             }));
 
 };
@@ -100,8 +102,8 @@ exports.getClientSongs = (req, res, next) => {
                                     })
             })
             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                errorMessage : "There was a problem getting all of the client songs"
+            }));
 
 };
 
@@ -141,8 +143,8 @@ exports.getSuggestedSetList = (req, res, next) => {
                     })
             })
             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                errorMessage : "There was a problem getting the suggested setlist"
+            }));
 
 };
 
@@ -166,8 +168,8 @@ exports.postCompletedSetList = (req, res, next) => {
                         });
             })
             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                errorMessage : "There was a problem adding the completed setlist"
+            }));
 };
 
 exports.getClientSetListInfo = (req, res, next) => {
@@ -191,8 +193,8 @@ exports.getClientSetListInfo = (req, res, next) => {
 
             })
             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                errorMessage : "There was a problem getting the client Set List information"
+            }));
 };
 
 exports.editCompletedSetList = (req, res, next) => {
@@ -215,6 +217,6 @@ exports.editCompletedSetList = (req, res, next) => {
                         });
             })
             .catch(err => res.status(500).send({
-                                errorMessage : "Server Error"
-                            }));
+                errorMessage : "There was a problem editing the Set List information"
+            }));
 };

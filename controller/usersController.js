@@ -44,7 +44,7 @@ exports.postRegister = async (req, res, next) => {
                         })
             })
             .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem registering this user, please try again"
                         }));
 };
 
@@ -98,7 +98,9 @@ exports.postLogin = async (req, res, next) => {
                                 });
                             });
             })
-            .catch(err => console.log(err))
+            .catch(err => res.status(500).send({
+                errorMessage : "There was a problem logging in with this user, please try again"
+            }));
 };
 
 exports.getCheckToken = (req,res,next) => {
@@ -132,7 +134,7 @@ exports.getCheckToken = (req,res,next) => {
             })
             .catch(err => {
                 req.token = null;
-                return res.status(401).send({
+                return res.status(500).send({
                     errorMessage : "Issue with creating a new token, please login again"
                 })
             });
@@ -148,7 +150,7 @@ exports.getBandleaders = (req, res, next) => {
                     })
                 })
                 .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem getting all the bandleaders"
                         }));
 };
 
@@ -167,7 +169,7 @@ exports.getClientsForBandleader = (req, res, next) => {
                                 username : client.username,
                                 setlistavailable : client.setlistavailable,
                                 id : client.id,
-                                clientapproved : false,
+                                clientapproved : null,
                             }
                                    
                             return SetlistsModel.getSetList(clientInfo.username)
@@ -183,8 +185,6 @@ exports.getClientsForBandleader = (req, res, next) => {
 
                         clientListWithSetlistApproval.then(response => {
                             const clientList = clientsWithSetlistsNotAvailable.concat(response);
-
-                            console.log(clientList)
                         
                             return res.status(200).send({
                                 clientList : clientList
@@ -194,7 +194,7 @@ exports.getClientsForBandleader = (req, res, next) => {
                         
                     })
                     .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem getting all the clients for a bandleader"
                         }));
 };
 
@@ -211,7 +211,7 @@ exports.getUserInfo = (req, res, next) => {
                         })
                     })
                     .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem getting the user info for this user"
                         }));
 };
 
@@ -225,7 +225,7 @@ exports.getClientInfo = (req, res, next) => {
                         })
                     })
                     .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem getting the client info"
                         }));
 
 };
@@ -273,7 +273,7 @@ exports.editUserInfo = async (req, res, next) => {
 
             })
             .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem editing this user's info"
                         }));
 
 };
@@ -290,7 +290,7 @@ exports.sendClientSetList = async (req, res, next) => {
                 });
             })
             .catch(err => res.status(500).send({
-                            errorMessage : "Server Error"
+                            errorMessage : "There was a problem sending the Set List"
                         }));
 
 };

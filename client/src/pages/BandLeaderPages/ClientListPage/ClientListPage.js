@@ -24,9 +24,7 @@ const ClientListPage = props => {
     const clientEditSetListPageRedirect = async clientId => {
         await props.history.push(`/bandLeader/clientEditSetList/${clientId}`);
     };
-
-    console.log(clientList)
-
+    
     return(
         <div className={styles.clientListPageContainer}>
             <Text headerText>Clients Page</Text>
