@@ -17,6 +17,7 @@ import {
     DELETE_CLIENT_SONG_ERROR,
     EDIT_CLIENT_SONG_ERROR,
 } from "../../actions/clientActions/clientActionTypes";
+import {CLEAR_ERROR_MESSAGE} from "actions/errorActions/errorActionTypes";
 
 const initialState = {
     errorMessage : "",
@@ -46,6 +47,10 @@ const errorReducer = (state = initialState, action) => {
             return {
                 ...initialState
             };
+        case CLEAR_ERROR_MESSAGE : 
+            return {
+                errorMessage : "",
+            }
         default :
             return{
                 errorMessage : "",

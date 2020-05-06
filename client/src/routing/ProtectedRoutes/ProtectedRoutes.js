@@ -23,6 +23,7 @@ import ClientFinalSetListPage from "pages/BandleaderPages/ClientFinalSetListPage
 import ClientSetListApprovalPage from "pages/ClientPages/ClientSetListApprovalPage/ClientSetListApprovalPage";
 import FinalizedSetListPage from "pages/ClientPages/FinalizedSetListPage/FinalizedSetListPage";
 import ClientEditSetListPage from "pages/BandleaderPages/ClientEditSetListPage/ClientEditSetListPage";
+import onLeave from "hoc/onLeave/onLeave";
 
 const ProtectedRoutes = props => (
     <Switch>
@@ -50,4 +51,4 @@ const ProtectedRoutes = props => (
     </Switch>
 );
 
-export default ProtectedRoutes;
+export default onLeave(ProtectedRoutes);
