@@ -43,9 +43,11 @@ exports.postRegister = async (req, res, next) => {
                             });
                         })
             })
-            .catch(err => res.status(500).send({
-                            errorMessage : "There was a problem registering this user, please try again"
-                        }));
+            .catch(err => 
+                res.status(500).send({
+                    errorMessage : "There was a problem registering this user, please try again"
+                })
+            );
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -98,9 +100,11 @@ exports.postLogin = async (req, res, next) => {
                                 });
                             });
             })
-            .catch(err => res.status(500).send({
-                errorMessage : "There was a problem logging in with this user, please try again"
-            }));
+            .catch(err => 
+                res.status(500).send({
+                    errorMessage : "There was a problem logging in with this user, please try again"
+                })
+            );
 };
 
 exports.getCheckToken = (req,res,next) => {
@@ -138,20 +142,20 @@ exports.getCheckToken = (req,res,next) => {
                     errorMessage : "Issue with creating a new token, please login again"
                 })
             });
-
-
 };
 
 exports.getBandleaders = (req, res, next) => {
     return UsersModel.getAllBandleaders()
-                .then(response => {
-                    return res.status(200).send({
+                .then(response => 
+                    res.status(200).send({
                         bandleaders : response
                     })
-                })
-                .catch(err => res.status(500).send({
-                            errorMessage : "There was a problem getting all the bandleaders"
-                        }));
+                )
+                .catch(err => 
+                    res.status(500).send({
+                        errorMessage : "There was a problem getting all the bandleaders"
+                    })
+                );
 };
 
 exports.getClientsForBandleader = (req, res, next) => {
@@ -178,7 +182,7 @@ exports.getClientsForBandleader = (req, res, next) => {
                                                 clientInfo.clientapproved = response[0].clientapproved;
                                             }
                                             return clientInfo
-                                        })
+                                        });
                         });
 
                         const clientListWithSetlistApproval = Promise.all(clientListWithSetlistApprovalPromises);
@@ -188,14 +192,14 @@ exports.getClientsForBandleader = (req, res, next) => {
                         
                             return res.status(200).send({
                                 clientList : clientList
-                            })
-                        })
-
-                        
+                            });
+                        });
                     })
-                    .catch(err => res.status(500).send({
+                    .catch(err => 
+                        res.status(500).send({
                             errorMessage : "There was a problem getting all the clients for a bandleader"
-                        }));
+                        })
+                    );
 };
 
 exports.getUserInfo = (req, res, next) => {
@@ -203,30 +207,34 @@ exports.getUserInfo = (req, res, next) => {
     const {id} = token;
 
     return UsersModel.getUserInfo(id)
-                    .then(response => {
-                        return res.status(200).send({
+                    .then(response => 
+                        res.status(200).send({
                             isAuthenticated : true,
                             username : response[0].username,
                             accountType : response[0].accounttype
                         })
-                    })
-                    .catch(err => res.status(500).send({
+                    )
+                    .catch(err => 
+                        res.status(500).send({
                             errorMessage : "There was a problem getting the user info for this user"
-                        }));
+                        })
+                    );
 };
 
 exports.getClientInfo = (req, res, next) => {
     const {clientId} = req.params;
 
     return UsersModel.getUserInfo(clientId)
-                    .then(response => {
-                        return res.status(200).send({
+                    .then(response => 
+                        res.status(200).send({
                             clientInfo : response[0],
                         })
-                    })
-                    .catch(err => res.status(500).send({
+                    )
+                    .catch(err => 
+                        res.status(500).send({
                             errorMessage : "There was a problem getting the client info"
-                        }));
+                        })
+                    );
 
 };
 
@@ -268,13 +276,13 @@ exports.editUserInfo = async (req, res, next) => {
                                                 accountType : specificUserInfo.accounttype
                                             });
                                         });
-                    })
-
-
+                    });
             })
-            .catch(err => res.status(500).send({
-                            errorMessage : "There was a problem editing this user's info"
-                        }));
+            .catch(err => 
+                res.status(500).send({
+                    errorMessage : "There was a problem editing this user's info"
+                })
+            );
 
 };
 
@@ -284,13 +292,14 @@ exports.sendClientSetList = async (req, res, next) => {
     const {setListAvailability} = req.body;
 
     return await UsersModel.setClientSetListAvailability(username, setListAvailability)
-            .then(async response => {
-                return await res.status(200).send({
+            .then(async response => 
+                await res.status(200).send({
                     setListAvailable : response[0].setlistavailable,
-                });
-            })
-            .catch(err => res.status(500).send({
-                            errorMessage : "There was a problem sending the Set List"
-                        }));
-
+                })
+            )
+            .catch(err => 
+                res.status(500).send({
+                    errorMessage : "There was a problem sending the Set List"
+                })
+            );
 };
