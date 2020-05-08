@@ -23,10 +23,11 @@ const EditClientSetListPage = props => {
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
             .then(async response => {
-                console.log(response.data)
+                console.log(response.data);
                 setIsLoading(false);
                 setSuggestedSetList(response.data.suggestedSetList);
                 setAdditionalClientRequests(response.data.additionalClientRequests);
+                setClientComments(response.data.clientComments);
             })
             .catch(async err => {
                 console.log(err);

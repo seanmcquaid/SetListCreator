@@ -20,7 +20,7 @@ const BandleaderEditSongPage = props => {
         const headers = tokenConfig();
         axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
             .then(async response => {
-                const songInfo = response.data.songInfo[0];
+                const songInfo = response.data.songInfo;
                 const {songname, artistname, songkey} = songInfo;
                 await setSongName(songname);
                 await setArtistName(artistname);

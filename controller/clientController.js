@@ -114,7 +114,7 @@ exports.getSong = async (req, res, next) => {
     return await ClientSongListModel.getSong(username, songId)
         .then(async response => 
             await res.status(200).send({
-                songInfo : response
+                songInfo : response[0]
             })
         )
         .catch(async err => 
@@ -176,7 +176,7 @@ exports.getCompletedSetList = async (req, res, next) => {
                 clientName : clientname,
                 bandleaderName : bandleadername,
                 suggestedSetList : setlist.map(song => JSON.parse(song)),
-                bandleaderComments : bandleadercomments
+                bandleaderComments : bandleadercomments ? bandleadercomments : []
             });
 
         })

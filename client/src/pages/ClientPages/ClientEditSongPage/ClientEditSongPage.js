@@ -22,7 +22,7 @@ const ClientEditSongPage = props => {
         const headers = tokenConfig();
         axios.get(`${apiHost}/client/getSong/${songId}`, headers)
             .then(async response => {
-                const songInfo = response.data.songInfo[0];
+                const songInfo = response.data.songInfo;
                 const {songname, artistname, songtype} = songInfo;
                 await setSongName(songname);
                 await setArtistName(artistname);

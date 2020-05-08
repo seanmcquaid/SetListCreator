@@ -46,7 +46,7 @@ exports.getSong = async (req, res, next) => {
     return await BandleaderSongListModel.getSong(username, songId)
         .then(async response => 
             await res.status(200).send({
-                songInfo : response
+                songInfo : response[0]
             })
         )
         .catch(async err => 
@@ -162,6 +162,7 @@ exports.getSuggestedSetList = async (req, res, next) => {
                                     await res.status(200).send({
                                         suggestedSetList,
                                         additionalClientRequests,
+                                        clientComments : setListInfo.length > 0 && setListInfo.clientcomments ? setListInfo.clientcomments : []
                                     }));
                         });
                 });

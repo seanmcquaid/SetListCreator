@@ -16,7 +16,7 @@ const ClientSetListApprovalPage = props => {
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
     const [clientComment, setClientComment] = useState("");
-    const [clientApprovalOptions, setClientApprovalOptions] = useState(["Yes", "No"]);
+    const clientApprovalOptions = ["Yes", "No"];
     const [clientApprovalStatus, setClientApprovalStatus] = useState("Yes");
     const [errorMessage, setErrorMessage] = useState("");
 

@@ -9,12 +9,13 @@ const onLeave = WrappedComponent => {
     });
 
     const OnLeaveHOC = props => {
-        
+        const {history, clearErrorMessage} = props;
+
         useEffect(() => {
-            props.history.listen(() => {
-                props.clearErrorMessage();
+            history.listen(() => {
+                clearErrorMessage();
             });
-        },[props.history])
+        },[history, clearErrorMessage]);
     
         return <WrappedComponent {...props}/>;
     };
