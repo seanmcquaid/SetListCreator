@@ -23,7 +23,7 @@ exports.postRegister = async (req, res, next) => {
 
                             const {id, username, accounttype, setlistavailable, bandleadername} = specificUserInfo;
 
-                            const token = await jwt.sign(
+                            const token = jwt.sign(
                                 {
                                     id : id,
                                     username : username,
@@ -43,8 +43,8 @@ exports.postRegister = async (req, res, next) => {
                             });
                         })
             })
-            .catch(err => 
-                res.status(500).send({
+            .catch(async err => 
+                await res.status(500).send({
                     errorMessage : "There was a problem registering this user, please try again"
                 })
             );
@@ -80,7 +80,7 @@ exports.postLogin = async (req, res, next) => {
                                     });
                                 }
 
-                                const token = await jwt.sign(
+                                const token = jwt.sign(
                                     {
                                         id : id,
                                         username : username,
@@ -100,19 +100,19 @@ exports.postLogin = async (req, res, next) => {
                                 });
                             });
             })
-            .catch(err => 
-                res.status(500).send({
+            .catch(async err => 
+                await res.status(500).send({
                     errorMessage : "There was a problem logging in with this user, please try again"
                 })
             );
 };
 
-exports.getCheckToken = (req,res,next) => {
+exports.getCheckToken = async (req,res,next) => {
     const token = req.token;
     const {username} = token;
 
-    return UsersModel.userExists(username)
-            .then(userInfo => {
+    return await UsersModel.userExists(username)
+            .then(async userInfo => {
                 const specificUserInfo = userInfo[0];
 
                 const {id, accounttype, setlistavailable, bandleadername} = specificUserInfo;
@@ -127,7 +127,7 @@ exports.getCheckToken = (req,res,next) => {
                     {expiresIn : 3600000}
                 );
 
-                return res.status(200).send({
+                return await res.status(200).send({
                     isAuthenticated : true,
                     token : newToken,
                     username : username,
@@ -136,9 +136,9 @@ exports.getCheckToken = (req,res,next) => {
                     selectedBandleader : bandleadername,
                 });
             })
-            .catch(err => {
+            .catch(async err => {
                 req.token = null;
-                return res.status(500).send({
+                return await res.status(500).send({
                     errorMessage : "Issue with creating a new token, please login again"
                 })
             });
@@ -146,28 +146,28 @@ exports.getCheckToken = (req,res,next) => {
 
 exports.getBandleaders = (req, res, next) => {
     return UsersModel.getAllBandleaders()
-                .then(response => 
-                    res.status(200).send({
+                .then(async response => 
+                    await res.status(200).send({
                         bandleaders : response
                     })
                 )
-                .catch(err => 
-                    res.status(500).send({
+                .catch(async err => 
+                    await res.status(500).send({
                         errorMessage : "There was a problem getting all the bandleaders"
                     })
                 );
 };
 
-exports.getClientsForBandleader = (req, res, next) => {
+exports.getClientsForBandleader = async (req, res, next) => {
     const token = req.token;
     const {username} = token;
 
-    return UsersModel.getClientsForBandleader(username)
+    return await UsersModel.getClientsForBandleader(username)
                     .then(async clients => {
                         
                         const clientsWithSetlistsNotAvailable = clients.filter(client => client.setlistavailable === false);
                         const clientsWithSetlistsAvailable = clients.filter(client => client.setlistavailable === true);
-                        const clientListWithSetlistApprovalPromises = clientsWithSetlistsAvailable.map(client => {
+                        const clientListWithSetlistApprovalPromises = clientsWithSetlistsAvailable.map(async client => {
 
                             let clientInfo = {
                                 username : client.username,
@@ -176,62 +176,62 @@ exports.getClientsForBandleader = (req, res, next) => {
                                 clientapproved : null,
                             }
                                    
-                            return SetlistsModel.getSetList(clientInfo.username)
+                            return await SetlistsModel.getSetList(clientInfo.username)
                                         .then(response => {
                                             if(response.length > 0){
                                                 clientInfo.clientapproved = response[0].clientapproved;
                                             }
-                                            return clientInfo
+                                            return clientInfo;
                                         });
                         });
 
                         const clientListWithSetlistApproval = Promise.all(clientListWithSetlistApprovalPromises);
 
-                        clientListWithSetlistApproval.then(response => {
+                        clientListWithSetlistApproval.then(async response => {
                             const clientList = clientsWithSetlistsNotAvailable.concat(response);
                         
-                            return res.status(200).send({
-                                clientList : clientList
+                            return await res.status(200).send({
+                                clientList : clientList,
                             });
                         });
                     })
-                    .catch(err => 
-                        res.status(500).send({
+                    .catch(async err => 
+                        await res.status(500).send({
                             errorMessage : "There was a problem getting all the clients for a bandleader"
                         })
                     );
 };
 
-exports.getUserInfo = (req, res, next) => {
+exports.getUserInfo = async (req, res, next) => {
     const token = req.token;
     const {id} = token;
 
-    return UsersModel.getUserInfo(id)
-                    .then(response => 
-                        res.status(200).send({
-                            isAuthenticated : true,
-                            username : response[0].username,
-                            accountType : response[0].accounttype
-                        })
+    return await UsersModel.getUserInfo(id)
+                    .then(async response => 
+                        await res.status(200).send({
+                                isAuthenticated : true,
+                                username : response[0].username,
+                                accountType : response[0].accounttype
+                            })
                     )
-                    .catch(err => 
-                        res.status(500).send({
+                    .catch(async err => 
+                        await res.status(500).send({
                             errorMessage : "There was a problem getting the user info for this user"
                         })
                     );
 };
 
-exports.getClientInfo = (req, res, next) => {
+exports.getClientInfo = async (req, res, next) => {
     const {clientId} = req.params;
 
-    return UsersModel.getUserInfo(clientId)
-                    .then(response => 
-                        res.status(200).send({
+    return await UsersModel.getUserInfo(clientId)
+                    .then(async response => 
+                        await res.status(200).send({
                             clientInfo : response[0],
                         })
                     )
-                    .catch(err => 
-                        res.status(500).send({
+                    .catch(async err => 
+                        await res.status(500).send({
                             errorMessage : "There was a problem getting the client info"
                         })
                     );
@@ -242,7 +242,7 @@ exports.editUserInfo = async (req, res, next) => {
     const {id} = req.token;
     const {newUsername, newPassword} = req.body;
 
-    await UsersModel.getUserInfo(id)
+    return await UsersModel.getUserInfo(id)
             .then(async response => {
                 
                 const userInfo = response[0];
@@ -256,7 +256,7 @@ exports.editUserInfo = async (req, res, next) => {
                         }
 
                         return await UsersModel.editUserInfo(newUsername, newPassword, id)
-                                        .then(response => {
+                                        .then(async response => {
                                             const specificUserInfo = response[0];
                                             
                                             const newToken = jwt.sign(
@@ -269,7 +269,7 @@ exports.editUserInfo = async (req, res, next) => {
                                                 {expiresIn : 3600000}
                                             );
 
-                                            return res.status(200).send({
+                                            return await res.status(200).send({
                                                 isAuthenticated : true,
                                                 token : newToken,
                                                 username : specificUserInfo.username,
@@ -278,8 +278,8 @@ exports.editUserInfo = async (req, res, next) => {
                                         });
                     });
             })
-            .catch(err => 
-                res.status(500).send({
+            .catch(async err => 
+                await res.status(500).send({
                     errorMessage : "There was a problem editing this user's info"
                 })
             );
@@ -297,8 +297,8 @@ exports.sendClientSetList = async (req, res, next) => {
                     setListAvailable : response[0].setlistavailable,
                 })
             )
-            .catch(err => 
-                res.status(500).send({
+            .catch(async err => 
+                await res.status(500).send({
                     errorMessage : "There was a problem sending the Set List"
                 })
             );

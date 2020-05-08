@@ -106,9 +106,16 @@ exports.getClientSongs = (req, res, next) => {
                 .then(clientSongs => {
 
                     const {requestedSongsList, doNotPlaySongsList} = clientSongs;
+                    const {id, username, accounttype, bandleadername, setlistavailable} = userInfo;
 
                     return res.status(200).send({
-                        userInfo,
+                        userInfo : {
+                            id,
+                            username,
+                            accountType : accounttype,
+                            bandleaderName : bandleadername,
+                            setListAvailable : setlistavailable,
+                        },
                         requestedSongsList, 
                         doNotPlaySongsList
                     });
