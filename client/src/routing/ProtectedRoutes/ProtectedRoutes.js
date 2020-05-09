@@ -32,7 +32,7 @@ const ProtectedRoutes = props => (
         <Route exact path="/clientRegister" component={ClientRegisterPage}/>
         <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
         <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
-        <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+        <ProtectedBandleaderRoute exact path="/bandleaderHome" component={BandleaderHomePage}/>
         <Route exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
         <Route exact path="/bandleader/clientList" component={ClientListPage}/>
         <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
@@ -40,7 +40,7 @@ const ProtectedRoutes = props => (
         <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
         <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
         <Route exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
-        <Route exact path="/clientHome" component={ClientHomePage}/>
+        <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
         <Route exact path="/client/editProfile" component={ClientProfilePage}/>
         <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
         <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>

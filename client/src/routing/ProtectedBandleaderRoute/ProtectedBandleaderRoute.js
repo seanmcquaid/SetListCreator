@@ -4,52 +4,33 @@ import Loading from "components/Loading/Loading";
 import {Redirect, Route} from "react-router-dom";
 import {checkTokenAction} from "actions/authActions/authActions";
 
-const ProtectedBandleaderRoute = ({isLoading, accountType, isAuthenticated, token, checkTokenAction, ...props}) => {
-    const [isLoadingPage, setIsLoadingPage] = useState(true);
+const ProtectedBandleaderRoute = props => {
+
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if(isLoadingPage && token){
-            checkTokenAction();
-        }
-        setIsLoadingPage(false);
-    }, [checkTokenAction, isLoadingPage, token])
+        const timer = setTimeout(() => setIsLoading(false), 1500);
+        return () => clearTimeout(timer);
+    },[]);
 
-
-    if(isLoadingPage === true){
-        return <Route {...props} component={Loading}/>;
+    if(isLoading){
+        return <h1>Loading</h1>;
     }
 
-
-    if(isAuthenticated && accountType === "bandleader"){
-        return <Route {...props} component={props.component}/>;
-    }
-
-    if(isAuthenticated === true && accountType !== null){
-        if(isLoadingPage === false && accountType !== "bandleader"){
-            console.log("redirect - isLoadingPage and accounttype")
-            console.log(isLoadingPage, accountType);
-            return <Redirect to="/"/>;
-        }
-    }
-
-
-    if(isLoadingPage === false && isAuthenticated === true){
+    if(!props.isAuthenticated){
         return <Redirect to="/"/>;
     }
 
-    if(isAuthenticated === false && isLoadingPage === false && accountType !== null){
+    if(props.accountType !== "bandleader"){
         return <Redirect to="/"/>;
     }
 
-    return <Redirect to="/"/>;
-
+    return <Route {...props}/>;
 };
 
 const mapStateToProps = state => ({
     accountType : state.auth.accountType,
     isAuthenticated : state.auth.isAuthenticated,
-    token : state.auth.token,
-    isLoading : state.auth.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({

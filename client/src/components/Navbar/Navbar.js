@@ -26,10 +26,12 @@ const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
             <Link className={styles.navLink} to="/bandleaderLogin">Bandleader Login</Link>
         </Aux> ;
     
+    const leftNavRoute = isAuthenticated ? accountType === "bandleader"? "/bandleaderHome": "/clientHome" : "/";
+
     return(
         <nav className={styles.navbarContainer}>
             <div className={styles.leftNav}>
-                <Link className={styles.navLink} to={"/"}>SLC</Link>
+                <Link className={styles.navLink} to={leftNavRoute}>SLC</Link>
             </div>
             <ul className={styles.rightNav}>
                 {rightNav}
