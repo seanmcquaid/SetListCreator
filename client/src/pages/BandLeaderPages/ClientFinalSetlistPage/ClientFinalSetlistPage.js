@@ -4,6 +4,7 @@ import { apiHost } from "config";
 import { tokenConfig } from "actions/authActions/authActions";
 import SongList from "components/SongList/SongList";
 import Text from "components/Text/Text";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import styles from "./ClientFinalSetListPage.module.css";
 
 const ClientFinalSetListPage = props => {
@@ -17,14 +18,15 @@ const ClientFinalSetListPage = props => {
             axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, headers)
                 .then(response => {
                     setClientSetListInfo(response.data);
-                    setIsLoading(false);
                 })
                 .catch(err => console.log(err));
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
     },[clientId, isLoading])
 
     if(isLoading){
-        return <div>Loading</div>
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
     
     return (

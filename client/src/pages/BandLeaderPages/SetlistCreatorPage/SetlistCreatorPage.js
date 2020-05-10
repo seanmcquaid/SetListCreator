@@ -8,6 +8,7 @@ import styles from "./SetlistCreatorPage.module.css";
 import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import CommentsList from "components/CommentsList/CommentsList";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const SetListCreatorPage = props => {
     const {clientId} = props.match.params;
@@ -22,13 +23,14 @@ const SetListCreatorPage = props => {
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
             .then(async response => {
-                setIsLoading(false);
                 setSuggestedSetList(response.data.suggestedSetList);
                 setAdditionalClientRequests(response.data.additionalClientRequests);
             })
             .catch(async err => {
                 console.log(err);
-            });
+            })
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
         
     }, [isLoading, clientId]);
@@ -66,7 +68,7 @@ const SetListCreatorPage = props => {
     };
 
     if(isLoading){
-        return <div>LOADING</div>
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     return (

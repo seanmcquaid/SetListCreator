@@ -8,6 +8,7 @@ import Button from "components/Button/Button";
 import CommentsList from "components/CommentsList/CommentsList";
 import Input from "components/Input/Input";
 import SongList from "components/SongList/SongList";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const EditClientSetListPage = props => {
     const {clientId} = props.match.params;
@@ -23,8 +24,6 @@ const EditClientSetListPage = props => {
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
             .then(async response => {
-                console.log(response.data);
-                setIsLoading(false);
                 setSuggestedSetList(response.data.suggestedSetList);
                 setAdditionalClientRequests(response.data.additionalClientRequests);
                 setClientComments(response.data.clientComments);
@@ -32,6 +31,8 @@ const EditClientSetListPage = props => {
             .catch(async err => {
                 console.log(err);
             });
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
         
     }, [isLoading, clientId]);
@@ -69,7 +70,7 @@ const EditClientSetListPage = props => {
     };
 
     if(isLoading){
-        return <div>LOADING</div>
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     return (

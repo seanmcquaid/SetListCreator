@@ -33,20 +33,20 @@ const ProtectedRoutes = props => (
         <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
         <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
         <ProtectedBandleaderRoute exact path="/bandleaderHome" component={BandleaderHomePage}/>
-        <Route exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
-        <Route exact path="/bandleader/clientList" component={ClientListPage}/>
-        <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
-        <Route exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
-        <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
-        <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
-        <Route exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/clientList" component={ClientListPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/addSongs" component={AddSongsPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
         <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-        <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-        <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-        <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-        <Route exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
-        <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
-        <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
+        <ProtectedClientRoute exact path="/client/editProfile" component={ClientProfilePage}/>
+        <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
+        <ProtectedClientRoute exact path="/client/sendSetList" component={ClientSendSetListPage}/>
+        <ProtectedClientRoute exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
+        <ProtectedClientRoute exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
+        <ProtectedClientRoute exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
         <Route component={ErrorPage}/>
     </Switch>
 );

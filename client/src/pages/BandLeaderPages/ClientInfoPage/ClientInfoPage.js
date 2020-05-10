@@ -6,6 +6,7 @@ import SongList from "components/SongList/SongList";
 import LinkButton from "components/LinkButton/LinkButton";
 import styles from "./ClientInfoPage.module.css";
 import Text from "components/Text/Text";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientInfoPage = props => {
     const {clientId} = props.match.params;
@@ -20,17 +21,18 @@ const ClientInfoPage = props => {
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getClientSongs/${clientId}`, headers)
                 .then(response => {
-                    setIsLoading(false);
                     setRequestedSongsList(response.data.requestedSongsList);
                     setDoNotPlaySongsList(response.data.doNotPlaySongsList);
                     setClientInfo(response.data.userInfo);
                 })
                 .catch(err => console.log(err));
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
     },[clientId, isLoading])
-    
+
     if(isLoading){
-        return null;
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     return(

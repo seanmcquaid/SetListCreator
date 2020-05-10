@@ -3,6 +3,7 @@ import styles from "./ClientProfilePage.module.css";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import {connect} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
 
@@ -14,15 +15,14 @@ const ClientProfilePage = props => {
     const [message, setMessage] = useState("");
     const {editUserInfoAction, getUserInfoAction} = props;
 
-    console.log(props)
-
     useEffect(() => {
-        if(username === ""){
+        if(username === "" && isLoading){
             getUserInfoAction();
             setUsername(props.username);
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
-        setIsLoading(false);
-    },[getUserInfoAction, username, props.username])
+    },[getUserInfoAction, username, props.username, isLoading])
 
     const userNameOnChangeHandler = event => {
         setUsername(event.target.value);
@@ -46,7 +46,7 @@ const ClientProfilePage = props => {
     }
     
     if(isLoading){
-        return <div>Loading</div>
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     return (

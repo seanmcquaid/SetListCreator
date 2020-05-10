@@ -4,6 +4,7 @@ import axios from "axios";
 import {apiHost} from "config";
 import Text from "components/Text/Text";
 import SongList from "components/SongList/SongList";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import styles from "./FinalizedSetListPage.module.css";
 
 const FinalizedSetListPage = props => {
@@ -16,15 +17,15 @@ const FinalizedSetListPage = props => {
             axios.get(`${apiHost}/client/getCompletedSetList`, headers)
                 .then(response => {
                     setSetListInfo(response.data);
-                    setIsLoading(false);
                 })
                 .catch(err => console.log(err));
+            const timer = setTimeout(() => setIsLoading(false), 1500);
+            return () => clearTimeout(timer);
         }
     }, [isLoading]);
 
-
     if(isLoading){
-        return <div>Loading</div>
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     return (

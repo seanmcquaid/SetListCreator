@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
-import Loading from "components/Loading/Loading";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import {Redirect, Route} from "react-router-dom";
 import {checkTokenAction} from "actions/authActions/authActions";
 
@@ -13,7 +13,7 @@ const ProtectedClientRoute = props => {
     },[]);
 
     if(isLoading){
-        return <h1>Loading</h1>;
+        return <LoadingSpinner isLoading={isLoading}/>;
     }
 
     if(!props.isAuthenticated){
