@@ -6,14 +6,14 @@ import {css} from "@emotion/core";
 const override = css`
     position : absolute;
     top : 50%;
-    left : 44%;
+    left : 50%;
 `;
 
 const LoadingSpinner = ({isLoading}) => (
     <SyncLoader
         css={override}
         loading={isLoading}
-        size={50}
+        size={30}
         sizeUnit={"px"}
         color={"#555555"}
     />

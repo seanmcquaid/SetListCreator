@@ -8,18 +8,20 @@ const Song = props => {
     const {songName, artistName, songKey, deleteSongHandler, songId, isEditable} = props;
     return(
         <div className={styles.songContainer}>
-            <h4 className={styles.songName}>Song Name : {songName}</h4>
-            <h5 className={styles.artistName}>Artist Name : {artistName}</h5>
+            <h4 className={styles.songName}>{songName}</h4>
+            <h5 className={styles.artistName}>{artistName}</h5>
             {songKey ? 
-                <p className={styles.songKey}>Key : {songKey}</p> :
+                <p className={styles.songKey}>{songKey}</p> :
                 null
             }
-            <Button 
-                onClick={() => deleteSongHandler(songName, artistName, songKey ? songKey : null)}
-                type="button"
-                title="Remove"
-            />
-            {isEditable ? <LinkButton route={songKey ? `/bandleader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton> : null}
+            <div className={styles.buttonsContainer}>
+                <Button 
+                    onClick={() => deleteSongHandler(songName, artistName, songKey ? songKey : null)}
+                    type="button"
+                    title="Remove"
+                />
+                {isEditable ? <LinkButton route={songKey ? `/bandleader/editSong/${songId}` : `/client/editSong/${songId}`}>Edit</LinkButton> : null}
+            </div>
         </div>
     )
 };

@@ -3,9 +3,9 @@
     padding : 0.5rem;
     background-color: #00a118;
     color : #fff;
-    width: 100%;
-    max-width: 6rem;
+    width: 6rem;
     border-radius : 8px;
     text-align: center;
     text-decoration: none;
+    font: 400 11px system-ui;
 }

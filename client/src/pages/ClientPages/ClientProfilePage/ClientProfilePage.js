@@ -19,9 +19,9 @@ const ClientProfilePage = props => {
         if(username === "" && isLoading){
             getUserInfoAction();
             setUsername(props.username);
-            const timer = setTimeout(() => setIsLoading(false), 1500);
-            return () => clearTimeout(timer);
         }
+        const timer = setTimeout(() => setIsLoading(false), 1500);
+        return () => clearTimeout(timer);
     },[getUserInfoAction, username, props.username, isLoading])
 
     const userNameOnChangeHandler = event => {
