@@ -79,7 +79,7 @@ const EditClientSetListPage = props => {
                 <Text headerText={true}>Set List Creator</Text>
                 <Button type="button" title="Send Setlist to Client" onClick={sendEditedSetList}/>
             </div>
-            <div>
+            <div className={styles.allCommentsContainer}>
                 <div className={styles.commentsContainer}>
                     <Text headerText={true}>Bandleader Comments</Text>
                     <CommentsList list={bandleaderComments}/>
@@ -100,9 +100,11 @@ const EditClientSetListPage = props => {
             </div>
             <div className={styles.songsContainer}>
                 <div className={styles.suggestedSetListContainer}>
+                    <Text headerText={true}>Suggested Set List</Text>
                     <SongList list={suggestedSetList}/>
                 </div>
                 <div className={styles.additionalClientRequestsContainer}>
+                    <Text headerText={true}>Additional Client Requests</Text>
                     <SongList list={additionalClientRequests} songOnClick={addSongToSetList}/>
                 </div>
             </div>

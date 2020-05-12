@@ -22,7 +22,7 @@ const ClientInfo = props => {
                 <Button
                     title="Go To Set List Page"
                     type="button"
-                    onClick={props.clientCreateSetListPageRedirect}
+                    onClick={props.clientPageRedirect}
                 /> :
                 <Button 
                     title="Go To Edit Set List Page"

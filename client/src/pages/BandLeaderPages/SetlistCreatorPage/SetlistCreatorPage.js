@@ -92,9 +92,11 @@ const SetListCreatorPage = props => {
             </div>
             <div className={styles.songsContainer}>
                 <div className={styles.suggestedSetListContainer}>
+                    <Text headerText={true}>Suggested Set List</Text>
                     <SongList list={suggestedSetList}/>
                 </div>
                 <div className={styles.additionalClientRequestsContainer}>
+                    <Text headerText={true}>Additional Client Requests</Text>
                     <SongList list={additionalClientRequests} songOnClick={addSongToSetlist}/>
                 </div>
             </div>

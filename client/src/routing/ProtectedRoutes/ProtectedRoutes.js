@@ -37,6 +37,7 @@ const ProtectedRoutes = props => (
         <ProtectedBandleaderRoute exact path="/bandleader/clientList" component={ClientListPage}/>
         <ProtectedBandleaderRoute exact path="/bandleader/addSongs" component={AddSongsPage}/>
         <ProtectedBandleaderRoute exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
+        <ProtectedBandleaderRoute exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
         <ProtectedBandleaderRoute exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
         <ProtectedBandleaderRoute exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
         <ProtectedBandleaderRoute exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
@@ -44,7 +45,6 @@ const ProtectedRoutes = props => (
         <ProtectedClientRoute exact path="/client/editProfile" component={ClientProfilePage}/>
         <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
         <ProtectedClientRoute exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-        <ProtectedClientRoute exact path="/clientInfo/:clientId" component={ClientInfoPage}/>
         <ProtectedClientRoute exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
         <ProtectedClientRoute exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
         <Route component={ErrorPage}/>

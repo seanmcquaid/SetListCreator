@@ -29,7 +29,7 @@ const ClientInfoPage = props => {
             const timer = setTimeout(() => setIsLoading(false), 1500);
             return () => clearTimeout(timer);
         }
-    },[clientId, isLoading])
+    },[clientId, isLoading]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;

@@ -13,8 +13,8 @@ const ClientListPage = props => {
     },[getBandleaderClientsAction])
 
 
-    const clientCreateSetListPageRedirect = async clientId => {
-        await props.history.push(`/bandleader/createSetList/${clientId}`);
+    const clientPageRedirect = async clientId => {
+        await props.history.push(`/bandleader/clientInfo/${clientId}`);
     };
     
     const clientFinalSetListPageRedirect = async clientId => {
@@ -34,7 +34,7 @@ const ClientListPage = props => {
                         key={clientInfo.id} 
                         clientName={clientInfo.username} 
                         setListAvailable={clientInfo.setlistavailable}
-                        clientCreateSetListPageRedirect={() => clientCreateSetListPageRedirect(clientInfo.id)}
+                        clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
                         clientFinalSetListPageRedirect={() => clientFinalSetListPageRedirect(clientInfo.id)}
                         clientApproved={clientInfo.clientapproved}
                         clientEditSetListPageRedirect={() => clientEditSetListPageRedirect(clientInfo.id)}
