@@ -8,6 +8,8 @@ const ProtectedBandleaderRoute = props => {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log(props);
+
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 1500);
         return () => clearTimeout(timer);

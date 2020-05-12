@@ -13,16 +13,16 @@ const ClientListPage = props => {
     },[getBandleaderClientsAction])
 
 
-    const clientPageRedirect = async clientId => {
-        await props.history.push(`/clientInfo/${clientId}`);
+    const clientCreateSetListPageRedirect = async clientId => {
+        await props.history.push(`/bandleader/createSetList/${clientId}`);
     };
     
     const clientFinalSetListPageRedirect = async clientId => {
-        await props.history.push(`/bandLeader/clientFinalSetList/${clientId}`);
+        await props.history.push(`/bandleader/clientFinalSetList/${clientId}`);
     };
 
     const clientEditSetListPageRedirect = async clientId => {
-        await props.history.push(`/bandLeader/clientEditSetList/${clientId}`);
+        await props.history.push(`/bandleader/clientEditSetList/${clientId}`);
     };
     
     return(
@@ -34,7 +34,7 @@ const ClientListPage = props => {
                         key={clientInfo.id} 
                         clientName={clientInfo.username} 
                         setListAvailable={clientInfo.setlistavailable}
-                        clientPageRedirect={() => clientPageRedirect(clientInfo.id)}
+                        clientCreateSetListPageRedirect={() => clientCreateSetListPageRedirect(clientInfo.id)}
                         clientFinalSetListPageRedirect={() => clientFinalSetListPageRedirect(clientInfo.id)}
                         clientApproved={clientInfo.clientapproved}
                         clientEditSetListPageRedirect={() => clientEditSetListPageRedirect(clientInfo.id)}
