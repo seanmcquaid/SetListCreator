@@ -46,7 +46,7 @@ const BandleaderEditSongPage = props => {
     const bandLeaderEditSongSubmitHandler = async event => {
         event.preventDefault();
         await editBandleaderSongAction(songName, artistName, songKey, songId);
-        await props.history.push("/bandLeader/addSongs")
+        await props.history.push("/bandleader/addSongs")
     };
     
 

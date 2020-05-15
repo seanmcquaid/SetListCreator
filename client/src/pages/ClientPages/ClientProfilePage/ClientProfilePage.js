@@ -42,6 +42,7 @@ const ClientProfilePage = props => {
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
             editUserInfoAction(username, password, "client");
+            props.history.push("/clientHome");
         }
     }
     

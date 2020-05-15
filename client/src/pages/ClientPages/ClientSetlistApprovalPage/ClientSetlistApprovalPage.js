@@ -10,6 +10,7 @@ import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import Dropdown from "components/Dropdown/Dropdown";
 import { Redirect } from "react-router-dom";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientSetListApprovalPage = props => {
     const [isLoading, setIsLoading] = useState(true);
@@ -58,8 +59,8 @@ const ClientSetListApprovalPage = props => {
 
         axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
             .then(response => {
-                console.log(response);
                 setIsLoading(true);
+                props.history.push("/clientHome")
             })
             .catch(err => {
                 console.log(err.response);
@@ -67,7 +68,7 @@ const ClientSetListApprovalPage = props => {
     };
 
     if(isLoading){
-        return <div>Loading</div>
+        return <LoadingSpinner isLoading={isLoading}/>
     }
 
     if(setListInfo.clientapproved){
@@ -75,7 +76,9 @@ const ClientSetListApprovalPage = props => {
     }
 
     if(errorMessage.length > 0){
-        return <div>{errorMessage}</div>
+        return (<div className={styles.clientFinalSetListPageContainer}>
+                    <Text headerText={true}>{errorMessage}</Text>
+                </div>)
     }
 
     const {bandleaderComments, suggestedSetList} = setListInfo;
@@ -91,7 +94,7 @@ const ClientSetListApprovalPage = props => {
                 items={clientApprovalOptions}
             />
             <Button type="button" title="Send Comments" onClick={sendClientComments}/>
-            <div className={styles.commentsContainer}>
+            <div className={styles.clientCommentsContainer}>
                 <Text headerText={true}>Client Comments List</Text>
                 <CommentsList list={clientComments}/>
                 <Input 
@@ -105,7 +108,7 @@ const ClientSetListApprovalPage = props => {
                 <Button type="button" title="Add Comment" onClick={addClientCommentHandler}/>
             </div>
             <div className={styles.listsContainer}>
-                <div className={styles.commentsContainer}>
+                <div className={styles.bandleaderCommentsContainer}>
                     <Text headerText={true}>Band leader Comments</Text>
                     <CommentsList list={bandleaderComments}/>
                 </div>

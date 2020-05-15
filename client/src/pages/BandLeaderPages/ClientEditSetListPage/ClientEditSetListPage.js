@@ -61,8 +61,8 @@ const EditClientSetListPage = props => {
         };
 
         axios.patch(`${apiHost}/bandleader/editCompletedSetList`, requestBody, headers)
-            .then(response => {
-
+            .then(async response => {
+                await props.history.push("/bandleaderHome")
             })
             .catch(err => {
                 console.log(err);

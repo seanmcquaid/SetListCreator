@@ -2,36 +2,61 @@ import React from "react";
 import Text from "components/Text/Text";
 import Button from "components/Button/Button";
 import styles from "./ClientInfo.module.css";
+import PropTypes from "prop-types";
 
-const ClientInfo = props => {
+const ClientInfo = ({
+    clientName, 
+    clientApproved, 
+    setListAvailable, 
+    clientFinalSetListPageRedirect, 
+    clientPageRedirect, 
+    clientEditSetListPageRedirect
+}) => {
     return(
         <div className={styles.clientInfoContainer}>
-            <h4 className={styles.clientName}>{props.clientName}</h4>
+            <h4 className={styles.clientName}>{clientName}</h4>
             <Text>Set List Status :  
-                {console.log(props.clientApproved === null && props.setListAvailable )}
-                {props.clientApproved && props.setListAvailable ? " Complete" : 
-                props.clientApproved === null && props.setListAvailable ? " Ready" : " Needs Edits"}
+                {clientApproved && setListAvailable ? " Complete" : 
+                clientApproved === null && setListAvailable ? " Ready" : " Needs Edits"}
             </Text>
-            {props.clientApproved && props.setListAvailable ?
+            {clientApproved && setListAvailable ?
                 <Button 
                     title="Go To Final Set List Page"
                     type="button"
-                    onClick={props.clientFinalSetListPageRedirect}
+                    onClick={clientFinalSetListPageRedirect}
                 /> : 
-                props.clientApproved === null && props.setListAvailable ? 
+                clientApproved === null && setListAvailable ? 
                 <Button
                     title="Go To Set List Page"
                     type="button"
-                    onClick={props.clientPageRedirect}
+                    onClick={clientPageRedirect}
                 /> :
                 <Button 
                     title="Go To Edit Set List Page"
                     type="button"
-                    onClick={props.clientEditSetListPageRedirect}
+                    onClick={clientEditSetListPageRedirect}
                 />
             }
         </div>
     )
+};
+
+ClientInfo.propTypes = {
+    clientName : PropTypes.string.isRequired, 
+    clientApproved : PropTypes.bool, 
+    setListAvailable : PropTypes.bool.isRequired,
+    clientFinalSetListPageRedirect : PropTypes.func.isRequired, 
+    clientPageRedirect : PropTypes.func.isRequired, 
+    clientEditSetListPageRedirect : PropTypes.func.isRequired, 
+};
+
+ClientInfo.defaultProps = {
+    clientName : "Client Name", 
+    clientApproved : null, 
+    setListAvailable : false, 
+    clientFinalSetListPageRedirect : () => console.log("Final Set List Redirect"), 
+    clientPageRedirect : () => console.log("Client Page Redirect"),
+    clientEditSetListPageRedirect : () => console.log("Client Edit Set List Page Redirect")
 };
 
 export default ClientInfo;

@@ -60,7 +60,7 @@ const SetListCreatorPage = props => {
 
         axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, headers)
             .then(response => {
-
+                props.history.push("/bandleaderHome")
             })
             .catch(err => {
                 console.log(err);

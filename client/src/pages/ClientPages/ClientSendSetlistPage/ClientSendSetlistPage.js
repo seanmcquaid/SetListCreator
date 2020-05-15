@@ -29,14 +29,18 @@ const ClientSendSetListPage = props => {
         await props.history.push("/clientHome");
     };
 
-    console.log(setListAvailabile);
-
     return(
         <div className={styles.clientSendSetListPageContainer}>
             <Text headerText={true}>Send Setlist</Text>
+            {setListAvailabile ? <Text>Setlist Sent Already!</Text> : 
+            <Button
+                title="Send Playlist"
+                type="Button"
+                onClick={sendSetlistHandler}
+            />}
             <div className={styles.songContainer}>
                 <div className={styles.requestedSongsContainer}>
-                    <Text>Requested Songs</Text>
+                    <Text headerText={true}>Requested Songs</Text>
                     <div className={styles.songsContainer}>
                         {requestedSongsList.map((song, i) => 
                             <Song
@@ -50,7 +54,7 @@ const ClientSendSetListPage = props => {
                     </div>
                 </div>
                 <div className={styles.doNotPlaySongsContainer}>
-                    <Text>Do Not Play Songs</Text>
+                    <Text headerText={true}>Do Not Play Songs</Text>
                     <div className={styles.songsContainer}>
                         {doNotPlaySongsList.map((song, i) => 
                             <Song
@@ -64,12 +68,6 @@ const ClientSendSetListPage = props => {
                     </div>
                 </div>
             </div>
-            {setListAvailabile ? <Text>Setlist Sent Already!</Text> : 
-            <Button
-                title="Send Playlist"
-                type="Button"
-                onClick={sendSetlistHandler}
-            />}
         </div>
     )
 };

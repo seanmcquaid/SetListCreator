@@ -42,6 +42,7 @@ const BandleaderProfilePage = props => {
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
             editUserInfoAction(username, password, "bandleader");
+            await props.history.push("/bandleaderHome")
         }
     }
 
