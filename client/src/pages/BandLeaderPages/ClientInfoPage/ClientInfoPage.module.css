@@ -14,17 +14,6 @@
     width : 100%
 }
 
-@media(max-width : 675px){
-    .songsContainer{
-        flex-direction: column;
-        max-width : 500px;
-    }
-    .requestedSongsListContainer, .doNotPlaySongsListContainer{
-        border : none;
-    }
-}
-
-
 .requestedSongsListContainer, .doNotPlaySongsListContainer{
     border : 2px solid black;
     display : flex;
@@ -34,4 +23,14 @@
     margin : 2rem;
     padding : 1rem;
     width : 100%
+}
+
+@media(max-width : 780px){
+    .songsContainer{
+        flex-direction: column;
+        max-width : 500px;
+    }
+    .requestedSongsListContainer, .doNotPlaySongsListContainer{
+        border : none;
+    }
 }
