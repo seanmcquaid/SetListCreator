@@ -4,8 +4,14 @@ import Button from "../Button/Button";
 import LinkButton from "../LinkButton/LinkButton";
 import styles from "./Song.module.css";
 
-const Song = props => {
-    const {songName, artistName, songKey, deleteSongHandler, songId, isEditable} = props;
+const Song = ({
+    songName, 
+    artistName, 
+    songKey, 
+    deleteSongHandler, 
+    songId, 
+    isEditable
+}) => {
     return(
         <div className={styles.songContainer}>
             <h4 className={styles.songName}>{songName}</h4>
@@ -31,6 +37,13 @@ Song.propTypes = {
     artistName : PropTypes.string.isRequired,
     songKey : PropTypes.string,
     deleteSongHandler : PropTypes.func.isRequired
+};
+
+Song.defaultProps = {
+    songName : "Song Name Here",
+    artistName : "Artist Name Here",
+    songKey : "Song Key Here",
+    deleteSongHandler : (songName, artistName, songKey) => console.log(songName, artistName, songKey),
 };
 
 export default Song;

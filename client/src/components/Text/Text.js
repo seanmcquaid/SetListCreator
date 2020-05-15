@@ -2,23 +2,20 @@ import React from "react";
 import styles from "./Text.module.css";
 import PropTypes from "prop-types";
 
-const Text = props => {
-
-    if(props.headerText){
-        return(
-            <h1 className={styles.headerText}>
-                {props.children}
-            </h1>
-        )
-    }
-    
-    return(
-        <p className={styles.normalText}>{props.children}</p>
-    )
-};
+const Text = ({headerText, children}) => (
+    headerText ? 
+        <h1 className={styles.headerText}>{children}</h1> :
+        <p className={styles.normalText}>{children}</p>
+)
 
 Text.propTypes = {
-    headerText : PropTypes.bool
+    headerText : PropTypes.bool,
+    children : PropTypes.any.isRequired,
 };
+
+Text.defaultProps = {
+    headerText : false,
+    children : "Text Here"
+}
 
 export default Text;

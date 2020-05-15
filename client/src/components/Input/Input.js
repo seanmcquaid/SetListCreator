@@ -2,17 +2,24 @@ import React from "react";
 import styles from "./Input.module.css";
 import PropTypes from "prop-types";
 
-const Input = props => {
+const Input = ({
+    name, 
+    title, 
+    type, 
+    value, 
+    onChangeHandler, 
+    placeholder
+}) => {
     return(
         <div className={styles.inputContainer}>
-            <label htmlFor={props.name} className={styles.inputLabel}>{props.title}</label>
+            <label htmlFor={name} className={styles.inputLabel}>{title}</label>
             <input
                 className={styles.input}
-                name={props.name}
-                type={props.type}
-                value={props.value}
-                onChange={props.onChangeHandler}
-                placeholder={props.placeholder}
+                name={name}
+                type={type}
+                value={value}
+                onChange={onChangeHandler}
+                placeholder={placeholder}
             />
         </div>
     )
@@ -25,6 +32,15 @@ Input.propTypes = {
     value : PropTypes.string.isRequired,
     onChangeHandler : PropTypes.func.isRequired,
     placeholder : PropTypes.string.isRequired
+};
+
+Input.defaultProps = {
+    name : "Input Name",
+    title : "Input Title",
+    type : "Input Type",
+    value : "Input Value",
+    onChangeHandler : () => console.log("On Change Handler"),
+    placeholder : "Input Placeholder"
 };
 
 export default Input;

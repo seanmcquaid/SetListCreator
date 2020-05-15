@@ -12,4 +12,8 @@ CommentsList.propTypes = {
     list : PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
+CommentsList.defaultProps = {
+    list : ["Comments", "List", "Here"]
+}
+
 export default CommentsList;

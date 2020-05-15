@@ -19,7 +19,8 @@ const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
                 <Link className={styles.navLink} to="/bandleader/addSongs">Add Songs</Link>
                 <Link className={styles.navLink} to="/bandleader/editProfile">Profile</Link>
             </Aux>}
-            <button className={styles.navLinkButton} onClick={() => logoutAction()}type="button">Logout</button>
+            <button className={styles.nav
+            } onClick={() => logoutAction()}type="button">Logout</button>
         </Aux> : 
         <Aux>
             <Link className={styles.navLink} to="/clientLogin">Client Login</Link>

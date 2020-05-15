@@ -17,4 +17,8 @@ SongList.propTypes = {
     list : PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 };
 
+SongList.defaultProps = {
+    list : [{songname : "Song Name Here", artistname : "Artist Name Here", id : 0}]
+};
+
 export default SongList;
