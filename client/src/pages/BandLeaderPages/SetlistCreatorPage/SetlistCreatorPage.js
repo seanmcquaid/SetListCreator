@@ -9,9 +9,12 @@ import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import CommentsList from "components/CommentsList/CommentsList";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
+import { useHistory } from "react-router-dom";
 
 const SetListCreatorPage = props => {
     const {clientId} = props.match.params;
+    const history = useHistory();
+
     const [isLoading, setIsLoading] = useState(true);
     const [suggestedSetList, setSuggestedSetList] = useState([]);
     const [additionalClientRequests, setAdditionalClientRequests] = useState([]);
@@ -60,7 +63,7 @@ const SetListCreatorPage = props => {
 
         axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, headers)
             .then(response => {
-                props.history.push("/bandleaderHome")
+                history.push("/bandleaderHome")
             })
             .catch(err => {
                 console.log(err);

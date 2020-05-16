@@ -4,16 +4,20 @@ import {Link, Redirect} from "react-router-dom";
 import styles from "./BandleaderRegisterPage.module.css";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {registerAction} from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
+import { selectErrorState } from "selectors/errorReducer";
 
-const BandleaderRegisterPage = props => {
+const BandleaderRegisterPage = () => {
+    const {isAuthenticated} = useSelector(selectAuthState);
+    const {errorMessage} = useSelector(selectErrorState);
+    const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const {registerAction} = props;
+    const [newErrorMessage, setNewErrorMessage] = useState("");
     
     const usernameOnChangeHandler = event => {
         setUsername(event.target.value);
@@ -30,14 +34,14 @@ const BandleaderRegisterPage = props => {
     const bandleaderRegisterSubmitHandler = event => {
         event.preventDefault();
         if(password !== confirmPassword){
-            setErrorMessage("Passwords don't match");
+            setNewErrorMessage("Passwords don't match");
         }else {
-            registerAction(username, password, "bandleader");
+            dispatch(registerAction(username, password, "bandleader"));
         }
     };
 
-    if(props.isAuthenticated){
-        return <Redirect to="/bandleaderHome"/>
+    if(isAuthenticated){
+        return <Redirect to="/bandleaderHome"/>;
     }
 
     return(
@@ -47,7 +51,7 @@ const BandleaderRegisterPage = props => {
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/bandleaderLogin">Here</Link>
                 </Text>
-                <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
+                <Text>{errorMessage ? errorMessage : newErrorMessage}</Text>
             </div>
             <form className={styles.registerForm} onSubmit={bandleaderRegisterSubmitHandler}>
                 <Input 
@@ -80,13 +84,4 @@ const BandleaderRegisterPage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated : state.auth.isAuthenticated,
-    errorMessage : state.error.errorMessage,
-});
-
-const mapDispatchToProps = dispatch => ({
-    registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BandleaderRegisterPage);
+export default BandleaderRegisterPage;

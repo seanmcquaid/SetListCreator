@@ -1,28 +1,32 @@
 import React, { useEffect } from "react";
 import {getBandleaderClientsAction} from "actions/bandleaderActions/bandleaderActions";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Text from "components/Text/Text";
 import ClientInfo from "components/ClientInfo/ClientInfo";
 import styles from "./ClientListPage.module.css";
+import { useHistory } from "react-router-dom";
+import { selectBandleaderState } from "selectors/bandleaderSelectors";
 
-const ClientListPage = props => {
-    const {clientList, getBandleaderClientsAction} = props;
+const ClientListPage = () => {
+    const {clientList} = useSelector(selectBandleaderState);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
-        getBandleaderClientsAction();
-    },[getBandleaderClientsAction])
+        dispatch(getBandleaderClientsAction());
+    },[dispatch]);
 
 
-    const clientPageRedirect = async clientId => {
-        await props.history.push(`/bandleader/clientInfo/${clientId}`);
+    const clientPageRedirect = clientId => {
+        history.push(`/bandleader/clientInfo/${clientId}`);
     };
     
-    const clientFinalSetListPageRedirect = async clientId => {
-        await props.history.push(`/bandleader/clientFinalSetList/${clientId}`);
+    const clientFinalSetListPageRedirect = clientId => {
+        history.push(`/bandleader/clientFinalSetList/${clientId}`);
     };
 
-    const clientEditSetListPageRedirect = async clientId => {
-        await props.history.push(`/bandleader/clientEditSetList/${clientId}`);
+    const clientEditSetListPageRedirect = clientId => {
+        history.push(`/bandleader/clientEditSetList/${clientId}`);
     };
     
     return(
@@ -45,12 +49,4 @@ const ClientListPage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    clientList : state.bandleader.clientList
-});
-
-const mapDispatchToProps = dispatch => ({
-    getBandleaderClientsAction : () => dispatch(getBandleaderClientsAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientListPage);
+export default ClientListPage;

@@ -3,7 +3,7 @@ import Text from "components/Text/Text";
 import LinkButton from "components/LinkButton/LinkButton";
 import styles from "./BandleaderHomePage.module.css";
 
-const BandleaderHomePage = props => {
+const BandleaderHomePage = () => {
     return(
         <div className={styles.bandleaderHomePageContainer}>
             <Text headerText={true}>Band Leader Home Page</Text>

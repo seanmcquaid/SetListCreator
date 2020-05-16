@@ -32,7 +32,7 @@ const BandleaderLoginPage = () => {
     };
     
     if(isAuthenticated){
-        return <Redirect to="/bandleaderHome"/>
+        return <Redirect to="/bandleaderHome"/>;
     }
 
     return(

@@ -4,45 +4,53 @@ import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
+import { selectErrorState } from "selectors/errorReducer";
+import { useHistory } from "react-router-dom";
 
-const BandleaderProfilePage = props => {
+const BandleaderProfilePage = () => {
+    const {username} = useSelector(selectAuthState);
+    const {errorMessage} = useSelector(selectErrorState);
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [isLoading, setIsLoading] = useState(true);
-    const [username, setUsername] = useState("");
+    const [currentUsername, setCurrentUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
-    const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
-        if(username === ""){
-            setUsername(props.username);
-            getUserInfoAction();
+        if(currentUsername === ""){
+            setCurrentUsername(username);
+            dispatch(getUserInfoAction());
         }
         const timer = setTimeout(() => setIsLoading(false), 1500);
         return () => clearTimeout(timer);
-    },[getUserInfoAction, username, props.username, isLoading])
+    },[username, isLoading, currentUsername, dispatch])
 
-    const userNameOnChangeHandler = event => {
-        setUsername(event.target.value);
-    }
+    const currentUsernameOnChangeHandler = event => {
+        setCurrentUsername(event.target.value);
+    };
 
     const passwordOnChangeHandler = event => {
         setPassword(event.target.value);
-    }
+    };
 
     const confirmPasswordOnChangeHandler = event => {
         setConfirmPassword(event.target.value);
-    }
+    };
 
-    const bandleaderEditProfileSubmitHandler = async event => {
+    const bandleaderEditProfileSubmitHandler = event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
-            editUserInfoAction(username, password, "bandleader");
-            await props.history.push("/bandleaderHome")
+            dispatch(editUserInfoAction(currentUsername, password, "bandleader"));
+            history.push("/bandleaderHome")
         }
     }
 
@@ -53,14 +61,14 @@ const BandleaderProfilePage = props => {
     return (
         <div className={styles.bandleaderProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : message}</Text>
+            <Text>{errorMessage ? errorMessage : message}</Text>
             <form className={styles.bandleaderEditProfileForm} onSubmit={bandleaderEditProfileSubmitHandler}>
             <Input
                 name="username"
                 title="Edit Username Here"
                 type="text"
                 value={username}
-                onChangeHandler={userNameOnChangeHandler}
+                onChangeHandler={currentUsernameOnChangeHandler}
                 placeholder="Edit Username Here"
             />
             <Input
@@ -85,14 +93,4 @@ const BandleaderProfilePage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    errorMessage : state.error.errorMessage,
-    username : state.auth.username,
-});
-
-const mapDispatchToProps = dispatch => ({
-    editUserInfoAction : (newUsername, newPassword, accountType) => dispatch(editUserInfoAction(newUsername, newPassword, accountType)),
-    getUserInfoAction : () => dispatch(getUserInfoAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BandleaderProfilePage);
+export default BandleaderProfilePage;

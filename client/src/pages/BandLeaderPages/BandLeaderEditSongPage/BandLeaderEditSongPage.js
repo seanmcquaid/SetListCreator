@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -8,23 +8,26 @@ import Text from "components/Text/Text";
 import styles from "./BandleaderEditSongPage.module.css";
 import {editBandleaderSongAction} from "actions/bandleaderActions/bandleaderActions";
 import {apiHost} from "config";
+import { useHistory } from "react-router-dom";
 
 const BandleaderEditSongPage = props => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
     const {songId} = props.match.params;
-    const {editBandleaderSongAction} = props;
 
     useEffect(() => {
         const headers = tokenConfig();
         axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
-            .then(async response => {
+            .then(response => {
                 const songInfo = response.data.songInfo;
                 const {songname, artistname, songkey} = songInfo;
-                await setSongName(songname);
-                await setArtistName(artistname);
-                await setSongKey(songkey);
+                setSongName(songname);
+                setArtistName(artistname);
+                setSongKey(songkey);
             })
             .catch(err => {
                 console.log(err);
@@ -43,10 +46,10 @@ const BandleaderEditSongPage = props => {
         setSongKey(event.target.value);
     }
 
-    const bandLeaderEditSongSubmitHandler = async event => {
+    const bandLeaderEditSongSubmitHandler = event => {
         event.preventDefault();
-        await editBandleaderSongAction(songName, artistName, songKey, songId);
-        await props.history.push("/bandleader/addSongs")
+        dispatch(editBandleaderSongAction(songName, artistName, songKey, songId));
+        history.push("/bandleader/addSongs")
     };
     
 
@@ -80,13 +83,8 @@ const BandleaderEditSongPage = props => {
                 />
                 <Button title="Edit Song" type="submit"/>
             </form>
-            
         </div>
     )
 };
 
-const mapDispatchToProps = dispatch => ({
-    editBandleaderSongAction : (songName, artistName, songKey, songId) => dispatch(editBandleaderSongAction(songName, artistName, songKey, songId))
-});
-
-export default connect(null, mapDispatchToProps)(BandleaderEditSongPage);
+export default BandleaderEditSongPage;

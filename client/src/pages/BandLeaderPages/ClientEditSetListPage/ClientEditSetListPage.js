@@ -9,9 +9,12 @@ import CommentsList from "components/CommentsList/CommentsList";
 import Input from "components/Input/Input";
 import SongList from "components/SongList/SongList";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
+import { useHistory } from "react-router-dom";
 
 const EditClientSetListPage = props => {
     const {clientId} = props.match.params;
+    const history = useHistory();
+
     const [isLoading, setIsLoading] = useState(true);
     const [suggestedSetList, setSuggestedSetList] = useState([]);
     const [additionalClientRequests, setAdditionalClientRequests] = useState([]);
@@ -23,12 +26,12 @@ const EditClientSetListPage = props => {
         if(isLoading){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
-            .then(async response => {
+            .then(response => {
                 setSuggestedSetList(response.data.suggestedSetList);
                 setAdditionalClientRequests(response.data.additionalClientRequests);
                 setClientComments(response.data.clientComments);
             })
-            .catch(async err => {
+            .catch(err => {
                 console.log(err);
             });
             const timer = setTimeout(() => setIsLoading(false), 1500);
@@ -61,8 +64,8 @@ const EditClientSetListPage = props => {
         };
 
         axios.patch(`${apiHost}/bandleader/editCompletedSetList`, requestBody, headers)
-            .then(async response => {
-                await props.history.push("/bandleaderHome")
+            .then(response => {
+                history.push("/bandleaderHome")
             })
             .catch(err => {
                 console.log(err);

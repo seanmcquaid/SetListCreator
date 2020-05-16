@@ -4,40 +4,44 @@ import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import styles from "./AddSongsPage.module.css";
 import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "actions/bandleaderActions/bandleaderActions";
-import {connect} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Song from "components/Song/Song";
+import { selectBandleaderState } from "selectors/bandleaderSelectors";
 
-const AddSongsPage = ({getBandleaderSongsAction, deleteBandleaderSongAction, addBandleaderSongAction, songList}) => {
+const AddSongsPage = () => {
+    const {songList} = useSelector(selectBandleaderState);
+    const dispatch = useDispatch();
+
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
 
     useEffect(() => {
-        getBandleaderSongsAction();
-    },[getBandleaderSongsAction])
+        dispatch(getBandleaderSongsAction());
+    },[dispatch]);
 
-    const songNameOnChangeHandler = async event => {
-        await setSongName(event.target.value);
+    const songNameOnChangeHandler = event => {
+        setSongName(event.target.value);
     };
 
-    const artistNameOnChangeHandler = async event => {
-        await setArtistName(event.target.value);
+    const artistNameOnChangeHandler = event => {
+        setArtistName(event.target.value);
     };
     
-    const songKeyOnChangeHandler = async event => {
-        await setSongKey(event.target.value);
+    const songKeyOnChangeHandler = event => {
+        setSongKey(event.target.value);
     };
 
-    const addSongSubmitHandler = async event => {
+    const addSongSubmitHandler = event => {
         event.preventDefault();
-        await addBandleaderSongAction(songName, artistName, songKey);
-        await setSongName("");
-        await setArtistName("");
-        await setSongKey("");
+        dispatch(addBandleaderSongAction(songName, artistName, songKey));
+        setSongName("");
+        setArtistName("");
+        setSongKey("");
     };
 
-    const deleteSongHandler = async songId => {
-        await deleteBandleaderSongAction(songId);
+    const deleteSongHandler = songId => {
+        dispatch(deleteBandleaderSongAction(songId));
     };
 
     const songsList = songList.map((song, key) => {
@@ -92,16 +96,4 @@ const AddSongsPage = ({getBandleaderSongsAction, deleteBandleaderSongAction, add
     )
 };
 
-const mapStateToProps = state => ({
-    songList : state.bandleader.songList
-});
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getBandleaderSongsAction : () => dispatch(getBandleaderSongsAction()),
-        addBandleaderSongAction : (songName, artistName, songKey) => dispatch(addBandleaderSongAction(songName, artistName, songKey)),
-        deleteBandleaderSongAction : songId => dispatch(deleteBandleaderSongAction(songId)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddSongsPage);
+export default AddSongsPage;
