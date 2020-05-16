@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import {Redirect, Route} from "react-router-dom";
-import {checkTokenAction} from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
 
 const ProtectedClientRoute = props => {
+    const {isAuthenticated, accountType} = useSelector(selectAuthState);
+
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -16,24 +18,15 @@ const ProtectedClientRoute = props => {
         return <LoadingSpinner isLoading={isLoading}/>;
     }
 
-    if(!props.isAuthenticated){
+    if(!isAuthenticated){
         return <Redirect to="/"/>;
     }
 
-    if(props.accountType !== "client"){
+    if(accountType !== "client"){
         return <Redirect to="/"/>;
     }
 
     return <Route {...props}/>;
 };
 
-const mapStateToProps = state => ({
-    accountType : state.auth.accountType,
-    isAuthenticated : state.auth.isAuthenticated,
-});
-
-const mapDispatchToProps = dispatch => ({
-    checkTokenAction : () => dispatch(checkTokenAction()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProtectedClientRoute);
+export default ProtectedClientRoute;

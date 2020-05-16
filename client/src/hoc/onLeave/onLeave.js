@@ -1,26 +1,24 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearErrorMessage } from "actions/errorActions/errorActions";
+import { useHistory } from "react-router-dom";
 
 const onLeave = WrappedComponent => {
 
-    const mapDispatchToProps = dispatch => ({
-        clearErrorMessage : () => dispatch(clearErrorMessage())
-    });
-
     const OnLeaveHOC = props => {
-        const {history, clearErrorMessage} = props;
+        const history = useHistory();
+        const dispatch = useDispatch();
 
         useEffect(() => {
             history.listen(() => {
-                clearErrorMessage();
+                dispatch(clearErrorMessage());
             });
-        },[history, clearErrorMessage]);
+        },[history, dispatch]);
     
         return <WrappedComponent {...props}/>;
     };
     
-    return connect(null, mapDispatchToProps)(OnLeaveHOC);
+    return OnLeaveHOC;
 };
 
 export default onLeave;

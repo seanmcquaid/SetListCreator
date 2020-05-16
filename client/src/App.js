@@ -3,18 +3,21 @@ import {BrowserRouter as Router, Route} from "react-router-dom"
 import ProtectedRoutes from "routing/ProtectedRoutes/ProtectedRoutes";
 import Layout from "components/Layout/Layout";
 import { checkTokenAction } from "actions/authActions/authActions";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { selectAuthState } from "selectors/authSelectors";
 
-const App = props => {
-  const {token, checkTokenAction} = props;
+const App = () => {
+  const {token} = useSelector(selectAuthState);
+  const dispatch = useDispatch();
+
   const [isLoadingApp, setIsLoadingApp] = useState(true);
 
   useEffect(() => {
       if(token && isLoadingApp){
-          checkTokenAction();
+          dispatch(checkTokenAction());
       }
       setIsLoadingApp(false);
-  }, [checkTokenAction, token, isLoadingApp])
+  }, [token, isLoadingApp, dispatch])
 
   return (
     <Router>
@@ -25,12 +28,4 @@ const App = props => {
   );
 }
 
-const mapStateToProps = state => ({
-  token : state.auth.token,
-});
-
-const mapDispatchToProps = dispatch => ({
-  checkTokenAction : () => dispatch(checkTokenAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

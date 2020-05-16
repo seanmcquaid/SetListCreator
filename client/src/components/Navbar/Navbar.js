@@ -1,11 +1,16 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import styles from "./Navbar.module.css";
 import Aux from "hoc/Aux/Aux";
 import {logoutAction} from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
 
-const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
+const Navbar = () => {
+    const {isAuthenticated, accountType} = useSelector(selectAuthState);
+    const dispatch = useDispatch();
+
+    const logoutButtonOnClick = () => dispatch(logoutAction());
     
     const rightNav = isAuthenticated ? 
         <Aux>
@@ -19,8 +24,7 @@ const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
                 <Link className={styles.navLink} to="/bandleader/addSongs">Add Songs</Link>
                 <Link className={styles.navLink} to="/bandleader/editProfile">Profile</Link>
             </Aux>}
-            <button className={styles.nav
-            } onClick={() => logoutAction()}type="button">Logout</button>
+            <button className={styles.nav} onClick={logoutButtonOnClick}type="button">Logout</button>
         </Aux> : 
         <Aux>
             <Link className={styles.navLink} to="/clientLogin">Client Login</Link>
@@ -41,13 +45,4 @@ const Navbar = ({isAuthenticated, accountType, logoutAction}) => {
     )
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated : state.auth.isAuthenticated,
-    accountType : state.auth.accountType,
-});
-
-const mapDispatchToProps = dispatch => ({
-    logoutAction : () => dispatch(logoutAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default Navbar;
