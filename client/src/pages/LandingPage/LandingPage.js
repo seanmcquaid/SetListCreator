@@ -3,7 +3,7 @@ import Text from "components/Text/Text";
 import LinkButton from "components/LinkButton/LinkButton";
 import styles from "./LandingPage.module.css";
 
-const LandingPage = props => {
+const LandingPage = () => {
     return (
         <div className={styles.landingPageContainer}>
             <div className={styles.textContainer}>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import styles from "./ClientHomePage.module.css";
 import Song from "components/Song/Song";
 import {
@@ -12,26 +12,20 @@ import {
     deleteClientSongAction
 } from "actions/clientActions/clientActions";
 import LinkButton from "components/LinkButton/LinkButton";
+import { selectClientState } from "selectors/clientSelectors";
 
-const ClientHomePage = props => {
+const ClientHomePage = () => {
+    const {requestedSongsList, doNotPlaySongsList, setListAvailable, clientApproved} = useSelector(selectClientState);
+    const dispatch = useDispatch();
+
     const [requestedSongName, setRequestedSongName] = useState("");
     const [requestedArtistName, setRequestedArtistName] = useState("");
     const [doNotPlaySongName, setDoNotPlaySongName] = useState("");
     const [doNotPlayArtistName, setDoNotPlayArtistName] = useState("");
-    const {
-        addClientRequestedSongAction, 
-        addClientDoNotPlaySongAction, 
-        getClientSongsAction,
-        requestedSongsList,
-        doNotPlaySongsList,
-        deleteClientSongAction,
-        setListAvailable,
-        clientApproved
-    } = props;
 
     useEffect(() => {
-        getClientSongsAction();
-    }, [getClientSongsAction])
+        dispatch(getClientSongsAction());
+    }, [dispatch]);
 
     const requestedSongNameOnChangeHandler = event => {
         setRequestedSongName(event.target.value);
@@ -49,22 +43,22 @@ const ClientHomePage = props => {
         setDoNotPlayArtistName(event.target.value);
     };
 
-    const requestedSongSubmitHandler = async event => {
-        await event.preventDefault();
-        await addClientRequestedSongAction(requestedSongName, requestedArtistName);
-        await setRequestedSongName("");
-        await setRequestedArtistName("");
+    const requestedSongSubmitHandler = event => {
+        event.preventDefault();
+        dispatch(addClientRequestedSongAction(requestedSongName, requestedArtistName));
+        setRequestedSongName("");
+        setRequestedArtistName("");
     };
 
-    const doNotPlaySongSubmitHandler = async event => {
-        await event.preventDefault();
-        await addClientDoNotPlaySongAction(doNotPlaySongName, doNotPlayArtistName);
-        await setDoNotPlaySongName("");
-        await setDoNotPlayArtistName("");
+    const doNotPlaySongSubmitHandler = event => {
+        event.preventDefault();
+        dispatch(addClientDoNotPlaySongAction(doNotPlaySongName, doNotPlayArtistName));
+        setDoNotPlaySongName("");
+        setDoNotPlayArtistName("");
     };
 
-    const deleteSongHandler = async (songId) => {
-        await deleteClientSongAction(songId);
+    const deleteSongHandler = (songId) => {
+        dispatch(deleteClientSongAction(songId));
     };
 
     if(setListAvailable){
@@ -162,18 +156,4 @@ const ClientHomePage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    requestedSongsList : state.client.requestedSongsList,
-    doNotPlaySongsList : state.client.doNotPlaySongsList,
-    setListAvailable : state.client.setListAvailable,
-    clientApproved : state.client.clientApproved
-});
-
-const mapDispatchToProps = dispatch => ({
-    addClientRequestedSongAction : (songName, artistName) => dispatch(addClientRequestedSongAction(songName, artistName)),
-    addClientDoNotPlaySongAction : (songName, artistName) => dispatch(addClientDoNotPlaySongAction(songName, artistName)),
-    deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
-    getClientSongsAction : () => dispatch(getClientSongsAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientHomePage);
+export default ClientHomePage;

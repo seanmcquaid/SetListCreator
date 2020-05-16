@@ -2,7 +2,7 @@ import React from "react";
 import Text from "../../components/Text/Text";
 import styles from "./ErrorPage.module.css";
 
-const ErrorPage = props => {
+const ErrorPage = () => {
     return(
         <div className={styles.errorPageContainer}>
             <Text headerText={true}>Page Not Found</Text>

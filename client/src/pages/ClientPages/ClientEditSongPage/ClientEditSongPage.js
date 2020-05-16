@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -9,24 +9,27 @@ import styles from "./ClientEditSongPage.module.css";
 import {editClientSongAction} from "actions/clientActions/clientActions";
 import Dropdown from "components/Dropdown/Dropdown";
 import {apiHost} from "config";
+import { useHistory } from "react-router-dom";
 
 const ClientEditSongPage = props => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const playListTypes = ["requestedSong", "doNotPlaySong"]
     const [songPlayListType, setSongPlayListType] = useState("");
     const {songId} = props.match.params;
-    const {editClientSongAction} = props;
 
     useEffect(() => {
         const headers = tokenConfig();
         axios.get(`${apiHost}/client/getSong/${songId}`, headers)
-            .then(async response => {
+            .then(response => {
                 const songInfo = response.data.songInfo;
                 const {songname, artistname, songtype} = songInfo;
-                await setSongName(songname);
-                await setArtistName(artistname);
-                await setSongPlayListType(songtype);
+                setSongName(songname);
+                setArtistName(artistname);
+                setSongPlayListType(songtype);
             })
             .catch(err => {
                 console.log(err);
@@ -35,20 +38,20 @@ const ClientEditSongPage = props => {
 
     const songNameOnChangeHandler = event => {
         setSongName(event.target.value);
-    }
+    };
 
     const artistNameOnChangeHandler = event => {
         setArtistName(event.target.value);
-    }
+    };
 
     const songPlayListTypeOnChangeHandler = event => {
         setSongPlayListType(event.target.value);
-    }
+    };
 
-    const clientEditSongSubmitHandler = async event => {
+    const clientEditSongSubmitHandler = event => {
         event.preventDefault();
-        await editClientSongAction(songName, artistName, songPlayListType, songId);
-        await props.history.push("/clientHome");
+        dispatch(editClientSongAction(songName, artistName, songPlayListType, songId));
+        history.push("/clientHome");
     };
 
     return(
@@ -83,8 +86,4 @@ const ClientEditSongPage = props => {
     )
 };
 
-const mapDispatchToProps = dispatch => ({
-    editClientSongAction : (songName, artistName, songPlayListType, songId) => dispatch(editClientSongAction(songName, artistName, songPlayListType, songId))
-});
-
-export default connect(null, mapDispatchToProps)(ClientEditSongPage);
+export default ClientEditSongPage;

@@ -7,7 +7,7 @@ import SongList from "components/SongList/SongList";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import styles from "./FinalizedSetListPage.module.css";
 
-const FinalizedSetListPage = props => {
+const FinalizedSetListPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
 

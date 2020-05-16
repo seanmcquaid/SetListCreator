@@ -4,29 +4,34 @@ import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {registerAction} from "actions/authActions/authActions";
 import axios from "axios";
 import Dropdown from "components/Dropdown/Dropdown";
 import {apiHost} from "config";
+import { selectAuthState } from "selectors/authSelectors";
+import { selectErrorState } from "selectors/errorReducer";
 
-const ClientRegisterPage = props => {
-    const {registerAction} = props;
+const ClientRegisterPage = () => {
+    const {isAuthenticated} = useSelector(selectAuthState);
+    const {errorMessage} = useSelector(selectErrorState);
+
+    const dispatch = useDispatch();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [bandleaders, setBandleaders] = useState([""]);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [newErrorMessage, setNewErrorMessage] = useState("");
     const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
         axios.get(`${apiHost}/users/getBandleaders`)
-            .then(async response => {
-                const bandLeadersArray = response.data.bandleaders.map(bandleader => (bandleader.username));
+            .then(response => {
+                const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
                 let initialArray = [""];
                 const newArray = initialArray.concat(bandLeadersArray);
-                await setBandleaders(newArray);
+                setBandleaders(newArray);
             })
             .catch(err => console.log(err));
     },[])
@@ -50,16 +55,16 @@ const ClientRegisterPage = props => {
     const clientRegisterSubmitHandler = event => {
         event.preventDefault();
         if(password !== confirmPassword){
-            setErrorMessage("Passwords don't match");
+            setNewErrorMessage("Passwords don't match");
         } else if(selectedBandleader === "") {
-            setErrorMessage("SELECT A BANDLEADER");
+            setNewErrorMessage("SELECT A BANDLEADER");
         } else {
-            registerAction(username, password, "client", selectedBandleader);
+            dispatch(registerAction(username, password, "client", selectedBandleader));
         }
     };
 
-    if(props.isAuthenticated){
-        return <Redirect to="/clientHome"/>
+    if(isAuthenticated){
+        return <Redirect to="/clientHome"/>;
     }
 
     return(
@@ -69,7 +74,7 @@ const ClientRegisterPage = props => {
                 <Text>
                     Already have an account? Login <Link className={styles.registerLink} to="/clientLogin">Here</Link>
                 </Text>
-                <Text>{props.errorMessage ? props.errorMessage : errorMessage}</Text>
+                <Text>{errorMessage ? errorMessage : newErrorMessage}</Text>
             </div>
             <form className={styles.registerForm} onSubmit={clientRegisterSubmitHandler}>
                 <Input 
@@ -109,13 +114,4 @@ const ClientRegisterPage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated : state.auth.isAuthenticated,
-    errorMessage : state.error.errorMessage
-});
-
-const mapDispatchToProps = dispatch => ({
-    registerAction : (username, password, confirmPassword, accountType) => dispatch(registerAction(username, password, confirmPassword, accountType))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientRegisterPage);
+export default ClientRegisterPage;

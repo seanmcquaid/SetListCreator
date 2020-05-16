@@ -24,9 +24,9 @@ const BandleaderProfilePage = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if(currentUsername === ""){
-            setCurrentUsername(username);
+        if(currentUsername === "" && isLoading){
             dispatch(getUserInfoAction());
+            setCurrentUsername(username);
         }
         const timer = setTimeout(() => setIsLoading(false), 1500);
         return () => clearTimeout(timer);
@@ -67,7 +67,7 @@ const BandleaderProfilePage = () => {
                 name="username"
                 title="Edit Username Here"
                 type="text"
-                value={username}
+                value={currentUsername}
                 onChangeHandler={currentUsernameOnChangeHandler}
                 placeholder="Edit Username Here"
             />

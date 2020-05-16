@@ -9,10 +9,12 @@ import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import Dropdown from "components/Dropdown/Dropdown";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
-const ClientSetListApprovalPage = props => {
+const ClientSetListApprovalPage = () => {
+    const history = useHistory();
+
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
@@ -60,7 +62,7 @@ const ClientSetListApprovalPage = props => {
         axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
             .then(response => {
                 setIsLoading(true);
-                props.history.push("/clientHome")
+                history.push("/clientHome")
             })
             .catch(err => {
                 console.log(err.response);

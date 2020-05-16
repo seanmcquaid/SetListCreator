@@ -4,12 +4,17 @@ import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientLoginPage.module.css";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import { loginAction } from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
+import { selectErrorState } from "selectors/errorReducer";
 
 
-const ClientLoginPage = props => {
-    
+const ClientLoginPage = () => {
+    const {isAuthenticated} = useSelector(selectAuthState);
+    const {errorMessage} = useSelector(selectErrorState);
+    const dispatch = useDispatch();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     
@@ -23,10 +28,10 @@ const ClientLoginPage = props => {
 
     const clientLoginSubmitHandler = event => {
         event.preventDefault();
-        props.loginAction(username, password, "client");
+        dispatch(loginAction(username, password, "client"));
     };
 
-    if(props.isAuthenticated){
+    if(isAuthenticated){
         return <Redirect to="/clientHome"/>
     }
 
@@ -38,7 +43,7 @@ const ClientLoginPage = props => {
                 <Text>
                     Don't have an account? Register <Link className={styles.registerLink} to="/clientRegister">Here</Link>
                 </Text>
-                <Text>{props.errorMessage}</Text>
+                <Text>{errorMessage}</Text>
             </div>
             <form className={styles.loginForm} onSubmit={clientLoginSubmitHandler}>
                 <Input 
@@ -63,13 +68,4 @@ const ClientLoginPage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated : state.auth.isAuthenticated,
-    errorMessage : state.error.errorMessage
-})
-
-const mapDispatchToProps = dispatch => ({
-    loginAction : (username, password, accountType) => dispatch(loginAction(username, password, accountType)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientLoginPage);
+export default ClientLoginPage;

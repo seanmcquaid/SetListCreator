@@ -2,31 +2,28 @@ import React, {useEffect} from "react";
 import styles from "./ClientSendSetListPage.module.css";
 import Button from "components/Button/Button";
 import Text from "components/Text/Text";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} from "actions/clientActions/clientActions";
 import Song from "components/Song/Song";
+import { useHistory } from "react-router-dom";
+import { selectClientState } from "selectors/clientSelectors";
 
-const ClientSendSetListPage = props => {
-    const {
-        getClientSongsAction,
-        requestedSongsList,
-        doNotPlaySongsList,
-        deleteClientSongAction,
-        sendClientSetListAction,
-        setListAvailabile,
-    } = props;
+const ClientSendSetListPage = () => {
+    const {setListAvailabile, requestedSongsList, doNotPlaySongsList} = useSelector(selectClientState);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
-        getClientSongsAction();
-    }, [getClientSongsAction])
+        dispatch(getClientSongsAction());
+    }, [dispatch])
 
-    const deleteSongHandler = async songId => {
-        await deleteClientSongAction(songId);
+    const deleteSongHandler = songId => {
+        dispatch(deleteClientSongAction(songId));
     };
 
-    const sendSetlistHandler = async () => {
-        await sendClientSetListAction(true);
-        await props.history.push("/clientHome");
+    const sendSetlistHandler = () => {
+        dispatch(sendClientSetListAction(true));
+        history.push("/clientHome");
     };
 
     return(
@@ -72,16 +69,4 @@ const ClientSendSetListPage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    requestedSongsList : state.client.requestedSongsList,
-    doNotPlaySongsList : state.client.doNotPlaySongsList,
-    setListAvailabile : state.client.setListAvailable,
-});
-
-const mapDispatchToProps = dispatch => ({
-    getClientSongsAction : () => dispatch(getClientSongsAction()),
-    deleteClientSongAction : songId => dispatch(deleteClientSongAction(songId)),
-    sendClientSetListAction : (setListAvailability) => dispatch(sendClientSetListAction(setListAvailability)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientSendSetListPage);
+export default ClientSendSetListPage;

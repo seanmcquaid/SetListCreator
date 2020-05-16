@@ -4,45 +4,53 @@ import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
+import { selectAuthState } from "selectors/authSelectors";
+import { selectErrorState } from "selectors/errorReducer";
+import { useHistory } from "react-router-dom";
 
-const ClientProfilePage = props => {
+const ClientProfilePage = () => {
+    const {username} = useSelector(selectAuthState);
+    const {errorMessage} = useSelector(selectErrorState);
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [isLoading, setIsLoading] = useState(true);
-    const [username, setUsername] = useState("");
+    const [currentUsername, setCurrentUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
-    const {editUserInfoAction, getUserInfoAction} = props;
 
     useEffect(() => {
-        if(username === "" && isLoading){
-            getUserInfoAction();
-            setUsername(props.username);
+        if(currentUsername === "" && isLoading){
+            dispatch(getUserInfoAction());
+            setCurrentUsername(username);
         }
         const timer = setTimeout(() => setIsLoading(false), 1500);
         return () => clearTimeout(timer);
-    },[getUserInfoAction, username, props.username, isLoading])
+    },[username, currentUsername, dispatch, isLoading])
 
-    const userNameOnChangeHandler = event => {
-        setUsername(event.target.value);
-    }
+    const currentUserNameOnChangeHandler = event => {
+        setCurrentUsername(event.target.value);
+    };
 
     const passwordOnChangeHandler = event => {
         setPassword(event.target.value);
-    }
+    };
 
     const confirmPasswordOnChangeHandler = event => {
         setConfirmPassword(event.target.value);
-    }
+    };
 
-    const clientEditProfileSubmitHandler = async event => {
+    const clientEditProfileSubmitHandler = event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
         }else {
-            editUserInfoAction(username, password, "client");
-            props.history.push("/clientHome");
+            dispatch(editUserInfoAction(username, password, "client"));
+            history.push("/clientHome");
         }
     }
     
@@ -53,14 +61,14 @@ const ClientProfilePage = props => {
     return (
         <div className={styles.clientProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{props.errorMessage ? props.errorMessage : message}</Text>
+            <Text>{errorMessage ? errorMessage : message}</Text>
             <form className={styles.clientEditProfileForm} onSubmit={clientEditProfileSubmitHandler}>
             <Input
                 name="username"
                 title="Edit Username Here"
                 type="text"
-                value={username}
-                onChangeHandler={userNameOnChangeHandler}
+                value={currentUsername}
+                onChangeHandler={currentUserNameOnChangeHandler}
                 placeholder="Edit Username Here"
             />
             <Input
@@ -85,14 +93,4 @@ const ClientProfilePage = props => {
     )
 };
 
-const mapStateToProps = state => ({
-    errorMessage : state.error.errorMessage,
-    username : state.auth.username,
-});
-
-const mapDispatchToProps = dispatch => ({
-    editUserInfoAction : (newUsername, newPassword, accountType) => dispatch(editUserInfoAction(newUsername, newPassword, accountType)),
-    getUserInfoAction : () => dispatch(getUserInfoAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClientProfilePage);
+export default ClientProfilePage;
