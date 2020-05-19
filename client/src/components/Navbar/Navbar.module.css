@@ -6,9 +6,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    height : 80px;
 }
 
-.navLink{
+.leftNavLink, .rightNavLink{
     color :#fff;
     text-decoration: none;
     font-family: 'Oswald', sans-serif;
@@ -39,4 +40,27 @@
     display : flex;
     justify-content: flex-end;
     margin-right : 1rem;
+}
+
+/* .hamburgerMenu{
+    display : none;
+    font-size : 1.5rem;
+} */
+
+@media(max-width : 750px){
+    .rightNavLink, .navLinkButton{
+        color :#fff;
+        background-color :#00a118;
+        margin-top: 10.25rem;
+        padding : 0.25rem;
+        width : 120px;
+        flex-direction : column;
+        justify-content: center;
+        align-items: center;
+    }
+    .hamburgerMenu{
+        display: flex;
+        margin-right : 1rem;
+        width : 20px;
+    }
 }
