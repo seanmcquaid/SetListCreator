@@ -23,8 +23,6 @@ const Navbar = () => {
         display : isMobileNavToggled ? "flex" : screenSize.width < 750 ? "none" : "flex"
     };
 
-    
-    
     const rightNav = isAuthenticated ? 
         <Aux>
             {accountType === "client" ? 
