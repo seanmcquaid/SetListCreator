@@ -23,9 +23,7 @@ const Navbar = () => {
         display : isMobileNavToggled ? "flex" : screenSize.width < 750 ? "none" : "flex"
     };
 
-    const hamburgerIconStyle = {
-        display : "flex"
-    };
+    
     
     const rightNav = isAuthenticated ? 
         <Aux>
@@ -53,12 +51,13 @@ const Navbar = () => {
             <div className={styles.leftNav}>
                 <Link className={styles.leftNavLink} to={leftNavRoute}>SLC</Link>
             </div>
-            <ul className={styles.rightNav}>
+            <div className={styles.hamburgerMenuContainer}>
                 <HamburgerIcon
                     className={styles.hamburgerMenu}
                     onClick={mobileNavButtonOnClick}
-                    style={hamburgerIconStyle}
                 />
+            </div>
+            <ul className={styles.rightNav}>
                 {rightNav}
             </ul>
         </nav>

@@ -58,9 +58,17 @@
         justify-content: center;
         align-items: center;
     }
+    .hamburgerMenuContainer{
+        position : absolute;
+        margin-right : 1rem;
+        width : 100%;
+        display : flex;
+        justify-content: flex-end;
+    }
     .hamburgerMenu{
         display: flex;
         margin-right : 1rem;
         width : 20px;
+        justify-content: flex-end;
     }
 }
