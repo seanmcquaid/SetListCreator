@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const checkToken = require("../middleware/checkToken");
-const bandleaderController = require("../controller/bandleaderController");
+const bandleaderController = require("../controllers/bandleaderController");
 
 router.post("/addSong", checkToken, bandleaderController.postAddSong);
 
