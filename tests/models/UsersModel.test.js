@@ -254,7 +254,7 @@ describe("UsersModel", () => {
         });
     });
 
-    describe("setClientSetlistAvailability", () => {
+    describe("setClientSetListAvailability", () => {
 
         const userInfo = {
             username : "testClient",
@@ -273,7 +273,7 @@ describe("UsersModel", () => {
         });
 
         it("setClientSetlistAvailability works", done => {
-            UsersModel.setClientSetlistAvailability(userInfo.username, body.setlistAvailability)
+            UsersModel.setClientSetListAvailability(userInfo.username, body.setlistAvailability)
                     .then(response => {
                         const expectedResponse = { 
                             username: "testClient",

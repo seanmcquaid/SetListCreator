@@ -484,16 +484,14 @@ describe("User Routes", () => {
                const expectedResponse = { 
                   username: "testClient",
                   accountType: "client",
-                  bandleaderName: "testBandleader",
-                  setlistAvailable: false 
+                  isAuthenticated : true
                };
 
-               const {userInfo} = res.body;
+               const userInfo = res.body;
 
                expect(userInfo.username).to.equal(expectedResponse.username);
-               expect(userInfo.accounttype).to.equal(expectedResponse.accountType);
-               expect(userInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
-               expect(userInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+               expect(userInfo.accountType).to.equal(expectedResponse.accountType);
+               expect(userInfo.isAuthenticated).to.equal(expectedResponse.isAuthenticated);;
 
                done();
             })
@@ -573,7 +571,7 @@ describe("User Routes", () => {
 
     });
 
-    describe("sendClientSetlist", () => {
+    describe("sendClientSetList", () => {
 
       let token;
 
@@ -584,7 +582,7 @@ describe("User Routes", () => {
       };
 
       const body = {
-         setlistAvailability : true
+         setListAvailability : true
       };
 
       before(done => {
@@ -608,7 +606,7 @@ describe("User Routes", () => {
 
       it("sendClientSetlist works", done => {
          chai.request(server)
-            .patch("/users/sendClientSetlist")
+            .patch("/users/sendClientSetList")
             .set("Authorization", token)
             .send(body)
             .end((err, res) => {

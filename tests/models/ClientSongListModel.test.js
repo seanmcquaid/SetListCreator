@@ -1,121 +1,121 @@
 const ClientSongListModel = require("../../models/ClientSongListModel");
 const expect = require("chai").expect;
 
-describe("ClientSongListModel", () => {
+// describe("ClientSongListModel", () => {
 
-    describe("addSong", () => {
+//     describe("addSong", () => {
 
-        it("addSong", async () => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//         it("addSong", async () => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        afterEach(done => {
-            ClientSongListModel.deleteSong()
-                            .then(response => done())
-                            .catch(err => console.log(err));
-        });
-    });
+//         afterEach(done => {
+//             ClientSongListModel.deleteSong()
+//                             .then(response => done())
+//                             .catch(err => console.log(err));
+//         });
+//     });
 
-    describe("getSongs", () => {
-        beforeEach(done => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//     describe("getSongs", () => {
+//         beforeEach(done => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        beforeEach(done => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//         beforeEach(done => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        it("getSongs", async () => {
-            ClientSongListModel.getSongs()
-                            .then(response => {
+//         it("getSongs", async () => {
+//             ClientSongListModel.getSongs()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(err));
-        });
+//                             })
+//                             .catch(err => console.log(err));
+//         });
 
-        afterEach(done => {
-            ClientSongListModel.deleteSong()
-                            .then(response => done())
-                            .catch(err => console.log(err));
-        });
-    });
+//         afterEach(done => {
+//             ClientSongListModel.deleteSong()
+//                             .then(response => done())
+//                             .catch(err => console.log(err));
+//         });
+//     });
 
-    describe("getSong", () => {
-        beforeEach(done => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//     describe("getSong", () => {
+//         beforeEach(done => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        it("getSong", async () => {
-            ClientSongListModel.getSong()
-                            .then(response => {
+//         it("getSong", async () => {
+//             ClientSongListModel.getSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(err));
-        });
+//                             })
+//                             .catch(err => console.log(err));
+//         });
 
-        afterEach(done => {
-            ClientSongListModel.deleteSong()
-                            .then(response => done())
-                            .catch(err => console.log(err));
-        });
-    });
+//         afterEach(done => {
+//             ClientSongListModel.deleteSong()
+//                             .then(response => done())
+//                             .catch(err => console.log(err));
+//         });
+//     });
 
-    describe("deleteSong", () => {
-        beforeEach(done => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//     describe("deleteSong", () => {
+//         beforeEach(done => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        it("getSongs", async () => {
-            ClientSongListModel.deleteSong()
-                            .then(response => {
+//         it("getSongs", async () => {
+//             ClientSongListModel.deleteSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(err));
-        });
-    });
+//                             })
+//                             .catch(err => console.log(err));
+//         });
+//     });
     
-    describe("editSong", () => {
-        beforeEach(done => {
-            ClientSongListModel.addSong()
-                            .then(response => {
+//     describe("editSong", () => {
+//         beforeEach(done => {
+//             ClientSongListModel.addSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(response))
-        });
+//                             })
+//                             .catch(err => console.log(response))
+//         });
 
-        it("editSong", async () => {
-            ClientSongListModel.editSong()
-                            .then(response => {
+//         it("editSong", async () => {
+//             ClientSongListModel.editSong()
+//                             .then(response => {
 
-                            })
-                            .catch(err => console.log(err));
-        });
+//                             })
+//                             .catch(err => console.log(err));
+//         });
 
-        afterEach(done => {
-            ClientSongListModel.deleteSong()
-                            .then(response => done())
-                            .catch(err => console.log(err));
-        });
-    });
+//         afterEach(done => {
+//             ClientSongListModel.deleteSong()
+//                             .then(response => done())
+//                             .catch(err => console.log(err));
+//         });
+//     });
 
-});
+// });

@@ -1,4 +1,4 @@
-const clientController = require("../../controller/clientController");
+const clientController = require("../../controllers/clientController");
 const expect = require("chai").expect;
 
 describe("ClientController", () => {

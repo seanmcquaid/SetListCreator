@@ -1,4 +1,4 @@
-const usersController = require("../../controller/usersController");
+const usersController = require("../../controllers/usersController");
 const expect = require("chai").expect;
 const sinon = require("sinon");
 const UsersModel = require("../../models/UsersModel");
@@ -556,7 +556,7 @@ describe("usersController", () => {
             const res = await mockResponse();
             const next = mockNext;
 
-            await usersController.sendClientSetlist(req, res, next);
+            await usersController.sendClientSetList(req, res, next);
 
             console.log(res.status.calledWith(200), "test");
             console.log(res.send.calledOnce)
