@@ -91,7 +91,7 @@ describe("BandleaderSongListModel", () => {
             await BandleaderSongListModel.deleteSong(username, id)
                     .then(async () => {})
                     .catch(err => console.log(err));
-            await BandleaderSongListModel.deleteSong(username , id2)
+            return await BandleaderSongListModel.deleteSong(username , id2)
                     .then(() => {})
                     .catch(err => console.log(err));
         });

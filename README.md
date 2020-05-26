@@ -5,7 +5,7 @@ I have more or less finished the basic app now, it will be primarily refactoring
 Tests Left on Back End : 
 1) Integration - Users, Bandleader, Client
 2) Controllers - Users, Bandleader, Client
-3) Models - Users, Bandleader, Client
+3) Models - Bandleader, Client
 
 Things to do :
 1) Unit Tests + Refactoring - Back End 
