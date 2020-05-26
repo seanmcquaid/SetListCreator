@@ -7,7 +7,7 @@ describe("BandleaderSongListModel", () => {
         let id;
         
         const songInfo = {
-            songName : "Uptown Funk",
+            songName : "Add Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
             username : "testuser@gmail.com"
@@ -21,7 +21,7 @@ describe("BandleaderSongListModel", () => {
                                         .then(async response => {
                                             const expectedResponse = { 
                                                 username: "testuser@gmail.com",
-                                                songname: "Uptown Funk",
+                                                songname: "Add Uptown Funk",
                                                 songkey: "D Minor",
                                                 artistname: "Bruno Mars" 
                                             };
@@ -50,14 +50,14 @@ describe("BandleaderSongListModel", () => {
         let id, id2;
         
         const songInfo = {
-            songName : "Uptown Funk",
+            songName : "Get Songs Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
             username : "testuser@gmail.com"
         };
 
         const songInfo2 = {
-            songName : "Treasure",
+            songName : "Get Songs Treasure",
             artistName : "Bruno Mars",
             songKey : "Eb Major",
             username : "testuser@gmail.com"
@@ -68,13 +68,12 @@ describe("BandleaderSongListModel", () => {
         beforeEach(done => {
             BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(response => {
-                                            id = response[0].id
-                                        })
-                                        .catch(err => console.log(err));
-            BandleaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
-                                        .then(response => {
-                                            id2 = response[0].id
-                                            done();
+                                            BandleaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
+                                                .then(response2 => {
+                                                    id = response[0].id
+                                                    id2 = response2[0].id
+                                                    done();
+                                                })
                                         })
                                         .catch(err => console.log(err));
         });
@@ -88,13 +87,13 @@ describe("BandleaderSongListModel", () => {
 
         });
 
-        afterEach(done => {
-            BandleaderSongListModel.deleteSong(username, id)
-                                        .then(response => {})
-                                        .catch(err => console.log(err));
-            BandleaderSongListModel.deleteSong(username , id2)
-                                        .then(response => done())
-                                        .catch(err => console.log(err));
+        afterEach(async () => {
+            await BandleaderSongListModel.deleteSong(username, id)
+                    .then(async () => {})
+                    .catch(err => console.log(err));
+            await BandleaderSongListModel.deleteSong(username , id2)
+                    .then(() => {})
+                    .catch(err => console.log(err));
         });
 
     });
@@ -103,9 +102,9 @@ describe("BandleaderSongListModel", () => {
         let id;
         
         const songInfo = {
-            songName : "Uptown Funk",
+            songName : "Get Song Treasure",
             artistName : "Bruno Mars",
-            songKey : "D Minor",
+            songKey : "Eb Major",
             username : "testuser@gmail.com"
         };
 
@@ -114,6 +113,7 @@ describe("BandleaderSongListModel", () => {
         beforeEach(done => {
             BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                                         .then(response => {
+                                            console.log(response);
                                             id = response[0].id
                                             done();
                                         })
@@ -126,12 +126,13 @@ describe("BandleaderSongListModel", () => {
                                     
                                     const expectedResponse = { 
                                         username: "testuser@gmail.com",
-                                        songname: "Uptown Funk",
-                                        songkey: "D Minor",
+                                        songname: "Get Song Treasure",
+                                        songkey: "Eb Major",
                                         artistname: "Bruno Mars" 
                                     };
 
                                     const songsResponse = response[0];
+                                    console.log(response);
 
                                     id = songsResponse.id;
                                     
@@ -151,81 +152,79 @@ describe("BandleaderSongListModel", () => {
 
     });
 
-    describe("deleteSong", () => {
-        let id;
+    // describe("deleteSong", () => {
+    //     let id;
         
-        const songInfo = {
-            songName : "Uptown Funk",
-            artistName : "Bruno Mars",
-            songKey : "D Minor",
-            username : "testuser@gmail.com"
-        };
+    //     const songInfo = {
+    //         songName : "Delete Uptown Funk",
+    //         artistName : "Bruno Mars",
+    //         songKey : "D Minor",
+    //         username : "testuser@gmail.com"
+    //     };
 
-        const {songName, artistName, songKey, username} = songInfo;
+    //     const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(done => {
-            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
-                                        .then(response => {
-                                            id = response[0].id
-                                            done();
-                                        })
-                                        .catch(err => console.log(err));
-        });
+    //     beforeEach(done => {
+    //         BandleaderSongListModel.addSong(songName, artistName, songKey, username)
+    //                                     .then(response => {
+    //                                         id = response[0].id
+    //                                         done();
+    //                                     })
+    //                                     .catch(err => console.log(err));
+    //     });
 
-        it("deleteSong", async () => {
-            await BandleaderSongListModel.deleteSong(username, id)
-                                        .then(response => {
-                                        })
-                                        .catch(err => console.log(err));
-        });
+    //     it("deleteSong", async () => {
+    //         await BandleaderSongListModel.deleteSong(username, id)
+    //                                     .then(response => {
+    //                                     })
+    //                                     .catch(err => console.log(err));
+    //     });
 
-    });
+    // });
 
-    describe("editSong", () => {
-        let id;
+    // describe("editSong", () => {
+    //     let id;
         
-        const songInfo = {
-            songName : "Uptown Funk",
-            artistName : "Bruno Mars",
-            songKey : "D Minor",
-            username : "testuser@gmail.com"
-        };
+    //     const songInfo = {
+    //         songName : "Uptown Funk",
+    //         artistName : "Bruno Mars",
+    //         songKey : "D Minor",
+    //         username : "testuser@gmail.com"
+    //     };
 
-        const {songName, artistName, songKey, username} = songInfo;
+    //     const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(done => {
-            BandleaderSongListModel.addSong(songName, artistName, songKey, username)
-                                        .then(response => {
-                                            id = response[0].id
+    //     beforeEach(done => {
+    //         BandleaderSongListModel.addSong(songName, artistName, songKey, username)
+    //                                     .then(response => {
+    //                                         id = response[0].id
                                             
-                                            done();
-                                        })
-                                        .catch(err => console.log(err));
-        });
+    //                                         done();
+    //                                     })
+    //                                     .catch(err => console.log(err));
+    //     });
 
-        it("editSong", async () => {
+    //     it("editSong", async () => {
 
-            const updatedSong = {
-                songName : "Treasure",
-                artistName : "Bruno Mars",
-                songKey : "Eb Major",
-                username : "testuser@gmail.com"
-            };
+    //         const updatedSong = {
+    //             songName : "Treasure",
+    //             artistName : "Bruno Mars",
+    //             songKey : "Eb Major",
+    //             username : "testuser@gmail.com"
+    //         };
 
-            console.log(id);
+    //         await BandleaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
+    //                             .then(async response => {
+    //                                 expect(2).to.equal(2);
+    //                             })
+    //                             .catch(err => console.log(err));
+    //     });
 
-            await BandleaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
-                                .then(async response => {
-                                    expect(2).to.equal(2);
-                                })
-                                .catch(err => console.log(err));
-        });
-
-        afterEach(done => {
-            BandleaderSongListModel.deleteSong(username , id)
-                                        .then(response => done())
-                                        .catch(err => console.log(err));
-        });
-    })
+    //     afterEach(done => {
+    //         BandleaderSongListModel.deleteSong(username , id)
+    //                                     .then(response => done())
+    //                                     .catch(err => console.log(err));
+    //     });
+    // })
 
 });
