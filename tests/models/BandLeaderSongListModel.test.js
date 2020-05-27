@@ -10,7 +10,7 @@ describe("BandleaderSongListModel", () => {
             songName : "Add Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const {songName, artistName, songKey, username} = songInfo;
@@ -20,7 +20,7 @@ describe("BandleaderSongListModel", () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(async response => {
                     const expectedResponse = { 
-                        username: "testuser@gmail.com",
+                        username: "testleader@gmail.com",
                         songname: "Add Uptown Funk",
                         songkey: "D Minor",
                         artistname: "Bruno Mars" 
@@ -49,14 +49,14 @@ describe("BandleaderSongListModel", () => {
             songName : "Get Songs Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const songInfo2 = {
             songName : "Get Songs Treasure",
             artistName : "Bruno Mars",
             songKey : "Eb Major",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const {songName, artistName, songKey, username} = songInfo;
@@ -87,7 +87,7 @@ describe("BandleaderSongListModel", () => {
             songName : "Get Song Treasure",
             artistName : "Bruno Mars",
             songKey : "Eb Major",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const {songName, artistName, songKey, username} = songInfo;
@@ -105,7 +105,7 @@ describe("BandleaderSongListModel", () => {
                 .then(async response => {
                     
                     const expectedResponse = { 
-                        username: "testuser@gmail.com",
+                        username: "testleader@gmail.com",
                         songname: "Get Song Treasure",
                         songkey: "Eb Major",
                         artistname: "Bruno Mars" 
@@ -133,7 +133,7 @@ describe("BandleaderSongListModel", () => {
             songName : "Delete Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const {songName, artistName, songKey, username} = songInfo;
@@ -163,7 +163,7 @@ describe("BandleaderSongListModel", () => {
             songName : "Uptown Funk",
             artistName : "Bruno Mars",
             songKey : "D Minor",
-            username : "testuser@gmail.com"
+            username : "testleader@gmail.com"
         };
 
         const {songName, artistName, songKey, username} = songInfo;
@@ -182,7 +182,7 @@ describe("BandleaderSongListModel", () => {
                 songName : "Edit Treasure",
                 artistName : "Bruno Mars",
                 songKey : "Eb Major",
-                username : "testuser@gmail.com"
+                username : "testleader@gmail.com"
             };
 
             return await BandleaderSongListModel.editSong(id, updatedSong.songName, updatedSong.artistName, updatedSong.songKey, updatedSong.username)
@@ -192,7 +192,7 @@ describe("BandleaderSongListModel", () => {
                         songName : "Edit Treasure",
                         artistName : "Bruno Mars",
                         songKey : "Eb Major",
-                        username : "testuser@gmail.com"
+                        username : "testleader@gmail.com"
                     };
 
                     const songsResponse = response[0];
