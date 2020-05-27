@@ -5,7 +5,20 @@ I have more or less finished the basic app now, it will be primarily refactoring
 Tests Left on Back End : 
 1) Integration - Users, Bandleader, Client
 2) Controllers - Users, Bandleader, Client
-3) Models - Bandleader, Client
+3) Models - Bandleader, Client, SetLists
+
+Order for Back End Tests: 
+1) Models
+2) Controllers
+3) Integration
+
+Tests Left on Front End : 
+1) Components
+2) Routing
+3) Redux - Actions, Reducers, Store, Selectors
+4) Hooks
+5) Higher Order Components
+6) Pages
 
 Things to do :
 1) Unit Tests + Refactoring - Back End 

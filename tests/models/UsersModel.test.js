@@ -12,7 +12,7 @@ describe("UsersModel", () => {
 
         const {username, password, selectedBandleader} = body;
 
-        before(async () => await UsersModel.register(username, password, "client", selectedBandleader));
+        beforeEach(async () => await UsersModel.register(username, password, "client", selectedBandleader));
 
         it("userExists returns as expected", async () => {
             return await UsersModel.userExists(username)
@@ -34,7 +34,7 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        after(async () => await UsersModel.deleteUser(username));
+        afterEach(async () => await UsersModel.deleteUser(username));
     });
 
     describe("register", () => {
@@ -66,7 +66,7 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         })
 
-        after(async () => await UsersModel.deleteUser(username));
+        afterEach(async () => await UsersModel.deleteUser(username));
     });
 
     describe("getAllBandleaders", () => {
@@ -78,7 +78,7 @@ describe("UsersModel", () => {
 
          const {username, password} = body;
 
-         before(async () => await UsersModel.register(username, password, "bandLeader", null));
+        beforeEach(async () => await UsersModel.register(username, password, "bandLeader", null));
 
         it("getAllBandleaders works", async ()=> {
             return await UsersModel.getAllBandleaders()
@@ -88,7 +88,7 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        after(async () => await UsersModel.deleteUser(username));
+        afterEach(async () => await UsersModel.deleteUser(username));
     });
 
     describe("getUserInfo", () => {
@@ -101,7 +101,7 @@ describe("UsersModel", () => {
 
         const {username, password} = body;
 
-        before(async () => {
+        beforeEach(async () => {
             return await UsersModel.register(username, password, "bandLeader", null)
                 .then(response =>{
                     userId = response[0].id;
@@ -126,7 +126,7 @@ describe("UsersModel", () => {
                     .catch(err => console.log(err));
         });
 
-        after(async () => await UsersModel.deleteUser(username));
+        afterEach(async () => await UsersModel.deleteUser(username));
     });
 
     describe("editUserInfo", () => {
@@ -139,7 +139,7 @@ describe("UsersModel", () => {
 
         const {username, password} = body;
 
-        before(async () => {
+        beforeEach(async () => {
             return await UsersModel.register(username, password, "bandLeader", null)
                 .then(response =>{
                     userId = response[0].id;
@@ -164,9 +164,7 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        after(async () => {
-            return await UsersModel.deleteUser("newUsername");
-        });
+        afterEach(async () => await UsersModel.deleteUser("newUsername"));
     });
 
     describe("getClientsForBandleader", () => {
@@ -182,9 +180,9 @@ describe("UsersModel", () => {
             selectedBandleader : "testBandleader"
         };
 
-        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null));
+        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null));
    
-        before(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
+        beforeEach(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
         it("getClientsForBandleader works", async () => {
             return await UsersModel.getClientsForBandleader(bandleaderBody.username)
@@ -197,9 +195,9 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
    
-        after(async () => await UsersModel.deleteUser(clientBody.username));
+        afterEach(async () => await UsersModel.deleteUser(clientBody.username));
     });
 
     describe("setClientSetListAvailability", () => {
@@ -214,7 +212,7 @@ describe("UsersModel", () => {
             setlistAvailability : true
         };
 
-        before(async () => await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader));
+        beforeEach(async () => await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader));
 
         it("setClientSetlistAvailability works", async () => {
             return UsersModel.setClientSetListAvailability(userInfo.username, body.setlistAvailability)
@@ -234,7 +232,7 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        after(async () => await UsersModel.deleteUser(userInfo.username));
+        afterEach(async () => await UsersModel.deleteUser(userInfo.username));
     });
     
 });
