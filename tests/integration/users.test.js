@@ -49,21 +49,12 @@ describe("User Routes", () => {
 
             })
 
-            afterEach(done => { 
-               UsersModel.deleteUser(username)
-                        .then(response => done())
-                        .catch(err => console.log(err));
-            });
-
+            afterEach(async () => await UsersModel.deleteUser(username));
          });
 
          describe("Will not create a new user if the user already exists", () => {
 
-            beforeEach(done => {
-               UsersModel.register(username, password, "client", selectedBandleader)
-                        .then(response => done())
-                        .catch(err => console.log(err));
-            });
+            beforeEach(async () => await UsersModel.register(username, password, "client", selectedBandleader));
    
             it("register will not be successful if a user exists", done => {
                chai.request(server)
@@ -79,13 +70,8 @@ describe("User Routes", () => {
                });
            });
 
-           afterEach(done => {
-            UsersModel.deleteUser(username)
-                     .then(response => done())
-                     .catch(err => console.log(err));
-            });
-
-         })
+           afterEach(async () => await UsersModel.deleteUser(username));
+         });
     })
 
     describe("Login", () => {
@@ -99,11 +85,7 @@ describe("User Routes", () => {
 
          describe("Login works", () => {
 
-            beforeEach(done => {
-               UsersModel.register(username, password, "bandleader", null)
-                        .then(response => done())
-                        .catch(err => console.log(err));
-            });
+            beforeEach(async () =>  await UsersModel.register(username, password, "bandleader", null));
             
             it("Login passes", done => {
                chai.request(server)
@@ -131,35 +113,28 @@ describe("User Routes", () => {
 
             })
 
-            afterEach(done => {
-               UsersModel.deleteUser(username)
-                        .then(response => done())
-                        .catch(err => console.log(err));
-            });
-
+            afterEach(async () => await UsersModel.deleteUser(username));
          });
 
          describe("Login will not pass", () => {
 
-            beforeEach(done => {
-               UsersModel.register(username, password, "bandleader", null)
-                        .then(response => done())
-                        .catch(err => console.log(err));
-            });
+            beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
             
             it("User isn't registered", done => {
                const requestBody = {
                   username : "testClient",
                   password : "testPassword",
-               }
+               };
 
                chai.request(server)
                   .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
                      const expectedResponse = { errorMessage: "This user isn't registered on our site!" };
+
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+
                      done();
                   });
             })
@@ -170,8 +145,10 @@ describe("User Routes", () => {
                   .send(body)
                   .end((err, res) => {
                      const expectedResponse = { errorMessage: "Wrong account type for this user!" };
+
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+
                      done();
                   });
             })
@@ -181,25 +158,23 @@ describe("User Routes", () => {
                   username : "testBandleader",
                   password : "testPassword123",
                };
+
                chai.request(server)
                   .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
                      const expectedResponse = { errorMessage: "Entered password doesn't match our records" };
+
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+
                      done();
                   });
-            })
-
-            afterEach(done => {
-               UsersModel.deleteUser(username)
-                        .then(response => done())
-                        .catch(err => console.log(err));
             });
-         })
 
-    })
+            afterEach(async () => await UsersModel.deleteUser(username));
+         });
+    });
 
     describe("checkToken", () => {
 
@@ -213,23 +188,22 @@ describe("User Routes", () => {
 
          const {username, password, selectedBandleader} = body;
 
-         beforeEach(done => {
-            UsersModel.register(username, password, "client", selectedBandleader)
-                     .then(response => {
-                        const specificUserInfo = response[0];
-                        const {id, accounttype} = specificUserInfo;
-                        token = jwt.sign(
-                           {
-                              id : id,
-                              username : specificUserInfo.username,
-                              accountType : accounttype
-                           },
-                           config.jwtSecret,
-                           {expiresIn : 3600000}
-                        )
-                        done()
-                     })
-                     .catch(err => console.log(err));
+         beforeEach(async () => {
+            return await UsersModel.register(username, password, "client", selectedBandleader)
+               .then(response => {
+                  const specificUserInfo = response[0];
+                  const {id, accounttype} = specificUserInfo;
+                  token = jwt.sign(
+                     {
+                        id : id,
+                        username : specificUserInfo.username,
+                        accountType : accounttype
+                     },
+                     config.jwtSecret,
+                     {expiresIn : 3600000}
+                  );
+               })
+               .catch(err => console.log(err));
          });
 
          it("checkToken works when provided valid jwt in the headers", done => {
@@ -256,13 +230,8 @@ describe("User Routes", () => {
                })
          });
 
-         afterEach(done => {
-            UsersModel.deleteUser(username)
-                     .then(response => done())
-                     .catch(err => console.log(err));
-         });
-
-    })
+         afterEach(async () => await UsersModel.deleteUser(username));
+    });
 
     describe("Get Bandleaders", () => {
        
@@ -273,28 +242,21 @@ describe("User Routes", () => {
 
       const {username, password} = body;
 
-      beforeEach(done => {
-         UsersModel.register(username, password, "bandleader", null)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
+      beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
 
       it("getBandleaders", done => {
          chai.request(server)
             .get("/users/getBandleaders")
             .end((err, res) => {
+
                expect(res.status).to.equal(200);
                expect(res.body.bandleaders.length).to.be.greaterThan(0);
+
+               done();
             });
-         done();
       });
 
-      afterEach(done => {
-         UsersModel.deleteUser(username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
-
+      afterEach(async  => await UsersModel.deleteUser(username));
     });
 
     describe("getClientsforBandleader", () => {
@@ -312,55 +274,43 @@ describe("User Routes", () => {
          selectedBandleader : "testBandleader"
       };
 
-      before(done => {
-         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+            .then(response => {
+               const specificUserInfo = response[0];
+               const {id, username, accounttype} = specificUserInfo;
+               token = jwt.sign(
+                  {
+                     id : id,
+                     username : username,
+                     accountType : accounttype
+                  },
+                  config.jwtSecret,
+                  {expiresIn : 3600000}
+               );
+            })
+            .catch(err => console.log(err));
       });
 
-      before(done => {
-         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      })
+      before(async () =>  await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
       it("getClientsForBandleader works", done => {
          chai.request(server)
                .get("/users/getClientsForBandleader")
                .set("Authorization", token)
                .end((err, res) => {
+
                   expect(res.status).to.equal(200);
                   expect(res.body.clientList.length).to.be.greaterThan(0);
+
                   done();
-               })
+               });
       });
 
-      after(done => {
-         UsersModel.deleteUser(bandleaderBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
+      after(async () => await UsersModel.deleteUser(bandleaderBody.username));
 
-      after(done => {
-         UsersModel.deleteUser(clientBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
-
-    })
+      after(async () => await UsersModel.deleteUser(clientBody.username));
+    });
 
     describe("clientInfo", () => {
       const clientBody = {
@@ -376,32 +326,30 @@ describe("User Routes", () => {
 
       let clientId, token;
 
-      before(done => {
-         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                  .then(response => {
-                     clientId = response[0].id;
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+            .then(response => {
+               clientId = response[0].id;
+            })
+            .catch(err => console.log(err));
       });
 
-      before(done => {
-         UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+            .then(response => {
+               const specificUserInfo = response[0];
+               const {id, username, accounttype} = specificUserInfo;
+               token = jwt.sign(
+                  {
+                     id : id,
+                     username : username,
+                     accountType : accounttype
+                  },
+                  config.jwtSecret,
+                  {expiresIn : 3600000}
+               );
+            })
+            .catch(err => console.log(err));
       });
 
       it("clientInfo works", done => {
@@ -428,19 +376,11 @@ describe("User Routes", () => {
 
                   done();
                })
-      })
-
-      after(done => {
-         UsersModel.deleteUser(clientBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
       });
 
-      after(done => {
-         UsersModel.deleteUser(bandleaderBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
+      after(async () => await UsersModel.deleteUser(clientBody.username));
+
+      after(async () => await UsersModel.deleteUser(bandleaderBody.username));
 
     });
 
@@ -454,23 +394,22 @@ describe("User Routes", () => {
          selectedBandleader : "testBandleader"
       };
 
-      before(done => {
-         UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+            .then(response => {
+               const specificUserInfo = response[0];
+               const {id, username, accounttype} = specificUserInfo;
+               token = jwt.sign(
+                  {
+                     id : id,
+                     username : username,
+                     accountType : accounttype
+                  },
+                  config.jwtSecret,
+                  {expiresIn : 3600000}
+               );
+            })
+            .catch(err => console.log(err));
       });
 
       it("getUserInfo works", done => {
@@ -494,15 +433,10 @@ describe("User Routes", () => {
                expect(userInfo.isAuthenticated).to.equal(expectedResponse.isAuthenticated);;
 
                done();
-            })
+            });
       });
 
-      after(done => {
-         UsersModel.deleteUser(clientBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
-
+      after(async () => await UsersModel.deleteUser(clientBody.username));
     });
 
     describe("editUserInfo", () => {
@@ -519,23 +453,22 @@ describe("User Routes", () => {
          password : "testPassword",
       };
 
-      before(done => {
-         UsersModel.register(originalUserInfo.username, originalUserInfo.password, "bandleader", null)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(originalUserInfo.username, originalUserInfo.password, "bandleader", null)
+            .then(response => {
+               const specificUserInfo = response[0];
+               const {id, username, accounttype} = specificUserInfo;
+               token = jwt.sign(
+                  {
+                     id : id,
+                     username : username,
+                     accountType : accounttype
+                  },
+                  config.jwtSecret,
+                  {expiresIn : 3600000}
+               );
+            })
+            .catch(err => console.log(err));
       });
 
 
@@ -563,12 +496,7 @@ describe("User Routes", () => {
             });
       });
 
-      after(done => {
-         UsersModel.deleteUser(newUserInfo.newUsername)
-                  .then(response =>done())
-                  .catch(err => console.log(err));
-      });
-
+      after(async () => await UsersModel.deleteUser(newUserInfo.newUsername));
     });
 
     describe("sendClientSetList", () => {
@@ -585,23 +513,22 @@ describe("User Routes", () => {
          setListAvailability : true
       };
 
-      before(done => {
-         UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+      before(async () => {
+         return await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
+            .then(response => {
+               const specificUserInfo = response[0];
+               const {id, username, accounttype} = specificUserInfo;
+               token = jwt.sign(
+                  {
+                     id : id,
+                     username : username,
+                     accountType : accounttype
+                  },
+                  config.jwtSecret,
+                  {expiresIn : 3600000}
+               );
+            })
+            .catch(err => console.log(err));
       });
 
       it("sendClientSetlist works", done => {
@@ -614,16 +541,11 @@ describe("User Routes", () => {
 
                expect(res.status).to.equal(200);
                expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
+
                done();
             });
       });
 
-      after(done => {
-         UsersModel.deleteUser(userInfo.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-      });
-
-    })
-
+      after(async () => await UsersModel.deleteUser(userInfo.username));
+    });
 });

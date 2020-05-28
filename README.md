@@ -3,7 +3,7 @@
 I have more or less finished the basic app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
 Tests Left on Back End : 
-1) Integration - Users, Bandleader, Client
+1) Integration - Bandleader, Client
 2) Controllers - Bandleader, Client
 
 Order for Back End Tests: 
