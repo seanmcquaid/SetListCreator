@@ -3,11 +3,36 @@ const expect = require("chai").expect;
 
 describe("SetListsModel", () => {
     describe("addSetList", () => {
-        it("addSetList", () => {
+        const setListInfo = {
+            clientName : "addtestclient@gmail.com",
+            bandleaderName : "addtestleader@gmail.com",
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
 
+        const {clientName, bandleaderName, setList, bandleaderComments} = setListInfo;
+
+        it("addSetList", async () => {
+            return await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments)
+                .then(response => {
+                    const expectedResponse = {
+                        clientName : "addtestclient@gmail.com",
+                        bandleaderName : "addtestleader@gmail.com",
+                        setList : ["Song", "Info", "Here"],
+                        bandleaderComments : ["Song Comments Here"]
+                    };
+
+                    const setListInfoResponse = response[0];
+
+                    expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
+                    expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
+                    expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                })
+                .catch(err => console.log(err));
         });
 
-        afterEach(async () => SetListsModel.deleteSetList());
+        afterEach(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("getSetList", () => {

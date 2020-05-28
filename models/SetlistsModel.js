@@ -20,7 +20,7 @@ class SetListsModel {
     };
 
     static async deleteSetList(clientName, bandleaderName){
-        await database.query("DELETE FROM setlists WHERE clientname=$3=$1 AND bandleadername=$2 RETURNING *", [clientName, bandleaderName]);
+        await database.query("DELETE FROM setlists WHERE clientname=$1 AND bandleadername=$2 RETURNING *", [clientName, bandleaderName]);
         return database.query("SELECT * FROM setlists where clientname=$1", [clientName]);
     };
 
