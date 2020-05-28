@@ -4,13 +4,11 @@ I have more or less finished the basic app now, it will be primarily refactoring
 
 Tests Left on Back End : 
 1) Integration - Users, Bandleader, Client
-2) Controllers - Users, Bandleader, Client
-3) Models - SetLists
+2) Controllers - Bandleader, Client
 
 Order for Back End Tests: 
-1) Models
-2) Controllers
-3) Integration
+1) Controllers
+2) Integration
 
 Tests Left on Front End : 
 1) Components

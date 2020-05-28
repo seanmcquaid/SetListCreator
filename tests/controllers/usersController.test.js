@@ -1,28 +1,10 @@
 const usersController = require("../../controllers/usersController");
 const expect = require("chai").expect;
-const sinon = require("sinon");
 const UsersModel = require("../../models/UsersModel");
+const mockRequest = require("../utils/mockRequest");
+const mockResponse = require("../utils/mockResponse");
+const mockNext = require("../utils/mockNext");
 
-const mockRequest = (headers, body, params, token) => ({
-    header : headerName => {
-        if(headerName === "Authorization"){
-            return headers[headerName];
-        }
-        return null;
-    },
-    body,
-    params,
-    token
-});
-
-const mockResponse = () => {
-    const res = {};
-    res.status = sinon.stub().returns(res);
-    res.send = sinon.stub().returns(res);
-    return res;
-};
-
-const mockNext = sinon.stub();
 
 describe("usersController", () => {
 
@@ -34,11 +16,7 @@ describe("usersController", () => {
         };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
 
         it("postRegister - user already exists", async () => {
             const body = {
@@ -50,8 +28,8 @@ describe("usersController", () => {
                 accountType : "bandleader"
             };
 
-            const req = await mockRequest({}, body, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, body, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postRegister(req, res, next);
@@ -63,14 +41,9 @@ describe("usersController", () => {
             expect(res.status.calledWith(401)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
             expect(res.send.calledWith(responseBody)).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
 
     });
 
@@ -87,22 +60,17 @@ describe("usersController", () => {
                 accountType : "bandleader"
             };
 
-            const req = await mockRequest({}, bandleaderBody, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, bandleaderBody, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postRegister(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("postLogin - user exists", () => {
@@ -112,12 +80,7 @@ describe("usersController", () => {
             password : "testPassword",
         };
 
-
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
 
         it("postLogin - user already exists", async () => {
 
@@ -130,8 +93,8 @@ describe("usersController", () => {
                 accountType : "bandleader"
             };
 
-            const req = await mockRequest({}, body, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, body, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postLogin(req, res, next);
@@ -152,8 +115,8 @@ describe("usersController", () => {
                 accountType : "client"
             };
 
-            const req = await mockRequest({}, body, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, body, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postLogin(req, res, next);
@@ -179,8 +142,8 @@ describe("usersController", () => {
                 accountType : "bandleader"
             };
 
-            const req = await mockRequest({}, body, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, body, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postLogin(req, res, next);
@@ -195,11 +158,7 @@ describe("usersController", () => {
 
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("postLogin - no user exists", () => {
@@ -215,8 +174,8 @@ describe("usersController", () => {
                 accountType : "bandleader"
             };
 
-            const req = await mockRequest({}, body, params, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, body, params, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.postLogin(req, res, next);
@@ -228,9 +187,7 @@ describe("usersController", () => {
             expect(res.status.calledWith(401)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
             expect(res.send.calledWith(responseBody)).to.equal(true);
-
         });
-
     });
 
     describe("getCheckToken", () => {
@@ -241,11 +198,7 @@ describe("usersController", () => {
         };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
 
         it("getCheckToken works", async () => {
 
@@ -253,8 +206,8 @@ describe("usersController", () => {
                 username : "testBandleader333"
             };
 
-            const req = await mockRequest({}, {}, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, {}, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.getCheckToken(req, res, next);
@@ -264,25 +217,20 @@ describe("usersController", () => {
 
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("getBandleaders", () => {
         it("getBandleaders works", async () => {
 
-            const req = await mockRequest({}, {}, {}, {});
-            const res = await mockResponse();
+            const req = mockRequest({}, {}, {}, {});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.getBandleaders(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-
         });
     });
 
@@ -299,17 +247,9 @@ describe("usersController", () => {
          };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
 
-        beforeEach(done => {
-            UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                     .then(response => done())
-                     .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
         it("getClientsForBandleader", async () => {
 
@@ -317,29 +257,19 @@ describe("usersController", () => {
                 username : "testBandleader333"
             };
 
-            const req = await mockRequest({}, {}, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, {}, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.getClientsForBandleader(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });  
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));  
 
-        afterEach(done => {
-            UsersModel.deleteUser(clientBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
-
+        afterEach(async () => await UsersModel.deleteUser(clientBody.username));
     });
 
     describe("getUserInfo", () => {
@@ -351,13 +281,12 @@ describe("usersController", () => {
         };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                      id = response[0].id
-                      done();
-                    })
-                  .catch(err => console.log(err));
+        beforeEach(async () => {
+            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+                .then(response => {
+                    id = response[0].id
+                })
+                .catch(err => console.log(err));
         });
 
         it("getUserInfo", async () => {
@@ -366,22 +295,17 @@ describe("usersController", () => {
                 id
             };
 
-            const req = await mockRequest({}, {}, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, {}, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.getUserInfo(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("getClientInfo", () => {
@@ -395,13 +319,12 @@ describe("usersController", () => {
          };
 
 
-        beforeEach(done => {
-            UsersModel.register(clientBody.username, clientBody.password, "client", null)
-                  .then(response => {
-                      clientId = response[0].id;
-                      done();
-                    })
-                  .catch(err => console.log(err));
+        beforeEach(async () => {
+            return await UsersModel.register(clientBody.username, clientBody.password, "client", null)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
 
         it("getClientInfo", async () => {
@@ -410,8 +333,8 @@ describe("usersController", () => {
                 clientId
             };
 
-            const req = await mockRequest({}, {}, params,{});
-            const res = await mockResponse();
+            const req = mockRequest({}, {}, params,{});
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.getUserInfo(req, res, next);
@@ -421,11 +344,7 @@ describe("usersController", () => {
 
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(clientBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(clientBody.username));
     });
 
     describe("editUserInfo - password currently used ", () => {
@@ -437,13 +356,12 @@ describe("usersController", () => {
         };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                      id = response[0].id
-                      done();
-                    })
-                  .catch(err => console.log(err));
+        beforeEach(async () => {
+            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+                .then(response => {
+                    id = response[0].id
+                })
+                .catch(err => console.log(err));
         });
 
         it("editUserInfo - password currently used", async () => {
@@ -457,8 +375,8 @@ describe("usersController", () => {
                 newPassword : "testPassword"
             };
 
-            const req = await mockRequest({}, body, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.editUserInfo(req, res, next);
@@ -470,15 +388,9 @@ describe("usersController", () => {
             expect(res.status.calledWith(401)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
             expect(res.send.calledWith(responseBody)).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
-
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("editUserInfo", () => {
@@ -490,13 +402,12 @@ describe("usersController", () => {
         };
 
 
-        beforeEach(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                      id = response[0].id
-                      done();
-                    })
-                  .catch(err => console.log(err));
+        beforeEach(async () => {
+            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+                .then(response => {
+                    id = response[0].id
+                })
+                .catch(err => console.log(err));
         });
 
         it("editUserInfo success", async () => {
@@ -510,23 +421,17 @@ describe("usersController", () => {
                 newPassword : "testPassword321"
             };
 
-            const req = await mockRequest({}, body, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.editUserInfo(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);
-
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
-        
+        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("sendClientSetlist", () => {
@@ -536,11 +441,7 @@ describe("usersController", () => {
             selectedBandleader : "testBandleader333"
         };
 
-        beforeEach(done => {
-            UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
-                     .then(response => done())
-                     .catch(err => console.log(err));
-        });
+        beforeEach(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
         it("sendClientSetlist", async () => {
 
@@ -552,8 +453,8 @@ describe("usersController", () => {
                 setlistAvailability : true
             };
             
-            const req = await mockRequest({}, body, {}, token);
-            const res = await mockResponse();
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
             const next = mockNext;
 
             await usersController.sendClientSetList(req, res, next);
@@ -562,11 +463,7 @@ describe("usersController", () => {
             expect(res.send.calledOnce).to.equal(true);
         });
 
-        afterEach(done => {
-            UsersModel.deleteUser(clientBody.username)
-                    .then(response => done())
-                    .catch(err => console.log(err));
-        });
+        afterEach(async () => await UsersModel.deleteUser(clientBody.username));
     });
     
 });

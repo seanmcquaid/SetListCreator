@@ -92,7 +92,7 @@ describe("SetListsModel", () => {
 
         beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
-        it("addClientCommentsAndApprovalStatus", () => {
+        it("addClientCommentsAndApprovalStatus", async () => {
             return await SetListsModel.addClientCommentsAndApprovalStatus(clientName, clientComments, clientApproved)
                 .then(response => {
                     const expectedResponse = {
@@ -119,10 +119,45 @@ describe("SetListsModel", () => {
     });
 
     describe("editSetList", () => {
-        beforeEach(async () => SetListsModel.addSetList());
+        const setListInfo = {
+            clientName : "addtestclient@gmail.com",
+            bandleaderName : "addtestleader@gmail.com",
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"],
+        };
 
-        it("editSetList", () => {
+        const {clientName, bandleaderName, setList, bandleaderComments} = setListInfo;
 
+        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
+
+        const updatedSetListInfo = {
+            clientName : "edittestclient@gmail.com",
+            bandleaderName : "edittestleader@gmail.com",
+            setList : ["Edit", "Info", "Here"],
+            bandleaderComments : ["Edit Comments Here"],
+        };
+
+        it("editSetList", async () => {
+            return await SetListsModel.editSetList(updatedSetListInfo.clientName, updatedSetListInfo.bandleaderName, updatedSetListInfo.setList, updatedSetListInfo.bandleaderComments)
+                .then(response => {
+                    const expectedResponse = {
+                        clientName : "edittestclient@gmail.com",
+                        bandleaderName : "edittestleader@gmail.com",
+                        setList : ["Edit", "Info", "Here"],
+                        bandleaderComments : ["Edit Comments Here"],
+                        clientComments: null,
+                        clientApproved: null
+                    };
+
+                    const setListInfoResponse = response[0];
+
+                    expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
+                    expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
+                    expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                    expect(setListInfoResponse.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(setListInfoResponse.clientapproved).to.equal(expectedResponse.clientApproved);
+                })
         });
 
         afterEach(async () => SetListsModel.deleteSetList());
