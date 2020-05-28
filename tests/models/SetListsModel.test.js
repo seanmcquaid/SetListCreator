@@ -19,7 +19,9 @@ describe("SetListsModel", () => {
                         clientName : "addtestclient@gmail.com",
                         bandleaderName : "addtestleader@gmail.com",
                         setList : ["Song", "Info", "Here"],
-                        bandleaderComments : ["Song Comments Here"]
+                        bandleaderComments : ["Song Comments Here"],
+                        clientComments: null,
+                        clientApproved: null
                     };
 
                     const setListInfoResponse = response[0];
@@ -28,6 +30,8 @@ describe("SetListsModel", () => {
                     expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
                     expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
                     expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                    expect(setListInfoResponse.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(setListInfoResponse.clientapproved).to.equal(expectedResponse.clientApproved);
                 })
                 .catch(err => console.log(err));
         });
@@ -36,23 +40,82 @@ describe("SetListsModel", () => {
     });
 
     describe("getSetList", () => {
-        beforeEach(async () => SetListsModel.addSetList());
+        const setListInfo = {
+            clientName : "gettestclient@gmail.com",
+            bandleaderName : "gettestleader@gmail.com",
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
 
-        it("getSetList", () => {
+        const {clientName, bandleaderName, setList, bandleaderComments} = setListInfo;
 
+        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
+
+        it("getSetList", async () => {
+            return await SetListsModel.getSetList(clientName)
+                .then(response => {
+                    const expectedResponse = {
+                        clientName : "gettestclient@gmail.com",
+                        bandleaderName : "gettestleader@gmail.com",
+                        setList : ["Song", "Info", "Here"],
+                        bandleaderComments : ["Song Comments Here"],
+                        clientComments: null,
+                        clientApproved: null
+                    };
+
+                    const setListInfoResponse = response[0];
+
+                    expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
+                    expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
+                    expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                    expect(setListInfoResponse.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(setListInfoResponse.clientapproved).to.equal(expectedResponse.clientApproved);
+                })
+                .catch(err => console.log(err));
         });
 
-        afterEach(async () => SetListsModel.deleteSetList());
+        afterEach(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("addClientCommentsAndApprovalStatus", () => {
-        beforeEach(async () => SetListsModel.addSetList());
+        const setListInfo = {
+            clientName : "addtestclientapproval@gmail.com",
+            bandleaderName : "addtestleader@gmail.com",
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"],
+            clientComments: ["Client Comments Here"],
+            clientApproved: true
+        };
+
+        const {clientName, bandleaderName, setList, bandleaderComments, clientComments, clientApproved} = setListInfo;
+
+        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
         it("addClientCommentsAndApprovalStatus", () => {
+            return await SetListsModel.addClientCommentsAndApprovalStatus(clientName, clientComments, clientApproved)
+                .then(response => {
+                    const expectedResponse = {
+                        clientName : "addtestclientapproval@gmail.com",
+                        bandleaderName : "addtestleader@gmail.com",
+                        setList : ["Song", "Info", "Here"],
+                        bandleaderComments : ["Song Comments Here"],
+                        clientComments: ["Client Comments Here"],
+                        clientApproved: true
+                    };
 
+                    const setListInfoResponse = response[0];
+
+                    expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
+                    expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
+                    expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                    expect(setListInfoResponse.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(setListInfoResponse.clientapproved).to.equal(expectedResponse.clientApproved);
+                })
         });
 
-        afterEach(async () => SetListsModel.deleteSetList());
+        afterEach(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("editSetList", () => {
