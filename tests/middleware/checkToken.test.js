@@ -4,29 +4,13 @@ const checkToken = require("../../middleware/checkToken");
 const config = require("../../config/config");
 const UsersModel = require("../../models/UsersModel");
 const jwt = require("jsonwebtoken");
-
-const mockRequest = (headers, body) => ({
-    header : headerName => {
-        if(headerName === "Authorization"){
-            return headers[headerName];
-        }
-        return null;
-    },
-    body
-});
-
-const mockResponse = () => {
-    const res = {};
-    res.status = sinon.stub().returns(res);
-    res.send = sinon.stub().returns(res);
-    return res;
-};
-
-const mockNext = sinon.stub();
+const mockRequest = require("../utils/mockRequest");
+const mockResponse = require("../utils/mockResponse");
+const mockNext = require("../utils/mockNext");
 
 describe("Check Token Middleware", () => {
 
-    describe("", () => {
+    describe("Check Token Middleware works properly", () => {
 
         const bandleaderBody = {
             username : "testBandleader",
@@ -35,26 +19,25 @@ describe("Check Token Middleware", () => {
    
          let token;
 
-        before(done => {
-            UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                  .then(response => {
-                     const specificUserInfo = response[0];
-                     const {id, username, accounttype} = specificUserInfo;
-                     token = jwt.sign(
-                        {
-                           id : id,
-                           username : username,
-                           accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                     )
-                     done();
-                  })
-                  .catch(err => console.log(err));
+        before(async () => {
+            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, username, accounttype} = specificUserInfo;
+                    token = jwt.sign(
+                    {
+                        id : id,
+                        username : username,
+                        accountType : accounttype
+                    },
+                    config.jwtSecret,
+                    {expiresIn : 3600000}
+                    )
+                })
+                .catch(err => console.log(err));
         });
 
-        it("checkToken validates correctly", done => {
+        it("checkToken validates correctly", async () => {
 
             const headers = {
                 Authorization : token
@@ -64,31 +47,24 @@ describe("Check Token Middleware", () => {
             const res = mockResponse();
             const next = mockNext;
 
-            checkToken(req, res, next);
+            await checkToken(req, res, next);
             
             expect(next.calledOnce).to.equal(true);
-            
-            done();
         });
 
-
-        after(done => {
-            UsersModel.deleteUser(bandleaderBody.username)
-                  .then(response => done())
-                  .catch(err => console.log(err));
-        });
-
+        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
     });
 
     describe("checkToken denies when no token is provided", () => {
-        it("checkToken denies unauthorized", done => {
+
+        it("checkToken denies unauthorized", async () => {
             const headers = {};
     
             const req = mockRequest(headers, {});
             const res = mockResponse();
             const next = mockNext;
 
-            checkToken(req, res, next);
+            await checkToken(req, res, next);
             
             expect(res.status.calledWith(401)).to.equal(true);
 
@@ -97,13 +73,12 @@ describe("Check Token Middleware", () => {
             };
 
             expect(res.send.calledWith(responseBody)).to.equal(true);
-            
-            done();
         });
     });
 
     describe("checkToken denies for invalid token", () => {
-        it("checkToken denies expired token", done => {
+
+        it("checkToken denies expired token", async () => {
             const headers = {
                 Authorization : "fakeToken"
             };
@@ -112,7 +87,7 @@ describe("Check Token Middleware", () => {
             const res = mockResponse();
             const next = mockNext;
 
-            checkToken(req, res, next);
+            await checkToken(req, res, next);
             
             expect(res.status.calledWith(401)).to.equal(true);
 
@@ -121,8 +96,6 @@ describe("Check Token Middleware", () => {
             };
 
             expect(res.send.calledWith(responseBody)).to.equal(true);
-            
-            done();
         });
     });
 

@@ -1,5 +1,9 @@
 const bandleaderController = require("../../controllers/bandleaderController");
 const expect = require("chai").expect;
+const UsersModel = require("../../models/UsersModel");
+const mockRequest = require("../utils/mockRequest");
+const mockResponse = require("../utils/mockResponse");
+const mockNext = require("../utils/mockNext");
 
 describe("BandLeaderController", () => {
 
