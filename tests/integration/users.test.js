@@ -22,12 +22,13 @@ describe("User Routes", () => {
 
          describe("Creates a new user", () => {
 
-            it("register creates a new user", async () => {
+            it("register creates a new user", done => {
 
-               return await chai.request(server)
+               chai.request(server)
                   .post("/users/register/client")
                   .send(body)
                   .end((err, res) => {
+
                      const expectedResponse = {
                         isAuthenticated: true,
                         username: "testClient",
@@ -43,6 +44,8 @@ describe("User Routes", () => {
                      expect(res.body.accountType).to.equal(expectedResponse.accountType);
                      expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
                      expect(res.body.selectedBandleader).to.equal(expectedResponse.selectedBandleader);
+
+                     done();
                   });
             });
 
@@ -53,8 +56,8 @@ describe("User Routes", () => {
 
             beforeEach(async () => await UsersModel.register(username, password, "client", selectedBandleader));
    
-            it("register will not be successful if a user exists", async () => {
-               return await chai.request(server)
+            it("register will not be successful if a user exists", done => {
+               chai.request(server)
                   .post("/users/register/client")
                   .send(body)
                   .end((err, res) => {
@@ -62,6 +65,8 @@ describe("User Routes", () => {
 
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(errorMessage);
+
+                     done();
                });
            });
 
@@ -82,8 +87,8 @@ describe("User Routes", () => {
 
             beforeEach(async () =>  await UsersModel.register(username, password, "bandleader", null));
             
-            it("Login passes", async () => {
-               return await chai.request(server)
+            it("Login passes", done => {
+               chai.request(server)
                   .post("/users/login/bandleader")
                   .send(body)
                   .end((err, res) => {
@@ -102,6 +107,8 @@ describe("User Routes", () => {
                      expect(res.body.accountType).to.equal(expectedResponse.accountType);
                      expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
                      expect(res.body.selectedBandleader).to.equal(expectedResponse.selectedBandleader);
+
+                     done();
                   });
 
             })
@@ -113,13 +120,13 @@ describe("User Routes", () => {
 
             beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
             
-            it("User isn't registered", async () => {
+            it("User isn't registered", done => {
                const requestBody = {
                   username : "testClient",
                   password : "testPassword",
                };
 
-               return await chai.request(server)
+               chai.request(server)
                   .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
@@ -127,11 +134,13 @@ describe("User Routes", () => {
 
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+
+                     done();
                   });
             })
 
-            it("Wrong account type is provided", async () => {
-               return await chai.request(server)
+            it("Wrong account type is provided", done => {
+               chai.request(server)
                   .post("/users/login/client")
                   .send(body)
                   .end((err, res) => {
@@ -139,16 +148,18 @@ describe("User Routes", () => {
 
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
+
+                     done();
                   });
             })
    
-            it("Incorrect password provided", async () => {
+            it("Incorrect password provided", done => {
                const requestBody = {
                   username : "testBandleader",
                   password : "testPassword123",
                };
 
-               return await chai.request(server)
+               chai.request(server)
                   .post("/users/login/bandleader")
                   .send(requestBody)
                   .end((err, res) => {
@@ -157,6 +168,7 @@ describe("User Routes", () => {
                      expect(res.status).to.equal(401);
                      expect(res.body.errorMessage).to.equal(expectedResponse.errorMessage);
 
+                     done();
                   });
             });
 
@@ -194,9 +206,9 @@ describe("User Routes", () => {
                .catch(err => console.log(err));
          });
 
-         it("checkToken works when provided valid jwt in the headers", async () => {
+         it("checkToken works when provided valid jwt in the headers", done => {
 
-            return await chai.request(server)
+            chai.request(server)
                .get("/users/checkToken")
                .set("Authorization", token)
                .end((err, res) => {
@@ -214,6 +226,7 @@ describe("User Routes", () => {
                   expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
                   expect(typeof(res.body.token)).to.equal("string");
 
+                  done();
                });
          });
 
@@ -231,14 +244,15 @@ describe("User Routes", () => {
 
       beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
 
-      it("getBandleaders", async () => {
-         return await chai.request(server)
+      it("getBandleaders", done => {
+         chai.request(server)
             .get("/users/getBandleaders")
             .end((err, res) => {
 
                expect(res.status).to.equal(200);
                expect(res.body.bandleaders.length).to.be.greaterThan(0);
 
+               done();
             });
       });
 
@@ -280,8 +294,8 @@ describe("User Routes", () => {
 
       before(async () =>  await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
-      it("getClientsForBandleader works", async () => {
-         return await chai.request(server)
+      it("getClientsForBandleader works", done => {
+         chai.request(server)
             .get("/users/getClientsForBandleader")
             .set("Authorization", token)
             .end((err, res) => {
@@ -289,6 +303,7 @@ describe("User Routes", () => {
                expect(res.status).to.equal(200);
                expect(res.body.clientList.length).to.be.greaterThan(0);
 
+               done();
             });
       });
 
@@ -337,8 +352,8 @@ describe("User Routes", () => {
             .catch(err => console.log(err));
       });
 
-      it("clientInfo works", async () => {
-         return await chai.request(server)
+      it("clientInfo works", done => {
+         chai.request(server)
             .get(`/users/clientInfo/${clientId}`)
             .set("Authorization", token)
             .end((err, res) => {
@@ -359,6 +374,7 @@ describe("User Routes", () => {
                expect(clientInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
                expect(clientInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
 
+               done();
             });
       });
 
@@ -396,8 +412,8 @@ describe("User Routes", () => {
             .catch(err => console.log(err));
       });
 
-      it("getUserInfo works", async () => {
-         return await chai.request(server)
+      it("getUserInfo works", done => {
+         chai.request(server)
             .get("/users/getUserInfo")
             .set("Authorization", token)
             .end((err, res) => {
@@ -416,6 +432,7 @@ describe("User Routes", () => {
                expect(userInfo.accountType).to.equal(expectedResponse.accountType);
                expect(userInfo.isAuthenticated).to.equal(expectedResponse.isAuthenticated);;
 
+               done();
             });
       });
 
@@ -455,8 +472,8 @@ describe("User Routes", () => {
       });
 
 
-      it("editUserInfo", async () => {
-         return await chai.request(server)
+      it("editUserInfo", done => {
+         chai.request(server)
             .patch("/users/editUserInfo")
             .send(newUserInfo)
             .set("Authorization", token)
@@ -475,6 +492,7 @@ describe("User Routes", () => {
                expect(res.body.username).to.equal(expectedResponse.username);
                expect(res.body.accountType).to.equal(expectedResponse.accountType);
 
+               done();
             });
       });
 
@@ -513,8 +531,8 @@ describe("User Routes", () => {
             .catch(err => console.log(err));
       });
 
-      it("sendClientSetlist works", async () => {
-         return await chai.request(server)
+      it("sendClientSetlist works", done => {
+         chai.request(server)
             .patch("/users/sendClientSetList")
             .set("Authorization", token)
             .send(body)
@@ -524,6 +542,7 @@ describe("User Routes", () => {
                expect(res.status).to.equal(200);
                expect(res.body.setListAvailable).to.equal(expectedResponse.setListAvailable);
 
+               done();
             });
       });
 
