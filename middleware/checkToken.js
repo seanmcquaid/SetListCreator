@@ -1,10 +1,10 @@
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 
-const checkToken = (req,res,next) => {
+const checkToken = async (req,res,next) => {
     const token = req.header("Authorization");
     if(!token){
-        return res.status(401).send({
+        return await res.status(401).send({
             errorMessage : "Invalid token"
         });
     }
@@ -14,7 +14,7 @@ const checkToken = (req,res,next) => {
         req.token = decodedToken;
         next();
     }catch(err){
-        return res.status(401).send({
+        return await res.status(401).send({
             errorMessage : "Expired Token"
         });
     }
