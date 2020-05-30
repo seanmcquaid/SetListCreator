@@ -101,12 +101,12 @@ describe("BandLeaderController", () => {
         });
 
         it("getSong works correctly", async () => {
-            const token = {
-                username,
-            };
-
             const params = {
                 songId : id
+            };
+
+            const token = {
+                username,
             };
 
             const req = mockRequest({}, {}, params, token);
@@ -125,10 +125,18 @@ describe("BandLeaderController", () => {
     describe("deleteSong", () => {
         let id;
 
-        const username = "";
+        const songInfo = {
+            songName : "Bruno", 
+            artistName : "The King",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        const username = "deleteSongBandleader@gmail.com";
 
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id;
                 })
@@ -136,19 +144,22 @@ describe("BandLeaderController", () => {
         });
 
         it("deleteSong works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+            const params = {
+                songId : id,
             };
 
             const token = {
                 username,
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, params, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.deleteSong(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
     });
@@ -156,10 +167,18 @@ describe("BandLeaderController", () => {
     describe("editSong", () => {
         let id;
 
-        const username = "";
+        const songInfo = {
+            songName : "Bruno", 
+            artistName : "The King",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        const username = "editSongBandleader@gmail.com";
 
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id;
                 })
@@ -168,53 +187,92 @@ describe("BandLeaderController", () => {
 
         it("editSong works correctly", async () => {
             const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+                songName : "Bruno Mars", 
+                artistName : "IS NOT THE King",
+                songKey : "F# Major"
+            };
+
+            const params = {
+                songId : id,
             };
 
             const token = {
                 username,
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, body, params, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.editSong(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
         after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
     describe("getClientSongs", () => {
-        let id;
+        let clientId, songId;
 
-        const username = "";
+        const bandleaderUsername = "getClientSongs@gmail.com";
+        const clientUsername = "clientName@gmail.com";
+
+        const userInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
 
         before(async () => {
-            return await ClientSongListModel.addSong()
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        const clientSongInfo = {
+            songName : "Uptown Funk",
+            artistName : "Bruno Mars",
+            songType : "requestedSong",
+            username : clientUsername
+        };
+
+        before(async () => {
+            return await ClientSongListModel.addSong(clientSongInfo.songName, clientSongInfo.artistName, clientSongInfo.songType, clientSongInfo.username)
+                .then(response => {
+                    songId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
 
         it("getClientSongs works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+            const params = {
+                clientId
             };
 
             const token = {
                 username,
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, params, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.getClientSongs(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await ClientSongListModel.deleteSong(clientUsername, songId));
+
+        after(async () => await UsersModel.deleteUser(clientUsername));
     });
 
     describe("getSuggestedSetList", () => {
