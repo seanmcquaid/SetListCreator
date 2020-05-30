@@ -4,52 +4,222 @@ const expect = require("chai").expect;
 describe("ClientController", () => {
 
     describe("postAddSong", () => {
-        it("postAddSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "postAddSongBandleader@gmail.com"
+
+        it("postAddSong works properly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+
+            // res.send.arguments
         });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
     describe("deleteSong", () => {
-        it("deleteSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("deleteSong works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
     });
 
     describe("getSongs", () => {
-        it("getSongs", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("getSongs works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
+
 
     describe("getSong", () => {
-        it("getSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("getSong works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
+
     describe("editSong", () => {
-        it("editSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("editSong works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
     describe("getCompletedSetList", () => {
-        it("getCompletedSetList", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("getCompletedSetList works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
     describe("editCompletedSetListComments", () => {
-        it("editCompletedSetListComments", done => {
-            expect(2).to.equal(2);
-            done();
+        let id;
+
+        const username = "";
+
+        before(async () => {
+            return await BandleaderSongListModel.addSong()
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("editCompletedSetListComments works correctly", async () => {
+            const body = {
+                songName : "", 
+                artistName : "",
+                songKey : ""
+            };
+
+            const token = {
+                username,
+            };
+
+            const req = mockRequest({}, body, {}, token);
+            const res = mockResponse();
+            const next = mockNext;
+        });
+
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
 });
