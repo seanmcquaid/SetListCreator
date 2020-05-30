@@ -214,7 +214,7 @@ describe("BandLeaderController", () => {
     });
 
     describe("getClientSongs", () => {
-        let clientId, songId;
+        let clientId;
 
         const bandleaderUsername = "getClientSongs@gmail.com";
         const clientUsername = "clientName@gmail.com";
@@ -236,28 +236,13 @@ describe("BandLeaderController", () => {
                 .catch(err => console.log(err));
         });
 
-        const clientSongInfo = {
-            songName : "Uptown Funk",
-            artistName : "Bruno Mars",
-            songType : "requestedSong",
-            username : clientUsername
-        };
-
-        before(async () => {
-            return await ClientSongListModel.addSong(clientSongInfo.songName, clientSongInfo.artistName, clientSongInfo.songType, clientSongInfo.username)
-                .then(response => {
-                    songId = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
-
         it("getClientSongs works correctly", async () => {
             const params = {
                 clientId
             };
 
             const token = {
-                username,
+                username : bandleaderUsername,
             };
 
             const req = mockRequest({}, {}, params, token);
@@ -270,65 +255,49 @@ describe("BandLeaderController", () => {
             expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(clientUsername, songId));
-
         after(async () => await UsersModel.deleteUser(clientUsername));
     });
 
     describe("getSuggestedSetList", () => {
-        let id;
+        let clientId;
 
-        const username = "";
+        const bandleaderUsername = "getSuggestedSetList@gmail.com";
+        const clientUsername = "clientName@gmail.com";
+
+        const userInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
         
         before(async () => {
-            return await UsersModel.register()
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
-                    id = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
-
-        before(async () => {
-            return await UsersModel.register()
-                .then(response => {
-                    id = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
-
-        before(async () => {
-            return await ClientSongListModel.addSong()
-                .then(response => {
-                    id = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
-
-        before(async () => {
-            return await BandleaderSongListModel.addSong()
-                .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
 
         it("getSuggestedSetList works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
-            };
 
             const token = {
-                username,
+                username : bandleaderUsername
             };
 
             const req = mockRequest({}, body, {}, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.getSuggestedSetList(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("postCompletedSetList", () => {
