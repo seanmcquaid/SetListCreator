@@ -344,7 +344,7 @@ describe("BandLeaderController", () => {
             expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await ClientSongListModel.deleteSong(username, clientId));
     });
 
     describe("getClientSetListInfo", () => {
