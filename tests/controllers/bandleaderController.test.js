@@ -301,28 +301,47 @@ describe("BandLeaderController", () => {
     });
 
     describe("postCompletedSetList", () => {
+
+        let clientId;
+
+        const bandleaderName = "";
+
+        const clientInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = clientInfo;
+
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
 
         it("postCompletedSetList works correctly", async () => {
             const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+                completedSetList : ["Completed", "Set", "List"], 
+                clientId,
+                bandleaderComments : ["Bandleader", "Comments"]
             };
 
             const token = {
-                username,
+                username : bandleaderName,
             };
 
             const req = mockRequest({}, body, {}, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.postCompletedSetList(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
         after(async () => await ClientSongListModel.deleteSong(username, id));

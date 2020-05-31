@@ -7,7 +7,7 @@ Tests Left on Back End :
 2) Controllers - Bandleader, Client
 
 Order for Back End Tests: 
-1) Controllers
+1) Controllers - Finish Bandleader tonight and maybe client as well
 2) Integration
 
 Tests Left on Front End : 
