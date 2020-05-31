@@ -3,6 +3,7 @@ const expect = require("chai").expect;
 const UsersModel = require("../../models/UsersModel");
 const BandleaderSongListModel = require("../../models/BandleaderSongListModel");
 const ClientSongListModel = require("../../models/ClientSongListModel");
+const SetListsModel = require("../../models/SetListsModel");
 const mockRequest = require("../utils/mockRequest");
 const mockResponse = require("../utils/mockResponse");
 const mockNext = require("../utils/mockNext");
@@ -304,7 +305,9 @@ describe("BandLeaderController", () => {
 
         let clientId;
 
-        const bandleaderName = "";
+        const bandleaderUsername = "postCompletedSetList";
+
+        const clientUsername = "client";
 
         const clientInfo = {
             username : clientUsername,
@@ -348,31 +351,58 @@ describe("BandLeaderController", () => {
     });
 
     describe("getClientSetListInfo", () => {
+        let clientId;
+
+        const bandleaderUsername = "postCompletedSetList";
+
+        const clientUsername = "clientPostCompletedSetList";
+
+        const clientInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
+
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await UsersModel.register(clientInfo.username, clientInfo.password, clientInfo.accountType, clientInfo.bandleaderName)
                 .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
 
+        before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
+
         it("getClientSetListInfo works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+            const params = {
+                clientId
             };
 
             const token = {
                 username,
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, params, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.getClientSetListInfo(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await UsersModel.deleteUser(clientInfo.username));
+
+        after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
 
     describe("editCompletedSetList", () => {
