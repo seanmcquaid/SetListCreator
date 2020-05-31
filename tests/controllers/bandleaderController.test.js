@@ -387,7 +387,7 @@ describe("BandLeaderController", () => {
             };
 
             const token = {
-                username,
+                username : bandleaderUsername
             };
 
             const req = mockRequest({}, {}, params, token);
@@ -406,31 +406,60 @@ describe("BandLeaderController", () => {
     });
 
     describe("editCompletedSetList", () => {
+        let clientId;
+
+        const bandleaderUsername = "editCompletedSetList";
+
+        const clientUsername = "clientEditCompletedSetList";
+
+        const clientInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
+
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await UsersModel.register(clientInfo.username, clientInfo.password, clientInfo.accountType, clientInfo.bandleaderName)
                 .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
 
+        before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
+
         it("editCompletedSetList works correctly", async () => {
             const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+                completedSetList : ["Final", "Song", "Info", "Here"],
+                clientId, 
+                bandleaderComments : ["Song Comments Here"]
             };
 
             const token = {
-                username,
+                username : bandleaderUsername
             };
 
             const req = mockRequest({}, body, {}, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await bandleaderController.editCompletedSetList(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await UsersModel.deleteUser(clientInfo.username));
+
+        after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
 
 });
