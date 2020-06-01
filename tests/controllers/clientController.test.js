@@ -2,6 +2,9 @@ const clientController = require("../../controllers/clientController");
 const UsersModel = require("../../models/UsersModel");
 const ClientSongListModel = require("../../models/ClientSongListModel");
 const expect = require("chai").expect;
+const mockRequest = require("../utils/mockRequest");
+const mockResponse = require("../utils/mockResponse");
+const mockNext = require("../utils/mockNext");
 
 describe("ClientController", () => {
 
@@ -179,35 +182,46 @@ describe("ClientController", () => {
 
 
     describe("getSong", () => {
-        let id;
+        let songId;
 
-        const username = "";
+        const username = "getSongClient@gmail.com";
+
+        const songInfo = {
+            songName : "Bruno", 
+            artistName : "The King",
+            songType : "requestedSong",
+            username
+        };
 
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await ClientSongListModel.addSong(songInfo.songName, songInfo.artistName, songInfo.songType, songInfo.username)
                 .then(response => {
-                    id = response[0].id;
+                    songId = response[0].id
                 })
                 .catch(err => console.log(err));
         });
 
-        it("getSong works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+        it("getSong works properly", async () => {
+
+            const params = {
+                songId
             };
 
             const token = {
                 username,
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, params, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await clientController.getSongs(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await ClientSongListModel.deleteSong(username, songId));
     });
 
 
