@@ -61,8 +61,8 @@ describe("ClientController", () => {
     describe("deleteSong", () => {
         let clientId, songId;
 
-        const username = "postAddSongClient@gmail.com";
-        const bandleaderName = "postAddSongBandleader@gmail.com"
+        const username = "deleteSongClient@gmail.com";
+        const bandleaderName = "deleteSongBandleader@gmail.com"
 
         const userInfo = {
             username,
@@ -120,35 +120,61 @@ describe("ClientController", () => {
     });
 
     describe("getSongs", () => {
-        let id;
+        let clientId, songId;
 
-        const username = "";
+        const username = "getSongsClient@gmail.com";
+        const bandleaderName = "getSongsBandleader@gmail.com"
+
+        const userInfo = {
+            username,
+            password : "password",
+            accountType : "client",
+            bandleaderName
+        };
+
+        const songInfo = {
+            songName : "Bruno", 
+            artistName : "The King",
+            songType : "requestedSong",
+            username
+        };
 
         before(async () => {
-            return await BandleaderSongListModel.addSong()
+            return await UsersModel.register(userInfo.username, userInfo.password, userInfo.accountType, userInfo.bandleaderName)
                 .then(response => {
-                    id = response[0].id;
+                    clientId = response[0].id
                 })
                 .catch(err => console.log(err));
         });
 
-        it("getSongs works correctly", async () => {
-            const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
-            };
+        before(async () => {
+            return await ClientSongListModel.addSong(songInfo.songName, songInfo.artistName, songInfo.songType, songInfo.username)
+                .then(response => {
+                    songId = response[0].id
+                })
+                .catch(err => console.log(err));
+        });
+
+        it("getSongs works properly", async () => {
 
             const token = {
                 username,
+                id : clientId
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, {}, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await clientController.getSongs(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await ClientSongListModel.deleteSong(username, songId));
     });
 
 
