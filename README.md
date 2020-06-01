@@ -9,6 +9,9 @@ Order for Back End Tests:
 1) Integration - Bandleader, Client
 2) Fix failing tests
 
+Things to Fix on Front End : 
+1) Look at implementing useMemo and useCallback where appropriate to eliminate potential excessive amount of render cycles
+
 Tests Left on Front End : 
 1) Components
 2) Routing
