@@ -4,11 +4,10 @@ I have more or less finished the basic app now, it will be primarily refactoring
 
 Tests Left on Back End : 
 1) Integration - Bandleader, Client
-2) Controllers - Client
 
 Order for Back End Tests: 
-1) Controllers - Client
-2) Integration - Bandleader, Client
+1) Integration - Bandleader, Client
+2) Fix failing tests
 
 Tests Left on Front End : 
 1) Components
