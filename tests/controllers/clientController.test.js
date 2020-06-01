@@ -1,32 +1,61 @@
 const clientController = require("../../controllers/clientController");
+const UsersModel = require("../../models/UsersModel");
+const ClientSongListModel = require("../../models/ClientSongListModel");
 const expect = require("chai").expect;
 
 describe("ClientController", () => {
 
     describe("postAddSong", () => {
-        let id;
+        let clientId, songId;
 
-        const username = "postAddSongBandleader@gmail.com"
+        const username = "postAddSongClient@gmail.com";
+        const bandleaderName = "postAddSongBandleader@gmail.com"
+
+        const userInfo = {
+            username,
+            password : "password",
+            accountType : "client",
+            bandleaderName
+        };
+
+        before(async () => {
+            return await UsersModel.register(userInfo.username, userInfo.password, userInfo.accountType, userInfo.bandleaderName)
+                .then(response => {
+                    clientId = response[0].id
+                })
+                .catch(err => console.log(err));
+        });
 
         it("postAddSong works properly", async () => {
             const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+                songName : "Bruno", 
+                artistName : "The King",
+            };
+
+            const params = {
+                songType : "requestedSong" 
             };
 
             const token = {
                 username,
+                id : clientId
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, body, params, token);
             const res = mockResponse();
             const next = mockNext;
 
-            // res.send.arguments
+            await clientController.postAddSong(req, res, next);
+
+            songId = res.send.getCalls()[0].args[0].requestedSongsList[0].id;
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await ClientSongListModel.deleteSong(username, songId));
     });
 
     describe("deleteSong", () => {
