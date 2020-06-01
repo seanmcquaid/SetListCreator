@@ -326,35 +326,40 @@ describe("ClientController", () => {
     });
 
     describe("editCompletedSetListComments", () => {
-        let id;
+        const bandleaderUsername = "editCompletedSetListCommentsBandleader";
 
-        const username = "";
+        const clientUsername = "editCompletedSetListCommentsClient";
 
-        before(async () => {
-            return await BandleaderSongListModel.addSong()
-                .then(response => {
-                    id = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
+
+        before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
 
         it("editCompletedSetListComments works correctly", async () => {
             const body = {
-                songName : "", 
-                artistName : "",
-                songKey : ""
+                clientComments : ["Client", "Comments", "Here"],
+                clientApproval : true
             };
 
             const token = {
-                username,
+                username : clientUsername
             };
 
             const req = mockRequest({}, body, {}, token);
             const res = mockResponse();
             const next = mockNext;
+
+            await clientController.editCompletedSetListComments(req, res, next);
+
+            expect(res.status.calledWith(200)).to.equal(true);
+            expect(res.send.calledOnce).to.equal(true);
         });
 
-        after(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
 
 });
