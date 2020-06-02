@@ -10,31 +10,53 @@ chai.use(chaiHttp);
 
 describe("Client Routes", () => {
 
-    it("addSong", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("addSong", () => {
+        it("addSong", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("getSongs", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getSongs", () => {
+        it("getSongs", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("getSong", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("getSong", () => {
+        it("getSong", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("deleteSong", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("deleteSong", () => {
+        it("deleteSong", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    it("editSong", done => {
-        expect(2).to.equal(2);
-        done();
-    })
+    describe("editSong", () => {
+        it("editSong", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
-    
+    describe("getCompletedSetList", () => {
+        it("getCompletedSetList", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
+
+    describe("editCompletedSetListComments", () => {
+        it("editCompletedSetListComments", done => {
+            expect(2).to.equal(2);
+            done();
+        });
+    });
 
 });
