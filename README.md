@@ -2,15 +2,12 @@
 
 I have more or less finished the basic app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
-Tests Left on Back End : 
-1) Integration - Client
 
-Order for Back End Tests: 
-1) Integration - Client
-2) Fix failing tests
-3) Look at syntax for each suite and make it more uniform to the same testing patterns
+To Do - Back End: 
+1) Fix failing tests
+2) Look at syntax for each suite and make it more uniform to the same testing patterns
 
-Things to Fix on Front End : 
+To Do - Front End : 
 1) Look at implementing useMemo and useCallback where appropriate to eliminate potential excessive amount of render cycles
 
 Tests Left on Front End : 
