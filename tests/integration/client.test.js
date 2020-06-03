@@ -150,10 +150,74 @@ describe("Client Routes", () => {
     });
 
     describe("getSong", () => {
-        it("getSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let token, songId;
+
+        const userInfo = {
+            username : "testClient",
+            password : "testPassword",
+            accountType : "client",
+            bandleaderName : "testBandleader" 
+        };
+
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songType : "requestedSong",
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
+        const {songName, artistName, songType} = songInfo;
+        
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
+                })
+                .catch(err => console.log(err));
         });
+
+        beforeEach(async () => {
+            return await ClientSongListModel.addSong(songName, artistName, songType, username)
+                .then(response => {
+                    songId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        it("getSong", done => {
+            chai.request(server)
+               .get(`/client/getSong/${songId}`)
+               .set("Authorization", token)
+               .end((err, res) => {
+                    const expectedResponse = {
+                        songName : "Treasure", 
+                        artistName : "Bruno Mars",
+                        songType : "requestedSong",
+                        username : "testBandleader",
+                    };
+
+                    expect(res.body.songInfo.songname).to.be.equal(expectedResponse.songName);
+                    expect(res.body.songInfo.artistname).to.be.equal(expectedResponse.artistName);
+                    expect(res.body.songInfo.songkey).to.be.equal(expectedResponse.songKey);
+                    expect(res.body.songInfo.username).to.be.equal(expectedResponse.username);
+
+                    done();
+                });
+        });
+
+        afterEach(async () => UsersModel.deleteUser(username));
+
+        afterEach(async () => ClientSongListModel.deleteSong(username, songId));
     });
 
     describe("deleteSong", () => {
