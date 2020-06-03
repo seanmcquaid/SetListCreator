@@ -218,7 +218,7 @@ describe("User Routes", () => {
                      accountType: "client",
                      setListAvailable: false,
                      selectedBandleader: "fillerbandleader@gmail.com" 
-                  }
+                  };
 
                   expect(res.body.isAuthenticated).to.equal(expectedResponse.isAuthenticated);
                   expect(res.body.username).to.equal(expectedResponse.username);
