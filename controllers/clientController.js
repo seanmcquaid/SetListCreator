@@ -39,43 +39,6 @@ exports.postAddSong = async (req, res, next) => {
         );
 };
 
-exports.deleteSong = async (req, res, next) => {
-    const {songId} = req.params;
-    const token = req.token;
-    const {username, id} = token;
-
-    return await ClientSongListModel.deleteSong(username, songId)
-        .then(async deletedSong => {
-
-            return await UsersModel.getUserInfo(id)
-                .then(async clientInfo => {
-
-                    const userInfo = clientInfo[0];
-
-                    return await ClientSongListModel.getSongs(userInfo.username)
-                        .then(async clientSongs => {
-
-                            const {requestedSongsList, doNotPlaySongsList} = clientSongs;
-
-                            return await SetListsModel.getSetList(userInfo.username)
-                                .then(async setListInfo => 
-                                    await res.status(200).send({
-                                        requestedSongsList, 
-                                        doNotPlaySongsList,
-                                        setListAvailable : userInfo.setlistavailable,
-                                        clientApproved : setListInfo.length > 0 ? setListInfo[0].clientapproved : false
-                                    }));
-                        });
-            });
-        })
-        .catch(async err => 
-            await res.status(500).send({
-                errorMessage : "There was a problem deleting the song"
-            })
-        );
-
-};
-
 exports.getSongs = async (req, res, next) => {
     const token = req.token;
     const {username, id} = token;
@@ -120,6 +83,43 @@ exports.getSong = async (req, res, next) => {
         .catch(async err => 
             await res.status(500).send({
                 errorMessage : "There was a problem getting the song information"
+            })
+        );
+
+};
+
+exports.deleteSong = async (req, res, next) => {
+    const {songId} = req.params;
+    const token = req.token;
+    const {username, id} = token;
+
+    return await ClientSongListModel.deleteSong(username, songId)
+        .then(async deletedSong => {
+
+            return await UsersModel.getUserInfo(id)
+                .then(async clientInfo => {
+
+                    const userInfo = clientInfo[0];
+
+                    return await ClientSongListModel.getSongs(userInfo.username)
+                        .then(async clientSongs => {
+
+                            const {requestedSongsList, doNotPlaySongsList} = clientSongs;
+
+                            return await SetListsModel.getSetList(userInfo.username)
+                                .then(async setListInfo => 
+                                    await res.status(200).send({
+                                        requestedSongsList, 
+                                        doNotPlaySongsList,
+                                        setListAvailable : userInfo.setlistavailable,
+                                        clientApproved : setListInfo.length > 0 ? setListInfo[0].clientapproved : false
+                                    }));
+                        });
+            });
+        })
+        .catch(async err => 
+            await res.status(500).send({
+                errorMessage : "There was a problem deleting the song"
             })
         );
 
