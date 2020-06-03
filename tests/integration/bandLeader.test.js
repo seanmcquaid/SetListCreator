@@ -399,10 +399,48 @@ describe("Bandleader Routes", () => {
     });
 
     describe("getSuggestedSetList", () => {
-        it("getSuggestedSetList", done => {
-            expect(2).to.equal(2);
-            done();
+        let clientId;
+
+        const bandleaderUsername = "getSuggestedSetList@gmail.com";
+        const clientUsername = "clientName@gmail.com";
+
+        const userInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
+        
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("getSuggestedSetList", async () => {
+            chai.request(server)
+                .get(`/bandleader/getSuggestedSetList/${clientId}`)
+                .set("Authorization", token)
+                .end((err, res) => {
+                    const expectedResponse = {
+                        suggestedSetList : [],
+                        additionalClientRequests : [],
+                        clientComments : []
+                    };
+
+                    expect(res.body.suggestedSetList).to.be.equal(expectedResponse.suggestedSetList);
+                    expect(res.body.additionalClientRequests).to.be.equal(expectedResponse.additionalClientRequests);
+                    expect(res.body.clientComments).to.be.equal(expectedResponse.clientComments);
+
+                    done();
+                });
+        });
+
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("postCompletedSetList", () => {
