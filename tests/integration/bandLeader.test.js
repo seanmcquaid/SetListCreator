@@ -486,9 +486,7 @@ describe("Bandleader Routes", () => {
                         bandleaderComments : ["Bandleader", "Comments"]
                     };
 
-                    expect(res.body.suggestedSetList).to.be.equal(expectedResponse.suggestedSetList);
-                    expect(res.body.additionalClientRequests).to.be.equal(expectedResponse.additionalClientRequests);
-                    expect(res.body.clientComments).to.be.equal(expectedResponse.clientComments);
+                    expect(res.body).to.equal(expectedResponse);
 
                     done();
                 });
