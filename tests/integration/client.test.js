@@ -336,6 +336,7 @@ describe("Client Routes", () => {
             return await ClientSongListModel.addSong(songName, artistName, songType, username)
                 .then(response => {
                     songId = response[0].id;
+                    console.log(response, songId);
                 })
                 .catch(err => console.log(err));
         });
@@ -350,6 +351,8 @@ describe("Client Routes", () => {
                         setListAvailable : false,
                         clientApproved : false,
                     };
+
+                    console.log(res.body.requestedSongsList);
 
                     songId = res.body.requestedSongsList[0].id;
                     

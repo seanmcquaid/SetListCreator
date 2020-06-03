@@ -278,17 +278,21 @@ describe("BandLeaderController", () => {
             return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
                     clientId = response[0].id;
+                    console.log(clientId, response)
                 })
                 .catch(err => console.log(err));
         });
 
         it("getSuggestedSetList works correctly", async () => {
+            const params = {
+                clientId,
+            };
 
             const token = {
                 username : bandleaderUsername
             };
 
-            const req = mockRequest({}, body, {}, token);
+            const req = mockRequest({}, {}, params, token);
             const res = mockResponse();
             const next = mockNext;
 

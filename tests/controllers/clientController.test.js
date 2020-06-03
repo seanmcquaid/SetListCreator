@@ -198,6 +198,7 @@ describe("ClientController", () => {
             return await ClientSongListModel.addSong(songInfo.songName, songInfo.artistName, songInfo.songType, songInfo.username)
                 .then(response => {
                     songId = response[0].id
+                    console.log(songId, response[0])
                 })
                 .catch(err => console.log(err));
         });
@@ -216,7 +217,7 @@ describe("ClientController", () => {
             const res = mockResponse();
             const next = mockNext;
 
-            await clientController.getSongs(req, res, next);
+            await clientController.getSong(req, res, next);
 
             expect(res.status.calledWith(200)).to.equal(true);
             expect(res.send.calledOnce).to.equal(true);

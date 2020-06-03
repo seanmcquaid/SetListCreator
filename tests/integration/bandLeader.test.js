@@ -364,7 +364,7 @@ describe("Bandleader Routes", () => {
         const {username, password, accountType, bandleaderName} = userInfo;
 
         beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType)
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
@@ -503,6 +503,7 @@ describe("Bandleader Routes", () => {
                         config.jwtSecret,
                         {expiresIn : 3600000}
                     );
+                    console.log(token, id, specificUserInfo)
                 })
                 .catch(err => console.log(err));
         });
@@ -552,8 +553,10 @@ describe("Bandleader Routes", () => {
             bandleaderComments : ["Song Comments Here"]
         };
 
+        const {username, password, accountType, bandleaderName} = clientInfo;
+
         beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType)
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
