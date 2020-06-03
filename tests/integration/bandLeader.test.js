@@ -348,10 +348,54 @@ describe("Bandleader Routes", () => {
     });
 
     describe("getClientSongs", () => {
-        it("getClientSongs", done => {
-            expect(2).to.equal(2);
-            done();
+        let clientId;
+
+        const bandleaderUsername = "testBandleader";
+        const clientUsername = "testClient";
+
+        const userInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
+
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("getClientSongs", async () => {
+            chai.request(server)
+               .get(`/bandleader/getClientSongs/${clientId}`)
+               .set("Authorization", token)
+               .end((err, res) => {
+                    const expectedResponse = {
+                        userInfo : {
+                            id : clientId,
+                            username,
+                            accountType,
+                            bandleaderName,
+                            setListAvailable : false,
+                        },
+                        requestedSongsList : [], 
+                        doNotPlaySongsList : []
+                    };
+
+                    expect(res.body.userInfo).to.be.equal(expectedResponse.userInfo);
+                    expect(res.body.requestedSongsList).to.be.equal(expectedResponse.requestedSongsList);
+                    expect(res.body.doNotPlaySongsList).to.be.equal(expectedResponse.doNotPlaySongsList);
+
+                    done();
+                });
+        });
+
+        after(async () => await UsersModel.deleteUser(clientUsername));
     });
 
     describe("getSuggestedSetList", () => {
