@@ -203,7 +203,7 @@ describe("Client Routes", () => {
                         songName : "Treasure", 
                         artistName : "Bruno Mars",
                         songType : "requestedSong",
-                        username : "testBandleader",
+                        username : "testClient",
                     };
 
                     expect(res.body.songInfo.songname).to.be.equal(expectedResponse.songName);
