@@ -348,7 +348,7 @@ describe("Bandleader Routes", () => {
     });
 
     describe("getClientSongs", () => {
-        let clientId;
+        let token, clientId;
 
         const bandleaderUsername = "testBandleader";
         const clientUsername = "testClient";
@@ -362,10 +362,21 @@ describe("Bandleader Routes", () => {
 
         const {username, password, accountType, bandleaderName} = userInfo;
 
-        before(async () => {
-            return await UsersModel.register(username, password, accountType, bandleaderName)
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType)
                 .then(response => {
-                    clientId = response[0].id;
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    clientId = id;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
                 })
                 .catch(err => console.log(err));
         });
@@ -399,7 +410,7 @@ describe("Bandleader Routes", () => {
     });
 
     describe("getSuggestedSetList", () => {
-        let clientId;
+        let token, clientId;
 
         const bandleaderUsername = "getSuggestedSetList@gmail.com";
         const clientUsername = "clientName@gmail.com";
@@ -413,10 +424,21 @@ describe("Bandleader Routes", () => {
 
         const {username, password, accountType, bandleaderName} = userInfo;
         
-        before(async () => {
-            return await UsersModel.register(username, password, accountType, bandleaderName)
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType)
                 .then(response => {
-                    clientId = response[0].id;
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    clientId = id;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
                 })
                 .catch(err => console.log(err));
         });
@@ -444,7 +466,7 @@ describe("Bandleader Routes", () => {
     });
 
     describe("postCompletedSetList", () => {
-        let clientId;
+        let token, clientId;
 
         const bandleaderUsername = "postCompletedSetList";
 
@@ -465,10 +487,21 @@ describe("Bandleader Routes", () => {
             bandleaderComments : ["Bandleader", "Comments"]
         };
 
-        before(async () => {
-            return await UsersModel.register(username, password, accountType, bandleaderName)
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType)
                 .then(response => {
-                    clientId = response[0].id;
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    clientId = id;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
                 })
                 .catch(err => console.log(err));
         });
@@ -496,10 +529,68 @@ describe("Bandleader Routes", () => {
     });
 
     describe("getClientSetListInfo", () => {
-        it("getClientSetListInfo", done => {
-            expect(2).to.equal(2);
-            done();
+        let token, clientId;
+
+        const bandleaderUsername = "testBandleader";
+
+        const clientUsername = "testClient";
+
+        const clientInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
+
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    clientId = id;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
+                })
+                .catch(err => console.log(err));
         });
+
+        before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
+
+        it("getSuggestedSetList", async () => {
+            chai.request(server)
+                .get(`/bandleader/getSuggestedSetList/${clientId}`)
+                .set("Authorization", token)
+                .end((err, res) => {
+                    const expectedResponse = {
+                        clientName : clientUsername,
+                        bandleaderName : bandleaderName,
+                        suggestedSetList : ["Completed", "Set", "List"],
+                        bandleaderComments : ["Bandleader", "Comments"]
+                    };
+
+                    expect(res.body).to.equal(expectedResponse);
+
+                    done();
+                });
+        });
+
+        after(async () => await UsersModel.deleteUser(clientInfo.username));
+
+        after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
 
     describe("editCompletedSetList", () => {
