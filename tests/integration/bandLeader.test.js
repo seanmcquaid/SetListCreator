@@ -198,10 +198,62 @@ describe("Bandleader Routes", () => {
     });
 
     describe("deleteSong", () => {
-        it("deleteSong", done => {
-            expect(2).to.equal(2);
-            done();
+        let token, songId;
+
+        const userInfo = {
+            username : "testBandleader",
+            password : "testPassword",
+            accountType : "bandleader"
+        };
+
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songKey : "F Major"
+        };
+
+        const {username, password, accountType} = userInfo;
+        const {songName, artistName, songKey} = songInfo;
+        
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
+                })
+                .catch(err => console.log(err));
         });
+
+        beforeEach(async () => {
+            return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
+                .then(response => {
+                    songId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        it("deleteSong", done => {
+            chai.request(server)
+               .get(`/bandleader/deleteSong/${songId}`)
+               .set("Authorization", token)
+               .end((err, res) => {
+
+                    expect(res.body.songList.length).to.be.equal(0);
+
+                    done();
+                });
+        });
+
+        afterEach(async () => UsersModel.deleteUser(username));
     });
 
     describe("editSong", () => {
