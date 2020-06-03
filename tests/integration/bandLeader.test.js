@@ -49,7 +49,7 @@ describe("Bandleader Routes", () => {
 
         it("addSong", done => {
             chai.request(server)
-               .get("/bandleader/addSong")
+               .post("/bandleader/addSong")
                .set("Authorization", token)
                .send(body)
                .end((err, res) => {
@@ -257,7 +257,7 @@ describe("Bandleader Routes", () => {
 
         it("deleteSong", done => {
             chai.request(server)
-               .get(`/bandleader/deleteSong/${songId}`)
+               .delete(`/bandleader/deleteSong/${songId}`)
                .set("Authorization", token)
                .end((err, res) => {
 
@@ -322,7 +322,7 @@ describe("Bandleader Routes", () => {
             };
 
             chai.request(server)
-               .get(`/bandleader/editSong/${songId}`)
+               .patch(`/bandleader/editSong/${songId}`)
                .set("Authorization", token)
                .send(body)
                .end((err, res) => {
@@ -444,10 +444,57 @@ describe("Bandleader Routes", () => {
     });
 
     describe("postCompletedSetList", () => {
-        it("postCompletedSetList", done => {
-            expect(2).to.equal(2);
-            done();
+        let clientId;
+
+        const bandleaderUsername = "postCompletedSetList";
+
+        const clientUsername = "client";
+
+        const clientInfo = {
+            username : clientUsername,
+            password : "password",
+            accountType : "client",
+            bandleaderName : bandleaderUsername
+        };
+
+        const {username, password, accountType, bandleaderName} = clientInfo;
+
+        const body = {
+            completedSetList : ["Completed", "Set", "List"], 
+            clientId,
+            bandleaderComments : ["Bandleader", "Comments"]
+        };
+
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
         });
+
+        it("postCompletedSetList", async () => {
+            chai.request(server)
+                .post(`/bandleader/postCompletedSetList/${clientId}`)
+                .set("Authorization", token)
+                .send(body)
+                .end((err, res) => {
+                    const expectedResponse = {
+                        clientName : clientUsername,
+                        bandleaderName : bandleaderName,
+                        suggestedSetList : ["Completed", "Set", "List"],
+                        bandleaderComments : ["Bandleader", "Comments"]
+                    };
+
+                    expect(res.body.suggestedSetList).to.be.equal(expectedResponse.suggestedSetList);
+                    expect(res.body.additionalClientRequests).to.be.equal(expectedResponse.additionalClientRequests);
+                    expect(res.body.clientComments).to.be.equal(expectedResponse.clientComments);
+
+                    done();
+                });
+        });
+
+        after(async () => await SetListsModel.deleteSetList(clientUsername, bandleaderName));
     });
 
     describe("getClientSetListInfo", () => {
