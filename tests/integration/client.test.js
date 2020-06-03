@@ -431,10 +431,73 @@ describe("Client Routes", () => {
     });
 
     describe("editCompletedSetListComments", () => {
-        it("editCompletedSetListComments", done => {
-            expect(2).to.equal(2);
-            done();
+        let token;
+
+        const userInfo = {
+            username : "testClient",
+            password : "testPassword",
+            accountType : "client",
+            bandleaderName : "testBandleader" 
+        };
+
+        const {username, password, accountType, bandleaderName} = userInfo;
+
+        const setListInfo = {
+            clientName : username,
+            bandleaderName,
+            setList : ["Song", "Info", "Here"],
+            bandleaderComments : ["Song Comments Here"]
+        };
+
+        const body = {
+            clientComments : ["Not", "Great"], 
+            clientApproval : true,
+        };
+
+        beforeEach(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
+                })
+                .catch(err => console.log(err));
         });
+
+        before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
+
+        it("editCompletedSetListComments", async () => {
+            chai.request(server)
+               .edit("/client/editCompletedSetListComments")
+               .set("Authorization", token)
+               .send(body)
+               .end((err, res) => {
+                    const expectedResponse = {
+                        clientName : username,
+                        bandleaderName,
+                        setList : ["Song", "Info", "Here"],
+                        bandleaderComments : ["Song Comments Here"],
+                        clientComments : ["Not", "Great"], 
+                        clientApproval : true,
+                    };
+
+                    expect(res.body.setListInfo).to.equal(expectedResponse);
+
+                    done();
+                });
+        });
+
+        after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
 
 });
