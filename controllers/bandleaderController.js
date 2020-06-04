@@ -184,12 +184,12 @@ exports.postCompletedSetList = async (req, res, next) => {
             .then(async clientInfo => {
 
                 const clientName = clientInfo[0].username;
-
+                
                 return await SetListsModel.addSetList(clientName, bandleaderName, completedSetList, bandleaderComments)
                     .then(async setListInfo => {
 
                         const {clientname, bandleadername, setlist, bandleadercomments} = setListInfo[0];
-
+                        
                         return await res.status(200).send({
                             clientName : clientname,
                             bandleaderName : bandleadername,
@@ -200,9 +200,10 @@ exports.postCompletedSetList = async (req, res, next) => {
                     });
             })
             .catch(async err => 
-                await res.status(500).send({
+                { console.log(err)
+                return await res.status(500).send({
                     errorMessage : "There was a problem adding the completed setlist"
-                })
+                })}
             );
 };
 

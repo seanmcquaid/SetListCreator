@@ -487,7 +487,7 @@ describe("Bandleader Routes", () => {
     });
 
     describe("postCompletedSetList", () => {
-        let clientId;
+        let token, clientId;
 
         const bandleaderUsername = "postCompletedSetList";
 
@@ -500,6 +500,12 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
         const {username, password, accountType, bandleaderName} = clientInfo;
 
         before(async () => {
@@ -510,7 +516,31 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        it("postCompletedSetList", async () => {
+        beforeEach(async () => {
+            return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id, accounttype} = specificUserInfo;
+                    token = jwt.sign(
+                        {
+                            id : id,
+                            username : specificUserInfo.username,
+                            accountType : accounttype
+                        },
+                        config.jwtSecret,
+                        {expiresIn : 3600000}
+                    );
+                })
+                .catch(err => console.log(err));
+        });
+
+        it("postCompletedSetList", done => {
+            const body = {
+                clientId,
+                completedSetList : [{info : "Completed Set List"}],
+                bandleaderComments : ["Bandleader Comments"]
+            };
+
             chai.request(server)
                 .post("/bandleader/postCompletedSetList")
                 .set("Authorization", token)
@@ -519,17 +549,19 @@ describe("Bandleader Routes", () => {
                     const expectedResponse = {
                         clientName : clientUsername,
                         bandleaderName : bandleaderName,
-                        suggestedSetList : ["Completed", "Set", "List"],
-                        bandleaderComments : ["Bandleader", "Comments"]
+                        suggestedSetList : [{info : "Completed Set List"}],
+                        bandleaderComments : ["Bandleader Comments"]
                     };
 
-                    expect(res.body).to.equal(expectedResponse);
+                    expect(res.body).to.eql(expectedResponse);
 
                     done();
                 });
         });
 
         after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await UsersModel.deleteUser(bandleaderName));
 
         after(async () => await SetListsModel.deleteSetList(clientUsername, bandleaderName));
     });
