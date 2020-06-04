@@ -38,7 +38,7 @@ describe("BandleaderSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
     });
 
 
@@ -61,9 +61,9 @@ describe("BandleaderSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => await BandleaderSongListModel.addSong(songName, artistName, songKey, username));
+        before(async () => await BandleaderSongListModel.addSong(songName, artistName, songKey, username));
 
-        beforeEach(async () => await BandleaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username));
+        before(async () => await BandleaderSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username));
 
         it("getSongs", async () => {
             return await BandleaderSongListModel.getSongs(username)
@@ -74,9 +74,9 @@ describe("BandleaderSongListModel", () => {
 
         });
 
-        afterEach(async () => await BandleaderSongListModel.deleteSong(username, id));
+        after(async () => await BandleaderSongListModel.deleteSong(username, id));
 
-        afterEach(async () => await BandleaderSongListModel.deleteSong(username , id2));
+        after(async () => await BandleaderSongListModel.deleteSong(username , id2));
 
     });
 
@@ -92,7 +92,7 @@ describe("BandleaderSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id
@@ -123,7 +123,7 @@ describe("BandleaderSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await BandleaderSongListModel.deleteSong(username , id));
+        after(async () => await BandleaderSongListModel.deleteSong(username , id));
     });
 
     describe("deleteSong", () => {
@@ -138,7 +138,7 @@ describe("BandleaderSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id;
@@ -168,7 +168,7 @@ describe("BandleaderSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id
@@ -207,6 +207,6 @@ describe("BandleaderSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await BandleaderSongListModel.deleteSong(username , id));
+        after(async () => await BandleaderSongListModel.deleteSong(username , id));
     });
 });

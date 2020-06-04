@@ -38,7 +38,7 @@ describe("ClientSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await ClientSongListModel.deleteSong(username, id));
     });
 
     describe("getSongs", () => {
@@ -60,9 +60,9 @@ describe("ClientSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => await ClientSongListModel.addSong(songName, artistName, songKey, username));
+        before(async () => await ClientSongListModel.addSong(songName, artistName, songKey, username));
 
-        beforeEach(async () => await ClientSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username));
+        before(async () => await ClientSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username));
 
         it("getSongs", async () => {
             return await ClientSongListModel.getSongs(username)
@@ -73,9 +73,9 @@ describe("ClientSongListModel", () => {
 
         });
 
-        afterEach(async () => await ClientSongListModel.deleteSong(username, id));
+        after(async () => await ClientSongListModel.deleteSong(username, id));
 
-        afterEach(async () => await ClientSongListModel.deleteSong(username , id2));
+        after(async () => await ClientSongListModel.deleteSong(username , id2));
 
     });
 
@@ -91,7 +91,7 @@ describe("ClientSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await ClientSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id
@@ -122,7 +122,7 @@ describe("ClientSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await ClientSongListModel.deleteSong(username , id));
+        after(async () => await ClientSongListModel.deleteSong(username , id));
     });
 
     describe("deleteSong", () => {
@@ -137,7 +137,7 @@ describe("ClientSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await ClientSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id;
@@ -167,7 +167,7 @@ describe("ClientSongListModel", () => {
 
         const {songName, artistName, songKey, username} = songInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await ClientSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     id = response[0].id
@@ -206,7 +206,7 @@ describe("ClientSongListModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await ClientSongListModel.deleteSong(username , id));
+        after(async () => await ClientSongListModel.deleteSong(username , id));
     });
 
 });

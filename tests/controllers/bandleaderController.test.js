@@ -372,7 +372,7 @@ describe("BandLeaderController", () => {
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -427,7 +427,7 @@ describe("BandLeaderController", () => {
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -443,7 +443,7 @@ describe("BandLeaderController", () => {
 
         it("editCompletedSetList works correctly", async () => {
             const body = {
-                completedSetList : ["Final", "Song", "Info", "Here"],
+                completedSetList : [{info : "Completed Set List Here"}],
                 clientId, 
                 bandleaderComments : ["Song Comments Here"]
             };

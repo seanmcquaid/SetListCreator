@@ -151,8 +151,6 @@ describe("SetListsModel", () => {
 
                     const setListInfoResponse = response[0];
 
-                    console.log(response)
-
                     expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
                     expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
                     expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
@@ -162,6 +160,6 @@ describe("SetListsModel", () => {
                 })
         });
 
-        afterEach(async () => SetListsModel.deleteSetList());
+        afterEach(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 });
