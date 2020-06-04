@@ -18,7 +18,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "addtestclient@gmail.com",
                         bandleaderName : "addtestleader@gmail.com",
-                        setList : [{info : "Completed Set List Here"}],
+                        setList : ["{\"info\":\"Completed Set List Here\"}"],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: null,
                         clientApproved: null
@@ -57,7 +57,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "gettestclient@gmail.com",
                         bandleaderName : "gettestleader@gmail.com",
-                        setList : [{info : "Completed Set List Here"}],
+                        setList : ["{\"info\":\"Completed Set List Here\"}"],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: null,
                         clientApproved: null
@@ -98,7 +98,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "addtestclientapproval@gmail.com",
                         bandleaderName : "addtestleader@gmail.com",
-                        setList : [{info : "Completed Set List Here"}],
+                        setList : ["{\"info\":\"Completed Set List Here\"}"],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: ["Client Comments Here"],
                         clientApproved: true
@@ -143,7 +143,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "edittestclient@gmail.com",
                         bandleaderName : "edittestleader@gmail.com",
-                        setList : [{info : "Completed Set List Here"}],
+                        setList : ["{\"info\":\"Completed Set List Here\"}"],
                         bandleaderComments : ["Edit Comments Here"],
                         clientComments: null,
                         clientApproved: null

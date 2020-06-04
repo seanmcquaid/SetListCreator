@@ -30,10 +30,10 @@ describe("ClientSongListModel", () => {
 
                     id = songsResponse.id;
                     
-                    expect(expectedResponse.username).to.equal(songsResponse.username);
-                    expect(expectedResponse.songname).to.equal(songsResponse.songname);
-                    expect(expectedResponse.songkey).to.equal(songsResponse.songkey);
-                    expect(expectedResponse.artistname).to.equal(songsResponse.artistname);
+                    expect(songsResponse.username).to.equal(expectedResponse.username);
+                    expect(songsResponse.songname).to.equal(expectedResponse.songname);
+                    expect(songsResponse.songkey).to.equal(expectedResponse.songkey);
+                    expect(songsResponse.artistname).to.equal(expectedResponse.artistname);
                 })
                 .catch(err => console.log(err));
         });
@@ -51,6 +51,16 @@ describe("ClientSongListModel", () => {
             username : "testclient@gmail.com"
         };
 
+        const {songName, artistName, songKey, username} = songInfo;
+
+        before(async () => {
+            return await ClientSongListModel.addSong(songName, artistName, songKey, username)
+                .then(response => {
+                    id = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
         const songInfo2 = {
             songName : "Get Songs Treasure",
             artistName : "Bruno Mars",
@@ -58,11 +68,13 @@ describe("ClientSongListModel", () => {
             username : "testclient@gmail.com"
         };
 
-        const {songName, artistName, songKey, username} = songInfo;
-
-        before(async () => await ClientSongListModel.addSong(songName, artistName, songKey, username));
-
-        before(async () => await ClientSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username));
+        before(async () => {
+            return await ClientSongListModel.addSong(songInfo2.songName, songInfo2.artistName, songInfo2.songKey, songInfo2.username)
+                .then(response => {
+                    id2 = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
 
         it("getSongs", async () => {
             return await ClientSongListModel.getSongs(username)
@@ -94,7 +106,7 @@ describe("ClientSongListModel", () => {
         before(async () => {
             return await ClientSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
-                    id = response[0].id
+                    id = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
@@ -111,13 +123,11 @@ describe("ClientSongListModel", () => {
                     };
 
                     const songsResponse = response[0];
-
-                    id = songsResponse.id;
                     
-                    expect(expectedResponse.username).to.equal(songsResponse.username);
-                    expect(expectedResponse.songname).to.equal(songsResponse.songname);
-                    expect(expectedResponse.songkey).to.equal(songsResponse.songkey);
-                    expect(expectedResponse.artistname).to.equal(songsResponse.artistname);
+                    expect(songsResponse.username).to.equal(expectedResponse.username);
+                    expect(songsResponse.songname).to.equal(expectedResponse.songname);
+                    expect(songsResponse.songkey).to.equal(expectedResponse.songkey);
+                    expect(songsResponse.artistname).to.equal(expectedResponse.artistname);
                 })
                 .catch(err => console.log(err));
         });
@@ -170,7 +180,7 @@ describe("ClientSongListModel", () => {
         before(async () => {
             return await ClientSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
-                    id = response[0].id
+                    id = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
@@ -195,13 +205,11 @@ describe("ClientSongListModel", () => {
                     };
 
                     const songsResponse = response[0];
-
-                    id = songsResponse.id;
                     
-                    expect(expectedResponse.username).to.equal(songsResponse.username);
-                    expect(expectedResponse.songName).to.equal(songsResponse.songname);
-                    expect(expectedResponse.songKey).to.equal(songsResponse.songkey);
-                    expect(expectedResponse.artistName).to.equal(songsResponse.artistname);
+                    expect(songsResponse.username).to.equal(expectedResponse.username);
+                    expect(songsResponse.songName).to.equal(expectedResponse.songname);
+                    expect(songsResponse.songKey).to.equal(expectedResponse.songkey);
+                    expect(songsResponse.artistName).to.equal(expectedResponse.artistname);
                 })
                 .catch(err => console.log(err));
         });

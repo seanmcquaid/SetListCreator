@@ -4,15 +4,15 @@ const expect = require("chai").expect;
 describe("UsersModel", () => {
 
     describe("userExists", () => {
-        const body = {
+        const userInfo = {
             username : "testClient",
             password : "testPassword",
             selectedBandleader : "fillerbandleader@gmail.com"
          };
 
-        const {username, password, selectedBandleader} = body;
+        const {username, password, selectedBandleader} = userInfo;
 
-        beforeEach(async () => await UsersModel.register(username, password, "client", selectedBandleader));
+        before(async () => await UsersModel.register(username, password, "client", selectedBandleader));
 
         it("userExists returns as expected", async () => {
             return await UsersModel.userExists(username)
@@ -24,27 +24,27 @@ describe("UsersModel", () => {
                         setlistAvailable: false 
                     };
 
-                    const userInfo = response[0];
+                    const userInfoResponse = response[0];
 
-                    expect(userInfo.username).to.equal(expectedResponse.username);
-                    expect(userInfo.accounttype).to.equal(expectedResponse.accountType);
-                    expect(userInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
-                    expect(userInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.accounttype).to.equal(expectedResponse.accountType);
+                    expect(userInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistAvailable);
                 })
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser(username));
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("register", () => {
-        const body = {
+        const userInfo = {
             username : "testClient1",
             password : "testPassword1",
             selectedBandleader : "fillerbandleader@gmail.com"
-         };
+        };
 
-        const {username, password, selectedBandleader} = body;
+        const {username, password, selectedBandleader} = userInfo;
 
         it("register works", async () => {
             return await UsersModel.register(username, password, "client", selectedBandleader)
@@ -56,29 +56,29 @@ describe("UsersModel", () => {
                         setlistAvailable: false 
                     };
 
-                    const userInfo = response[0];
+                    const userInfoResponse = response[0];
 
-                    expect(userInfo.username).to.equal(expectedResponse.username);
-                    expect(userInfo.accounttype).to.equal(expectedResponse.accountType);
-                    expect(userInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
-                    expect(userInfo.setlistavailable).to.equal(expectedResponse.setlistAvailable);
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.accounttype).to.equal(expectedResponse.accountType);
+                    expect(userInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistAvailable);
                 })
                 .catch(err => console.log(err));
         })
 
-        afterEach(async () => await UsersModel.deleteUser(username));
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("getAllBandleaders", () => {
 
-        const body = {
+        const userInfo = {
             username : "testBandleader",
             password : "testPassword",
-         };
+        };
 
-         const {username, password} = body;
+        const {username, password} = userInfo;
 
-        beforeEach(async () => await UsersModel.register(username, password, "bandLeader", null));
+        before(async () => await UsersModel.register(username, password, "bandLeader", null));
 
         it("getAllBandleaders works", async ()=> {
             return await UsersModel.getAllBandleaders()
@@ -88,20 +88,20 @@ describe("UsersModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser(username));
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("getUserInfo", () => {
         let userId;
 
-        const body = {
+        const userInfo = {
             username : "testBandleader",
             password : "testPassword",
          };
 
-        const {username, password} = body;
+        const {username, password} = userInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, "bandLeader", null)
                 .then(response =>{
                     userId = response[0].id;
@@ -118,15 +118,18 @@ describe("UsersModel", () => {
                         bandleadername: null,
                         setlistavailable: false 
                     };
-                    expect(expectedResponse.username).to.equal(response[0].username);
-                    expect(expectedResponse.accounttype).to.equal(response[0].accounttype);
-                    expect(expectedResponse.bandleadername).to.equal(response[0].bandleadername);
-                    expect(expectedResponse.setlistavailable).to.equal(response[0].setlistavailable);
+                    
+                    const userInfoResponse = response[0];
+
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.accounttype).to.equal(expectedResponse.accounttype);
+                    expect(userInfoResponse.bandleadername).to.equal(expectedResponse.bandleadername);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistavailable);
                 })
-                    .catch(err => console.log(err));
+                .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser(username));
+        after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("editUserInfo", () => {
@@ -139,7 +142,7 @@ describe("UsersModel", () => {
 
         const {username, password} = body;
 
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, "bandLeader", null)
                 .then(response =>{
                     userId = response[0].id;
@@ -156,15 +159,18 @@ describe("UsersModel", () => {
                         bandleadername: null,
                         setlistavailable: false 
                     };
-                    expect(expectedResponse.username).to.equal(response[0].username);
-                    expect(expectedResponse.accounttype).to.equal(response[0].accounttype);
-                    expect(expectedResponse.bandleadername).to.equal(response[0].bandleadername);
-                    expect(expectedResponse.setlistavailable).to.equal(response[0].setlistavailable);
+
+                    const userInfoResponse = response[0];
+
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.accounttype).to.equal(expectedResponse.accounttype);
+                    expect(userInfoResponse.bandleadername).to.equal(expectedResponse.bandleadername);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistavailable);
                 })
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser("newUsername"));
+        after(async () => await UsersModel.deleteUser("newUsername"));
     });
 
     describe("getClientsForBandleader", () => {
@@ -180,24 +186,26 @@ describe("UsersModel", () => {
             selectedBandleader : "testBandleader"
         };
 
-        beforeEach(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null));
+        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandLeader", null));
    
-        beforeEach(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
+        before(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
         it("getClientsForBandleader works", async () => {
             return await UsersModel.getClientsForBandleader(bandleaderBody.username)
                 .then(response => {
                     const expectedResponse = { username: "testClient", setlistavailable: false};
 
-                    expect(response[0].username).to.equal(expectedResponse.username);
-                    expect(response[0].setlistavailable).to.equal(expectedResponse.setlistavailable);
+                    const userInfoResponse = response[0];
+
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistavailable);
                 })
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser(bandleaderBody.username));
+        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
    
-        afterEach(async () => await UsersModel.deleteUser(clientBody.username));
+        after(async () => await UsersModel.deleteUser(clientBody.username));
     });
 
     describe("setClientSetListAvailability", () => {
@@ -212,7 +220,7 @@ describe("UsersModel", () => {
             setlistAvailability : true
         };
 
-        beforeEach(async () => await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader));
+        before(async () => await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader));
 
         it("setClientSetlistAvailability works", async () => {
             return UsersModel.setClientSetListAvailability(userInfo.username, body.setlistAvailability)
@@ -222,17 +230,19 @@ describe("UsersModel", () => {
                         accounttype: "client",
                         bandleadername: "testBandleader",
                         setlistavailable: true 
-                    }
+                    };
 
-                    expect(response[0].username).to.equal(expectedResponse.username);
-                    expect(response[0].accounttype).to.equal(expectedResponse.accounttype);
-                    expect(response[0].bandleadername).to.equal(expectedResponse.bandleadername);
-                    expect(response[0].setlistavailable).to.equal(expectedResponse.setlistavailable);
+                    const userInfoResponse = response[0];
+
+                    expect(userInfoResponse.username).to.equal(expectedResponse.username);
+                    expect(userInfoResponse.accounttype).to.equal(expectedResponse.accounttype);
+                    expect(userInfoResponse.bandleadername).to.equal(expectedResponse.bandleadername);
+                    expect(userInfoResponse.setlistavailable).to.equal(expectedResponse.setlistavailable);
                 })
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await UsersModel.deleteUser(userInfo.username));
+        after(async () => await UsersModel.deleteUser(userInfo.username));
     });
     
 });
