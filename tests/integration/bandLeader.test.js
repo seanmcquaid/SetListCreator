@@ -354,21 +354,34 @@ describe("Bandleader Routes", () => {
         const bandleaderUsername = "testBandleader";
         const clientUsername = "testClient";
 
-        const userInfo = {
+        const clientInfo = {
             username : clientUsername,
             password : "password",
             accountType : "client",
             bandleaderName : bandleaderUsername
         };
 
-        const {username, password, accountType, bandleaderName} = userInfo;
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
 
         beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType, bandleaderName)
+            return await UsersModel.register(clientInfo.username, clientInfo.password, clientInfo.accountType, clientInfo.bandleaderName)
+                .then(response => {
+                    const specificUserInfo = response[0];
+                    const {id} = specificUserInfo;
+                    clientId = id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        beforeEach(async () => {
+            return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
-                    clientId = id;
                     token = jwt.sign(
                         {
                             id : id,
@@ -382,7 +395,7 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        it("getClientSongs", async () => {
+        it("getClientSongs", done => {
             chai.request(server)
                .get(`/bandleader/getClientSongs/${clientId}`)
                .set("Authorization", token)
@@ -390,24 +403,31 @@ describe("Bandleader Routes", () => {
                     const expectedResponse = {
                         userInfo : {
                             id : clientId,
-                            username,
-                            accountType,
-                            bandleaderName,
+                            username : clientUsername,
+                            accountType : clientInfo.accountType,
+                            bandleaderName : bandleaderUsername,
                             setListAvailable : false,
                         },
                         requestedSongsList : [], 
                         doNotPlaySongsList : []
                     };
 
-                    expect(res.body.userInfo).to.be.equal(expectedResponse.userInfo);
-                    expect(res.body.requestedSongsList).to.be.equal(expectedResponse.requestedSongsList);
-                    expect(res.body.doNotPlaySongsList).to.be.equal(expectedResponse.doNotPlaySongsList);
+                    expect(res.body.userInfo.id).to.be.equal(expectedResponse.userInfo.id);
+                    expect(res.body.userInfo.username).to.be.equal(expectedResponse.userInfo.username);
+                    expect(res.body.userInfo.accountType).to.be.equal(expectedResponse.userInfo.accountType);
+                    expect(res.body.userInfo.bandleaderName).to.be.equal(expectedResponse.userInfo.bandleaderName);
+                    expect(res.body.userInfo.setListAvailable).to.be.equal(expectedResponse.userInfo.setListAvailable);
+
+                    expect(res.body.requestedSongsList).to.be.eql(expectedResponse.requestedSongsList);
+                    expect(res.body.doNotPlaySongsList).to.be.eql(expectedResponse.doNotPlaySongsList);
 
                     done();
                 });
         });
 
         after(async () => await UsersModel.deleteUser(clientUsername));
+
+        after(async () => await UsersModel.deleteUser(bandleaderUsername));
     });
 
     describe("getSuggestedSetList", () => {
@@ -444,7 +464,7 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        it("getSuggestedSetList", async () => {
+        it("getSuggestedSetList", done => {
             chai.request(server)
                 .get(`/bandleader/getSuggestedSetList/${clientId}`)
                 .set("Authorization", token)
@@ -455,9 +475,9 @@ describe("Bandleader Routes", () => {
                         clientComments : []
                     };
 
-                    expect(res.body.suggestedSetList).to.be.equal(expectedResponse.suggestedSetList);
-                    expect(res.body.additionalClientRequests).to.be.equal(expectedResponse.additionalClientRequests);
-                    expect(res.body.clientComments).to.be.equal(expectedResponse.clientComments);
+                    expect(res.body.suggestedSetList).to.be.eql(expectedResponse.suggestedSetList);
+                    expect(res.body.additionalClientRequests).to.be.eql(expectedResponse.additionalClientRequests);
+                    expect(res.body.clientComments).to.be.eql(expectedResponse.clientComments);
 
                     done();
                 });

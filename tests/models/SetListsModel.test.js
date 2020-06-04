@@ -108,9 +108,9 @@ describe("SetListsModel", () => {
 
                     expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
                     expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);
-                    expect(setListInfoResponse.setlist).to.equal(expectedResponse.setList);
-                    expect(setListInfoResponse.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
-                    expect(setListInfoResponse.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(setListInfoResponse.setlist).to.eql(expectedResponse.setList);
+                    expect(setListInfoResponse.bandleadercomments).to.eql(expectedResponse.bandleaderComments);
+                    expect(setListInfoResponse.clientcomments).to.eql(expectedResponse.clientComments);
                     expect(setListInfoResponse.clientapproved).to.equal(expectedResponse.clientApproved);
                 })
         });
