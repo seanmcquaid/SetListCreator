@@ -2,10 +2,6 @@
 
 I have more or less finished the basic app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
-
-To Do - Back End: 
-1) Look at syntax for each suite and make it more uniform to the same testing patterns
-
 To Do - Front End : 
 1) Look at implementing useMemo and useCallback where appropriate to eliminate potential excessive amount of render cycles
 
@@ -18,6 +14,5 @@ Tests Left on Front End :
 6) Pages
 
 Things to do :
-1) Unit Tests + Refactoring - Back End 
-2) Unit Tests + Refactoring - Front End
-3) Documentation
+1) Unit Tests + Refactoring - Front End
+2) Documentation
