@@ -17,7 +17,7 @@ describe("Check Token Middleware", () => {
             password : "testPassword",
          };
    
-         let token;
+        let token;
 
         before(async () => {
             return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
