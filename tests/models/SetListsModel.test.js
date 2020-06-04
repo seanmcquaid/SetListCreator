@@ -36,7 +36,7 @@ describe("SetListsModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
+        after(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("getSetList", () => {
@@ -49,7 +49,7 @@ describe("SetListsModel", () => {
 
         const {clientName, bandleaderName, setList, bandleaderComments} = setListInfo;
 
-        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
+        before(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
         it("getSetList", async () => {
             return await SetListsModel.getSetList(clientName)
@@ -75,7 +75,7 @@ describe("SetListsModel", () => {
                 .catch(err => console.log(err));
         });
 
-        afterEach(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
+        after(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("addClientCommentsAndApprovalStatus", () => {
@@ -90,7 +90,7 @@ describe("SetListsModel", () => {
 
         const {clientName, bandleaderName, setList, bandleaderComments, clientComments, clientApproved} = setListInfo;
 
-        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
+        before(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
         it("addClientCommentsAndApprovalStatus", async () => {
             return await SetListsModel.addClientCommentsAndApprovalStatus(clientName, clientComments, clientApproved)
@@ -115,7 +115,7 @@ describe("SetListsModel", () => {
                 })
         });
 
-        afterEach(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
+        after(async () => await SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 
     describe("editSetList", () => {
@@ -128,7 +128,7 @@ describe("SetListsModel", () => {
 
         const {clientName, bandleaderName, setList, bandleaderComments} = setListInfo;
 
-        beforeEach(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
+        before(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
         const updatedSetListInfo = {
             clientName : "edittestclient@gmail.com",
@@ -160,6 +160,6 @@ describe("SetListsModel", () => {
                 })
         });
 
-        afterEach(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
+        after(async () => SetListsModel.deleteSetList(clientName, bandleaderName));
     });
 });

@@ -49,12 +49,12 @@ describe("User Routes", () => {
                   });
             });
 
-            afterEach(async () => await UsersModel.deleteUser(username));
+            after(async () => await UsersModel.deleteUser(username));
          });
 
          describe("Will not create a new user if the user already exists", () => {
 
-            beforeEach(async () => await UsersModel.register(username, password, "client", selectedBandleader));
+            before(async () => await UsersModel.register(username, password, "client", selectedBandleader));
    
             it("register will not be successful if a user exists", done => {
                chai.request(server)
@@ -70,7 +70,7 @@ describe("User Routes", () => {
                });
            });
 
-           afterEach(async () => await UsersModel.deleteUser(username));
+           after(async () => await UsersModel.deleteUser(username));
          });
     })
 
@@ -85,7 +85,7 @@ describe("User Routes", () => {
 
          describe("Login works", () => {
 
-            beforeEach(async () =>  await UsersModel.register(username, password, "bandleader", null));
+            before(async () =>  await UsersModel.register(username, password, "bandleader", null));
             
             it("Login passes", done => {
                chai.request(server)
@@ -113,12 +113,12 @@ describe("User Routes", () => {
 
             })
 
-            afterEach(async () => await UsersModel.deleteUser(username));
+            after(async () => await UsersModel.deleteUser(username));
          });
 
          describe("Login will not pass", () => {
 
-            beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
+            before(async () => await UsersModel.register(username, password, "bandleader", null));
             
             it("User isn't registered", done => {
                const requestBody = {
@@ -172,7 +172,7 @@ describe("User Routes", () => {
                   });
             });
 
-            afterEach(async () => await UsersModel.deleteUser(username));
+            after(async () => await UsersModel.deleteUser(username));
          });
     });
 
@@ -180,15 +180,15 @@ describe("User Routes", () => {
 
          let token;
 
-         const body = {
+         const userInfo = {
             username : "testClient",
             password : "testPassword",
             selectedBandleader : "fillerbandleader@gmail.com"
          };
 
-         const {username, password, selectedBandleader} = body;
+         const {username, password, selectedBandleader} = userInfo;
 
-         beforeEach(async () => {
+         before(async () => {
             return await UsersModel.register(username, password, "client", selectedBandleader)
                .then(response => {
                   const specificUserInfo = response[0];
@@ -207,7 +207,6 @@ describe("User Routes", () => {
          });
 
          it("checkToken works when provided valid jwt in the headers", done => {
-
             chai.request(server)
                .get("/users/checkToken")
                .set("Authorization", token)
@@ -230,19 +229,19 @@ describe("User Routes", () => {
                });
          });
 
-         afterEach(async () => await UsersModel.deleteUser(username));
+         after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("Get Bandleaders", () => {
        
-      const body = {
+      const userInfo = {
          username : "testBandleader",
          password : "testPassword",
       };
 
-      const {username, password} = body;
+      const {username, password} = userInfo;
 
-      beforeEach(async () => await UsersModel.register(username, password, "bandleader", null));
+      before(async () => await UsersModel.register(username, password, "bandleader", null));
 
       it("getBandleaders", done => {
          chai.request(server)
@@ -256,7 +255,7 @@ describe("User Routes", () => {
             });
       });
 
-      afterEach(async () => await UsersModel.deleteUser(username));
+      after(async () => await UsersModel.deleteUser(username));
     });
 
     describe("getClientsforBandleader", () => {
@@ -266,12 +265,6 @@ describe("User Routes", () => {
       const bandleaderBody = {
          username : "testBandleader",
          password : "testPassword",
-      };
-
-      const clientBody = {
-         username : "testClient",
-         password : "testPassword",
-         selectedBandleader : "testBandleader"
       };
 
       before(async () => {
@@ -291,6 +284,12 @@ describe("User Routes", () => {
             })
             .catch(err => console.log(err));
       });
+
+      const clientBody = {
+         username : "testClient",
+         password : "testPassword",
+         selectedBandleader : "testBandleader"
+      };
 
       before(async () =>  await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
 
@@ -313,18 +312,13 @@ describe("User Routes", () => {
     });
 
     describe("clientInfo", () => {
+      let clientId, token;
+
       const clientBody = {
          username : "testClient",
          password : "testPassword",
          selectedBandleader : "testBandleader"
       };
-
-      const bandleaderBody = {
-         username : "testBandleader",
-         password : "testPassword",
-      };
-
-      let clientId, token;
 
       before(async () => {
          return await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
@@ -333,6 +327,11 @@ describe("User Routes", () => {
             })
             .catch(err => console.log(err));
       });
+
+      const bandleaderBody = {
+         username : "testBandleader",
+         password : "testPassword",
+      };
 
       before(async () => {
          return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
@@ -388,14 +387,14 @@ describe("User Routes", () => {
 
       let token;
 
-      const clientBody = {
+      const clientInfo = {
          username : "testClient",
          password : "testPassword",
          selectedBandleader : "testBandleader"
       };
 
       before(async () => {
-         return await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader)
+         return await UsersModel.register(clientInfo.username, clientInfo.password, "client", clientInfo.selectedBandleader)
             .then(response => {
                const specificUserInfo = response[0];
                const {id, username, accounttype} = specificUserInfo;
@@ -443,11 +442,6 @@ describe("User Routes", () => {
 
       let token;
 
-      const newUserInfo = {
-         newUsername : "testBandleader123",
-         newPassword : "testing123"
-      };
-
       const originalUserInfo = {
          username : "testBandleader",
          password : "testPassword",
@@ -473,9 +467,14 @@ describe("User Routes", () => {
 
 
       it("editUserInfo", done => {
+         const body = {
+            newUsername : "testBandleader123",
+            newPassword : "testing123"
+         };
+
          chai.request(server)
             .patch("/users/editUserInfo")
-            .send(newUserInfo)
+            .send(body)
             .set("Authorization", token)
             .end((err, res) => {
 
@@ -509,10 +508,6 @@ describe("User Routes", () => {
          selectedBandleader : "testBandleader"
       };
 
-      const body = {
-         setListAvailability : true
-      };
-
       before(async () => {
          return await UsersModel.register(userInfo.username, userInfo.password, "client", userInfo.selectedBandleader)
             .then(response => {
@@ -532,6 +527,10 @@ describe("User Routes", () => {
       });
 
       it("sendClientSetlist works", done => {
+         const body = {
+            setListAvailability : true
+         };
+         
          chai.request(server)
             .patch("/users/sendClientSetList")
             .set("Authorization", token)

@@ -22,15 +22,9 @@ describe("Bandleader Routes", () => {
             accountType : "bandleader"
         };
 
-        const body = {
-            songName : "Treasure", 
-            artistName : "Bruno Mars",
-            songKey : "F Major"
-        };
-
         const {username, password, accountType} = userInfo;
         
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -49,6 +43,12 @@ describe("Bandleader Routes", () => {
         });
 
         it("addSong", done => {
+            const body = {
+                songName : "Treasure", 
+                artistName : "Bruno Mars",
+                songKey : "F Major"
+            };
+
             chai.request(server)
                .post("/bandleader/addSong")
                .set("Authorization", token)
@@ -76,9 +76,9 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        afterEach(async () => UsersModel.deleteUser(username));
+        after(async () => UsersModel.deleteUser(username));
 
-        afterEach(async () => BandleaderSongListModel.deleteSong(username, songId));
+        after(async () => BandleaderSongListModel.deleteSong(username, songId));
     });
 
     describe("getSongs", () => {
@@ -90,16 +90,9 @@ describe("Bandleader Routes", () => {
             accountType : "bandleader"
         };
 
-        const songInfo = {
-            songName : "Treasure", 
-            artistName : "Bruno Mars",
-            songKey : "F Major"
-        };
-
         const {username, password, accountType} = userInfo;
-        const {songName, artistName, songKey} = songInfo;
         
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -117,7 +110,15 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     songId = response[0].id;
@@ -137,9 +138,9 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        afterEach(async () => UsersModel.deleteUser(username));
+        after(async () => UsersModel.deleteUser(username));
 
-        afterEach(async () => BandleaderSongListModel.deleteSong(username, songId));
+        after(async () => BandleaderSongListModel.deleteSong(username, songId));
     });
 
     describe("getSong", () => {
@@ -151,16 +152,9 @@ describe("Bandleader Routes", () => {
             accountType : "bandleader"
         };
 
-        const songInfo = {
-            songName : "Treasure", 
-            artistName : "Bruno Mars",
-            songKey : "F Major"
-        };
-
         const {username, password, accountType} = userInfo;
-        const {songName, artistName, songKey} = songInfo;
         
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -178,7 +172,15 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     songId = response[0].id;
@@ -207,9 +209,9 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        afterEach(async () => UsersModel.deleteUser(username));
+        after(async () => UsersModel.deleteUser(username));
 
-        afterEach(async () => BandleaderSongListModel.deleteSong(username, songId));
+        after(async () => BandleaderSongListModel.deleteSong(username, songId));
     });
 
     describe("deleteSong", () => {
@@ -221,16 +223,9 @@ describe("Bandleader Routes", () => {
             accountType : "bandleader"
         };
 
-        const songInfo = {
-            songName : "Treasure", 
-            artistName : "Bruno Mars",
-            songKey : "F Major"
-        };
-
         const {username, password, accountType} = userInfo;
-        const {songName, artistName, songKey} = songInfo;
         
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -248,7 +243,15 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     songId = response[0].id;
@@ -268,7 +271,7 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        afterEach(async () => UsersModel.deleteUser(username));
+        after(async () => UsersModel.deleteUser(username));
     });
 
     describe("editSong", () => {
@@ -280,16 +283,9 @@ describe("Bandleader Routes", () => {
             accountType : "bandleader"
         };
 
-        const songInfo = {
-            songName : "Treasure", 
-            artistName : "Bruno Mars",
-            songKey : "F Major"
-        };
-
         const {username, password, accountType} = userInfo;
-        const {songName, artistName, songKey} = songInfo;
         
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -307,7 +303,15 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const songInfo = {
+            songName : "Treasure", 
+            artistName : "Bruno Mars",
+            songKey : "F Major"
+        };
+
+        const {songName, artistName, songKey} = songInfo;
+
+        before(async () => {
             return await BandleaderSongListModel.addSong(songName, artistName, songKey, username)
                 .then(response => {
                     songId = response[0].id;
@@ -343,9 +347,9 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        afterEach(async () => UsersModel.deleteUser(username));
+        after(async () => UsersModel.deleteUser(username));
 
-        afterEach(async () => BandleaderSongListModel.deleteSong(username, songId));
+        after(async () => BandleaderSongListModel.deleteSong(username, songId));
     });
 
     describe("getClientSongs", () => {
@@ -361,13 +365,7 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
-        const bandleaderInfo = {
-            username : bandleaderUsername,
-            password : "password",
-            accountType : "bandleader",
-        };
-
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(clientInfo.username, clientInfo.password, clientInfo.accountType, clientInfo.bandleaderName)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -377,7 +375,13 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
+        before(async () => {
             return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -444,12 +448,6 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
-        const bandleaderInfo = {
-            username : bandleaderUsername,
-            password : "password",
-            accountType : "bandleader",
-        };
-
         const {username, password, accountType, bandleaderName} = clientInfo;
 
         before(async () => {
@@ -460,7 +458,13 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
+        before(async () => {
             return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -516,12 +520,6 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
-        const bandleaderInfo = {
-            username : bandleaderUsername,
-            password : "password",
-            accountType : "bandleader",
-        };
-
         const {username, password, accountType, bandleaderName} = clientInfo;
 
         before(async () => {
@@ -532,7 +530,13 @@ describe("Bandleader Routes", () => {
                 .catch(err => console.log(err));
         });
 
-        beforeEach(async () => {
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
+        before(async () => {
             return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
@@ -596,19 +600,6 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
-        const bandleaderInfo = {
-            username : bandleaderUsername,
-            password : "password",
-            accountType : "bandleader",
-        };
-
-        const setListInfo = {
-            clientName : clientUsername,
-            bandleaderName : bandleaderUsername,
-            setList : [{info : "Completed Set List"}],
-            bandleaderComments : ["Bandleader", "Comments"]
-        };
-
         const {username, password, accountType, bandleaderName} = clientInfo;
 
         before(async () => {
@@ -618,6 +609,12 @@ describe("Bandleader Routes", () => {
                 })
                 .catch(err => console.log(err));
         });
+
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
 
         before(async () => {
             return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
@@ -636,6 +633,13 @@ describe("Bandleader Routes", () => {
                 })
                 .catch(err => console.log(err));
         });
+
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : [{info : "Completed Set List"}],
+            bandleaderComments : ["Bandleader", "Comments"]
+        };
 
         before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
 
@@ -678,19 +682,6 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
-        const bandleaderInfo = {
-            username : bandleaderUsername,
-            password : "password",
-            accountType : "bandleader",
-        };
-
-        const setListInfo = {
-            clientName : clientUsername,
-            bandleaderName : bandleaderUsername,
-            setList : [{info : "Completed Set List Here"}],
-            bandleaderComments : ["Song Comments Here"]
-        };
-
         const {username, password, accountType, bandleaderName} = clientInfo;
 
         before(async () => {
@@ -700,6 +691,12 @@ describe("Bandleader Routes", () => {
                 })
                 .catch(err => console.log(err));
         });
+
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
 
         before(async () => {
             return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
@@ -718,6 +715,13 @@ describe("Bandleader Routes", () => {
                 })
                 .catch(err => console.log(err));
         });
+
+        const setListInfo = {
+            clientName : clientUsername,
+            bandleaderName : bandleaderUsername,
+            setList : [{info : "Completed Set List Here"}],
+            bandleaderComments : ["Song Comments Here"]
+        };
 
         before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
 
