@@ -4,8 +4,7 @@ I have more or less finished the basic app now, it will be primarily refactoring
 
 
 To Do - Back End: 
-1) Fix failing tests
-2) Look at syntax for each suite and make it more uniform to the same testing patterns
+1) Look at syntax for each suite and make it more uniform to the same testing patterns
 
 To Do - Front End : 
 1) Look at implementing useMemo and useCallback where appropriate to eliminate potential excessive amount of render cycles
