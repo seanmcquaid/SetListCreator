@@ -278,7 +278,6 @@ describe("BandLeaderController", () => {
             return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
                     clientId = response[0].id;
-                    console.log(clientId, response)
                 })
                 .catch(err => console.log(err));
         });
@@ -332,7 +331,7 @@ describe("BandLeaderController", () => {
 
         it("postCompletedSetList works correctly", async () => {
             const body = {
-                completedSetList : ["Completed", "Set", "List"], 
+                completedSetList : [{info : "Completed Set List"}],
                 clientId,
                 bandleaderComments : ["Bandleader", "Comments"]
             };

@@ -197,8 +197,7 @@ describe("ClientController", () => {
         before(async () => {
             return await ClientSongListModel.addSong(songInfo.songName, songInfo.artistName, songInfo.songType, songInfo.username)
                 .then(response => {
-                    songId = response[0].id
-                    console.log(songId, response[0])
+                    songId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });
@@ -302,7 +301,7 @@ describe("ClientController", () => {
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -334,7 +333,7 @@ describe("ClientController", () => {
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 

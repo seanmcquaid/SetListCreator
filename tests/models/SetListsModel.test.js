@@ -6,7 +6,7 @@ describe("SetListsModel", () => {
         const setListInfo = {
             clientName : "addtestclient@gmail.com",
             bandleaderName : "addtestleader@gmail.com",
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -18,7 +18,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "addtestclient@gmail.com",
                         bandleaderName : "addtestleader@gmail.com",
-                        setList : ["Song", "Info", "Here"],
+                        setList : [{info : "Completed Set List Here"}],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: null,
                         clientApproved: null
@@ -43,7 +43,7 @@ describe("SetListsModel", () => {
         const setListInfo = {
             clientName : "gettestclient@gmail.com",
             bandleaderName : "gettestleader@gmail.com",
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -57,7 +57,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "gettestclient@gmail.com",
                         bandleaderName : "gettestleader@gmail.com",
-                        setList : ["Song", "Info", "Here"],
+                        setList : [{info : "Completed Set List Here"}],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: null,
                         clientApproved: null
@@ -82,7 +82,7 @@ describe("SetListsModel", () => {
         const setListInfo = {
             clientName : "addtestclientapproval@gmail.com",
             bandleaderName : "addtestleader@gmail.com",
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Song Comments Here"],
             clientComments: ["Client Comments Here"],
             clientApproved: true
@@ -98,7 +98,7 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "addtestclientapproval@gmail.com",
                         bandleaderName : "addtestleader@gmail.com",
-                        setList : ["Song", "Info", "Here"],
+                        setList : [{info : "Completed Set List Here"}],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments: ["Client Comments Here"],
                         clientApproved: true
@@ -122,7 +122,7 @@ describe("SetListsModel", () => {
         const setListInfo = {
             clientName : "addtestclient@gmail.com",
             bandleaderName : "addtestleader@gmail.com",
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Song Comments Here"],
         };
 
@@ -133,7 +133,7 @@ describe("SetListsModel", () => {
         const updatedSetListInfo = {
             clientName : "edittestclient@gmail.com",
             bandleaderName : "edittestleader@gmail.com",
-            setList : ["Edit", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Edit Comments Here"],
         };
 
@@ -143,13 +143,15 @@ describe("SetListsModel", () => {
                     const expectedResponse = {
                         clientName : "edittestclient@gmail.com",
                         bandleaderName : "edittestleader@gmail.com",
-                        setList : ["Edit", "Info", "Here"],
+                        setList : [{info : "Completed Set List Here"}],
                         bandleaderComments : ["Edit Comments Here"],
                         clientComments: null,
                         clientApproved: null
                     };
 
                     const setListInfoResponse = response[0];
+
+                    console.log(response)
 
                     expect(setListInfoResponse.clientname).to.equal(expectedResponse.clientName);
                     expect(setListInfoResponse.bandleadername).to.equal(expectedResponse.bandleaderName);

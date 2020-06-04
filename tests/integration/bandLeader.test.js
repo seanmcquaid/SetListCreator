@@ -433,24 +433,38 @@ describe("Bandleader Routes", () => {
     describe("getSuggestedSetList", () => {
         let token, clientId;
 
-        const bandleaderUsername = "getSuggestedSetList@gmail.com";
-        const clientUsername = "clientName@gmail.com";
+        const bandleaderUsername = "getCompletedSetList";
 
-        const userInfo = {
+        const clientUsername = "client";
+
+        const clientInfo = {
             username : clientUsername,
             password : "password",
             accountType : "client",
             bandleaderName : bandleaderUsername
         };
 
-        const {username, password, accountType, bandleaderName} = userInfo;
-        
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
+        const {username, password, accountType, bandleaderName} = clientInfo;
+
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
         beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType)
+            return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
-                    clientId = id;
                     token = jwt.sign(
                         {
                             id : id,
@@ -484,6 +498,8 @@ describe("Bandleader Routes", () => {
         });
 
         after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await UsersModel.deleteUser(bandleaderName));
     });
 
     describe("postCompletedSetList", () => {
@@ -569,9 +585,9 @@ describe("Bandleader Routes", () => {
     describe("getClientSetListInfo", () => {
         let token, clientId;
 
-        const bandleaderUsername = "testBandleader";
+        const bandleaderUsername = "getCompletedSetList";
 
-        const clientUsername = "testClient";
+        const clientUsername = "client";
 
         const clientInfo = {
             username : clientUsername,
@@ -580,21 +596,34 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
-            bandleaderComments : ["Song Comments Here"]
+            setList : [{info : "Completed Set List"}],
+            bandleaderComments : ["Bandleader", "Comments"]
         };
 
         const {username, password, accountType, bandleaderName} = clientInfo;
 
-        beforeEach(async () => {
+        before(async () => {
             return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        before(async () => {
+            return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
-                    clientId = id;
                     token = jwt.sign(
                         {
                             id : id,
@@ -610,15 +639,15 @@ describe("Bandleader Routes", () => {
 
         before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
 
-        it("getSuggestedSetList", async () => {
+        it("getClientSetListInfo", done => {
             chai.request(server)
-                .get(`/bandleader/getSuggestedSetList/${clientId}`)
+                .get(`/bandleader/getClientSetListInfo/${clientId}`)
                 .set("Authorization", token)
                 .end((err, res) => {
                     const expectedResponse = {
                         clientName : clientUsername,
                         bandleaderName : bandleaderName,
-                        suggestedSetList : ["Completed", "Set", "List"],
+                        suggestedSetList : [{info : "Completed Set List"}],
                         bandleaderComments : ["Bandleader", "Comments"]
                     };
 
@@ -628,7 +657,9 @@ describe("Bandleader Routes", () => {
                 });
         });
 
-        after(async () => await UsersModel.deleteUser(clientInfo.username));
+        after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await UsersModel.deleteUser(bandleaderName));
 
         after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
@@ -647,19 +678,34 @@ describe("Bandleader Routes", () => {
             bandleaderName : bandleaderUsername
         };
 
+        const bandleaderInfo = {
+            username : bandleaderUsername,
+            password : "password",
+            accountType : "bandleader",
+        };
+
         const setListInfo = {
             clientName : clientUsername,
             bandleaderName : bandleaderUsername,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
-        beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType)
+        const {username, password, accountType, bandleaderName} = clientInfo;
+
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
+                .then(response => {
+                    clientId = response[0].id;
+                })
+                .catch(err => console.log(err));
+        });
+
+        before(async () => {
+            return await UsersModel.register(bandleaderInfo.username, bandleaderInfo.password, bandleaderInfo.accountType)
                 .then(response => {
                     const specificUserInfo = response[0];
                     const {id, accounttype} = specificUserInfo;
-                    clientId = id;
                     token = jwt.sign(
                         {
                             id : id,
@@ -675,9 +721,9 @@ describe("Bandleader Routes", () => {
 
         before(async () => await SetListsModel.addSetList(setListInfo.clientName, setListInfo.bandleaderName, setListInfo.setList, setListInfo.bandleaderComments));
 
-        it("editCompletedSetList", async () => {
+        it("editCompletedSetList", done => {
             const body = {
-                completedSetList : ["Not", "Completed", "Set", "List"], 
+                completedSetList : [{info : "Completed Set List NOT Here"}], 
                 clientId,
                 bandleaderComments : ["Bandleader", "Comments", "Here"]
             };
@@ -690,17 +736,21 @@ describe("Bandleader Routes", () => {
                     const expectedResponse = {
                         clientName : clientUsername,
                         bandleaderName : bandleaderName,
-                        suggestedSetList : ["Not", "Completed", "Set", "List"], 
+                        suggestedSetList : [{info : "Completed Set List NOT Here"}], 
                         bandleaderComments : ["Bandleader", "Comments", "Here"]
                     };
 
-                    expect(res.body).to.equal(expectedResponse);
+                    console.log(res.body)
+
+                    expect(res.body).to.eql(expectedResponse);
 
                     done();
                 });
         });
 
-        after(async () => await UsersModel.deleteUser(clientInfo.username));
+        after(async () => await UsersModel.deleteUser(username));
+
+        after(async () => await UsersModel.deleteUser(bandleaderName));
 
         after(async () => await SetListsModel.deleteSetList(setListInfo.clientName, setListInfo.bandleaderName));
     });
