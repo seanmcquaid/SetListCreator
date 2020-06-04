@@ -352,9 +352,7 @@ describe("Client Routes", () => {
                         clientApproved : false,
                     };
 
-                    console.log(res.body.requestedSongsList);
-
-                    songId = res.body.requestedSongsList[0].id;
+                    songId = res.body.doNotPlaySongList[0].id;
                     
                     expect(res.body.requestedSongsList.length).to.equal(0);
                     expect(res.body.doNotPlaySongsList.length).to.be.greaterThan(0);
@@ -479,7 +477,7 @@ describe("Client Routes", () => {
 
         it("editCompletedSetListComments", async () => {
             chai.request(server)
-               .edit("/client/editCompletedSetListComments")
+               .patch("/client/editCompletedSetListComments")
                .set("Authorization", token)
                .send(body)
                .end((err, res) => {
