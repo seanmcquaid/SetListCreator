@@ -487,7 +487,7 @@ describe("Bandleader Routes", () => {
     });
 
     describe("postCompletedSetList", () => {
-        let token, clientId;
+        let clientId;
 
         const bandleaderUsername = "postCompletedSetList";
 
@@ -502,28 +502,10 @@ describe("Bandleader Routes", () => {
 
         const {username, password, accountType, bandleaderName} = clientInfo;
 
-        const body = {
-            completedSetList : ["Completed", "Set", "List"], 
-            clientId,
-            bandleaderComments : ["Bandleader", "Comments"]
-        };
-
-        beforeEach(async () => {
-            return await UsersModel.register(username, password, accountType)
+        before(async () => {
+            return await UsersModel.register(username, password, accountType, bandleaderName)
                 .then(response => {
-                    const specificUserInfo = response[0];
-                    const {id, accounttype} = specificUserInfo;
-                    clientId = id;
-                    token = jwt.sign(
-                        {
-                            id : id,
-                            username : specificUserInfo.username,
-                            accountType : accounttype
-                        },
-                        config.jwtSecret,
-                        {expiresIn : 3600000}
-                    );
-                    console.log(token, id, specificUserInfo)
+                    clientId = response[0].id;
                 })
                 .catch(err => console.log(err));
         });

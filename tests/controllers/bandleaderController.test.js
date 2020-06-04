@@ -351,6 +351,8 @@ describe("BandLeaderController", () => {
             expect(res.send.calledOnce).to.equal(true);
         });
 
+        after(async () => await UsersModel.deleteUser(username));
+
         after(async () => await SetListsModel.deleteSetList(clientUsername, bandleaderName));
     });
 
