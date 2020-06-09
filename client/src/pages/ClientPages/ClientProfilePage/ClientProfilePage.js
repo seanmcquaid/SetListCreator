@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import styles from "./ClientProfilePage.module.css";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
@@ -32,19 +32,19 @@ const ClientProfilePage = () => {
         return () => clearTimeout(timer);
     },[username, currentUsername, dispatch, isLoading])
 
-    const currentUserNameOnChangeHandler = event => {
+    const currentUserNameOnChangeHandler = useCallback(event => {
         setCurrentUsername(event.target.value);
-    };
+    },[]);
 
-    const passwordOnChangeHandler = event => {
+    const passwordOnChangeHandler = useCallback(event => {
         setPassword(event.target.value);
-    };
+    },[]);
 
-    const confirmPasswordOnChangeHandler = event => {
+    const confirmPasswordOnChangeHandler = useCallback(event => {
         setConfirmPassword(event.target.value);
-    };
+    },[]);
 
-    const clientEditProfileSubmitHandler = event => {
+    const clientEditProfileSubmitHandler = useCallback(event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setMessage("ERROR WITH PASSWORDS NOT MATCHING");
@@ -52,7 +52,7 @@ const ClientProfilePage = () => {
             dispatch(editUserInfoAction(username, password, "client"));
             history.push("/clientHome");
         }
-    }
+    },[dispatch, history, username, password, confirmPassword]);
     
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;

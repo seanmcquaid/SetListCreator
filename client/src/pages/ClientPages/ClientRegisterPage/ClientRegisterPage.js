@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import Text from "components/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
@@ -36,23 +36,23 @@ const ClientRegisterPage = () => {
             .catch(err => console.log(err));
     },[])
     
-    const usernameOnChangeHandler = event => {
+    const usernameOnChangeHandler = useCallback(event => {
         setUsername(event.target.value);
-    };
+    },[]);
 
-    const passwordChangeHandler = event => {
+    const passwordChangeHandler = useCallback(event => {
         setPassword(event.target.value);
-    };
+    },[]);
 
-    const confirmPasswordChangeHandler = event => {
+    const confirmPasswordChangeHandler = useCallback(event => {
         setConfirmPassword(event.target.value);
-    };
+    },[]);
 
-    const selectedBandleaderOnChangeHandler = event => {
+    const selectedBandleaderOnChangeHandler = useCallback(event => {
         setSelectedBandleader(event.target.value);
-    }
+    },[]);
 
-    const clientRegisterSubmitHandler = event => {
+    const clientRegisterSubmitHandler = useCallback(event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setNewErrorMessage("Passwords don't match");
@@ -61,7 +61,7 @@ const ClientRegisterPage = () => {
         } else {
             dispatch(registerAction(username, password, "client", selectedBandleader));
         }
-    };
+    },[password, confirmPassword, dispatch, username, selectedBandleader]);
 
     if(isAuthenticated){
         return <Redirect to="/clientHome"/>;

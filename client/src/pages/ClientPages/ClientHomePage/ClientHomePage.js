@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -27,39 +27,39 @@ const ClientHomePage = () => {
         dispatch(getClientSongsAction());
     }, [dispatch]);
 
-    const requestedSongNameOnChangeHandler = event => {
+    const requestedSongNameOnChangeHandler = useCallback(event => {
         setRequestedSongName(event.target.value);
-    };
+    },[]);
 
-    const requestedArtistNameOnChangeHandler = event => {
+    const requestedArtistNameOnChangeHandler = useCallback(event => {
         setRequestedArtistName(event.target.value);
-    };
+    },[]);
 
-    const doNotPlaySongNameOnChangeHandler = event => {
+    const doNotPlaySongNameOnChangeHandler = useCallback(event => {
         setDoNotPlaySongName(event.target.value);
-    };
+    },[]);
 
-    const doNotPlayArtistNameOnChangeHandler = event => {
+    const doNotPlayArtistNameOnChangeHandler = useCallback(event => {
         setDoNotPlayArtistName(event.target.value);
-    };
+    },[]);
 
-    const requestedSongSubmitHandler = event => {
+    const requestedSongSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(addClientRequestedSongAction(requestedSongName, requestedArtistName));
         setRequestedSongName("");
         setRequestedArtistName("");
-    };
+    },[dispatch, requestedSongName, requestedArtistName]);
 
-    const doNotPlaySongSubmitHandler = event => {
+    const doNotPlaySongSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(addClientDoNotPlaySongAction(doNotPlaySongName, doNotPlayArtistName));
         setDoNotPlaySongName("");
         setDoNotPlayArtistName("");
-    };
+    },[dispatch, doNotPlaySongName, doNotPlayArtistName]);
 
-    const deleteSongHandler = (songId) => {
+    const deleteSongHandler = useCallback(songId => {
         dispatch(deleteClientSongAction(songId));
-    };
+    },[dispatch]);
 
     if(setListAvailable){
         return (

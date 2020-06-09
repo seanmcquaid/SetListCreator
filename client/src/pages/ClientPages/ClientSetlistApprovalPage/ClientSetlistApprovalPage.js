@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback, useMemo} from "react";
 import styles from "./ClientSetListApprovalPage.module.css";
 import axios from "axios";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -19,7 +19,7 @@ const ClientSetListApprovalPage = () => {
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
     const [clientComment, setClientComment] = useState("");
-    const clientApprovalOptions = ["Yes", "No"];
+    const clientApprovalOptions = useMemo(() => ["Yes", "No"], []);
     const [clientApprovalStatus, setClientApprovalStatus] = useState("Yes");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -38,20 +38,20 @@ const ClientSetListApprovalPage = () => {
         }
     }, [isLoading]);
 
-    const clientApprovalOnChangeHandler = event => {
+    const clientApprovalOnChangeHandler = useCallback(event => {
         setClientApprovalStatus(event.target.value);
-    };
+    },[]);
 
-    const clientCommentOnChangeHandler = event => {
+    const clientCommentOnChangeHandler = useCallback(event => {
         setClientComment(event.target.value);
-    };
+    },[]);
 
-    const addClientCommentHandler = () => {
+    const addClientCommentHandler = useCallback(() => {
         setClientComments([...clientComments, clientComment]);
         setClientComment("");
-    };
+    },[clientComments, clientComment]);
 
-    const sendClientComments = () => {
+    const sendClientComments = useCallback(() => {
         const headers = tokenConfig();
 
         const requestBody = {
@@ -67,7 +67,7 @@ const ClientSetListApprovalPage = () => {
             .catch(err => {
                 console.log(err.response);
             })
-    };
+    },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>

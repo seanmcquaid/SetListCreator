@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo, useCallback} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -17,7 +17,7 @@ const ClientEditSongPage = props => {
 
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
-    const playListTypes = ["requestedSong", "doNotPlaySong"]
+    const playListTypes = useMemo(() => ["requestedSong", "doNotPlaySong"], []);
     const [songPlayListType, setSongPlayListType] = useState("");
     const {songId} = props.match.params;
 
@@ -36,23 +36,23 @@ const ClientEditSongPage = props => {
             });
     }, [songId])
 
-    const songNameOnChangeHandler = event => {
+    const songNameOnChangeHandler = useCallback(event => {
         setSongName(event.target.value);
-    };
+    },[]);
 
-    const artistNameOnChangeHandler = event => {
+    const artistNameOnChangeHandler = useCallback(event => {
         setArtistName(event.target.value);
-    };
+    },[]);
 
-    const songPlayListTypeOnChangeHandler = event => {
+    const songPlayListTypeOnChangeHandler = useCallback(event => {
         setSongPlayListType(event.target.value);
-    };
+    },[]);
 
-    const clientEditSongSubmitHandler = event => {
+    const clientEditSongSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(editClientSongAction(songName, artistName, songPlayListType, songId));
         history.push("/clientHome");
-    };
+    },[dispatch, songName, artistName, songPlayListType, songId, history]);
 
     return(
         <div className={styles.editSongPageContainer}>

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import styles from "./ClientSendSetListPage.module.css";
 import Button from "components/Button/Button";
 import Text from "components/Text/Text";
@@ -17,14 +17,14 @@ const ClientSendSetListPage = () => {
         dispatch(getClientSongsAction());
     }, [dispatch])
 
-    const deleteSongHandler = songId => {
+    const deleteSongHandler = useCallback(songId => {
         dispatch(deleteClientSongAction(songId));
-    };
+    },[dispatch]);
 
-    const sendSetlistHandler = () => {
+    const sendSetlistHandler = useCallback(() => {
         dispatch(sendClientSetListAction(true));
         history.push("/clientHome");
-    };
+    },[dispatch, history]);
 
     return(
         <div className={styles.clientSendSetListPageContainer}>

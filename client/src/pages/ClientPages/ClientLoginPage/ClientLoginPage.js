@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import Text from "components/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientLoginPage.module.css";
@@ -18,18 +18,18 @@ const ClientLoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     
-    const usernameOnChangeHandler = event => {
+    const usernameOnChangeHandler = useCallback(event => {
         setUsername(event.target.value);
-    };
+    },[]);
 
-    const passwordChangeHandler = event => {
+    const passwordChangeHandler = useCallback(event => {
         setPassword(event.target.value);
-    };
+    },[]);
 
-    const clientLoginSubmitHandler = event => {
+    const clientLoginSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(loginAction(username, password, "client"));
-    };
+    },[dispatch, username, password]);
 
     if(isAuthenticated){
         return <Redirect to="/clientHome"/>
