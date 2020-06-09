@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useCallback} from "react";
 import Text from "components/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./BandleaderRegisterPage.module.css";
@@ -19,26 +19,26 @@ const BandleaderRegisterPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [newErrorMessage, setNewErrorMessage] = useState("");
     
-    const usernameOnChangeHandler = event => {
+    const usernameOnChangeHandler = useCallback(event => {
         setUsername(event.target.value);
-    };
+    },[]);
 
-    const passwordChangeHandler = event => {
+    const passwordChangeHandler = useCallback(event => {
         setPassword(event.target.value);
-    };
+    },[]);
 
-    const confirmPasswordChangeHandler = event => {
+    const confirmPasswordChangeHandler = useCallback(event => {
         setConfirmPassword(event.target.value);
-    };
+    },[]);
 
-    const bandleaderRegisterSubmitHandler = event => {
+    const bandleaderRegisterSubmitHandler = useCallback(event => {
         event.preventDefault();
         if(password !== confirmPassword){
             setNewErrorMessage("Passwords don't match");
         }else {
             dispatch(registerAction(username, password, "bandleader"));
         }
-    };
+    },[dispatch, confirmPassword, username, password]);
 
     if(isAuthenticated){
         return <Redirect to="/bandleaderHome"/>;

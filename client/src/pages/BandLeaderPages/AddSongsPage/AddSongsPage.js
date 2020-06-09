@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback, useMemo} from "react";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -20,31 +20,31 @@ const AddSongsPage = () => {
         dispatch(getBandleaderSongsAction());
     },[dispatch]);
 
-    const songNameOnChangeHandler = event => {
+    const songNameOnChangeHandler = useCallback(event => {
         setSongName(event.target.value);
-    };
+    },[]);
 
-    const artistNameOnChangeHandler = event => {
+    const artistNameOnChangeHandler = useCallback(event => {
         setArtistName(event.target.value);
-    };
+    },[]);
     
-    const songKeyOnChangeHandler = event => {
+    const songKeyOnChangeHandler = useCallback(event => {
         setSongKey(event.target.value);
-    };
+    },[]);
 
-    const addSongSubmitHandler = event => {
+    const addSongSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(addBandleaderSongAction(songName, artistName, songKey));
         setSongName("");
         setArtistName("");
         setSongKey("");
-    };
+    },[dispatch, songName, artistName, songKey]);
 
-    const deleteSongHandler = songId => {
+    const deleteSongHandler = useCallback(songId => {
         dispatch(deleteBandleaderSongAction(songId));
-    };
+    },[dispatch]);
 
-    const songsList = songList.map((song, key) => {
+    const songsList = useMemo(songList.map((song, key) => {
         const {songname, artistname, songkey, id} = song;
         return <Song
                     key={key}
@@ -55,7 +55,7 @@ const AddSongsPage = () => {
                     deleteSongHandler={() => deleteSongHandler(id)}
                     isEditable
                 />
-    });
+    }),[]);
 
     return(
         <div className={styles.addSongsPageContainer}>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {tokenConfig} from "actions/authActions/authActions";
 import {apiHost} from "config";
 import styles from "./ClientEditSetListPage.module.css";
@@ -40,21 +40,21 @@ const EditClientSetListPage = props => {
         
     }, [isLoading, clientId]);
 
-    const bandleaderCommentOnChangeHandler = event => {
+    const bandleaderCommentOnChangeHandler = useCallback(event => {
         setBandleaderComment(event.target.value);
-    };
+    },[]);
 
-    const addBandleaderCommentHandler = () => {
+    const addBandleaderCommentHandler = useCallback(() => {
         setBandleaderComments([...bandleaderComments, bandleaderComment]);
         setBandleaderComment("");
-    };
+    },[bandleaderComments, bandleaderComment]);
 
-    const addSongToSetList = song => {
+    const addSongToSetList = useCallback(song => {
         setSuggestedSetList([...suggestedSetList, song]);
         setAdditionalClientRequests(additionalClientRequests.filter(additionalClientRequest => additionalClientRequest !== song));
-    };
+    },[suggestedSetList, additionalClientRequests]);
 
-    const sendEditedSetList = () => {
+    const sendEditedSetList = useCallback(() => {
         const headers = tokenConfig();
 
         const requestBody = {
@@ -70,7 +70,7 @@ const EditClientSetListPage = props => {
             .catch(err => {
                 console.log(err);
             })
-    };
+    },[suggestedSetList, bandleaderComments, clientId, history]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;

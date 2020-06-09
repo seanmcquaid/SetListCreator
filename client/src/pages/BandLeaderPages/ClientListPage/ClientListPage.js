@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import {getBandleaderClientsAction} from "actions/bandleaderActions/bandleaderActions";
 import { useSelector, useDispatch } from "react-redux";
 import Text from "components/Text/Text";
@@ -17,17 +17,17 @@ const ClientListPage = () => {
     },[dispatch]);
 
 
-    const clientPageRedirect = clientId => {
+    const clientPageRedirect = useCallback(clientId => {
         history.push(`/bandleader/clientInfo/${clientId}`);
-    };
+    },[history]);
     
-    const clientFinalSetListPageRedirect = clientId => {
+    const clientFinalSetListPageRedirect = useCallback(clientId => {
         history.push(`/bandleader/clientFinalSetList/${clientId}`);
-    };
+    },[history]);
 
-    const clientEditSetListPageRedirect = clientId => {
+    const clientEditSetListPageRedirect = useCallback(clientId => {
         history.push(`/bandleader/clientEditSetList/${clientId}`);
-    };
+    },[history]);
     
     return(
         <div className={styles.clientListPageContainer}>

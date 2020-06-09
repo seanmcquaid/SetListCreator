@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -32,25 +32,25 @@ const BandleaderEditSongPage = props => {
             .catch(err => {
                 console.log(err);
             });
-    }, [songId])
+    }, [songId]);
 
-    const songNameOnChangeHandler = event => {
+    const songNameOnChangeHandler = useCallback(event => {
         setSongName(event.target.value);
-    }
+    },[]);
 
-    const artistNameOnChangeHandler = event => {
+    const artistNameOnChangeHandler = useCallback(event => {
         setArtistName(event.target.value);
-    }
+    },[]);
 
-    const songKeyOnChangeHandler = event => {
+    const songKeyOnChangeHandler = useCallback(event => {
         setSongKey(event.target.value);
-    }
+    },[]);
 
-    const bandLeaderEditSongSubmitHandler = event => {
+    const bandLeaderEditSongSubmitHandler = useCallback(event => {
         event.preventDefault();
         dispatch(editBandleaderSongAction(songName, artistName, songKey, songId));
         history.push("/bandleader/addSongs")
-    };
+    },[dispatch, songName, artistName, songKey, songId, history]);
     
 
     return(

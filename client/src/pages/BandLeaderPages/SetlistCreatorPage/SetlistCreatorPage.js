@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
@@ -38,21 +38,21 @@ const SetListCreatorPage = props => {
         
     }, [isLoading, clientId]);
 
-    const setListCommentOnChangeHandler = event => {
+    const setListCommentOnChangeHandler = useCallback(event => {
         setSetListComment(event.target.value);
-    };
+    },[]);
 
-    const addSetListCommentHandler = () => {
+    const addSetListCommentHandler = useCallback(() => {
         setSetListComments([...setListComments, setListComment]);
         setSetListComment("");
-    };
+    },[setListComments, setListComment]);
 
-    const addSongToSetlist = song => {
+    const addSongToSetlist = useCallback(song => {
         setSuggestedSetList([...suggestedSetList, song]);
         setAdditionalClientRequests(additionalClientRequests.filter(additionalClientRequest => additionalClientRequest !== song));
-    };
+    },[suggestedSetList, additionalClientRequests]);
 
-    const sendCompletedSetlist = () => {
+    const sendCompletedSetlist = useCallback(() => {
         const headers = tokenConfig();
 
         const requestBody = {
@@ -68,7 +68,7 @@ const SetListCreatorPage = props => {
             .catch(err => {
                 console.log(err);
             })
-    };
+    },[suggestedSetList, clientId, setListComments, history]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;
