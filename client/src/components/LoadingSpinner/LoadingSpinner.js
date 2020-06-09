@@ -9,7 +9,7 @@ const override = css`
     left : 50%;
 `;
 
-const LoadingSpinner = ({isLoading}) => (
+const LoadingSpinner = React.memo(({isLoading}) => (
     <SyncLoader
         css={override}
         loading={isLoading}
@@ -17,7 +17,7 @@ const LoadingSpinner = ({isLoading}) => (
         sizeUnit={"px"}
         color={"#555555"}
     />
-);
+));
 
 LoadingSpinner.propTypes = {
     isLoading : PropTypes.bool.isRequired,

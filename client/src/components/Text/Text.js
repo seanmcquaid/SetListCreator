@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./Text.module.css";
 import PropTypes from "prop-types";
 
-const Text = ({headerText, children}) => (
+const Text = React.memo(({headerText, children}) => (
     headerText ? 
         <h1 className={styles.headerText}>{children}</h1> :
         <p className={styles.normalText}>{children}</p>
-)
+));
 
 Text.propTypes = {
     headerText : PropTypes.bool,

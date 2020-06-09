@@ -8,7 +8,7 @@ import { selectAuthState } from "selectors/authSelectors";
 import useWindowSize from "hooks/useWIndowSize";
 import {GiHamburgerMenu as HamburgerIcon} from "react-icons/gi"
 
-const Navbar = () => {
+const Navbar = React.memo(() => {
     const {isAuthenticated, accountType} = useSelector(selectAuthState);
     const dispatch = useDispatch();
 
@@ -73,6 +73,6 @@ const Navbar = () => {
             </ul>
         </nav>
     )
-};
+});
 
 export default Navbar;

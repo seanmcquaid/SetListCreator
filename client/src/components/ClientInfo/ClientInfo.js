@@ -4,7 +4,7 @@ import Button from "components/Button/Button";
 import styles from "./ClientInfo.module.css";
 import PropTypes from "prop-types";
 
-const ClientInfo = ({
+const ClientInfo = React.memo(({
     clientName, 
     clientApproved, 
     setListAvailable, 
@@ -39,7 +39,7 @@ const ClientInfo = ({
             }
         </div>
     )
-};
+});
 
 ClientInfo.propTypes = {
     clientName : PropTypes.string.isRequired, 

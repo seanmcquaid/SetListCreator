@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./SongList.module.css";
 import Button from "components/Button/Button";
 
-const SongList = ({list, songOnClick}) => (
+const SongList = React.memo(({list, songOnClick}) => (
     <ul className={styles.songList}>
         {list.map(songInfo => {
             const {songname, artistname, id} = songInfo;
@@ -11,7 +11,7 @@ const SongList = ({list, songOnClick}) => (
             })
         }
     </ul>
-);
+));
 
 SongList.propTypes = {
     list : PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,

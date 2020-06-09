@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Input.module.css";
 import PropTypes from "prop-types";
 
-const Input = ({
+const Input = React.memo(({
     name, 
     title, 
     type, 
@@ -23,7 +23,7 @@ const Input = ({
             />
         </div>
     )
-};
+});
 
 Input.propTypes = {
     name : PropTypes.string.isRequired,

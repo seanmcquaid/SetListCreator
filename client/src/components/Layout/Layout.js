@@ -5,7 +5,7 @@ import Aux from "hoc/Aux/Aux";
 import styles from "./Layout.module.css";
 import PropTypes from "prop-types";
 
-const Layout = ({children}) => (
+const Layout = React.memo(({children}) => (
     <Aux>
         <Navbar/>
         <div className={styles.mainContentContainer}>
@@ -13,7 +13,7 @@ const Layout = ({children}) => (
         </div>
         <Footer/>
     </Aux>
-);
+));
 
 Layout.propTypes = {
     children : PropTypes.any.isRequired,

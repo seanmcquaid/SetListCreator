@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Dropdown.module.css";
 import PropTypes from "prop-types";
 
-const Dropdown = ({
+const Dropdown = React.memo(({
     selectedItem, 
     selectedItemOnChangeHandler, 
     items, 
@@ -17,7 +17,7 @@ const Dropdown = ({
             </select>
         </div>
     )
-};
+});
 
 Dropdown.propTypes = {
     selectedItem : PropTypes.string.isRequired,

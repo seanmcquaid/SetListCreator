@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import LinkButton from "../LinkButton/LinkButton";
 import styles from "./Song.module.css";
 
-const Song = ({
+const Song = React.memo(({
     songName, 
     artistName, 
     songKey, 
@@ -30,7 +30,7 @@ const Song = ({
             </div>
         </div>
     )
-};
+});
 
 Song.propTypes = {
     songName : PropTypes.string.isRequired,
