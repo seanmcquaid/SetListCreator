@@ -1,22 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {SyncLoader} from "react-spinners";
-import {css} from "@emotion/core";
-
-const override = css`
-    position : absolute;
-    top : 50%;
-    left : 50%;
-`;
+import styles from "./LoadingSpinner.module.css";
 
 const LoadingSpinner = React.memo(({isLoading}) => (
-    <SyncLoader
-        css={override}
-        loading={isLoading}
-        size={30}
-        sizeUnit={"px"}
-        color={"#555555"}
-    />
+    <div className={styles.loadingSpinnerContainer} data-testid="loadingSpinner">
+        <SyncLoader
+            loading={isLoading}
+            size={30}
+            sizeUnit={"px"}
+            color={"#555555"}
+        />
+    </div>
 ));
 
 LoadingSpinner.propTypes = {
