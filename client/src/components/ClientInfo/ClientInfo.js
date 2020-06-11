@@ -11,35 +11,33 @@ const ClientInfo = React.memo(({
     clientFinalSetListPageRedirect, 
     clientPageRedirect, 
     clientEditSetListPageRedirect
-}) => {
-    return(
-        <div className={styles.clientInfoContainer}>
-            <h4 className={styles.clientName}>{clientName}</h4>
-            <Text>Set List Status :  
-                {clientApproved && setListAvailable ? " Complete" : 
-                clientApproved === null && setListAvailable ? " Ready" : " Needs Edits"}
-            </Text>
-            {clientApproved && setListAvailable ?
-                <Button 
-                    title="Go To Final Set List Page"
-                    type="button"
-                    onClick={clientFinalSetListPageRedirect}
-                /> : 
-                clientApproved === null && setListAvailable ? 
-                <Button
-                    title="Go To Set List Page"
-                    type="button"
-                    onClick={clientPageRedirect}
-                /> :
-                <Button 
-                    title="Go To Edit Set List Page"
-                    type="button"
-                    onClick={clientEditSetListPageRedirect}
-                />
-            }
-        </div>
-    )
-});
+}) => (
+    <div className={styles.clientInfoContainer} data-testid={`${clientName}Info`}>
+        <h4 className={styles.clientName}>{clientName}</h4>
+        <Text>Set List Status :  
+            {clientApproved && setListAvailable ? " Complete" : 
+            clientApproved === null && setListAvailable ? " Ready" : " Needs Edits"}
+        </Text>
+        {clientApproved && setListAvailable ?
+            <Button 
+                title="Go To Final Set List Page"
+                type="button"
+                onClick={clientFinalSetListPageRedirect}
+            /> : 
+            clientApproved === null && setListAvailable ? 
+            <Button
+                title="Go To Set List Page"
+                type="button"
+                onClick={clientPageRedirect}
+            /> :
+            <Button 
+                title="Go To Edit Set List Page"
+                type="button"
+                onClick={clientEditSetListPageRedirect}
+            />
+        }
+    </div>
+));
 
 ClientInfo.propTypes = {
     clientName : PropTypes.string.isRequired, 
