@@ -3,7 +3,7 @@ import styles from "./Button.module.css";
 import PropTypes from "prop-types";
 
 const Button = React.memo(({type, title, onClick}) => (
-    <button className={styles.button} type={type} onClick={onClick}>
+    <button className={styles.button} type={type} onClick={onClick} data-testid={`${title}Button`}>
         {title}
     </button>
 ));
