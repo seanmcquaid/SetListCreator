@@ -14,10 +14,4 @@ Button.propTypes = {
     onClick : PropTypes.func,
 };
 
-Button.defaultProps = {
-    type : "button",
-    title : "Button",
-    onClick : () => console.log("Button clicked")
-};
-
 export default Button;

@@ -48,13 +48,4 @@ ClientInfo.propTypes = {
     clientEditSetListPageRedirect : PropTypes.func.isRequired, 
 };
 
-ClientInfo.defaultProps = {
-    clientName : "Client Name", 
-    clientApproved : null, 
-    setListAvailable : false, 
-    clientFinalSetListPageRedirect : () => console.log("Final Set List Redirect"), 
-    clientPageRedirect : () => console.log("Client Page Redirect"),
-    clientEditSetListPageRedirect : () => console.log("Client Edit Set List Page Redirect")
-};
-
 export default ClientInfo;
