@@ -27,12 +27,4 @@ Dropdown.propTypes = {
     title : PropTypes.string.isRequired,
 };
 
-Dropdown.defaultProps = {
-    selectedItem : "Selected Item",
-    selectedItemOnChangeHandler  : () => console.log("Selected Item On Change Handler"),
-    items : ["Items", "Here"],
-    name : "Dropdown Name",
-    title : "Dropdown Title"
-};
-
 export default Dropdown;

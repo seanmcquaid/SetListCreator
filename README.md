@@ -2,8 +2,8 @@
 
 I have more or less finished the basic app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
-To Do - Front End : 
-1) Look at implementing useMemo and useCallback where appropriate to eliminate potential excessive amount of render cycles
+To Do 
+1) Set up mock environments for redux, react-router, axios requests, etc
 
 Tests Left on Front End : 
 1) Components
