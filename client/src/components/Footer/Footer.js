@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 import Text from "../Text/Text";
 
 const Footer = React.memo(() => (
-    <div className={styles.footerContainer}>
+    <div className={styles.footerContainer} data-testid="footer">
         <Text>© Sean McQuaid 2019</Text>
     </div>
 ));

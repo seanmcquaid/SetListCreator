@@ -9,21 +9,20 @@ const Input = React.memo(({
     value, 
     onChangeHandler, 
     placeholder
-}) => {
-    return(
-        <div className={styles.inputContainer}>
-            <label htmlFor={name} className={styles.inputLabel}>{title}</label>
-            <input
-                className={styles.input}
-                name={name}
-                type={type}
-                value={value}
-                onChange={onChangeHandler}
-                placeholder={placeholder}
-            />
-        </div>
-    )
-});
+}) => (
+    <div className={styles.inputContainer} data-testid={`${title}TextInputContainer`}>
+        <label htmlFor={name} className={styles.inputLabel}>{title}</label>
+        <input
+            className={styles.input}
+            name={name}
+            type={type}
+            value={value}
+            onChange={onChangeHandler}
+            placeholder={placeholder}
+            data-testid={`${title}TextInput`}
+        />
+    </div>
+));
 
 Input.propTypes = {
     name : PropTypes.string.isRequired,
@@ -32,15 +31,6 @@ Input.propTypes = {
     value : PropTypes.string.isRequired,
     onChangeHandler : PropTypes.func.isRequired,
     placeholder : PropTypes.string.isRequired
-};
-
-Input.defaultProps = {
-    name : "Input Name",
-    title : "Input Title",
-    type : "Input Type",
-    value : "Input Value",
-    onChangeHandler : () => console.log("On Change Handler"),
-    placeholder : "Input Placeholder"
 };
 
 export default Input;

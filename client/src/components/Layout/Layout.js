@@ -19,8 +19,4 @@ Layout.propTypes = {
     children : PropTypes.any.isRequired,
 };
 
-Layout.defaultProps = {
-    children : <h1>CHILDREN HERE</h1>
-};
-
 export default Layout;
