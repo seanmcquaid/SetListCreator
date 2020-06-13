@@ -1,3 +1,5 @@
-const Aux = props => props.children;
+import React from "react";
+
+const Aux = ({children}) => children;
 
 export default Aux;

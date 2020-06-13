@@ -14,9 +14,4 @@ LinkButton.propTypes = {
     children : PropTypes.string.isRequired,
 };
 
-LinkButton.defaultProps = {
-    route : "/",
-    children : "Link Button Name"
-};
-
 export default LinkButton;
