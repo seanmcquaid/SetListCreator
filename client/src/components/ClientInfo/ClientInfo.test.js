@@ -1,8 +1,10 @@
 import React from "react";
 import ClientInfo from "./ClientInfo";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 
 describe("<ClientInfo/>", () => {
+
+    afterEach(cleanup);
     test("Renders correctly", () => {
         const props = {
             clientName : "Test Client", 

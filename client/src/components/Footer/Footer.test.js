@@ -1,8 +1,10 @@
 import React from "react";
 import Footer from "./Footer";
-import { render } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 
 describe("<Footer/>", () => {
+
+    afterEach(cleanup);
     test("Renders correctly", () => {
         const {getByTestId} = render(<Footer/>);
 

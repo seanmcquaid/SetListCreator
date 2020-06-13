@@ -1,9 +1,11 @@
 import React from "react";
 import LinkButton from "./LinkButton";
-import { render } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import { BrowserRouter as Router} from "react-router-dom";
 
 describe("<LinkButton/>", () => {
+
+    afterEach(cleanup);
     test("Renders correctly", () => {
         const props = {
             route : "/",

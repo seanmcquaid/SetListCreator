@@ -1,8 +1,10 @@
 import React from "react";
 import LoadingSpinner from "./LoadingSpinner";
-import { render } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 
 describe("<LoadingSpinner/>", () => {
+
+    afterEach(cleanup);
     test("Renders correctly when loading", () => {
         const props = {
             isLoading : true,

@@ -13,11 +13,11 @@ const Song = React.memo(({
     isEditable
 }) => {
     return(
-        <div className={styles.songContainer}>
+        <div className={styles.songContainer} data-testid={`${songName}InfoContainer`}>
             <h4 className={styles.songName}>{songName}</h4>
             <h5 className={styles.artistName}>{artistName}</h5>
             {songKey ? 
-                <p className={styles.songKey}>{songKey}</p> :
+                <p className={styles.songKey} data-testid={`${songName}SongKey`}>{songKey}</p> :
                 null
             }
             <div className={styles.buttonsContainer}>
@@ -37,13 +37,6 @@ Song.propTypes = {
     artistName : PropTypes.string.isRequired,
     songKey : PropTypes.string,
     deleteSongHandler : PropTypes.func.isRequired
-};
-
-Song.defaultProps = {
-    songName : "Song Name Here",
-    artistName : "Artist Name Here",
-    songKey : "Song Key Here",
-    deleteSongHandler : (songName, artistName, songKey) => console.log(songName, artistName, songKey),
 };
 
 export default Song;

@@ -1,8 +1,10 @@
 import React from "react";
 import Button from "./Button";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 
 describe("<Button/>", () => {
+
+    afterEach(cleanup);
     test("Renders Correctly", () => {
         const props = {
             type : "button",

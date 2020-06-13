@@ -1,8 +1,10 @@
 import React from "react";
 import Dropdown from "./Dropdown";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 
 describe("<Dropdown/>", () => {
+
+    afterEach(cleanup);
     test("Renders correctly", () => {
         const props = {
             selectedItem : "Selected Item",

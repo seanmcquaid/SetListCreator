@@ -4,7 +4,7 @@ import styles from "./LinkButton.module.css";
 import PropTypes from "prop-types";
 
 const LinkButton = React.memo(({route, children}) => (
-    <Link className={styles.linkButton} to={route}>
+    <Link className={styles.linkButton} to={route} data-testid={`${children}LinkButton`}>
         {children}
     </Link>
 ));
