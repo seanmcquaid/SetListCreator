@@ -15,8 +15,4 @@ const Layout = React.memo(({children}) => (
     </Aux>
 ));
 
-Layout.propTypes = {
-    children : PropTypes.any.isRequired,
-};
-
 export default Layout;
