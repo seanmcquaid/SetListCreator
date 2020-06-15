@@ -145,4 +145,100 @@ describe("authReducer", () => {
         });    
     });
 
+    describe("SUCCESS with Token saved", () => {
+        test("REGISTER_SUCCESS",  () => {
+            const action = {
+                type : REGISTER_SUCCESS,
+                payload : {
+                    isAuthenticated : true,
+                    token : "testToken",
+                    username : "test user",
+                    accountType : "client",
+                },
+            }
+    
+            const expectedResult = { 
+                isAuthenticated : true,
+                token : "testToken",
+                username : "test user",
+                accountType : "client",
+                isLoading: false,
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+            expect(localStorage.getItem("token")).toEqual("testToken");
+        });
+
+        test("LOGIN_SUCCESS",  () => {
+            const action = {
+                type : LOGIN_SUCCESS,
+                payload : {
+                    isAuthenticated : true,
+                    token : "testToken",
+                    username : "test user",
+                    accountType : "client",
+                },
+            }
+    
+            const expectedResult = { 
+                isAuthenticated : true,
+                token : "testToken",
+                username : "test user",
+                accountType : "client",
+                isLoading: false,
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+            expect(localStorage.getItem("token")).toEqual("testToken");
+        });
+
+        test("CHECK_TOKEN_SUCCESS",  () => {
+            const action = {
+                type : CHECK_TOKEN_SUCCESS,
+                payload : {
+                    isAuthenticated : true,
+                    token : "testToken",
+                    username : "test user",
+                    accountType : "client",
+                },
+            }
+    
+            const expectedResult = { 
+                isAuthenticated : true,
+                token : "testToken",
+                username : "test user",
+                accountType : "client",
+                isLoading: false,
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+            expect(localStorage.getItem("token")).toEqual("testToken");
+        });
+
+        test("EDIT_USER_INFO_SUCCESS",  () => {
+            const action = {
+                type : EDIT_USER_INFO_SUCCESS,
+                payload : {
+                    isAuthenticated : true,
+                    token : "testToken",
+                    username : "test user",
+                    accountType : "client",
+                },
+            }
+    
+            const expectedResult = { 
+                isAuthenticated : true,
+                token : "testToken",
+                username : "test user",
+                accountType : "client",
+                isLoading: false,
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+            expect(localStorage.getItem("token")).toEqual("testToken");
+        });
+
+        afterEach(() => localStorage.removeItem("token"));
+    });
+
 });
