@@ -236,6 +236,44 @@ describe("clientReducer", () => {
     });
 
     describe("SUCCESS - Return SetListAvailable modified", () => {
-        
+        const payload = {
+            setListAvailable : true,
+        };
+
+        test("SEND_CLIENT_SETLIST_SUCCESS", () => {
+            const action = {
+                type : SEND_CLIENT_SETLIST_SUCCESS,
+                payload,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                requestedSongsList : [],
+                doNotPlaySongsList : [],
+                setListAvailable : true,
+                clientApproved : false,
+                isLoading : false,
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("LOGIN_SUCCESS", () => {
+            const action = {
+                type : LOGIN_SUCCESS,
+                payload,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                requestedSongsList : [],
+                doNotPlaySongsList : [],
+                setListAvailable : true,
+                clientApproved : false,
+                isLoading : false,
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
     });
 });
