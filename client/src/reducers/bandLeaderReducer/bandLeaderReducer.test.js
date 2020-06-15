@@ -18,13 +18,13 @@ import {
 import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
 import bandleaderReducer from "./bandleaderReducer";
 
-const initialState = {
-    clientList : [],
-    songList : [],
-    isLoading : false,
-};
-
 describe("bandleaderReducer", () => {
+
+    const initialState = {
+        clientList : [],
+        songList : [],
+        isLoading : false,
+    };
     describe("LOADING", () => {
         test("ADD_BANDLEADER_SONG_LOADING", () => {
             const action = {

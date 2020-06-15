@@ -19,15 +19,15 @@ import {
 } from "actions/authActions/authActionTypes";
 import authReducer from "./authReducer";
 
-const initialState = {
-    isAuthenticated : false,
-    token : localStorage.getItem("token"),
-    username : "",
-    accountType : "",
-    isLoading : false,
-};
-
 describe("authReducer", () => {
+
+    const initialState = {
+        isAuthenticated : false,
+        token : localStorage.getItem("token"),
+        username : "",
+        accountType : "",
+        isLoading : false,
+    };
 
     describe("LOADING", () => {
         test("REGISTER_LOADING",  () => {
