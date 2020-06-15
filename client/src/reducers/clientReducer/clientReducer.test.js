@@ -380,4 +380,29 @@ describe("clientReducer", () => {
             expect(clientReducer(initialState, action)).toEqual(expectedResult);
         });
     });
+
+    test("LOGOUT_SUCCESS", () => {
+        const action = {
+            type : LOGOUT_SUCCESS,
+        };
+
+        expect(clientReducer(initialState, action)).toEqual(initialState);
+    });
+
+    test("DEFAULT", () => {
+        const action = {
+            type : "DEFAULT",
+        };
+
+        const expectedResult = {
+            bandleader : "",
+            doNotPlaySongsList : [],
+            requestedSongsList : [],
+            isLoading : false,
+            setListAvailable : false,
+            clientApproved : false
+        };
+
+        expect(clientReducer(initialState, action)).toEqual(expectedResult);
+    });
 });
