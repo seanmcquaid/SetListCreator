@@ -12,6 +12,9 @@ describe("bandleaderSelectors", () => {
             client : {
                 bandleaderName : "NAME"
             },
+            error : {
+                errorMessage : "ERROR MESSAGE"
+            },
         };
 
         const expectedResult = {

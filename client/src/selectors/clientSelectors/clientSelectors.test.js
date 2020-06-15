@@ -1,7 +1,7 @@
-import {selectAuthState} from "./authSelectors";
+import {selectClientState} from "./clientSelectors";
 
-describe("authSelectors", () => {
-    test("Returns only auth state", () => {
+describe("clientSelectors", () => {
+    test("Returns only client state", () => {
         const state = {
             auth : {
                 username : "TEST"
@@ -18,9 +18,9 @@ describe("authSelectors", () => {
         };
 
         const expectedResult = {
-            ...state.auth,
+            ...state.client,
         };
 
-        expect(selectAuthState(state)).toEqual(expectedResult);
+        expect(selectClientState(state)).toEqual(expectedResult);
     });
 });

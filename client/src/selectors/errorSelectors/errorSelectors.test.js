@@ -1,7 +1,7 @@
-import {selectAuthState} from "./authSelectors";
+import {selectErrorState} from "./errorSelectors";
 
-describe("authSelectors", () => {
-    test("Returns only auth state", () => {
+describe("errorSelectors", () => {
+    test("Returns only error state", () => {
         const state = {
             auth : {
                 username : "TEST"
@@ -18,9 +18,9 @@ describe("authSelectors", () => {
         };
 
         const expectedResult = {
-            ...state.auth,
+            ...state.error,
         };
 
-        expect(selectAuthState(state)).toEqual(expectedResult);
+        expect(selectErrorState(state)).toEqual(expectedResult);
     });
 });
