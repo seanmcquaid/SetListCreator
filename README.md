@@ -28,5 +28,6 @@ Tests Left on Front End :
 6) Pages
 
 Things to do :
-1) Unit Tests + Refactoring - Front End
-2) Documentation
+1) Unit Tests - Front End
+2) Refactoring / Code Review - Front End
+3) Documentation
