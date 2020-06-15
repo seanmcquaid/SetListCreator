@@ -9,8 +9,8 @@ import {registerAction} from "actions/authActions/authActions";
 import axios from "axios";
 import Dropdown from "components/Dropdown/Dropdown";
 import {apiHost} from "config";
-import { selectAuthState } from "selectors/authSelectors";
-import { selectErrorState } from "selectors/errorReducer";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
+import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 
 const ClientRegisterPage = () => {
     const {isAuthenticated} = useSelector(selectAuthState);

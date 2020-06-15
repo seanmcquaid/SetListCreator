@@ -6,8 +6,8 @@ import Button from "components/Button/Button";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import {useSelector, useDispatch} from "react-redux";
 import {editUserInfoAction, getUserInfoAction} from "actions/authActions/authActions";
-import { selectAuthState } from "selectors/authSelectors";
-import { selectErrorState } from "selectors/errorReducer";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
+import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 import { useHistory } from "react-router-dom";
 
 const BandleaderProfilePage = () => {

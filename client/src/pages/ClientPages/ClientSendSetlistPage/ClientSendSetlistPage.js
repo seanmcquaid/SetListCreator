@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} from "actions/clientActions/clientActions";
 import Song from "components/Song/Song";
 import { useHistory } from "react-router-dom";
-import { selectClientState } from "selectors/clientSelectors";
+import { selectClientState } from "selectors/clientSelectors/clientSelectors";
 
 const ClientSendSetListPage = () => {
     const {setListAvailabile, requestedSongsList, doNotPlaySongsList} = useSelector(selectClientState);

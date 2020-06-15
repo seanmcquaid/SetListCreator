@@ -12,7 +12,7 @@ import {
     deleteClientSongAction
 } from "actions/clientActions/clientActions";
 import LinkButton from "components/LinkButton/LinkButton";
-import { selectClientState } from "selectors/clientSelectors";
+import { selectClientState } from "selectors/clientSelectors/clientSelectors";
 
 const ClientHomePage = () => {
     const {requestedSongsList, doNotPlaySongsList, setListAvailable, clientApproved} = useSelector(selectClientState);

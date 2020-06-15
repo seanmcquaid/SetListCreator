@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useSelector} from "react-redux";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import {Redirect, Route} from "react-router-dom";
-import { selectAuthState } from "selectors/authSelectors";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
 
 const ProtectedClientRoute = props => {
     const {isAuthenticated, accountType} = useSelector(selectAuthState);

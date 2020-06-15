@@ -6,7 +6,7 @@ import styles from "./AddSongsPage.module.css";
 import {addBandleaderSongAction, getBandleaderSongsAction, deleteBandleaderSongAction} from "actions/bandleaderActions/bandleaderActions";
 import { useSelector, useDispatch } from "react-redux";
 import Song from "components/Song/Song";
-import { selectBandleaderState } from "selectors/bandleaderSelectors";
+import { selectBandleaderState } from "selectors/bandleaderSelectors/bandleaderSelectors";
 
 const AddSongsPage = () => {
     const {songList} = useSelector(selectBandleaderState);

@@ -6,8 +6,8 @@ import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import {useSelector, useDispatch} from "react-redux";
 import {registerAction} from "actions/authActions/authActions";
-import { selectAuthState } from "selectors/authSelectors";
-import { selectErrorState } from "selectors/errorReducer";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
+import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 
 const BandleaderRegisterPage = () => {
     const {isAuthenticated} = useSelector(selectAuthState);

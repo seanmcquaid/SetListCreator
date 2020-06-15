@@ -5,7 +5,7 @@ import Text from "components/Text/Text";
 import ClientInfo from "components/ClientInfo/ClientInfo";
 import styles from "./ClientListPage.module.css";
 import { useHistory } from "react-router-dom";
-import { selectBandleaderState } from "selectors/bandleaderSelectors";
+import { selectBandleaderState } from "selectors/bandleaderSelectors/bandleaderSelectors";
 
 const ClientListPage = () => {
     const {clientList} = useSelector(selectBandleaderState);

@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import styles from "./Navbar.module.css";
 import Aux from "hoc/Aux/Aux";
 import {logoutAction} from "actions/authActions/authActions";
-import { selectAuthState } from "selectors/authSelectors";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
 import useWindowSize from "hooks/useWIndowSize";
 import {GiHamburgerMenu as HamburgerIcon} from "react-icons/gi"
 

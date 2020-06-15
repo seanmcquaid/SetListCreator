@@ -4,7 +4,7 @@ import ProtectedRoutes from "routing/ProtectedRoutes/ProtectedRoutes";
 import Layout from "components/Layout/Layout";
 import { checkTokenAction } from "actions/authActions/authActions";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAuthState } from "selectors/authSelectors";
+import { selectAuthState } from "selectors/authSelectors/authSelectors";
 
 const App = () => {
   const {token} = useSelector(selectAuthState);
