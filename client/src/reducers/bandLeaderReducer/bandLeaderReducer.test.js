@@ -23,3 +23,77 @@ const initialState = {
     songList : [],
     isLoading : false,
 };
+
+describe("bandleaderReducer", () => {
+    describe("LOADING", () => {
+        test("ADD_BANDLEADER_SONG_LOADING", () => {
+            const action = {
+                type : ADD_BANDLEADER_SONG_LOADING,
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : [],
+                isLoading : true,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("GET_BANDLEADER_SONGS_LOADING", () => {
+            const action = {
+                type : GET_BANDLEADER_SONGS_LOADING,
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : [],
+                isLoading : true,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("DELETE_BANDLEADER_SONG_LOADING", () => {
+            const action = {
+                type : DELETE_BANDLEADER_SONG_LOADING,
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : [],
+                isLoading : true,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("EDIT_BANDLEADER_SONG_LOADING", () => {
+            const action = {
+                type : EDIT_BANDLEADER_SONG_LOADING,
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : [],
+                isLoading : true,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("GET_BANDLEADER_CLIENTS_LOADING", () => {
+            const action = {
+                type : GET_BANDLEADER_CLIENTS_LOADING,
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : [],
+                isLoading : true,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+    });
+});
