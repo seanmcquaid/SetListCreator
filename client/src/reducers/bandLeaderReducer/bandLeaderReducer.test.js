@@ -96,4 +96,93 @@ describe("bandleaderReducer", () => {
             expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
         });
     });
+
+    describe("SUCCESS - SongList", () => {
+        test("ADD_BANDLEADER_SONG_SUCCESS", () => {
+            const action = {
+                type : ADD_BANDLEADER_SONG_SUCCESS,
+                payload : {
+                    songList : ["Songs", "Here"],
+                },
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : ["Songs", "Here"],
+                isLoading : false,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("GET_BANDLEADER_SONGS_SUCCESS", () => {
+            const action = {
+                type : GET_BANDLEADER_SONGS_SUCCESS,
+                payload : {
+                    songList : ["Songs", "Here"],
+                },
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : ["Songs", "Here"],
+                isLoading : false,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("DELETE_BANDLEADER_SONG_SUCCESS", () => {
+            const action = {
+                type : DELETE_BANDLEADER_SONG_SUCCESS,
+                payload : {
+                    songList : ["Songs", "Here"],
+                },
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : ["Songs", "Here"],
+                isLoading : false,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("EDIT_BANDLEADER_SONG_SUCCESS", () => {
+            const action = {
+                type : EDIT_BANDLEADER_SONG_SUCCESS,
+                payload : {
+                    songList : ["Songs", "Here"],
+                },
+            };
+
+            const expectedResult = {
+                clientList : [],
+                songList : ["Songs", "Here"],
+                isLoading : false,
+            };
+
+            expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+        });
+    });
+
+    test("GET_BANDLEADER_CLIENTS_SUCCESS", () => {
+        const action = {
+            type : GET_BANDLEADER_CLIENTS_SUCCESS,
+            payload : {
+                clientList : ["Client", "Here"],
+            },
+        };
+
+        const expectedResult = {
+            clientList : ["Client", "Here"],
+            songList : [],
+            isLoading : false,
+        };
+
+        expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+    });
+
+    
 });
