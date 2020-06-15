@@ -26,3 +26,123 @@ const initialState = {
     accountType : "",
     isLoading : false,
 };
+
+describe("authReducer", () => {
+
+    describe("LOADING", () => {
+        test("REGISTER_LOADING",  () => {
+            const action = {
+                type : REGISTER_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("LOGIN_LOADING",  () => {
+            const action = {
+                type : LOGIN_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("LOGOUT_LOADING",  () => {
+            const action = {
+                type : LOGOUT_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("CHECK_TOKEN_LOADING",  () => {
+            const action = {
+                type : CHECK_TOKEN_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("EDIT_USER_INFO_LOADING",  () => {
+            const action = {
+                type : EDIT_USER_INFO_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("GET_USER_INFO_LOADING",  () => {
+            const action = {
+                type : GET_USER_INFO_LOADING,
+                payload : {
+                    ...initialState
+                }
+            }
+    
+            const expectedResult = { 
+                isAuthenticated: false,
+                token: null,
+                username: "",
+                accountType: "",
+                isLoading: true 
+            };
+    
+            expect(authReducer(initialState, action)).toEqual(expectedResult);
+        });    
+    });
+
+});
