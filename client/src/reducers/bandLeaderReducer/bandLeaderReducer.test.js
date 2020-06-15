@@ -256,4 +256,26 @@ describe("bandleaderReducer", () => {
         });
     });
 
+    test("LOGOUT_SUCCESS", () => {
+        const action = {
+            type : LOGOUT_SUCCESS,
+        };
+
+        expect(bandleaderReducer(initialState, action)).toEqual(initialState);
+    });
+
+    test("Default", () => {
+        const action = {
+            type : "DEFAULT",
+        };
+
+        const expectedResult = {
+            clientList : [],
+            songList : [],
+            isLoading : false,
+        };
+
+        expect(bandleaderReducer(initialState, action)).toEqual(expectedResult);
+    });
+
 });
