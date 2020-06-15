@@ -276,4 +276,108 @@ describe("clientReducer", () => {
             expect(clientReducer(initialState, action)).toEqual(expectedResult);
         });
     });
+
+    describe("ERROR", () => {
+        test("GET_CLIENT_SONGS_ERROR", () => {
+            const action = {
+                type : GET_CLIENT_SONGS_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("ADD_CLIENT_REQUESTED_SONG_ERROR", () => {
+            const action = {
+                type : ADD_CLIENT_REQUESTED_SONG_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR", () => {
+            const action = {
+                type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("DELETE_CLIENT_SONG_ERROR", () => {
+            const action = {
+                type : DELETE_CLIENT_SONG_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("EDIT_CLIENT_SONG_ERROR", () => {
+            const action = {
+                type : EDIT_CLIENT_SONG_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("SEND_CLIENT_SETLIST_ERROR", () => {
+            const action = {
+                type : SEND_CLIENT_SETLIST_ERROR,
+            };
+
+            const expectedResult = {
+                bandleader : "",
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                isLoading : false,
+                setListAvailable : false,
+                clientApproved : false
+            };
+
+            expect(clientReducer(initialState, action)).toEqual(expectedResult);
+        });
+    });
 });
