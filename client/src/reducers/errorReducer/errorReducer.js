@@ -45,15 +45,15 @@ const errorReducer = (state = initialState, action) => {
                 };
             }
             return {
-                ...initialState
+                ...initialState,
             };
         case CLEAR_ERROR_MESSAGE : 
             return {
-                errorMessage : "",
+                ...initialState,
             }
         default :
             return{
-                errorMessage : "",
+                ...state,
             };
     }
 };
