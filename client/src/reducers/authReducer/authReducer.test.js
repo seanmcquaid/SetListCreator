@@ -338,4 +338,19 @@ describe("authReducer", () => {
         });
     });
 
+    test("DEFAULT", () => {
+        const action = {
+            type : "DEFAULT",
+        };
+
+        const expectedResult = {
+            isAuthenticated: false,
+            token: null,
+            username: "",
+            accountType: "",
+            isLoading: false,
+        };
+
+        expect(authReducer(initialState, action)).toEqual(expectedResult);
+    });
 });
