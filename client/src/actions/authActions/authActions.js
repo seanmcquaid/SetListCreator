@@ -29,7 +29,7 @@ export const loginAction = (username, password, accountType) => async dispatch =
     });
 
     return axios.post(`${apiHost}/users/login/${accountType}`, requestBody)
-        .then(response =>{
+        .then(response => {
             dispatch({
                 type : LOGIN_SUCCESS,
                 payload : response.data
