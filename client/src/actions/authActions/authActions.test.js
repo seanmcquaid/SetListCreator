@@ -24,9 +24,8 @@ import {
     GET_USER_INFO_LOADING
 } from "./authActionTypes";
 
-const mockAxios = new AxiosMockAdapter(axios);
-
 describe("authActions", () => {
+    const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
 
     const middleware = [ReduxThunk];
     const mockStore = configureMockStore(middleware);
@@ -34,6 +33,10 @@ describe("authActions", () => {
     const store = mockStore();
 
     describe("loginAction", () => {
+
+        afterEach(() => {
+            store.clearActions();
+        });
         test("loginAction - success", () => {
             const username = "testuser@gmail.com";
             const password = "testpassword";
@@ -72,22 +75,17 @@ describe("authActions", () => {
             const accountType = "client";
     
             const payload = {
-                isAuthenticated : true,
-                token : "test token",
-                username : "testuser@gmail.com",
-                accountType : "client",
-                setListAvailable : false,
-                selectedBandleader : "testbandleader@gmail.com",
+                errorMessage : "error"
             };
     
-            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
+            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(401, payload);
     
             const expectedActions = [
                 {
                     type : LOGIN_LOADING,
                 },
                 {
-                    type : LOGIN_SUCCESS,
+                    type : LOGIN_ERROR,
                     payload,
                 }
             ];
