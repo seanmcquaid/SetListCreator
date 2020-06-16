@@ -19,6 +19,7 @@
     "react-scripts": "^3.4.1",
     "react-spinners": "^0.8.3",
     "redux": "^4.0.5",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0"
   },
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@jedmao/redux-mock-store": "^3.0.5",
     "jest": "^24.9.0"
   }
 }
