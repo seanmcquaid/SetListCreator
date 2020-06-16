@@ -38,7 +38,7 @@ export const loginAction = (username, password, accountType) => async dispatch =
         .catch(err => {
             dispatch({
                 type : LOGIN_ERROR,
-                payload : err.response
+                payload : err.response.data
             })
         });
 };
@@ -61,7 +61,7 @@ export const registerAction = (username, password, accountType, selectedBandlead
         .catch(err => {
             dispatch({
                 type : REGISTER_ERROR,
-                payload : err.response
+                payload : err.response.data
             })
         });
 
@@ -113,7 +113,7 @@ export const checkTokenAction = () => async dispatch => {
         .catch(err => {
             dispatch({
                 type : CHECK_TOKEN_ERROR,
-                payload : err.response
+                payload : err.response.data
             })
         })
 
@@ -143,7 +143,7 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
         .catch(err => {
             dispatch({
                 type : EDIT_USER_INFO_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             })
         });
 
@@ -166,7 +166,7 @@ export const getUserInfoAction = () => dispatch => {
         .catch(err => {
             dispatch({
                 type : GET_USER_INFO_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             })
         });
 };

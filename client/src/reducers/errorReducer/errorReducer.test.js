@@ -31,9 +31,7 @@ describe("errorReducer", () => {
             const action = {
                 type : REGISTER_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -58,9 +56,7 @@ describe("errorReducer", () => {
             const action = {
                 type : LOGIN_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -85,9 +81,7 @@ describe("errorReducer", () => {
             const action = {
                 type : CHECK_TOKEN_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -112,9 +106,7 @@ describe("errorReducer", () => {
             const action = {
                 type : EDIT_USER_INFO_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -139,9 +131,7 @@ describe("errorReducer", () => {
             const action = {
                 type : ADD_BANDLEADER_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -166,9 +156,7 @@ describe("errorReducer", () => {
             const action = {
                 type : EDIT_BANDLEADER_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -193,9 +181,7 @@ describe("errorReducer", () => {
             const action = {
                 type : GET_BANDLEADER_SONGS_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -220,9 +206,7 @@ describe("errorReducer", () => {
             const action = {
                 type : DELETE_BANDLEADER_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -247,9 +231,7 @@ describe("errorReducer", () => {
             const action = {
                 type : GET_CLIENT_SONGS_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -274,9 +256,7 @@ describe("errorReducer", () => {
             const action = {
                 type : ADD_CLIENT_REQUESTED_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -301,9 +281,7 @@ describe("errorReducer", () => {
             const action = {
                 type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -328,9 +306,7 @@ describe("errorReducer", () => {
             const action = {
                 type : DELETE_CLIENT_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 
@@ -355,9 +331,7 @@ describe("errorReducer", () => {
             const action = {
                 type : EDIT_CLIENT_SONG_ERROR,
                 payload : {
-                    data : {
-                        errorMessage : "ERROR MESSAGE HERE",
-                    },
+                    errorMessage : "ERROR MESSAGE HERE",
                 },
             };
 

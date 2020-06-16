@@ -41,7 +41,7 @@ const errorReducer = (state = initialState, action) => {
             if(action.payload){
                 return {
                     ...state,
-                    errorMessage : action.payload.data.errorMessage
+                    errorMessage : action.payload.errorMessage
                 };
             }
             return {

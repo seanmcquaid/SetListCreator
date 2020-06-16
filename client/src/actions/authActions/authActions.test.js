@@ -27,39 +27,76 @@ import {
 const mockAxios = new AxiosMockAdapter(axios);
 
 describe("authActions", () => {
-    test("loginAction", () => {
-        const username = "testuser@gmail.com";
-        const password = "testpassword";
-        const accountType = "client";
 
-        const payload = {
-            isAuthenticated : true,
-            token : "test token",
-            username : "testuser@gmail.com",
-            accountType : "client",
-            setListAvailable : false,
-            selectedBandleader : "testbandleader@gmail.com",
-        };
+    const middleware = [ReduxThunk];
+    const mockStore = configureMockStore(middleware);
 
-        mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
+    const store = mockStore();
 
-        const middleware = [ReduxThunk];
-        const mockStore = configureMockStore(middleware);
+    describe("loginAction", () => {
+        test("loginAction - success", () => {
+            const username = "testuser@gmail.com";
+            const password = "testpassword";
+            const accountType = "client";
 
-        const store = mockStore();
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "testuser@gmail.com",
+                accountType : "client",
+                setListAvailable : false,
+                selectedBandleader : "testbandleader@gmail.com",
+            };
 
-        const expectedActions = [
-            {
-                type : LOGIN_LOADING,
-            },
-            {
-                type : LOGIN_SUCCESS,
-                payload,
-            }
-        ];
+            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
 
-        return store.dispatch(loginAction(username, password, accountType)).then(() => {
-            expect(store.getActions()).toEqual(expectedActions);
+            const expectedActions = [
+                {
+                    type : LOGIN_LOADING,
+                },
+                {
+                    type : LOGIN_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(loginAction(username, password, accountType)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+
         });
+
+        test("loginAction - error", () => {
+            const username = "testuser@gmail.com";
+            const password = "testpassword";
+            const accountType = "client";
+    
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "testuser@gmail.com",
+                accountType : "client",
+                setListAvailable : false,
+                selectedBandleader : "testbandleader@gmail.com",
+            };
+    
+            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
+    
+            const expectedActions = [
+                {
+                    type : LOGIN_LOADING,
+                },
+                {
+                    type : LOGIN_SUCCESS,
+                    payload,
+                }
+            ];
+    
+            return store.dispatch(loginAction(username, password, accountType)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
     });
+    
 });

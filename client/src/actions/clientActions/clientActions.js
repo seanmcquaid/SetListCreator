@@ -40,7 +40,7 @@ export const getClientSongsAction = () => async dispatch => {
         .catch(async err => {
             await dispatch({
                 type : GET_CLIENT_SONGS_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             })
         });
 
@@ -65,7 +65,7 @@ export const addClientRequestedSongAction = (songName, artistName) => async disp
         .catch(async err => {
             await dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             })
         });
 };
@@ -88,7 +88,7 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => async disp
         .catch(async err => {
             await dispatch({
                 type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             })
         });
 };
@@ -112,7 +112,7 @@ export const deleteClientSongAction = songId => async dispatch => {
         .catch(async err =>{
             await dispatch({
                 type : DELETE_CLIENT_SONG_ERROR,
-                payload : err.response
+                payload : err.response.data
             });
         })
     
@@ -142,7 +142,7 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
         .catch(async err => {
             await dispatch({
                 type : EDIT_CLIENT_SONG_ERROR,
-                payload : err.response
+                payload : err.response.data
             })
         });
 
@@ -170,7 +170,7 @@ export const sendClientSetListAction = setListAvailability => async dispatch => 
         .catch(err => {
             dispatch({
                 type : SEND_CLIENT_SETLIST_ERROR,
-                payload : err.response
+                payload : err.response.data
             });
         })
 

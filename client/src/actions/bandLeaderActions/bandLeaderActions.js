@@ -38,7 +38,7 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => async 
         .catch(async err => {
             await dispatch({
                 type : ADD_BANDLEADER_SONG_ERROR,
-                payload : err.response
+                payload : err.response.data
             });
         });
 
@@ -62,7 +62,7 @@ export const deleteBandleaderSongAction = songId => async dispatch => {
             .catch(async err => {
                 await dispatch({
                     type : DELETE_BANDLEADER_SONG_ERROR,
-                    payload : err.response
+                    payload : err.response.data
                 });
             });
 
@@ -86,7 +86,7 @@ export const getBandleaderSongsAction = () => async dispatch => {
         .catch(async err => {
             await dispatch({
                 type : GET_BANDLEADER_SONGS_ERROR,
-                payload : err.response
+                payload : err.response.data
             });
         });
 };
@@ -115,7 +115,7 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
         .catch(async err => {
             await dispatch({
                 type : EDIT_BANDLEADER_SONG_ERROR,
-                payload : err.response
+                payload : err.response.data
             })
         });
 
@@ -139,7 +139,7 @@ export const getBandleaderClientsAction = () => async dispatch => {
         .catch(async err => {
             await dispatch({
                 type : GET_BANDLEADER_CLIENTS_ERROR,
-                payload : err.response,
+                payload : err.response.data,
             });
         });
 
