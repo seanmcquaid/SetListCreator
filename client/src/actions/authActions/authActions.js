@@ -28,7 +28,7 @@ export const loginAction = (username, password, accountType) => async dispatch =
         type : LOGIN_LOADING
     });
 
-    axios.post(`${apiHost}/users/login/${accountType}`, requestBody)
+    return axios.post(`${apiHost}/users/login/${accountType}`, requestBody)
         .then(response =>{
             dispatch({
                 type : LOGIN_SUCCESS,
@@ -51,7 +51,7 @@ export const registerAction = (username, password, accountType, selectedBandlead
         type : REGISTER_LOADING
     });
 
-    axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
+    return axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
         .then(response =>{
             dispatch({
                 type : REGISTER_SUCCESS,
@@ -103,7 +103,7 @@ export const checkTokenAction = () => async dispatch => {
 
     const headers = tokenConfig();
 
-    axios.get(`${apiHost}/users/checkToken`, headers)
+    return axios.get(`${apiHost}/users/checkToken`, headers)
         .then(response => {
             dispatch({
                 type : CHECK_TOKEN_SUCCESS,
@@ -111,7 +111,6 @@ export const checkTokenAction = () => async dispatch => {
             })
         })
         .catch(err => {
-            console.log(err)
             dispatch({
                 type : CHECK_TOKEN_ERROR,
                 payload : err.response
@@ -134,7 +133,7 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
 
     const headers = tokenConfig();
 
-    axios.patch(`${apiHost}/users/editUserInfo`, requestBody, headers)
+    return axios.patch(`${apiHost}/users/editUserInfo`, requestBody, headers)
         .then(response => {
             dispatch({
                 type : EDIT_USER_INFO_SUCCESS,
@@ -157,7 +156,7 @@ export const getUserInfoAction = () => dispatch => {
     })
 
     const headers = tokenConfig();
-    axios.get(`${apiHost}/users/getUserInfo`, headers)
+    return axios.get(`${apiHost}/users/getUserInfo`, headers)
         .then(async response => {
             dispatch({
                 type : GET_USER_INFO_SUCCESS,

@@ -1,14 +1,14 @@
 import React from "react";
-import {MemoryRouter as Router} from "react-router-dom";
+import {MemoryRouter} from "react-router-dom";
 
 const MockRouter = ({initialRoute, children}) => (
     initialRoute ?
-        <Router initialEntries={[initialRoute]}>
+        <MemoryRouter initialEntries={[initialRoute]}>
             {children}
-        </Router> : 
-        <Router>
+        </MemoryRouter> : 
+        <MemoryRouter>
             {children}
-        </Router>
+        </MemoryRouter>
 );
 
 export default MockRouter;

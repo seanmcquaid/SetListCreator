@@ -58,7 +58,7 @@ const Navbar = React.memo(() => {
     const leftNavRoute = isAuthenticated ? accountType === "bandleader"? "/bandleaderHome": "/clientHome" : "/";
 
     return(
-        <nav className={styles.navbarContainer}>
+        <nav className={styles.navbarContainer} data-testid="navbar">
             <div className={styles.leftNav}>
                 <Link className={styles.leftNavLink} to={leftNavRoute} onClick={mobileNavButtonOnClick}>SLC</Link>
             </div>

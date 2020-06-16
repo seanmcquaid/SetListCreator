@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const Layout = React.memo(({children}) => (
     <Aux>
         <Navbar/>
-        <div className={styles.mainContentContainer}>
+        <div className={styles.mainContentContainer} data-testid="mainContentContainer">
             {children}
         </div>
         <Footer/>

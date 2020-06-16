@@ -7,9 +7,10 @@ import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 
 describe("<Layout/>", () => {
-    test("", () => {
+    test("Renders Correctly", () => {
         const middleware = [ReduxThunk];
         const mockStore = configureMockStore(middleware);
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -18,7 +19,7 @@ describe("<Layout/>", () => {
 
         const store = mockStore(initialState);
 
-        const {} = render(
+        const {getByTestId, getByText} = render(
             <Provider store={store}>
                 <MockRouter>
                     <Layout>
@@ -26,6 +27,11 @@ describe("<Layout/>", () => {
                     </Layout>
                 </MockRouter>
             </Provider>
-        )
+        );
+
+        expect(getByTestId("navbar")).toBeInTheDocument();
+        expect(getByTestId("mainContentContainer")).toBeInTheDocument();
+        expect(getByText("Layout Here")).toBeInTheDocument();
+        expect(getByTestId("footer")).toBeInTheDocument();
     });
 });

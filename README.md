@@ -3,8 +3,9 @@
 I have more or less finished the basic app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
 To Do 
-1) Finish layout and navbar component tests
+1) Finish layout testing
 2) Actions
+3) Finish navbar testing
 
 Mock Axios testing
 https://stackoverflow.com/questions/45016033/how-do-i-test-axios-in-jest
