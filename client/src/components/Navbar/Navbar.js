@@ -5,7 +5,7 @@ import styles from "./Navbar.module.css";
 import Aux from "hoc/Aux/Aux";
 import {logoutAction} from "actions/authActions/authActions";
 import { selectAuthState } from "selectors/authSelectors/authSelectors";
-import useWindowSize from "hooks/useWIndowSize";
+import useWindowSize from "hooks/useWindowSize";
 import {GiHamburgerMenu as HamburgerIcon} from "react-icons/gi"
 
 const Navbar = React.memo(() => {
