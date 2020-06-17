@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction, registerAction, logoutAction} from "./authActions";
+import {loginAction, registerAction, logoutAction, tokenConfig} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -176,7 +176,24 @@ describe("authActions", () => {
         return store.dispatch(logoutAction()).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
-        
+    });
+
+    describe("tokenConfig", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("tokenConfig works correctly", () => {
+            const expectedResult = { 
+                headers: { "Content-Type": "application/json", Authorization: "token" } 
+            };
+
+            expect(tokenConfig()).toEqual(expectedResult);
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        })
     });
     
 });
