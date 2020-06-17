@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { clearErrorMessage } from "actions/errorActions/errorActions";
+import { clearErrorMessageAction } from "actions/errorActions/errorActions";
 import { useHistory } from "react-router-dom";
 
 const onLeave = WrappedComponent => {
@@ -11,7 +11,7 @@ const onLeave = WrappedComponent => {
 
         useEffect(() => {
             history.listen(() => {
-                dispatch(clearErrorMessage());
+                dispatch(clearErrorMessageAction());
             });
         },[history, dispatch]);
     

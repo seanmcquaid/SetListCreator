@@ -23,7 +23,6 @@ import {
     GET_USER_INFO_ERROR,
     GET_USER_INFO_LOADING
 } from "./authActionTypes";
-import { store } from "store/store";
 
 describe("authActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -166,16 +165,16 @@ describe("authActions", () => {
 
         const expectedActions = [
             {
-                type : LOGOUT_LOADING
+                type : LOGOUT_LOADING,
             },
             {
-                type : LOGOUT_SUCCESS
+                type : LOGOUT_SUCCESS,
             }
         ];
 
-        return store.dispatch(logoutAction()).then(() => {
-            expect(store.getActions()).toEqual(expectedActions);
-        });
+        store.dispatch(logoutAction());
+
+        expect(store.getActions()).toEqual(expectedActions);
     });
 
     describe("tokenConfig", () => {

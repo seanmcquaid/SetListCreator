@@ -66,7 +66,7 @@ export const registerAction = (username, password, accountType, selectedBandlead
         });
 };
 
-export const logoutAction = () => async dispatch => {
+export const logoutAction = () => dispatch => {
 
     dispatch({
         type : LOGOUT_LOADING
