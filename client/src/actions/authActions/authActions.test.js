@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction} from "./authActions";
+import {loginAction, registerAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -30,14 +30,10 @@ describe("authActions", () => {
     const middleware = [ReduxThunk];
     const mockStore = configureMockStore(middleware);
 
-    const store = mockStore();
-
     describe("loginAction", () => {
-
-        afterEach(() => {
-            store.clearActions();
-        });
         test("loginAction - success", () => {
+            const store = mockStore();
+
             const username = "testuser@gmail.com";
             const password = "testpassword";
             const accountType = "client";
@@ -70,6 +66,8 @@ describe("authActions", () => {
         });
 
         test("loginAction - error", () => {
+            const store = mockStore();
+
             const username = "testuser@gmail.com";
             const password = "testpassword";
             const accountType = "client";
@@ -95,6 +93,71 @@ describe("authActions", () => {
             });
         });
 
+    });
+
+    describe("registerAction", () => {
+        test("registerAction - success", () => {
+            const store = mockStore();
+
+            const username = "testuser@gmail.com";
+            const password = "test123";
+            const accountType = "client";
+            const selectedBandleader = "testbandleader@gmail.com";
+
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "testuser@gmail.com",
+                accountType : "client",
+                setListAvailable : false,
+                selectedBandleader : "testbandleader@gmail.com",
+            };
+
+            mockAxios.onPost(`${apiHost}/users/register/${accountType}`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : REGISTER_LOADING,
+                },
+                {
+                    type : REGISTER_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(registerAction(username, password, accountType, selectedBandleader)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("registerAction - error", () => {
+            const store = mockStore();
+
+            const username = "testuser@gmail.com";
+            const password = "test123";
+            const accountType = "client";
+            const selectedBandleader = "testbandleader@gmail.com";
+    
+            const payload = {
+                errorMessage : "error"
+            };
+    
+            mockAxios.onPost(`${apiHost}/users/register/${accountType}`).reply(401, payload);
+    
+            const expectedActions = [
+                {
+                    type : REGISTER_LOADING,
+                },
+                {
+                    type : REGISTER_ERROR,
+                    payload,
+                }
+            ];
+    
+            return store.dispatch(registerAction(username, password, accountType, selectedBandleader)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
     });
     
 });
