@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction, registerAction} from "./authActions";
+import {loginAction, registerAction, logoutAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -23,6 +23,7 @@ import {
     GET_USER_INFO_ERROR,
     GET_USER_INFO_LOADING
 } from "./authActionTypes";
+import { store } from "store/store";
 
 describe("authActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -158,6 +159,24 @@ describe("authActions", () => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
+    });
+
+    test("logoutAction", () => {
+        const store = mockStore();
+
+        const expectedActions = [
+            {
+                type : LOGOUT_LOADING
+            },
+            {
+                type : LOGOUT_SUCCESS
+            }
+        ];
+
+        return store.dispatch(logoutAction()).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+        
     });
     
 });

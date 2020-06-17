@@ -52,7 +52,7 @@ export const registerAction = (username, password, accountType, selectedBandlead
     });
 
     return axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
-        .then(response =>{
+        .then(response => {
             dispatch({
                 type : REGISTER_SUCCESS,
                 payload : response.data
