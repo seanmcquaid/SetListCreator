@@ -46,27 +46,27 @@ export const getClientSongsAction = () => dispatch => {
 
 };
 
-export const addClientRequestedSongAction = (songName, artistName) => async dispatch => {
+export const addClientRequestedSongAction = (songName, artistName) => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : ADD_CLIENT_REQUESTED_SONG_LOADING,
     })
 
     const requestBody = {songName, artistName};
-    const headers = await tokenConfig();
+    const headers = tokenConfig();
 
-    axios.post(`${apiHost}/client/addSong/requestedSong`, requestBody, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.post(`${apiHost}/client/addSong/requestedSong`, requestBody, headers)
+        .then(response => {
+            dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_SUCCESS,
                 payload : response.data,
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_ERROR,
                 payload : err.response.data,
-            })
+            });
         });
 };
 
