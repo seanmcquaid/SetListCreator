@@ -330,7 +330,7 @@ describe("bandleaderActions", () => {
             });
         });
 
-        test("getBandleaderSongsAction - error", () => {
+        test("getBandleaderClientsAction - error", () => {
             const store = mockStore();
 
             const payload = {
