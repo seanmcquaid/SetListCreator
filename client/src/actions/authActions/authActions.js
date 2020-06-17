@@ -151,9 +151,10 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
 export const getUserInfoAction = () => dispatch => {
     dispatch({
         type : GET_USER_INFO_LOADING,
-    })
+    });
 
     const headers = tokenConfig();
+
     return axios.get(`${apiHost}/users/getUserInfo`, headers)
         .then(async response => {
             dispatch({

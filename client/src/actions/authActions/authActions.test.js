@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction, editUserInfoAction} from "./authActions";
+import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction, editUserInfoAction, getUserInfoAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -332,4 +332,64 @@ describe("authActions", () => {
         });
     });
     
+    describe("getUserInfoAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("getUserInfoAction - success", () => {
+            const store = mockStore();
+
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "testuser@gmail.com",
+                accountType : "client",
+            };
+
+            mockAxios.onGet(`${apiHost}/users/getUserInfo`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_USER_INFO_LOADING,
+                },
+                {
+                    type : GET_USER_INFO_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getUserInfoAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("checkTokenAction - error", () => {
+            const store = mockStore();
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onGet(`${apiHost}/users/getUserInfo`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_USER_INFO_LOADING,
+                },
+                {
+                    type : GET_USER_INFO_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getUserInfoAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
 });
