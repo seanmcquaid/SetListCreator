@@ -56,15 +56,14 @@ export const registerAction = (username, password, accountType, selectedBandlead
             dispatch({
                 type : REGISTER_SUCCESS,
                 payload : response.data
-            })
+            });
         })
         .catch(err => {
             dispatch({
                 type : REGISTER_ERROR,
                 payload : err.response.data
-            })
+            });
         });
-
 };
 
 export const logoutAction = () => async dispatch => {
@@ -76,7 +75,7 @@ export const logoutAction = () => async dispatch => {
     dispatch({
         type : LOGOUT_SUCCESS
     });
-}
+};
 
 export const tokenConfig = () => {
     const token = localStorage.getItem("token");
@@ -84,16 +83,15 @@ export const tokenConfig = () => {
     const config = {
         headers : {
             "Content-Type" : "application/json"
-        }
-    }
+        },
+    };
 
     if(token){
         config.headers["Authorization"] = token;
     }
 
     return config;
-
-}
+};
 
 export const checkTokenAction = () => async dispatch => {
 
@@ -115,7 +113,7 @@ export const checkTokenAction = () => async dispatch => {
                 type : CHECK_TOKEN_ERROR,
                 payload : err.response.data
             })
-        })
+        });
 
 }
 
@@ -123,13 +121,13 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
     
     dispatch({
         type : EDIT_USER_INFO_LOADING,
-    })
+    });
 
     const requestBody = {
         newUsername,
         newPassword,
         accountType
-    }
+    };
 
     const headers = tokenConfig();
 

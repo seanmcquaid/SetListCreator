@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction} from "./authActions";
+import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction, editUserInfoAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -205,7 +205,7 @@ describe("authActions", () => {
     describe("checkTokenAction", () => {
         beforeEach(() => {
             localStorage.setItem("token", "token");
-        })
+        });
 
         test("checkTokenAction - success", () => {
             const store = mockStore();
@@ -254,6 +254,75 @@ describe("authActions", () => {
             ];
 
             return store.dispatch(checkTokenAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("editUserInfoAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("editUserInfoAction - success", () => {
+            const store = mockStore();
+
+            const newUsername = "newUser";
+            const newPassword = "newPass";
+            const accountType = "bandleader";
+
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "newUser",
+                accountType : "bandleader",
+            };
+
+            mockAxios.onPatch(`${apiHost}/users/editUserInfo`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_USER_INFO_LOADING,
+                },
+                {
+                    type : EDIT_USER_INFO_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editUserInfoAction(newUsername, newPassword, accountType)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("editUserInfoAction - error", () => {
+            const store = mockStore();
+
+            const newUsername = "newUser";
+            const newPassword = "newPass";
+            const accountType = "bandleader";
+
+            const payload = {
+                errorMessage : "error"
+            };
+
+            mockAxios.onPatch(`${apiHost}/users/editUserInfo`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_USER_INFO_LOADING,
+                },
+                {
+                    type : EDIT_USER_INFO_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editUserInfoAction(newUsername, newPassword, accountType)).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
