@@ -44,47 +44,47 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => dispat
 
 };
 
-export const deleteBandleaderSongAction = songId => async dispatch => {
+export const deleteBandleaderSongAction = songId => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : DELETE_BANDLEADER_SONG_LOADING,
     })
     
     const headers = tokenConfig();
 
-    axios.delete(`${apiHost}/bandleader/deleteSong/${songId}`, headers)
-            .then(async response => {
-                await dispatch({
-                    type : DELETE_BANDLEADER_SONG_SUCCESS,
-                    payload : response.data
-                });
-            })
-            .catch(async err => {
-                await dispatch({
-                    type : DELETE_BANDLEADER_SONG_ERROR,
-                    payload : err.response.data
-                });
+    return axios.delete(`${apiHost}/bandleader/deleteSong/${songId}`, headers)
+        .then(response => {
+            dispatch({
+                type : DELETE_BANDLEADER_SONG_SUCCESS,
+                payload : response.data
             });
+        })
+        .catch(err => {
+            dispatch({
+                type : DELETE_BANDLEADER_SONG_ERROR,
+                payload : err.response.data
+            });
+        });
 
 }
 
-export const getBandleaderSongsAction = () => async dispatch => {
+export const getBandleaderSongsAction = () => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : GET_BANDLEADER_SONGS_LOADING,
     })
 
     const headers = tokenConfig();
 
-     axios.get(`${apiHost}/bandleader/getSongs`, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.get(`${apiHost}/bandleader/getSongs`, headers)
+        .then(response => {
+            dispatch({
                 type : GET_BANDLEADER_SONGS_SUCCESS,
                 payload : response.data
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : GET_BANDLEADER_SONGS_ERROR,
                 payload : err.response.data
             });

@@ -20,7 +20,7 @@ import {
     DELETE_BANDLEADER_SONG_ERROR,
 } from "./bandleaderActionTypes";
 import { apiHost } from "config";
-import {addBandleaderSongAction} from "./bandleaderActions";
+import {addBandleaderSongAction, deleteBandleaderSongAction, getBandleaderSongsAction} from "./bandleaderActions";
 
 describe("bandleaderActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -97,6 +97,132 @@ describe("bandleaderActions", () => {
 
         afterEach(() => {
             localStorage.removeItem("token");
-        })
+        });
+    });
+
+    describe("deleteBandleaderSongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("deleteBandleaderSongAction - success", () => {
+            const store = mockStore();
+
+            const songId = 1;
+
+            const payload = {
+                songList : [],
+            };
+
+            mockAxios.onDelete(`${apiHost}/bandleader/deleteSong/${songId}`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : DELETE_BANDLEADER_SONG_LOADING,
+                },
+                {
+                    type : DELETE_BANDLEADER_SONG_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(deleteBandleaderSongAction(songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("deleteBandleaderSongAction - error", () => {
+            const store = mockStore();
+
+            const songId = 1;
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onDelete(`${apiHost}/bandleader/deleteSong/${songId}`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : DELETE_BANDLEADER_SONG_LOADING,
+                },
+                {
+                    type : DELETE_BANDLEADER_SONG_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(deleteBandleaderSongAction(songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("getBandleaderSongsAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("getBandleaderSongsAction - success", () => {
+            const store = mockStore();
+
+            const payload = {
+                songList : [
+                    {
+                        songName : "Uptown Funk",
+                        artistName : "Bruno Mars",
+                        songKey : "D Minor",
+                    }
+                ],
+            };
+
+            mockAxios.onGet(`${apiHost}/bandleader/getSongs`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_BANDLEADER_SONGS_LOADING,
+                },
+                {
+                    type : GET_BANDLEADER_SONGS_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getBandleaderSongsAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("getBandleaderSongsAction - error", () => {
+            const store = mockStore();
+
+            const payload = {
+                errorMessage : "error"
+            };
+
+            mockAxios.onGet(`${apiHost}/bandleader/getSongs`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_BANDLEADER_SONGS_LOADING,
+                },
+                {
+                    type : GET_BANDLEADER_SONGS_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getBandleaderSongsAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
     });
 });
