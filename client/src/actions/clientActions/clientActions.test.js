@@ -23,7 +23,7 @@ import {
     SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
 import {apiHost} from "config";
-import { getClientSongsAction, addClientRequestedSongAction } from "./clientActions";
+import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction } from "./clientActions";
 
 describe("clientActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -155,6 +155,78 @@ describe("clientActions", () => {
             ];
 
             return store.dispatch(addClientRequestedSongAction(songName, artistName)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("addClientDoNotPlaySongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token")
+        });
+
+        test("addClientDoNotPlaySongAction - success", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+
+            const payload = {
+                doNotPlaySongsList : [
+                    {
+                        songName,
+                        artistName,
+                    }
+                ],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+
+            mockAxios.onPost(`${apiHost}/client/addSong/doNotPlaySong`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
+                },
+                {
+                    type : ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(addClientDoNotPlaySongAction(songName, artistName)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("addClientDoNotPlaySongAction - error", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onPost(`${apiHost}/client/addSong/doNotPlaySong`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
+                },
+                {
+                    type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(addClientDoNotPlaySongAction(songName, artistName)).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
