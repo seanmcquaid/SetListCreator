@@ -23,7 +23,7 @@ import {
     SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
 import {apiHost} from "config";
-import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction } from "./clientActions";
+import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction, editClientSongAction } from "./clientActions";
 
 describe("clientActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -292,6 +292,83 @@ describe("clientActions", () => {
             ];
 
             return store.dispatch(deleteClientSongAction(songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("editClientSongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token")
+        });
+
+        test("editClientSongAction - success", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+            const playListType = "requestedSong";
+            const songId = 1;
+
+            const payload = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [
+                    {
+                        songId,
+                        songName,
+                        artistName,
+                    }
+                ],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+
+            mockAxios.onPatch(`${apiHost}/client/editSong/${songId}`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_CLIENT_SONG_LOADING,
+                },
+                {
+                    type : EDIT_CLIENT_SONG_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editClientSongAction(songName, artistName, playListType, songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("editClientSongAction - error", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+            const playListType = "requestedSong";
+            const songId = 1;
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onPatch(`${apiHost}/client/editSong/${songId}`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_CLIENT_SONG_LOADING,
+                },
+                {
+                    type : EDIT_CLIENT_SONG_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editClientSongAction(songName, artistName, playListType, songId)).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
