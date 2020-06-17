@@ -91,9 +91,9 @@ export const getBandleaderSongsAction = () => dispatch => {
         });
 };
 
-export const editBandleaderSongAction = (songName, artistName, songKey, songId) => async dispatch => {
+export const editBandleaderSongAction = (songName, artistName, songKey, songId) => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : EDIT_BANDLEADER_SONG_LOADING,
     });
 
@@ -105,15 +105,15 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
 
     const headers = tokenConfig();
 
-    axios.patch(`${apiHost}/bandleader/editSong/${songId}`, requestBody, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.patch(`${apiHost}/bandleader/editSong/${songId}`, requestBody, headers)
+        .then(response => {
+            dispatch({
                 type : EDIT_BANDLEADER_SONG_SUCCESS,
                 payload : response.data
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : EDIT_BANDLEADER_SONG_ERROR,
                 payload : err.response.data
             })
@@ -121,23 +121,23 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
 
 };
 
-export const getBandleaderClientsAction = () => async dispatch => {
+export const getBandleaderClientsAction = () => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : GET_BANDLEADER_CLIENTS_LOADING,
     });
 
     const headers = tokenConfig();
 
-    axios.get(`${apiHost}/users/getClientsForBandleader`, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.get(`${apiHost}/users/getClientsForBandleader`, headers)
+        .then(response => {
+            dispatch({
                 type : GET_BANDLEADER_CLIENTS_SUCCESS,
                 payload : response.data,
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : GET_BANDLEADER_CLIENTS_ERROR,
                 payload : err.response.data,
             });

@@ -20,7 +20,7 @@ import {
     DELETE_BANDLEADER_SONG_ERROR,
 } from "./bandleaderActionTypes";
 import { apiHost } from "config";
-import {addBandleaderSongAction, deleteBandleaderSongAction, getBandleaderSongsAction} from "./bandleaderActions";
+import {addBandleaderSongAction, deleteBandleaderSongAction, getBandleaderSongsAction, editBandleaderSongAction, getBandleaderClientsAction} from "./bandleaderActions";
 
 describe("bandleaderActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -217,6 +217,139 @@ describe("bandleaderActions", () => {
             ];
 
             return store.dispatch(getBandleaderSongsAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("editBandleaderSongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("editBandleaderSongAction - success", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+            const songKey = "D Minor";
+            const songId = 1;
+
+            const payload = {
+                songList : [
+                    {
+                        songName,
+                        artistName,
+                        songKey,
+                        songId,
+                    }
+                ],
+            };
+
+            mockAxios.onPatch(`${apiHost}/bandleader/editSong/${songId}`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_BANDLEADER_SONG_LOADING,
+                },
+                {
+                    type : EDIT_BANDLEADER_SONG_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editBandleaderSongAction(songName, artistName, songKey, songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("editBandleaderSongAction - error", () => {
+            const store = mockStore();
+
+            const songName = "Uptown Funk";
+            const artistName = "Bruno Mars";
+            const songKey = "D Minor";
+            const songId = 1;
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onPatch(`${apiHost}/bandleader/editSong/${songId}`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : EDIT_BANDLEADER_SONG_LOADING,
+                },
+                {
+                    type : EDIT_BANDLEADER_SONG_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(editBandleaderSongAction(songName, artistName, songKey, songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("getBandleaderClientsAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
+        });
+
+        test("getBandleaderClientsAction - success", () => {
+            const store = mockStore();
+
+            const payload = {
+                clientList : []
+            };
+
+            mockAxios.onGet(`${apiHost}/users/getClientsForBandleader`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_BANDLEADER_CLIENTS_LOADING,
+                },
+                {
+                    type : GET_BANDLEADER_CLIENTS_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getBandleaderClientsAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("getBandleaderSongsAction - error", () => {
+            const store = mockStore();
+
+            const payload = {
+                errorMessage : "error"
+            };
+
+            mockAxios.onGet(`${apiHost}/users/getClientsForBandleader`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : GET_BANDLEADER_CLIENTS_LOADING,
+                },
+                {
+                    type : GET_BANDLEADER_CLIENTS_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(getBandleaderClientsAction()).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
