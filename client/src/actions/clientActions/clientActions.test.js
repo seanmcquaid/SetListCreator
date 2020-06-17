@@ -23,7 +23,7 @@ import {
     SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
 import {apiHost} from "config";
-import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction, editClientSongAction } from "./clientActions";
+import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction, editClientSongAction, sendClientSetListAction } from "./clientActions";
 
 describe("clientActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -369,6 +369,68 @@ describe("clientActions", () => {
             ];
 
             return store.dispatch(editClientSongAction(songName, artistName, playListType, songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("addClientRequestedSongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token")
+        });
+
+        test("sendClientSetListAction - success", () => {
+            const store = mockStore();
+
+            const setListAvailability = true;
+
+            const payload = {
+                setListAvailable : true,
+            };
+
+            mockAxios.onPatch(`${apiHost}/users/sendClientSetList`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : SEND_CLIENT_SETLIST_LOADING,
+                },
+                {
+                    type : SEND_CLIENT_SETLIST_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(sendClientSetListAction(setListAvailability)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("addClientRequestedSongAction - error", () => {
+            const store = mockStore();
+
+            const setListAvailability = true;
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onPatch(`${apiHost}/users/sendClientSetList`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : SEND_CLIENT_SETLIST_LOADING,
+                },
+                {
+                    type : SEND_CLIENT_SETLIST_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(sendClientSetListAction(setListAvailability)).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
