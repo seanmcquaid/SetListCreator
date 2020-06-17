@@ -22,23 +22,23 @@ import {
 import {tokenConfig} from "../authActions/authActions";
 import {apiHost} from "config";
 
-export const getClientSongsAction = () => async dispatch => {
+export const getClientSongsAction = () => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : GET_CLIENT_SONGS_LOADING,
     })
 
-    const headers = await tokenConfig();
+    const headers = tokenConfig();
 
-    axios.get(`${apiHost}/client/getSongs`, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.get(`${apiHost}/client/getSongs`, headers)
+        .then(response => {
+            dispatch({
                 type : GET_CLIENT_SONGS_SUCCESS,
                 payload : response.data,
             })
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : GET_CLIENT_SONGS_ERROR,
                 payload : err.response.data,
             })
