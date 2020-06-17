@@ -93,24 +93,24 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => dispatch =
         });
 };
 
-export const deleteClientSongAction = songId => async dispatch => {
+export const deleteClientSongAction = songId => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : DELETE_CLIENT_SONG_LOADING,
     });
 
 
     const headers = tokenConfig();
 
-    axios.delete(`${apiHost}/client/deleteSong/${songId}`, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.delete(`${apiHost}/client/deleteSong/${songId}`, headers)
+        .then(response => {
+            dispatch({
                 type : DELETE_CLIENT_SONG_SUCCESS,
                 payload : response.data,
             });
         })
-        .catch(async err =>{
-            await dispatch({
+        .catch(err =>{
+            dispatch({
                 type : DELETE_CLIENT_SONG_ERROR,
                 payload : err.response.data
             });
@@ -118,9 +118,9 @@ export const deleteClientSongAction = songId => async dispatch => {
     
 };
 
-export const editClientSongAction = (songName, artistName, playListType, songId) => async dispatch => {
+export const editClientSongAction = (songName, artistName, playListType, songId) => dispatch => {
 
-    await dispatch({
+    dispatch({
         type : EDIT_CLIENT_SONG_LOADING,
     });
 
@@ -132,15 +132,15 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
 
     const headers = tokenConfig();
 
-    axios.patch(`${apiHost}/client/editSong/${songId}`, requestBody, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.patch(`${apiHost}/client/editSong/${songId}`, requestBody, headers)
+        .then(response => {
+            dispatch({
                 type : EDIT_CLIENT_SONG_SUCCESS,
                 payload : response.data
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : EDIT_CLIENT_SONG_ERROR,
                 payload : err.response.data
             })

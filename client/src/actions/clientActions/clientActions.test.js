@@ -23,7 +23,7 @@ import {
     SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
 import {apiHost} from "config";
-import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction } from "./clientActions";
+import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction } from "./clientActions";
 
 describe("clientActions", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -227,6 +227,71 @@ describe("clientActions", () => {
             ];
 
             return store.dispatch(addClientDoNotPlaySongAction(songName, artistName)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
+    });
+
+    describe("deleteClientSongAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token")
+        });
+
+        test("deleteClientSongAction - success", () => {
+            const store = mockStore();
+
+            const songId = 1;
+
+            const payload = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+
+            mockAxios.onDelete(`${apiHost}/client/deleteSong/${songId}`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : DELETE_CLIENT_SONG_LOADING,
+                },
+                {
+                    type : DELETE_CLIENT_SONG_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(deleteClientSongAction(songId)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("deleteClientSongAction - error", () => {
+            const store = mockStore();
+
+            const songId = 1;
+
+            const payload = {
+                errorMessage : "error",
+            };
+
+            mockAxios.onDelete(`${apiHost}/client/deleteSong/${songId}`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : DELETE_CLIENT_SONG_LOADING,
+                },
+                {
+                    type : DELETE_CLIENT_SONG_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(deleteClientSongAction(songId)).then(() => {
                 expect(store.getActions()).toEqual(expectedActions);
             });
         });
