@@ -1,7 +1,7 @@
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
-import {loginAction, registerAction, logoutAction, tokenConfig} from "./authActions";
+import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -179,11 +179,9 @@ describe("authActions", () => {
     });
 
     describe("tokenConfig", () => {
-        beforeEach(() => {
-            localStorage.setItem("token", "token");
-        });
 
-        test("tokenConfig works correctly", () => {
+        test("tokenConfig works correctly with valid token", () => {
+            localStorage.setItem("token", "token");
             const expectedResult = { 
                 headers: { "Content-Type": "application/json", Authorization: "token" } 
             };
@@ -191,9 +189,78 @@ describe("authActions", () => {
             expect(tokenConfig()).toEqual(expectedResult);
         });
 
+        test("tokenConfig works correctly without valid token", () => {
+            const expectedResult = { 
+                headers: { "Content-Type": "application/json"} 
+            };
+
+            expect(tokenConfig()).toEqual(expectedResult);
+        });
+
         afterEach(() => {
             localStorage.removeItem("token");
+        });
+    });
+
+    describe("checkTokenAction", () => {
+        beforeEach(() => {
+            localStorage.setItem("token", "token");
         })
+
+        test("checkTokenAction - success", () => {
+            const store = mockStore();
+
+            const payload = {
+                isAuthenticated : true,
+                token : "test token",
+                username : "testuser@gmail.com",
+                accountType : "client",
+            };
+
+            mockAxios.onGet(`${apiHost}/users/checkToken`).reply(200, payload);
+
+            const expectedActions = [
+                {
+                    type : CHECK_TOKEN_LOADING
+                },
+                {
+                    type : CHECK_TOKEN_SUCCESS,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(checkTokenAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        test("checkTokenAction - error", () => {
+            const store = mockStore();
+
+            const payload = {
+                errorMessage : "error"
+            };
+
+            mockAxios.onGet(`${apiHost}/users/checkToken`).reply(401, payload);
+
+            const expectedActions = [
+                {
+                    type : CHECK_TOKEN_LOADING
+                },
+                {
+                    type : CHECK_TOKEN_ERROR,
+                    payload,
+                }
+            ];
+
+            return store.dispatch(checkTokenAction()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+        });
+
+        afterEach(() => {
+            localStorage.removeItem("token");
+        });
     });
     
 });
