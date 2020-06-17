@@ -19,24 +19,24 @@ import {
 import { tokenConfig } from "../authActions/authActions";
 import { apiHost } from "config";
 
-export const addBandleaderSongAction = (songName, artistName, songKey) => async dispatch => {
+export const addBandleaderSongAction = (songName, artistName, songKey) => dispatch => {
 
-    await dispatch({
-        type : ADD_BANDLEADER_SONG_LOADING
-    })
+    dispatch({
+        type : ADD_BANDLEADER_SONG_LOADING,
+    });
 
     const requestBody = {songName, artistName, songKey};
     const headers = tokenConfig();
 
-    axios.post(`${apiHost}/bandleader/addSong`, requestBody, headers)
-        .then(async response => {
-            await dispatch({
+    return axios.post(`${apiHost}/bandleader/addSong`, requestBody, headers)
+        .then(response => {
+            dispatch({
                 type : ADD_BANDLEADER_SONG_SUCCESS,
                 payload : response.data
             });
         })
-        .catch(async err => {
-            await dispatch({
+        .catch(err => {
+            dispatch({
                 type : ADD_BANDLEADER_SONG_ERROR,
                 payload : err.response.data
             });
