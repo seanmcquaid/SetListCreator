@@ -52,7 +52,7 @@ const BandleaderProfilePage = () => {
             dispatch(editUserInfoAction(currentUsername, password, "bandleader"));
             history.push("/bandleaderHome");
         }
-    },[currentUsername, password, history]);
+    },[currentUsername, password, history, dispatch, confirmPassword]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;
