@@ -25,7 +25,7 @@ import FinalizedSetListPage from "pages/ClientPages/FinalizedSetListPage/Finaliz
 import ClientEditSetListPage from "pages/BandleaderPages/ClientEditSetListPage/ClientEditSetListPage";
 import onLeave from "hoc/onLeave/onLeave";
 
-const ProtectedRoutes = props => (
+const ProtectedRoutes = () => (
     <Switch>
         <Route exact path="/" component={LandingPage}/>
         <Route exact path="/clientLogin" component={ClientLoginPage}/>
