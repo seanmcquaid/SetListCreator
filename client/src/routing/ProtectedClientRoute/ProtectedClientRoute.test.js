@@ -6,6 +6,8 @@ import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
+import LandingPage from "pages/LandingPage/LandingPage";
+import ClientHomePage from "pages/ClientPages/ClientHomePage/ClientHomePage";
 
 describe("<ProtectedClientRoute/>", () => {
 
@@ -21,17 +23,19 @@ describe("<ProtectedClientRoute/>", () => {
 
         const store = mockStore(initialState);
 
-        const {} = render(
+        const {getByTestId} = render(
             <Provider store={store}>
-                <MockRouter>
-                    <Route/>
-                    <ProtectedClientRoute/>
+                <MockRouter initialRoute="/clientHome">
+                    <Route exact path="/" component={LandingPage}/>
+                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
+
+        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
     });
 
-    test("Redirects to home page if not authenticated", () => {
+    test("Redirects to home page if not authenticated", async () => {
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -43,9 +47,9 @@ describe("<ProtectedClientRoute/>", () => {
 
         const {} = render(
             <Provider store={store}>
-                <MockRouter>
-                    <Route/>
-                    <ProtectedClientRoute/>
+                <MockRouter initialRoute="/clientHome">
+                    <Route exact path="/" component={LandingPage}/>
+                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
@@ -63,9 +67,9 @@ describe("<ProtectedClientRoute/>", () => {
 
         const {} = render(
             <Provider store={store}>
-                <MockRouter>
-                    <Route/>
-                    <ProtectedClientRoute/>
+                <MockRouter initialRoute="/clientHome">
+                    <Route exact path="/" component={LandingPage}/>
+                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
@@ -83,9 +87,9 @@ describe("<ProtectedClientRoute/>", () => {
 
         const {} = render(
             <Provider store={store}>
-                <MockRouter>
-                    <Route/>
-                    <ProtectedClientRoute/>
+                <MockRouter initialRoute="/clientHome">
+                    <Route exact path="/" component={LandingPage}/>
+                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
