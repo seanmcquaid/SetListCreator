@@ -22,12 +22,14 @@ const Navbar = React.memo(() => {
     },[screenSize.width])
     
     const mobileNavButtonOnClick = () => {
-        return screenSize.width < 750 ? setIsMobileNavToggled(!isMobileNavToggled) : null;
+        if(screenSize.width < 750){
+            setIsMobileNavToggled(!isMobileNavToggled);
+        }
     };
 
     const logoutButtonOnClick = () => {
         dispatch(logoutAction());
-        if(screenSize.width > 750){
+        if(screenSize.width < 750){
             setIsMobileNavToggled(!isMobileNavToggled);
         }
     };
