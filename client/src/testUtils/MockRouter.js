@@ -1,12 +1,12 @@
 import React from "react";
 import {MemoryRouter} from "react-router-dom";
 
-const MockRouter = ({initialRoute, children, history}) => (
+const MockRouter = ({initialRoute, children}) => (
     initialRoute ?
-        <MemoryRouter initialEntries={[initialRoute]} history={history}>
+        <MemoryRouter initialEntries={[initialRoute]}>
             {children}
         </MemoryRouter> : 
-        <MemoryRouter history={history}>
+        <MemoryRouter>
             {children}
         </MemoryRouter>
 );
