@@ -68,9 +68,10 @@ const Navbar = React.memo(() => {
                 <HamburgerIcon
                     className={styles.hamburgerMenu}
                     onClick={mobileNavButtonOnClick}
+                    data-testid="hamburgerIcon"
                 />
             </div>
-            <ul className={styles.rightNav}>
+            <ul className={styles.rightNav} data-test-id="rightNav">
                 {rightNav}
             </ul>
         </nav>

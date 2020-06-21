@@ -1,10 +1,11 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import MockRouter from "testUtils/MockRouter";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import ReduxThunk from "redux-thunk";
+import { act } from "react-dom/test-utils";
 
 describe("<Navbar/>", () => {
 
@@ -72,8 +73,36 @@ describe("<Navbar/>", () => {
             expect(getByText("SLC").href).toEqual("http://localhost/");
         });
 
-        test("Mobile nav click toggles nav when screen is less than 750px in width", () => {
+        test("Left Mobile Nav click toggles nav when screen is less than 750px in width", () => {
+            const initialState = {
+                auth : {
+                    isAuthenticated : false,
+                    accountType : "",
+                },
+            };
+            const store = mockStore(initialState);
 
+            const {getByText, getByTestId} = render(
+                <Provider store={store}>
+                    <MockRouter>
+                        <Navbar/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            act(() => {
+                window.innerWidth = 500;
+                window.innerHeight = 500;
+                fireEvent(window, new Event("resize"));
+            });
+
+            fireEvent.click(getByTestId("hamburgerIcon"));
+
+            expect(getByText("Client")).toBeVisible();
+
+            fireEvent.click(getByText("SLC"));
+
+            expect(getByText("Client")).not.toBeVisible();
         });
     });
 
