@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware} from "redux";
+import {applyMiddleware, compose, createStore, combineReducers} from "redux";
 import ReduxThunk from "redux-thunk";
 import authReducer from "reducers/authReducer/authReducer";
 import bandleaderReducer from "reducers/bandleaderReducer/bandleaderReducer";
@@ -12,7 +12,16 @@ const rootReducer = combineReducers({
     error : errorReducer,
 });
 
-const middleware = applyMiddleware(ReduxThunk);
-const createStoreWithMiddleware = middleware(createStore);
+const configureStore = preloadedState => {
+    const middlewares = [ReduxThunk];
+    const middlewareEnhancer = applyMiddleware(...middlewares);
 
-export const store = createStoreWithMiddleware(rootReducer);
+    const enhancers = [middlewareEnhancer];
+    const composedEnhancers = compose(...enhancers);
+
+    const store = createStore(rootReducer, preloadedState, composedEnhancers);
+
+    return store;
+};
+
+export default configureStore;
