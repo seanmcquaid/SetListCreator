@@ -3,14 +3,11 @@ import Navbar from "./Navbar";
 import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import MockRouter from "testUtils/MockRouter";
-import { configureMockStore } from "@jedmao/redux-mock-store";
-import ReduxThunk from "redux-thunk";
 import { act } from "react-dom/test-utils";
+import configureStore from "store/configureStore";
 
 describe("<Navbar/>", () => {
 
-    const middleware = [ReduxThunk];
-    const mockStore = configureMockStore(middleware);
     describe("Left Nav", () => {
 
         test("Route is correct when user is authenticated and has account type of client", () => {
@@ -20,7 +17,7 @@ describe("<Navbar/>", () => {
                     accountType : "client",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -40,7 +37,7 @@ describe("<Navbar/>", () => {
                     accountType : "bandleader",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -60,7 +57,7 @@ describe("<Navbar/>", () => {
                     accountType : "",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -80,7 +77,7 @@ describe("<Navbar/>", () => {
                     accountType : "",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText, getByTestId} = render(
                 <Provider store={store}>
@@ -114,7 +111,7 @@ describe("<Navbar/>", () => {
                     accountType : "client",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -136,7 +133,7 @@ describe("<Navbar/>", () => {
                     accountType : "bandleader",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -159,7 +156,7 @@ describe("<Navbar/>", () => {
                     accountType : "",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText} = render(
                 <Provider store={store}>
@@ -180,7 +177,7 @@ describe("<Navbar/>", () => {
                     accountType : "",
                 },
             };
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText, getByTestId} = render(
                 <Provider store={store}>
@@ -206,14 +203,14 @@ describe("<Navbar/>", () => {
         });
 
         describe("Logout Button", () => {
-            test("Dispatches logout action", () => {
+            test("Dispatches logout action and returns initial state", () => {
                 const initialState = {
                     auth : {
                         isAuthenticated : true,
                         accountType : "bandleader",
                     },
                 };
-                const store = mockStore(initialState);
+                const store = configureStore(initialState);
     
                 const {getByText, getByTestId} = render(
                     <Provider store={store}>
@@ -235,16 +232,15 @@ describe("<Navbar/>", () => {
                 
                 fireEvent.click(getByText("Logout"));
 
-                const expectedActions = [ 
-                    { 
-                        type: "LOGOUT_LOADING" 
-                    }, 
-                    { 
-                        type: "LOGOUT_SUCCESS" 
-                    } 
-                ];
+                const expectedAuthState = { 
+                    isAuthenticated: false,
+                    token: null,
+                    username: "",
+                    accountType: "",
+                    isLoading: false 
+                };
 
-                expect(store.getActions()).toEqual(expectedActions);
+                expect(store.getState().auth).toEqual(expectedAuthState);
             });
 
             test("Toggles nav", () => {
@@ -254,9 +250,9 @@ describe("<Navbar/>", () => {
                         accountType : "bandleader",
                     },
                 };
-                const store = mockStore(initialState);
+                const store = configureStore(initialState);
     
-                const {getByText, getByTestId} = render(
+                const {getByText, getByTestId, queryByText} = render(
                     <Provider store={store}>
                         <MockRouter>
                             <Navbar/>
@@ -276,7 +272,9 @@ describe("<Navbar/>", () => {
                 
                 fireEvent.click(getByText("Logout"));
 
-                expect(getByText("Logout")).not.toBeVisible();
+                expect(queryByText("Logout")).toBeNull();
+
+                expect(getByText("Client")).toBeInTheDocument();
             });
         });
     });
