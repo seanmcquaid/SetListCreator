@@ -3,6 +3,10 @@ import configureStore from "store/configureStore";
 
 describe("<ClientRegisterPage/>", () => {
     // Mock Axios for bandleaders call
+
+    test("Login link takes you to client login page", () => {
+
+    });
     
     test("Successfully register user - redirected to client home", () => {
         const initialState = {
@@ -20,6 +24,10 @@ describe("<ClientRegisterPage/>", () => {
     
         test("Bandleader not selected", () => {
     
+        });
+
+        test("User already is registered", () => {
+
         });
     });
 });
