@@ -202,80 +202,38 @@ describe("<Navbar/>", () => {
             expect(getByText("Client")).not.toBeVisible();
         });
 
-        describe("Logout Button", () => {
-            test("Dispatches logout action and returns initial state", () => {
-                const initialState = {
-                    auth : {
-                        isAuthenticated : true,
-                        accountType : "bandleader",
-                    },
-                };
-                const store = configureStore(initialState);
-    
-                const {getByText, getByTestId} = render(
-                    <Provider store={store}>
-                        <MockRouter>
-                            <Navbar/>
-                        </MockRouter>
-                    </Provider>
-                );
-    
-                act(() => {
-                    window.innerWidth = 500;
-                    window.innerHeight = 500;
-                    fireEvent(window, new Event("resize"));
-                });
-    
-                fireEvent.click(getByTestId("hamburgerIcon"));
+        test("Logout button logs a user out when clicked", () => {
+            const initialState = {
+                auth : {
+                    isAuthenticated : true,
+                    accountType : "bandleader",
+                },
+            };
+            const store = configureStore(initialState);
 
-                expect(getByText("Logout")).toBeVisible();
-                
-                fireEvent.click(getByText("Logout"));
+            const {getByText, getByTestId, queryByText} = render(
+                <Provider store={store}>
+                    <MockRouter>
+                        <Navbar/>
+                    </MockRouter>
+                </Provider>
+            );
 
-                const expectedAuthState = { 
-                    isAuthenticated: false,
-                    token: null,
-                    username: "",
-                    accountType: "",
-                    isLoading: false 
-                };
-
-                expect(store.getState().auth).toEqual(expectedAuthState);
+            act(() => {
+                window.innerWidth = 500;
+                window.innerHeight = 500;
+                fireEvent(window, new Event("resize"));
             });
 
-            test("Toggles nav", () => {
-                const initialState = {
-                    auth : {
-                        isAuthenticated : true,
-                        accountType : "bandleader",
-                    },
-                };
-                const store = configureStore(initialState);
-    
-                const {getByText, getByTestId, queryByText} = render(
-                    <Provider store={store}>
-                        <MockRouter>
-                            <Navbar/>
-                        </MockRouter>
-                    </Provider>
-                );
-    
-                act(() => {
-                    window.innerWidth = 500;
-                    window.innerHeight = 500;
-                    fireEvent(window, new Event("resize"));
-                });
-    
-                fireEvent.click(getByTestId("hamburgerIcon"));
+            fireEvent.click(getByTestId("hamburgerIcon"));
 
-                expect(getByText("Logout")).toBeVisible();
-                
-                fireEvent.click(getByText("Logout"));
+            expect(getByText("Logout")).toBeVisible();
+            
+            fireEvent.click(getByText("Logout"));
 
-                expect(queryByText("Logout")).toBeNull();
+            expect(queryByText("Logout")).toBeNull();
 
-                expect(getByText("Client")).toBeInTheDocument();
-            });
+            expect(getByText("Client")).toBeInTheDocument();
         });
     });
 });

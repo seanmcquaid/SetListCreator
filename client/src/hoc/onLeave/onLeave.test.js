@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import configureStore from "store/configureStore";
 
 describe("onLeave", () => {
-    test("Clear Error Message dispatches and clears error message when leaving page", () => {
+    test("Clears error message in state when leaving page", () => {
         const Component = () => (
             <Switch>
                 <Route exact path="/" component={LandingPage}/>

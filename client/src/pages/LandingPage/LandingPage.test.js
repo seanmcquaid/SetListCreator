@@ -1,18 +1,14 @@
 import React from "react";
 import LandingPage from "./LandingPage";
-import ReduxThunk from "redux-thunk";
 import { render, fireEvent } from "@testing-library/react";
-import { configureMockStore } from "@jedmao/redux-mock-store";
 import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
 import BandleaderLoginPage from "pages/BandleaderPages/BandleaderLoginPage/BandleaderLoginPage";
+import configureStore from "store/configureStore";
 
 describe("<LandingPage/>", () => {
-    const middleware = [ReduxThunk];
-    const mockStore = configureMockStore(middleware);
-
     test("Renders correctly", () => {
         const initialState = {
             auth : {
@@ -23,7 +19,7 @@ describe("<LandingPage/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByText} = render(
             <Provider store={store}>
@@ -47,7 +43,7 @@ describe("<LandingPage/>", () => {
                 },
             };
 
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText, queryByText} = render(
                 <Provider store={store}>
@@ -77,7 +73,7 @@ describe("<LandingPage/>", () => {
                 },
             };
 
-            const store = mockStore(initialState);
+            const store = configureStore(initialState);
 
             const {getByText, queryByText} = render(
                 <Provider store={store}>

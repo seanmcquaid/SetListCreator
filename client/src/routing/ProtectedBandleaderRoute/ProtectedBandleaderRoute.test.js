@@ -4,16 +4,12 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
-import ReduxThunk from "redux-thunk";
-import { configureMockStore } from "@jedmao/redux-mock-store";
 import LandingPage from "pages/LandingPage/LandingPage";
 import BandleaderHomePage from "pages/BandleaderPages/BandleaderHomePage/BandleaderHomePage";
 import { act } from "react-dom/test-utils";
+import configureStore from "store/configureStore";
 
 describe("<ProtectedBandleaderRoute/>", () => {
-
-    const middleware = [ReduxThunk];
-    const mockStore = configureMockStore(middleware);
     test("Loading Spinner displays initially and disappears after timer", async () => {
         jest.useFakeTimers();
 
@@ -24,7 +20,7 @@ describe("<ProtectedBandleaderRoute/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByTestId, queryByTestId} = render(
             <Provider store={store}>
@@ -54,7 +50,7 @@ describe("<ProtectedBandleaderRoute/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByText, queryByTestId, getByTestId} = render(
             <Provider store={store}>
@@ -87,7 +83,7 @@ describe("<ProtectedBandleaderRoute/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByText, queryByTestId, getByTestId} = render(
             <Provider store={store}>
@@ -119,7 +115,7 @@ describe("<ProtectedBandleaderRoute/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByText, queryByTestId, getByTestId} = render(
             <Provider store={store}>

@@ -2,14 +2,10 @@ import React from "react";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { render } from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
-import ReduxThunk from "redux-thunk";
-import { configureMockStore } from "@jedmao/redux-mock-store";
 import { Provider } from "react-redux";
+import configureStore from "store/configureStore";
 
 describe("<ProtectedRoutes/>", () => {
-
-    const middleware = [ReduxThunk];
-    const mockStore = configureMockStore(middleware);
     test("Renders correct page when given valid route", () => {
         const initialState = {
             auth : {
@@ -18,7 +14,7 @@ describe("<ProtectedRoutes/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
 
         const {getByText} = render(
             <Provider store={store}>
@@ -39,7 +35,7 @@ describe("<ProtectedRoutes/>", () => {
             },
         };
 
-        const store = mockStore(initialState);
+        const store = configureStore(initialState);
         
         const {getByText} = render(
             <Provider store={store}>
