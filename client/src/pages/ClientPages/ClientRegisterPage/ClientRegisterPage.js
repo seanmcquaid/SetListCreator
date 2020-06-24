@@ -18,6 +18,7 @@ const ClientRegisterPage = () => {
 
     const dispatch = useDispatch();
 
+    const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] =  useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,15 +27,22 @@ const ClientRegisterPage = () => {
     const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
-        axios.get(`${apiHost}/users/getBandleaders`)
-            .then(response => {
-                const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
-                let initialArray = [""];
-                const newArray = initialArray.concat(bandLeadersArray);
-                setBandleaders(newArray);
-            })
-            .catch(err => console.log(err));
-    },[])
+        if(isLoading){
+            const getBandleaders = () => axios.get(`${apiHost}/users/getBandleaders`)
+                .then(response => {
+                    console.log(response.data);
+                    const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
+                    let initialArray = [""];
+                    const newArray = initialArray.concat(bandLeadersArray);
+                    console.log(newArray);
+                    setBandleaders(newArray);
+                })
+                .catch(err => console.log(err));
+            getBandleaders();
+        }
+        const timer = setTimeout(() => setIsLoading(false), 1500);
+        return () => clearTimeout(timer);
+    },[isLoading])
     
     const usernameOnChangeHandler = useCallback(event => {
         setUsername(event.target.value);
