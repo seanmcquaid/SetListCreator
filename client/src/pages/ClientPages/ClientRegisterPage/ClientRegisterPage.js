@@ -40,7 +40,12 @@ const ClientRegisterPage = () => {
                     const timer = setTimeout(() => setIsLoading(false), 1500);
                     return () => clearTimeout(timer);
                 })
-                .catch(err => console.log(err));
+                .catch(() => {
+                    setNewErrorMessage("There was a problem getting Bandleaders, please reload");
+
+                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                    return () => clearTimeout(timer);
+                });
             getBandleaders();
         }
 

@@ -16,7 +16,7 @@ describe("<ClientRegisterPage/>", () => {
     const getBandleadersResponse = {
         bandleaders : [
             {
-                username : "TestLeader",
+                username : "testbandleader@gmail.com",
             }
         ],
     };
@@ -93,11 +93,12 @@ describe("<ClientRegisterPage/>", () => {
         
     });
     
-    test("Successfully register user - redirected to client home", () => {
+    test("Successfully register user - redirected to client home", async () => {
 
         const username = "testuser@gmail.com";
         const password = "testpassword";
         const accountType = "client";
+        const selectedBandleader = "testbandleader@gmail.com";
 
         const payload = {
             isAuthenticated : true,
@@ -109,12 +110,40 @@ describe("<ClientRegisterPage/>", () => {
         };
 
         mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
-        const initialState = {
 
+        const initialState = {
+            auth : {
+                isAuthenticated : false,
+            },
+            error : {
+                errorMessage : "",
+            },
         };
 
         const store = configureStore(initialState);
 
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/clientRegister">
+                    <Route exact path="/clientLogin" component={ClientLoginPage}/>
+                    <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : {value : username}});
+        expect(screen.getByTestId("UsernameTextInput").value).toEqual(username);
+
+        fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : {value : password}});
+        expect(screen.getByTestId("PasswordTextInput").value).toEqual(password);
+
+        fireEvent.change(screen.getByTestId("Confirm PasswordTextInput"), {target : {value : password}});
+        expect(screen.getByTestId("Confirm PasswordTextInput").value).toEqual(password);
+        
+        fireEvent.change(screen.getByTestId("Select Your BandleaderDropdown"), {target : {value : selectedBandleader}});
+        expect(screen.getByTestId("Select Your BandleaderDropdown").value).toEqual(selectedBandleader);
     });
 
     describe("Unsucessfully register user", () => {
