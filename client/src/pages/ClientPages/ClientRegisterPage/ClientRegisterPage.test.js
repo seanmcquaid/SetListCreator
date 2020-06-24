@@ -4,12 +4,11 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
 import { Provider } from "react-redux";
-import { render, waitFor, fireEvent, getByTestId } from "@testing-library/react";
+import { render, waitFor, fireEvent, screen} from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientRegisterPage from "./ClientRegisterPage";
 import ClientLoginPage from "../ClientLoginPage/ClientLoginPage";
-import { act } from "react-dom/test-utils";
 
 describe("<ClientRegisterPage/>", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -24,8 +23,43 @@ describe("<ClientRegisterPage/>", () => {
 
     mockAxios.onGet(`${apiHost}/users/getBandleaders`).reply(200, getBandleadersResponse);
 
-    test("Login link takes you to client login page", async () => {
+    beforeEach(() => {
         jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    test("Loading Spinner appears when you first enter the page", async () => {
+        const initialState = {
+            auth : {
+                isAuthenticated : false,
+            },
+            error : {
+                errorMessage : "",
+            },
+        };
+
+        const store = configureStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/clientRegister">
+                    <Route exact path="/clientLogin" component={ClientLoginPage}/>
+                    <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.queryByTestId("loadingSpinner")).toBeNull();
+
+    });
+    test("Login link takes you to client login page", async () => {
 
         const initialState = {
             auth : {
@@ -38,7 +72,7 @@ describe("<ClientRegisterPage/>", () => {
 
         const store = configureStore(initialState);
 
-        const {getByText, queryByTestId} = render(
+        render(
             <Provider store={store}>
                 <MockRouter initialRoute="/clientRegister">
                     <Route exact path="/clientLogin" component={ClientLoginPage}/>
@@ -47,15 +81,15 @@ describe("<ClientRegisterPage/>", () => {
             </Provider>
         );
 
-        await waitFor(() => expect(queryByTestId("loadingSpinner")).toBeNull());
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
-        expect(getByText("Client Register")).toBeInTheDocument();
+        expect(screen.getByText("Client Register")).toBeInTheDocument();
         
-        fireEvent.click(getByText("Here"));
+        fireEvent.click(screen.getByText("Here"));
 
-        expect(() => getByText("Client Register")).toThrowError();
+        expect(() => screen.getByText("Client Register")).toThrowError();
 
-        expect(getByText("Client Login")).toBeInTheDocument();
+        expect(screen.getByText("Client Login")).toBeInTheDocument();
         
     });
     
