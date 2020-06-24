@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import Text from "components/Text/Text";
 import {Link, Redirect} from "react-router-dom";
 import styles from "./ClientRegisterPage.module.css";
@@ -17,6 +17,7 @@ const ClientRegisterPage = () => {
     const {isAuthenticated} = useSelector(selectAuthState);
     const {errorMessage} = useSelector(selectErrorState);
 
+    const isMounted = useRef(true);
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
@@ -28,19 +29,24 @@ const ClientRegisterPage = () => {
     const [selectedBandleader, setSelectedBandleader] = useState("");
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const getBandleaders = () => axios.get(`${apiHost}/users/getBandleaders`)
                 .then(response => {
                     const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
                     let initialArray = [""];
                     const newArray = initialArray.concat(bandLeadersArray);
                     setBandleaders(newArray);
+                    
+                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                    return () => clearTimeout(timer);
                 })
                 .catch(err => console.log(err));
             getBandleaders();
         }
-        const timer = setTimeout(() => setIsLoading(false), 1500);
-        return () => clearTimeout(timer);
+
+        return () => {
+            isMounted.current = false;
+        };
     },[isLoading])
     
     const usernameOnChangeHandler = useCallback(event => {

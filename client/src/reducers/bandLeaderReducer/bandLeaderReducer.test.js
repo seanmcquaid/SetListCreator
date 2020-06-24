@@ -16,7 +16,7 @@ import {
     DELETE_BANDLEADER_SONG_ERROR,
 } from "actions/bandleaderActions/bandleaderActionTypes";
 import { LOGOUT_SUCCESS } from "actions/authActions/authActionTypes";
-import bandleaderReducer from "./bandleaderReducer";
+import bandleaderReducer from "./band;eaderReducer";
 
 describe("bandleaderReducer", () => {
 
