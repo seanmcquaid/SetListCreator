@@ -11,6 +11,7 @@ import Dropdown from "components/Dropdown/Dropdown";
 import {apiHost} from "config";
 import { selectAuthState } from "selectors/authSelectors/authSelectors";
 import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientRegisterPage = () => {
     const {isAuthenticated} = useSelector(selectAuthState);
@@ -30,11 +31,9 @@ const ClientRegisterPage = () => {
         if(isLoading){
             const getBandleaders = () => axios.get(`${apiHost}/users/getBandleaders`)
                 .then(response => {
-                    console.log(response.data);
                     const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
                     let initialArray = [""];
                     const newArray = initialArray.concat(bandLeadersArray);
-                    console.log(newArray);
                     setBandleaders(newArray);
                 })
                 .catch(err => console.log(err));
@@ -70,6 +69,10 @@ const ClientRegisterPage = () => {
             dispatch(registerAction(username, password, "client", selectedBandleader));
         }
     },[password, confirmPassword, dispatch, username, selectedBandleader]);
+
+    if(isLoading){
+        return <LoadingSpinner isLoading={isLoading}/>;
+    }
 
     if(isAuthenticated){
         return <Redirect to="/clientHome"/>;

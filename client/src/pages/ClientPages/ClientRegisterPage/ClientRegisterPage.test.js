@@ -4,7 +4,7 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
 import { Provider } from "react-redux";
-import { render, waitFor, fireEvent } from "@testing-library/react";
+import { render, waitFor, fireEvent, getByTestId } from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientRegisterPage from "./ClientRegisterPage";
@@ -38,7 +38,7 @@ describe("<ClientRegisterPage/>", () => {
 
         const store = configureStore(initialState);
 
-        const {getByText} = render(
+        const {getByText, queryByTestId} = render(
             <Provider store={store}>
                 <MockRouter initialRoute="/clientRegister">
                     <Route exact path="/clientLogin" component={ClientLoginPage}/>
@@ -47,9 +47,7 @@ describe("<ClientRegisterPage/>", () => {
             </Provider>
         );
 
-        act(() => {
-            jest.runAllImmediates();
-        });
+        await waitFor(() => expect(queryByTestId("loadingSpinner")).toBeNull());
 
         expect(getByText("Client Register")).toBeInTheDocument();
         
