@@ -4,12 +4,14 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
 import { Provider } from "react-redux";
-import { render, waitFor, fireEvent, screen, waitForElementToBeRemoved, waitForDomChange, waitForElement} from "@testing-library/react";
+import { render, waitFor, fireEvent, screen} from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientRegisterPage from "./ClientRegisterPage";
 import ClientLoginPage from "../ClientLoginPage/ClientLoginPage";
 import { act } from "react-dom/test-utils";
+import { config } from "chai";
+import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
 describe("<ClientRegisterPage/>", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -114,6 +116,8 @@ describe("<ClientRegisterPage/>", () => {
 
         const spy = jest.spyOn(axios, "post");
 
+        spy.mockResolvedValue({data : {...payload}});
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -128,7 +132,7 @@ describe("<ClientRegisterPage/>", () => {
         render(
             <Provider store={store}>
                 <MockRouter initialRoute="/clientRegister">
-                    <Route exact path="/clientLogin" component={ClientLoginPage}/>
+                    <Route exact path="/clientHome" component={ClientHomePage}/>
                     <Route exact path="/clientRegister" component={ClientRegisterPage}/>
                 </MockRouter>
             </Provider>
@@ -152,9 +156,7 @@ describe("<ClientRegisterPage/>", () => {
 
         await waitFor(() => expect(spy).toHaveBeenCalled());
 
-        await waitFor(() => expect(screen.queryByText("Musical Preferences Page")).toBeInTheDocument());
-
-        console.log(store.getState());
+        await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
 
     });
 
