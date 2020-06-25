@@ -4,11 +4,12 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import {apiHost} from "config";
 import { Provider } from "react-redux";
-import { render, waitFor, fireEvent, screen} from "@testing-library/react";
+import { render, waitFor, fireEvent, screen, waitForElementToBeRemoved, waitForDomChange, waitForElement} from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientRegisterPage from "./ClientRegisterPage";
 import ClientLoginPage from "../ClientLoginPage/ClientLoginPage";
+import { act } from "react-dom/test-utils";
 
 describe("<ClientRegisterPage/>", () => {
     const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
@@ -111,6 +112,8 @@ describe("<ClientRegisterPage/>", () => {
 
         mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
 
+        const spy = jest.spyOn(axios, "post");
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -144,6 +147,15 @@ describe("<ClientRegisterPage/>", () => {
         
         fireEvent.change(screen.getByTestId("Select Your BandleaderDropdown"), {target : {value : selectedBandleader}});
         expect(screen.getByTestId("Select Your BandleaderDropdown").value).toEqual(selectedBandleader);
+        
+        fireEvent.click(screen.getByText("Register"));
+
+        await waitFor(() => expect(spy).toHaveBeenCalled());
+
+        await waitFor(() => expect(screen.queryByText("Musical Preferences Page")).toBeInTheDocument());
+
+        console.log(store.getState());
+
     });
 
     describe("Unsucessfully register user", () => {

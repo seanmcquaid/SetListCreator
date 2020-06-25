@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@testing-library/jest-dom": "^5.9.0",
-    "@testing-library/react": "^10.2.1",
+    "@testing-library/react": "^10.4.2",
     "@testing-library/react-hooks": "^3.3.0",
     "axios": "^0.19.2",
     "history": "^4.10.1",

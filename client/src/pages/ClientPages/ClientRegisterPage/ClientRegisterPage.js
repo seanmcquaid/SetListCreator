@@ -72,6 +72,7 @@ const ClientRegisterPage = () => {
 
     const clientRegisterSubmitHandler = useCallback(event => {
         event.preventDefault();
+
         if(password !== confirmPassword){
             setNewErrorMessage("Passwords don't match");
         } else if(selectedBandleader === "") {
