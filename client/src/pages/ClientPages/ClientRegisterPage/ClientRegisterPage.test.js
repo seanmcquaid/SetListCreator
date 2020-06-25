@@ -1,30 +1,15 @@
 import React from "react";
 import configureStore from "store/configureStore";
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
-import {apiHost} from "config";
 import { Provider } from "react-redux";
 import { render, waitFor, fireEvent, screen} from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientRegisterPage from "./ClientRegisterPage";
 import ClientLoginPage from "../ClientLoginPage/ClientLoginPage";
-import { act } from "react-dom/test-utils";
-import { config } from "chai";
 import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
 describe("<ClientRegisterPage/>", () => {
-    const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
-
-    const getBandleadersResponse = {
-        bandleaders : [
-            {
-                username : "testbandleader@gmail.com",
-            }
-        ],
-    };
-
-    mockAxios.onGet(`${apiHost}/users/getBandleaders`).reply(200, getBandleadersResponse);
 
     beforeEach(() => {
         jest.useFakeTimers();
@@ -35,6 +20,16 @@ describe("<ClientRegisterPage/>", () => {
     });
 
     test("Loading Spinner appears when you first enter the page", async () => {
+        const getBandleadersResponse = {
+            bandleaders : [
+                {
+                    username : "testbandleader@gmail.com",
+                }
+            ],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -63,6 +58,15 @@ describe("<ClientRegisterPage/>", () => {
 
     });
     test("Login link takes you to client login page", async () => {
+        const getBandleadersResponse = {
+            bandleaders : [
+                {
+                    username : "testbandleader@gmail.com",
+                }
+            ],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
 
         const initialState = {
             auth : {
@@ -97,26 +101,31 @@ describe("<ClientRegisterPage/>", () => {
     });
     
     test("Successfully register user - redirected to client home", async () => {
+        const getBandleadersResponse = {
+            bandleaders : [
+                {
+                    username : "testbandleader@gmail.com",
+                }
+            ],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
 
         const username = "testuser@gmail.com";
         const password = "testpassword";
         const accountType = "client";
         const selectedBandleader = "testbandleader@gmail.com";
 
-        const payload = {
+        const registerActionResponse = {
             isAuthenticated : true,
             token : "test token",
-            username : "testuser@gmail.com",
-            accountType : "client",
+            username,
+            accountType,
             setListAvailable : false,
-            selectedBandleader : "testbandleader@gmail.com",
+            selectedBandleader,
         };
 
-        mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
-
-        const spy = jest.spyOn(axios, "post");
-
-        spy.mockResolvedValue({data : {...payload}});
+        jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...registerActionResponse}});
 
         const initialState = {
             auth : {
@@ -151,10 +160,19 @@ describe("<ClientRegisterPage/>", () => {
         
         fireEvent.change(screen.getByTestId("Select Your BandleaderDropdown"), {target : {value : selectedBandleader}});
         expect(screen.getByTestId("Select Your BandleaderDropdown").value).toEqual(selectedBandleader);
+
+        const getClientSongsResponse = {
+            bandleader : "",
+            doNotPlaySongsList : [],
+            requestedSongsList : [],
+            isLoading : true,
+            setListAvailable : false,
+            clientApproved : false
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
         
         fireEvent.click(screen.getByText("Register"));
-
-        await waitFor(() => expect(spy).toHaveBeenCalled());
 
         await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
 
