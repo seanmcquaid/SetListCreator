@@ -102,13 +102,37 @@ describe("<ClientLoginPage/>", () => {
         fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : {value : password}});
         expect(screen.getByTestId("PasswordTextInput").value).toEqual(password);
 
+        const getClientSongsActionResponse = {
+            bandleader : "",
+            doNotPlaySongsList : [],
+            requestedSongsList : [],
+            isLoading : true,
+            setListAvailable : false,
+            clientApproved : false
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+
         fireEvent.click(screen.getByText("Login"));
 
         await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
 
     });
 
-    test("Error message displays when user doesn't log in successfully", () => {
+    test("Error message displays when user doesn't log in successfully", async () => {
+        const username = "testuser@gmail.com";
+        const password = "testpassword";
+
+        const loginActionResponse = {
+            errorMessage : "Error Here",
+        };
+
+        jest.spyOn(axios, "post").mockRejectedValueOnce({ 
+            response : {
+                data : {...loginActionResponse}
+            }
+        });
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -124,9 +148,19 @@ describe("<ClientLoginPage/>", () => {
             <Provider store={store}>
                 <MockRouter initialRoute="/clientLogin">
                     <Route exact path="/clientLogin" component={ClientLoginPage}/>
-                    <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+                    <Route exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
+
+        fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : {value : username}});
+        expect(screen.getByTestId("UsernameTextInput").value).toEqual(username);
+
+        fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : {value : password}});
+        expect(screen.getByTestId("PasswordTextInput").value).toEqual(password);
+
+        fireEvent.click(screen.getByText("Login"));
+
+        await waitFor(() => expect(screen.getByText("Error Here")).toBeInTheDocument());
     });
 });
