@@ -10,7 +10,7 @@ const Text = React.memo(({headerText, children}) => (
 
 Text.propTypes = {
     headerText : PropTypes.bool,
-    children : PropTypes.any.isRequired,
+    children : PropTypes.any,
 };
 
 export default Text;
