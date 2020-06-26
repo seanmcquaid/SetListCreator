@@ -65,7 +65,7 @@ const ClientHomePage = () => {
         return (
             <div className={styles.clientHomePageContainer}>
                 <Text headerText={true}>Client Home Page</Text>
-                <LinkButton route={clientApproved ? "/client/finalizedSetlist" : "/client/setListApproval"}>
+                <LinkButton route={clientApproved ? "/client/finalizedSetList" : "/client/setListApproval"}>
                     {clientApproved ? "Get Finalized SetList" : "Look at Proposed SetList"}
                 </LinkButton> 
             </div>
