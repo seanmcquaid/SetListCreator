@@ -20,6 +20,16 @@ describe("<ClientLoginPage/>", () => {
     });
 
     test("Register link takes user to client register page", async () => {
+        const getBandleadersResponse = {
+            bandleaders : [
+                {
+                    username : "testbandleader@gmail.com",
+                }
+            ],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -39,16 +49,6 @@ describe("<ClientLoginPage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        const getBandleadersResponse = {
-            bandleaders : [
-                {
-                    username : "testbandleader@gmail.com",
-                }
-            ],
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
 
         expect(screen.getByText("Client Login")).toBeInTheDocument();
 
@@ -61,7 +61,21 @@ describe("<ClientLoginPage/>", () => {
         expect(screen.getByText("Client Register")).toBeInTheDocument();
     });
     
-    test("User successfully logs in and is redirected to client home", () => {
+    test("User successfully logs in and is redirected to client home", async () => {
+
+        const username = "testuser@gmail.com";
+        const password = "testpassword";
+
+        const loginActionResponse = {
+            isAuthenticated : true,
+            token : "testToken",
+            username,
+            accountType : "client",
+            isLoading: false,
+        };
+
+        jest.spyOn(axios, "post").mockResolvedValueOnce({ data : {...loginActionResponse}});
+
         const initialState = {
             auth : {
                 isAuthenticated : false,
@@ -77,10 +91,21 @@ describe("<ClientLoginPage/>", () => {
             <Provider store={store}>
                 <MockRouter initialRoute="/clientLogin">
                     <Route exact path="/clientLogin" component={ClientLoginPage}/>
-                    <Route exact path="/clientRegister" component={ClientRegisterPage}/>
+                    <Route exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
+
+        fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : {value : username}});
+        expect(screen.getByTestId("UsernameTextInput").value).toEqual(username);
+
+        fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : {value : password}});
+        expect(screen.getByTestId("PasswordTextInput").value).toEqual(password);
+
+        fireEvent.click(screen.getByText("Login"));
+
+        await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
+
     });
 
     test("Error message displays when user doesn't log in successfully", () => {
