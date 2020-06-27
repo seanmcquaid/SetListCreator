@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo, useCallback} from "react";
+import React, {useState, useEffect, useMemo, useCallback, useRef} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -10,11 +10,15 @@ import {editClientSongAction} from "actions/clientActions/clientActions";
 import Dropdown from "components/Dropdown/Dropdown";
 import {apiHost} from "config";
 import { useHistory } from "react-router-dom";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientEditSongPage = props => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const isMounted = useRef(true);
+
+    const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
@@ -23,18 +27,31 @@ const ClientEditSongPage = props => {
     const {songId} = props.match.params;
 
     useEffect(() => {
-        const headers = tokenConfig();
-        axios.get(`${apiHost}/client/getSong/${songId}`, headers)
-            .then(response => {
-                const songInfo = response.data.songInfo;
-                const {songname, artistname, songtype} = songInfo;
-                setSongName(songname);
-                setArtistName(artistname);
-                setSongPlayListType(songtype);
-            })
-            .catch(err => {
-                setErrorMessage(err.response.data.errorMessage);
-            });
+        if(isMounted.current){
+            const headers = tokenConfig();
+            axios.get(`${apiHost}/client/getSong/${songId}`, headers)
+                .then(response => {
+                    const songInfo = response.data.songInfo;
+                    const {songname, artistname, songtype} = songInfo;
+                    const timer = setTimeout(() => {
+                        setIsLoading(false);
+                        setSongName(songname);
+                        setArtistName(artistname);
+                        setSongPlayListType(songtype);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
+        }
+        return () => {
+            isMounted.current = false;
+        }
     }, [songId])
 
     const songNameOnChangeHandler = useCallback(event => {
@@ -55,9 +72,14 @@ const ClientEditSongPage = props => {
         history.push("/clientHome");
     },[dispatch, songName, artistName, songPlayListType, songId, history]);
 
+    if(isLoading){
+        return <LoadingSpinner isLoading={isLoading}/>
+    }
+
     return(
         <div className={styles.editSongPageContainer}>
             <Text headerText={true}>Edit Song</Text>
+            <Text>{errorMessage}</Text>
             <form onSubmit={clientEditSongSubmitHandler} className={styles.editSongForm}>
                 <Input
                     name="songName"
@@ -84,7 +106,6 @@ const ClientEditSongPage = props => {
                 />
                 <Button title="Submit Edited Song" type="submit"/>
             </form>
-            
         </div>
     )
 };

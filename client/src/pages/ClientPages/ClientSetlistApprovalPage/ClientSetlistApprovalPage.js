@@ -9,7 +9,7 @@ import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
 import Dropdown from "components/Dropdown/Dropdown";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientSetListApprovalPage = () => {
@@ -51,7 +51,7 @@ const ClientSetListApprovalPage = () => {
         setClientComment("");
     },[clientComments, clientComment]);
 
-    const sendClientComments = useCallback(() => {
+    const sendClientCommentsAndApproval = useCallback(() => {
         const headers = tokenConfig();
 
         const requestBody = {
@@ -91,7 +91,7 @@ const ClientSetListApprovalPage = () => {
                 selectedItemOnChangeHandler={clientApprovalOnChangeHandler}
                 items={clientApprovalOptions}
             />
-            <Button type="button" title="Send Comments" onClick={sendClientComments}/>
+            <Button type="button" title="Send Comments" onClick={sendClientCommentsAndApproval}/>
             <div className={styles.clientCommentsContainer}>
                 <Text headerText={true}>Client Comments List</Text>
                 <CommentsList list={clientComments}/>

@@ -8,7 +8,7 @@ Tests Left For Unit Testing on Front End :
 
 Things to do :
 1) Unit Tests - Front End
-2) Refactor unit tests to implement screen per the creator of RTL's recommendation
+2) Refactor unit tests to implement screen per the creator of RTL's recommendation and review testing patterns/unify patterns
 3) Review from a user stand point and edit code to reflect UI/UX updates
 4) Refactoring / Code Review - Front End - look at adding timeout to reducers so isloading actually can render loadingspinner for appropriate period of time
 5) Review ALL tests and make sure it's accurately mocking app behavior
