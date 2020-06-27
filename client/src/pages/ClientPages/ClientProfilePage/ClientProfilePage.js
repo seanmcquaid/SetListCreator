@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import styles from "./ClientProfilePage.module.css";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
@@ -11,28 +11,32 @@ import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 import { useHistory } from "react-router-dom";
 
 const ClientProfilePage = () => {
-    const {username} = useSelector(selectAuthState);
+    const {username, isLoading} = useSelector(selectAuthState);
     const {errorMessage} = useSelector(selectErrorState);
+
+    const isMounted = useRef(true);
 
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const [isLoading, setIsLoading] = useState(true);
     const [currentUsername, setCurrentUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if(currentUsername === "" && isLoading){
+        if(isMounted.current){
             dispatch(getUserInfoAction());
-            setCurrentUsername(username);
         }
-        const timer = setTimeout(() => setIsLoading(false), 1500);
-        return () => clearTimeout(timer);
+
+        setCurrentUsername(username);
+
+        return () => {
+            isMounted.current = false;
+        };
     },[username, currentUsername, dispatch, isLoading])
 
-    const currentUserNameOnChangeHandler = useCallback(event => {
+    const currentUsernameOnChangeHandler = useCallback(event => {
         setCurrentUsername(event.target.value);
     },[]);
 
@@ -68,7 +72,7 @@ const ClientProfilePage = () => {
                 title="Edit Username Here"
                 type="text"
                 value={currentUsername}
-                onChangeHandler={currentUserNameOnChangeHandler}
+                onChangeHandler={currentUsernameOnChangeHandler}
                 placeholder="Edit Username Here"
             />
             <Input
