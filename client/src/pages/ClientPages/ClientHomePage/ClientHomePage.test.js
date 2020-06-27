@@ -1,11 +1,13 @@
 import React from "react";
 import ClientHomePage from "./ClientHomePage";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import MockRouter from "testUtils/MockRouter";
 import configureStore from "store/configureStore";
 import { Route } from "react-router-dom";
 import axios from "axios";
+import FinalizedSetListPage from "../FinalizedSetListPage/FinalizedSetListPage";
+import ClientSetListApprovalPage from "../ClientSetListApprovalPage/ClientSetListApprovalPage";
 
 describe("<ClientHomePage/>", () => {
 
@@ -54,7 +56,7 @@ describe("<ClientHomePage/>", () => {
             expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument();
         });
 
-        test("Finalized Setlist button goes to correct route when Set List is finalized and Client Approved", () => {
+        test("Finalized Setlist button goes to correct route when Set List is finalized and Client Approved", async () => {
 
             const getClientSongsActionResponse = {
                 doNotPlaySongsList : [],
@@ -80,6 +82,7 @@ describe("<ClientHomePage/>", () => {
                 <Provider store={store}>
                     <MockRouter initialRoute="/clientHome">
                         <Route exact path="/clientHome" component={ClientHomePage}/>
+                        <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
                     </MockRouter>
                 </Provider>
             );
@@ -87,15 +90,31 @@ describe("<ClientHomePage/>", () => {
             expect(screen.getByText("Client Home Page")).toBeInTheDocument();
 
             expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument();
+
+            const getFinalizedSetListInfoResponse = {
+                suggestedSetList : [{
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }],
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getFinalizedSetListInfoResponse}});
+
+            fireEvent.click(screen.getByText("Get Finalized SetList"));
+
+            await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+            expect(screen.getByText("Final Set List")).toBeInTheDocument();
         });
     
-        test("Proposed Setlist", () => {
+        test("Proposed Setlist button appears when Set List is finalized and isn't Client Approved", () => {
     
             const getClientSongsActionResponse = {
                 doNotPlaySongsList : [],
                 requestedSongsList : [],
                 setListAvailable : true,
-                clientApproved : true
+                clientApproved : false,
             };
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
@@ -105,7 +124,7 @@ describe("<ClientHomePage/>", () => {
                     requestedSongsList : [], 
                     doNotPlaySongsList : [], 
                     setListAvailable : true,
-                    clientApproved : true,
+                    clientApproved : false,
                 },
             };
 
@@ -120,6 +139,60 @@ describe("<ClientHomePage/>", () => {
             );
 
             expect(screen.getByText("Client Home Page")).toBeInTheDocument();
+
+            expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument();
+        });
+
+        test("Proposed Setlist button goes to correct route when Set List is finalized and isn't Client Approved", async () => {
+    
+            const getClientSongsActionResponse = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                setListAvailable : true,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+
+            const initialState = {
+                client : {
+                    requestedSongsList : [], 
+                    doNotPlaySongsList : [], 
+                    setListAvailable : true,
+                    clientApproved : false,
+                },
+            };
+
+            const store = configureStore(initialState);
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/clientHome">
+                        <Route exact path="/clientHome" component={ClientHomePage}/>
+                        <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            expect(screen.getByText("Client Home Page")).toBeInTheDocument();
+
+            expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument();
+
+            const getFinalizedSetListInfoResponse = {
+                suggestedSetList : [{
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }],
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getFinalizedSetListInfoResponse}});
+
+            fireEvent.click(screen.getByText("Get Finalized SetList"));
+
+            await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+            expect(screen.getByText("Final Set List")).toBeInTheDocument();
         });
     });
 
