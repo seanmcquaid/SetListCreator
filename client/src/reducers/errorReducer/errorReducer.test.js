@@ -2,7 +2,8 @@ import {
     REGISTER_ERROR, 
     LOGIN_ERROR, 
     CHECK_TOKEN_ERROR, 
-    EDIT_USER_INFO_ERROR
+    EDIT_USER_INFO_ERROR,
+    GET_USER_INFO_ERROR
 } from "actions/authActions/authActionTypes";
 import {
     ADD_BANDLEADER_SONG_ERROR,
@@ -120,6 +121,31 @@ describe("errorReducer", () => {
         test("EDIT_USER_INFO_ERROR - Has no error message", () => {
             const action = {
                 type : EDIT_USER_INFO_ERROR,
+            };
+
+            expect(errorReducer(initialState, action)).toEqual(initialState);
+        });
+    });
+
+    describe("GET_USER_INFO_ERROR", () => {
+        test("GET_USER_INFO_ERROR - Has error message", () => {
+            const action = {
+                type : GET_USER_INFO_ERROR,
+                payload : {
+                    errorMessage : "ERROR MESSAGE HERE",
+                },
+            };
+
+            const expectedResult = {
+                errorMessage : "ERROR MESSAGE HERE",
+            };
+
+            expect(errorReducer(initialState, action)).toEqual(expectedResult);
+        });
+
+        test("GET_USER_INFO_ERROR - Has no error message", () => {
+            const action = {
+                type : GET_USER_INFO_ERROR,
             };
 
             expect(errorReducer(initialState, action)).toEqual(initialState);

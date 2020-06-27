@@ -2,7 +2,8 @@ import {
     REGISTER_ERROR, 
     LOGIN_ERROR, 
     CHECK_TOKEN_ERROR, 
-    EDIT_USER_INFO_ERROR
+    EDIT_USER_INFO_ERROR,
+    GET_USER_INFO_ERROR
 } from "actions/authActions/authActionTypes";
 import {
     ADD_BANDLEADER_SONG_ERROR,
@@ -38,6 +39,7 @@ const errorReducer = (state = initialState, action) => {
         case ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR :
         case DELETE_CLIENT_SONG_ERROR :
         case EDIT_CLIENT_SONG_ERROR :
+        case GET_USER_INFO_ERROR :
             if(action.payload){
                 return {
                     ...state,

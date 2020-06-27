@@ -65,7 +65,7 @@ const ClientProfilePage = () => {
     return (
         <div className={styles.clientProfilePageContainer}>
             <Text headerText={true}>Profile Page</Text>
-            <Text>{errorMessage ? errorMessage : message}</Text>
+            <Text>{errorMessage.length > 0 ? errorMessage : message}</Text>
             <form className={styles.clientEditProfileForm} onSubmit={clientEditProfileSubmitHandler}>
             <Input
                 name="username"

@@ -25,7 +25,7 @@ describe("<ClientProfilePage/>", () => {
             accountType : "client",
         };
 
-        jest.spyOn(axios, "get").mockResolvedValue({data : { ...getUserInfoActionResponse}});
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
         const initialState = {
             auth : {
@@ -61,7 +61,7 @@ describe("<ClientProfilePage/>", () => {
             accountType : "client",
         };
 
-        jest.spyOn(axios, "get").mockResolvedValue({data : { ...getUserInfoActionResponse}});
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
         const initialState = {
             auth : {
@@ -86,12 +86,48 @@ describe("<ClientProfilePage/>", () => {
         expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-        
+
         expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual("test user");
     });
 
-    test("Error when trying to get user info", () => {
+    test("Error when trying to get user info", async () => {
+        const getUserInfoActionResponse = {
+            errorMessage : "There was an issue getting the user info",
+        };
 
+        jest.spyOn(axios, "get").mockRejectedValueOnce({
+            response : {
+                data : {
+                    ...getUserInfoActionResponse,
+                }
+            }
+        });
+
+        const initialState = {
+            auth : {
+                username : "",
+                isLoading : false,
+            },
+            error : {
+                errorMessage : "",
+            },
+        };
+
+        const store = configureStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/client/editProfile">
+                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("There was an issue getting the user info")).toBeInTheDocument();
     });
 
     test("Update user name and password success", () => {
