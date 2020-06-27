@@ -8,6 +8,7 @@ import { Route } from "react-router-dom";
 import axios from "axios";
 import FinalizedSetListPage from "../FinalizedSetListPage/FinalizedSetListPage";
 import ClientSetListApprovalPage from "../ClientSetListApprovalPage/ClientSetListApprovalPage";
+import ClientEditSongPage from "../ClientEditSongPage/ClientEditSongPage";
 
 describe("<ClientHomePage/>", () => {
 
@@ -380,8 +381,57 @@ describe("<ClientHomePage/>", () => {
             await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
         });
 
-        test("Edit song button redirects to edit song page", () => {
+        test("Edit song button redirects to edit song page", async () => {
+            const getClientSongsActionResponse = {
+                doNotPlaySongsList : [
+                    {
+                        songname : "Uptown Funk",
+                        artistname : "Bruno Mars",
+                        id : 1,
+                    }
+                ],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
+            const initialState = {
+                client : {
+                    requestedSongsList : [], 
+                    doNotPlaySongsList : [], 
+                    setListAvailable : false,
+                    clientApproved : false,
+                },
+            };
+
+            const store = configureStore(initialState);
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/clientHome">
+                        <Route exact path="/clientHome" component={ClientHomePage}/>
+                        <Route exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+
+            const getSongResponse = {
+                songInfo : {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    songtype : "doNotPlaySong",
+                },
+            }
+
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSongResponse}})
+
+            fireEvent.click(screen.getByTestId("EditLinkButton"));
+
+            await waitFor(() => expect(screen.getByText("Edit Song")).toBeInTheDocument());
         });
     });
 });

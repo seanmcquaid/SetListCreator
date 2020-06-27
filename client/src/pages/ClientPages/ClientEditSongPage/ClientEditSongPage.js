@@ -15,6 +15,7 @@ const ClientEditSongPage = props => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [errorMessage, setErrorMessage] = useState("");
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const playListTypes = useMemo(() => ["requestedSong", "doNotPlaySong"], []);
@@ -32,7 +33,7 @@ const ClientEditSongPage = props => {
                 setSongPlayListType(songtype);
             })
             .catch(err => {
-                console.log(err);
+                setErrorMessage(err.response.data.errorMessage);
             });
     }, [songId])
 
@@ -75,11 +76,13 @@ const ClientEditSongPage = props => {
                     onChangeHandler={artistNameOnChangeHandler}
                 />
                 <Dropdown
+                    title="Song Type"
+                    name="songType"
                     items={playListTypes}
                     selectedItem={songPlayListType}
                     selectedItemOnChangeHandler={songPlayListTypeOnChangeHandler}
                 />
-                <Button title="Edit Song" type="submit"/>
+                <Button title="Submit Edited Song" type="submit"/>
             </form>
             
         </div>
