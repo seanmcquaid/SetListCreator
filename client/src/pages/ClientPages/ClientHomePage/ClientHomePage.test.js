@@ -329,8 +329,55 @@ describe("<ClientHomePage/>", () => {
             expect(screen.getByTestId("Do Not Play Artist NameTextInput").value).toEqual("");
         });
 
-        test("Deleted song doesn't display", () => {
+        test("Deleted song doesn't display", async () => {
+            const getClientSongsActionResponse = {
+                doNotPlaySongsList : [
+                    {
+                        songname : "Uptown Funk",
+                        artistname : "Bruno Mars",
+                        id : 1,
+                    }
+                ],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
+            const initialState = {
+                client : {
+                    requestedSongsList : [], 
+                    doNotPlaySongsList : [], 
+                    setListAvailable : false,
+                    clientApproved : false,
+                },
+            };
+
+            const store = configureStore(initialState);
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/clientHome">
+                        <Route exact path="/clientHome" component={ClientHomePage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+
+            const deleteClientSongActionResponse = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+
+            jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...deleteClientSongActionResponse}});
+
+            fireEvent.click(screen.getByTestId("RemoveButton"));
+
+            await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
         });
 
         test("Edit song button redirects to edit song page", () => {
