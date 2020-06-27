@@ -30,7 +30,7 @@ const ClientRegisterPage = () => {
 
     useEffect(() => {
         if(isMounted.current){
-            const getBandleaders = () => axios.get(`${apiHost}/users/getBandleaders`)
+            axios.get(`${apiHost}/users/getBandleaders`)
                 .then(response => {
                     const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
                     let initialArray = [""];
@@ -46,7 +46,6 @@ const ClientRegisterPage = () => {
                     const timer = setTimeout(() => setIsLoading(false), 1500);
                     return () => clearTimeout(timer);
                 });
-            getBandleaders();
         }
 
         return () => {

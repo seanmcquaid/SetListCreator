@@ -175,9 +175,14 @@ describe("<ClientProfilePage/>", () => {
 
         jest.spyOn(axios, "patch").mockResolvedValueOnce({data : { ...editUserInfoActionResponse}});
 
+        fireEvent.change(screen.getByTestId("Edit Username HereTextInput"), {target : { value : "test user changed"}})
+        expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual("test user changed");
+
         fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
+        expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
 
         fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {target : { value : "new password"}});
+        expect(screen.getByTestId("Confirm New Password HereTextInput").value).toEqual("new password");
 
         const getClientSongsActionResponse = {
             bandleader : "",
@@ -193,8 +198,6 @@ describe("<ClientProfilePage/>", () => {
         fireEvent.click(screen.getByTestId("Edit ProfileButton"));
 
         await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
-
-        
     });
 
     test("Update user name and password failure - passwords don't match", async () => {
@@ -242,13 +245,14 @@ describe("<ClientProfilePage/>", () => {
         jest.spyOn(axios, "patch").mockResolvedValueOnce({data : { ...editUserInfoActionResponse}});
 
         fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
+        expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
 
         fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {target : { value : "new password not here"}});
+        expect(screen.getByTestId("Confirm New Password HereTextInput").value).toEqual("new password not here");
 
         fireEvent.click(screen.getByTestId("Edit ProfileButton"));
 
         expect(screen.getByText("ERROR WITH PASSWORDS NOT MATCHING")).toBeInTheDocument();
-
     });
 
 

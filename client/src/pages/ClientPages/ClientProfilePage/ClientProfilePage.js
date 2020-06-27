@@ -29,7 +29,9 @@ const ClientProfilePage = () => {
             dispatch(getUserInfoAction());
         }
 
-        setCurrentUsername(username);
+        if(currentUsername === ""){
+            setCurrentUsername(username);
+        }
 
         return () => {
             isMounted.current = false;
