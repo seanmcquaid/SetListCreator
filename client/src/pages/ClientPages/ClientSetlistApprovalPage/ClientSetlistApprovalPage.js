@@ -73,12 +73,8 @@ const ClientSetListApprovalPage = () => {
         return <LoadingSpinner isLoading={isLoading}/>
     }
 
-    if(setListInfo.clientapproved){
-        return <Redirect to={`/client/finalizedSetList`}/>
-    }
-
     if(errorMessage.length > 0){
-        return (<div className={styles.clientFinalSetListPageContainer}>
+        return (<div className={styles.clientSetListApprovalPageContainer}>
                     <Text headerText={true}>{errorMessage}</Text>
                 </div>)
     }
@@ -86,8 +82,8 @@ const ClientSetListApprovalPage = () => {
     const {bandleaderComments, suggestedSetList} = setListInfo;
 
     return(
-        <div className={styles.clientFinalSetListPageContainer}>
-            <Text headerText={true}>Final Set List</Text>
+        <div className={styles.clientSetListApprovalPageContainer}>
+            <Text headerText={true}>Proposed Set List</Text>
             <Dropdown
                 selectedItem={clientApprovalStatus}
                 name="isClientApproved"

@@ -178,21 +178,26 @@ describe("<ClientHomePage/>", () => {
 
             expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument();
 
-            const getFinalizedSetListInfoResponse = {
-                suggestedSetList : [{
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }],
+            const getCompletedSetListInfoResponse = {
+                clientName : "test client",
+                bandleaderName : "test bandleader",
+                suggestedSetList : [
+                    {
+                        songname : "Uptown Funk",
+                        artistname : "Bruno Mars",
+                        id : 1,
+                    }
+                ],
+                bandleaderComments : [],
             };
     
-            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getFinalizedSetListInfoResponse}});
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getCompletedSetListInfoResponse}});
 
-            fireEvent.click(screen.getByText("Get Finalized SetList"));
+            fireEvent.click(screen.getByText("Look at Proposed SetList"));
 
             await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
-            expect(screen.getByText("Final Set List")).toBeInTheDocument();
+            expect(screen.getByText("Proposed Set List")).toBeInTheDocument();
         });
     });
 
@@ -207,7 +212,7 @@ describe("<ClientHomePage/>", () => {
         });
 
         test("Add Requested Song", () => {
-
+            
         });
 
         test("Add do not play song", () => {

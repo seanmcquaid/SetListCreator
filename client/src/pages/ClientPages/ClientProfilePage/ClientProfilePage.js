@@ -36,7 +36,7 @@ const ClientProfilePage = () => {
         return () => {
             isMounted.current = false;
         };
-    },[username, currentUsername, dispatch, isLoading])
+    },[username, currentUsername, dispatch])
 
     const currentUsernameOnChangeHandler = useCallback(event => {
         setCurrentUsername(event.target.value);
