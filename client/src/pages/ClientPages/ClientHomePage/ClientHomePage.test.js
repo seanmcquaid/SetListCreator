@@ -211,19 +211,19 @@ describe("<ClientHomePage/>", () => {
             jest.useRealTimers();
         });
 
-        test("Add Requested Song", () => {
-            
-        });
-
-        test("Add do not play song", () => {
+        test("Added Requested Song displays", () => {
 
         });
 
-        test("Delete Song", () => {
+        test("Add do not play song displays", () => {
 
         });
 
-        test("Edit song button", () => {
+        test("Deleted song doesn't display", () => {
+
+        });
+
+        test("Edit song button redirects to edit song page", () => {
 
         });
     });
