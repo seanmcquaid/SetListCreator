@@ -81,16 +81,16 @@ const ClientHomePage = () => {
                     <Text>Requested Songs</Text>
                     <form className={styles.addSongFormContainer} onSubmit={requestedSongSubmitHandler}>
                         <Input
-                            name="songName"
-                            title="Song Name"
+                            name="requestedSongName"
+                            title="Requested Song Name"
                             type="text"
                             placeholder="Enter song name here"
                             value={requestedSongName}
                             onChangeHandler={requestedSongNameOnChangeHandler}
                         />
                         <Input
-                            name="artistName"
-                            title="Artist Name"
+                            name="requestedArtistName"
+                            title="Requested Artist Name"
                             type="text"
                             placeholder="Enter artist name here"
                             value={requestedArtistName}
@@ -118,16 +118,16 @@ const ClientHomePage = () => {
                     <Text>DO NOT Play List</Text>
                     <form className={styles.addSongFormContainer} onSubmit={doNotPlaySongSubmitHandler}>
                         <Input
-                            name="songName"
-                            title="Song Name"
+                            name="doNotPlaySongName"
+                            title="Do Not Play Song Name"
                             type="text"
                             placeholder="Enter song name here"
                             value={doNotPlaySongName}
                             onChangeHandler={doNotPlaySongNameOnChangeHandler}
                         />
                         <Input
-                            name="artistName"
-                            title="Artist Name"
+                            name="doNotPlayArtistName"
+                            title="Do Not Play Artist Name"
                             type="text"
                             placeholder="Enter artist name here"
                             value={doNotPlayArtistName}

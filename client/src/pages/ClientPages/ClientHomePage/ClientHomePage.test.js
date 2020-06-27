@@ -211,12 +211,122 @@ describe("<ClientHomePage/>", () => {
             jest.useRealTimers();
         });
 
-        test("Added Requested Song displays", () => {
+        test("Added Requested Song displays", async () => {
+            const getClientSongsActionResponse = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
+            const initialState = {
+                client : {
+                    requestedSongsList : [], 
+                    doNotPlaySongsList : [], 
+                    setListAvailable : false,
+                    clientApproved : false,
+                },
+            };
+
+            const store = configureStore(initialState);
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/clientHome">
+                        <Route exact path="/clientHome" component={ClientHomePage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            fireEvent.change(screen.getByTestId("Requested Song NameTextInput"), {target : { value : "Uptown Funk"}});
+            expect(screen.getByTestId("Requested Song NameTextInput").value).toEqual("Uptown Funk");
+
+            fireEvent.change(screen.getByTestId("Requested Artist NameTextInput"), {target : { value : "Bruno Mars"}});
+            expect(screen.getByTestId("Requested Artist NameTextInput").value).toEqual("Bruno Mars");
+
+            const addClientRequestedSongActionResponse = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [
+                    {
+                        songname : "Uptown Funk",
+                        artistname : "Bruno Mars",
+                        id : 1,
+                    }
+                ],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...addClientRequestedSongActionResponse}});
+
+            fireEvent.click(screen.getByTestId("Add Requested SongButton"));
+
+            await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+
+            expect(screen.getByTestId("Requested Song NameTextInput").value).toEqual("");
+
+            expect(screen.getByTestId("Requested Artist NameTextInput").value).toEqual("");
         });
 
-        test("Add do not play song displays", () => {
+        test("Added do not play song displays", async () => {
+            const getClientSongsActionResponse = {
+                doNotPlaySongsList : [],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
+            const initialState = {
+                client : {
+                    requestedSongsList : [], 
+                    doNotPlaySongsList : [], 
+                    setListAvailable : false,
+                    clientApproved : false,
+                },
+            };
+
+            const store = configureStore(initialState);
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/clientHome">
+                        <Route exact path="/clientHome" component={ClientHomePage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            fireEvent.change(screen.getByTestId("Do Not Play Song NameTextInput"), {target : { value : "Uptown Funk"}});
+            expect(screen.getByTestId("Do Not Play Song NameTextInput").value).toEqual("Uptown Funk");
+
+            fireEvent.change(screen.getByTestId("Do Not Play Artist NameTextInput"), {target : { value : "Bruno Mars"}});
+            expect(screen.getByTestId("Do Not Play Artist NameTextInput").value).toEqual("Bruno Mars");
+
+            const addClientDoNotPlaySongActionResponse = {
+                doNotPlaySongsList : [
+                    {
+                        songname : "Uptown Funk",
+                        artistname : "Bruno Mars",
+                        id : 1,
+                    }
+                ],
+                requestedSongsList : [],
+                setListAvailable : false,
+                clientApproved : false,
+            };
+    
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...addClientDoNotPlaySongActionResponse}});
+
+            fireEvent.click(screen.getByTestId("Add Do Not Playlist SongButton"));
+
+            await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+
+            expect(screen.getByTestId("Do Not Play Song NameTextInput").value).toEqual("");
+
+            expect(screen.getByTestId("Do Not Play Artist NameTextInput").value).toEqual("");
         });
 
         test("Deleted song doesn't display", () => {
