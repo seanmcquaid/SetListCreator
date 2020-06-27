@@ -52,7 +52,7 @@ const ClientRegisterPage = () => {
         return () => {
             isMounted.current = false;
         };
-    },[isLoading])
+    },[])
     
     const usernameOnChangeHandler = useCallback(event => {
         setUsername(event.target.value);
