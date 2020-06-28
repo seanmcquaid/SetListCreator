@@ -10,7 +10,7 @@ import { selectClientState } from "selectors/clientSelectors/clientSelectors";
 import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 
 const ClientSendSetListPage = () => {
-    const {setListAvailabile, requestedSongsList, doNotPlaySongsList} = useSelector(selectClientState);
+    const {setListAvailable, requestedSongsList, doNotPlaySongsList} = useSelector(selectClientState);
     const {errorMessage} = useSelector(selectErrorState);
 
     const dispatch = useDispatch();
@@ -33,12 +33,13 @@ const ClientSendSetListPage = () => {
         <div className={styles.clientSendSetListPageContainer}>
             <Text headerText={true}>Send Setlist</Text>
             <Text>{errorMessage}</Text>
-            {setListAvailabile ? <Text>Setlist Sent Already!</Text> : 
-            <Button
-                title="Send Playlist"
-                type="Button"
-                onClick={sendSetlistHandler}
-            />}
+            {setListAvailable ? 
+                <Text>Setlist Sent Already!</Text> : 
+                <Button
+                    title="Send Playlist"
+                    type="Button"
+                    onClick={sendSetlistHandler}
+                />}
             <div className={styles.songContainer}>
                 <div className={styles.requestedSongsContainer}>
                     <Text headerText={true}>Requested Songs</Text>
