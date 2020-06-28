@@ -427,7 +427,7 @@ describe("<ClientHomePage/>", () => {
                 },
             }
 
-            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSongResponse}})
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSongResponse}});
 
             fireEvent.click(screen.getByTestId("EditLinkButton"));
 
