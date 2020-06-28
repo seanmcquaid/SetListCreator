@@ -13,9 +13,11 @@ import {
 } from "actions/clientActions/clientActions";
 import LinkButton from "components/LinkButton/LinkButton";
 import { selectClientState } from "selectors/clientSelectors/clientSelectors";
+import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 
 const ClientHomePage = () => {
     const {requestedSongsList, doNotPlaySongsList, setListAvailable, clientApproved} = useSelector(selectClientState);
+    const {errorMessage} = useSelector(selectErrorState);
     const dispatch = useDispatch();
 
     const [requestedSongName, setRequestedSongName] = useState("");
@@ -75,6 +77,7 @@ const ClientHomePage = () => {
     return(
         <div className={styles.clientHomePageContainer}>
             <Text headerText={true}>Musical Preferences Page</Text>
+            <Text>{errorMessage}</Text>
             <LinkButton route="/client/sendSetList">Send Set List</LinkButton>
             <div className={styles.songsContainer}>
                 <div className={styles.requestedSongsContainer}>

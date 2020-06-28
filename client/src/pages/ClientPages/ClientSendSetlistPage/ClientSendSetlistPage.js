@@ -7,9 +7,12 @@ import {getClientSongsAction, deleteClientSongAction, sendClientSetListAction} f
 import Song from "components/Song/Song";
 import { useHistory } from "react-router-dom";
 import { selectClientState } from "selectors/clientSelectors/clientSelectors";
+import { selectErrorState } from "selectors/errorSelectors/errorSelectors";
 
 const ClientSendSetListPage = () => {
     const {setListAvailabile, requestedSongsList, doNotPlaySongsList} = useSelector(selectClientState);
+    const {errorMessage} = useSelector(selectErrorState);
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -29,6 +32,7 @@ const ClientSendSetListPage = () => {
     return(
         <div className={styles.clientSendSetListPageContainer}>
             <Text headerText={true}>Send Setlist</Text>
+            <Text>{errorMessage}</Text>
             {setListAvailabile ? <Text>Setlist Sent Already!</Text> : 
             <Button
                 title="Send Playlist"

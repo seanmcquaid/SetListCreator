@@ -84,6 +84,7 @@ const ClientSetListApprovalPage = () => {
     return(
         <div className={styles.clientSetListApprovalPageContainer}>
             <Text headerText={true}>Proposed Set List</Text>
+            <Text>{errorMessage}</Text>
             <Dropdown
                 selectedItem={clientApprovalStatus}
                 name="isClientApproved"
