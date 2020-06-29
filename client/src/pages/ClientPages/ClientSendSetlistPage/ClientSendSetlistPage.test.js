@@ -10,6 +10,13 @@ import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
 
 describe("<ClientSendSetListPage/>", () => {
+    beforeEach(() => {
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
 
     test("Client Songs Load", async () => {
         const getClientSongsActionResponse = {

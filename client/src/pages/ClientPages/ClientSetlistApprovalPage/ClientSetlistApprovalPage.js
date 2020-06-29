@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from "react";
+import React, {useState, useEffect, useCallback, useMemo, useRef} from "react";
 import styles from "./ClientSetListApprovalPage.module.css";
 import axios from "axios";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -15,6 +15,8 @@ import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 const ClientSetListApprovalPage = () => {
     const history = useHistory();
 
+    const isMounted = useRef(true);
+
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
@@ -24,19 +26,29 @@ const ClientSetListApprovalPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/client/getCompletedSetlist`, headers)
                 .then(response => {
-                    setSetListInfo(response.data);
-                    setIsLoading(false);
+                    const timer = setTimeout(() => {
+                        setSetListInfo(response.data);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
                 })
                 .catch(err => {
-                    setErrorMessage(err.response.data.errorMessage);
                     setIsLoading(false);
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
                 });
         }
-    }, [isLoading]);
+        return () => {
+            isMounted.current = false;
+        }
+    }, []);
 
     const clientApprovalOnChangeHandler = useCallback(event => {
         setClientApprovalStatus(event.target.value);
@@ -60,23 +72,17 @@ const ClientSetListApprovalPage = () => {
         };
 
         axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
-            .then(response => {
-                setIsLoading(true);
+            .then(() => {
                 history.push("/clientHome")
             })
             .catch(err => {
-                console.log(err.response);
-            })
+                setErrorMessage(err.response.data.errorMessage);
+            });
+
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>
-    }
-
-    if(errorMessage.length > 0){
-        return (<div className={styles.clientSetListApprovalPageContainer}>
-                    <Text headerText={true}>{errorMessage}</Text>
-                </div>)
     }
 
     const {bandleaderComments, suggestedSetList} = setListInfo;
