@@ -14,7 +14,7 @@ const FinalizedSetListPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        if(isMounted){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/client/getCompletedSetList`, headers)
                 .then(response => {
