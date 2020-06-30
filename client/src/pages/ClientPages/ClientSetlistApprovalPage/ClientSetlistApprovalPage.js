@@ -64,7 +64,7 @@ const ClientSetListApprovalPage = () => {
         setClientComment("");
     },[clientComments, clientComment]);
 
-    const sendClientCommentsAndApproval = useCallback(async () => {
+    const sendClientCommentsAndApproval = useCallback(() => {
         if(onClickRef.current){
             setIsLoading(true);
 
@@ -75,7 +75,7 @@ const ClientSetListApprovalPage = () => {
                 clientApproval : clientApprovalStatus === "Yes" 
             };
 
-            await axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
                 .then(() => {
                     const timer = setTimeout(() => {
                         history.push("/clientHome");
@@ -91,8 +91,6 @@ const ClientSetListApprovalPage = () => {
             
             setIsLoading(false);
         }
-
-        
 
         return () => {
             onClickRef.current = false;
