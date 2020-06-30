@@ -16,8 +16,7 @@ const ClientSetListApprovalPage = () => {
     const history = useHistory();
 
     const isMounted = useRef(true);
-    const onClickRef = useRef(true);
-
+    
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [clientComments, setClientComments] = useState([]);
@@ -65,36 +64,31 @@ const ClientSetListApprovalPage = () => {
     },[clientComments, clientComment]);
 
     const sendClientCommentsAndApproval = useCallback(() => {
-        if(onClickRef.current){
-            setIsLoading(true);
+        setIsLoading(true);
 
-            const headers = tokenConfig();
+        const headers = tokenConfig();
 
-            const requestBody = {
-                clientComments,
-                clientApproval : clientApprovalStatus === "Yes" 
-            };
-
-            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
-                .then(() => {
-                    const timer = setTimeout(() => {
-                        history.push("/clientHome");
-                    }, 1500);
-                    return () => clearTimeout(timer);
-                })
-                .catch(err => {
-                    const timer = setTimeout(() => {
-                        setErrorMessage(err.response.data.errorMessage);
-                    }, 1500);
-                    return () => clearTimeout(timer);
-                });
-            
-            setIsLoading(false);
-        }
-
-        return () => {
-            onClickRef.current = false;
+        const requestBody = {
+            clientComments,
+            clientApproval : clientApprovalStatus === "Yes" 
         };
+
+        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+            .then(() => {
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    history.push("/clientHome");
+                }, 1500);
+                return () => clearTimeout(timer);
+            })
+            .catch(err => {
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    setErrorMessage(err.response.data.errorMessage);
+                }, 1500);
+                return () => clearTimeout(timer);
+            });
+        
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){
