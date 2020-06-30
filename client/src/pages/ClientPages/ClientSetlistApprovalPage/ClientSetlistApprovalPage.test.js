@@ -6,6 +6,7 @@ import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import axios from "axios";
+import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
 describe("<ClientSendSetListPage/>", () => {
 
@@ -115,7 +116,7 @@ describe("<ClientSendSetListPage/>", () => {
         expect(screen.getByText("Error Message Here")).toBeInTheDocument();
     });
 
-    test("Client Approval Dropdown status displays correctly", async () => {
+    test("Send Client Comments and Approval redirects to client home when succesful", async () => {
         const getCompletedSetlistResponse = {
             bandleaderComments : [
                 "Band Leader Comments Here"
@@ -137,6 +138,7 @@ describe("<ClientSendSetListPage/>", () => {
             <Provider store={store}>
                 <MockRouter initialRoute="/client/setListApproval">
                     <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
+                    <Route exact path="/clientHome" component={ClientHomePage}/>
                 </MockRouter>
             </Provider>
         );
@@ -145,48 +147,36 @@ describe("<ClientSendSetListPage/>", () => {
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
-        fireEvent.change(screen.getByTestId("Is This Approved?Dropdown"), {target : {value : "No"}});
-        
-        expect(screen.getByTestId("Is This Approved?Dropdown").value).toEqual("No");
-    });
-
-    test("Added comment displays and clears input of initial comment", async () => {
-        const getCompletedSetlistResponse = {
-            bandleaderComments : [
-                "Band Leader Comments Here"
-            ], 
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ]
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getCompletedSetlistResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/setListApproval">
-                    <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+        fireEvent.change(screen.getByTestId("Is This Approved?Dropdown"), {target : {value : "Yes"}});
+        expect(screen.getByTestId("Is This Approved?Dropdown").value).toEqual("Yes");
 
         fireEvent.change(screen.getByTestId("Add CommentsTextInput"), {target : {value : "No Music"}});
-
         expect(screen.getByTestId("Add CommentsTextInput").value).toEqual("No Music");
-    });
 
-    test("Send Client Comments and Approval redirects to client home when succesful", () => {
+        fireEvent.click(screen.getByTestId("Add CommentButton"));
 
+        expect(screen.getByTestId("Add CommentsTextInput").value).toEqual("");
+
+        jest.spyOn(axios, "patch").mockResolvedValueOnce();
+
+        const getClientSongsActionResponse = {
+            doNotPlaySongsList : [],
+            requestedSongsList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }
+            ],
+            setListAvailable : true,
+            clientApproved : true,
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+
+        fireEvent.click(screen.getByTestId("Send Comments And ApprovalButton"));
+
+        await waitFor(() => expect(screen.getByText("Client Home Page")).toBeInTheDocument());
     });
 
     test("Send Client Comments and Approval error message appears when error occurs", () => {

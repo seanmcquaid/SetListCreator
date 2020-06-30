@@ -105,7 +105,7 @@ const ClientSetListApprovalPage = () => {
                 selectedItemOnChangeHandler={clientApprovalOnChangeHandler}
                 items={clientApprovalOptions}
             />
-            <Button type="button" title="Send Comments" onClick={sendClientCommentsAndApproval}/>
+            <Button type="button" title="Send Comments And Approval" onClick={sendClientCommentsAndApproval}/>
             <div className={styles.clientCommentsContainer}>
                 <Text headerText={true}>Client Comments List</Text>
                 <CommentsList list={clientComments}/>
