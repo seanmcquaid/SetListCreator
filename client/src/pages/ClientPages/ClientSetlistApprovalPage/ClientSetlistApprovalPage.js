@@ -37,7 +37,6 @@ const ClientSetListApprovalPage = () => {
                     return () => clearTimeout(timer);
                 })
                 .catch(err => {
-                    setIsLoading(false);
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
@@ -86,10 +85,18 @@ const ClientSetListApprovalPage = () => {
     }
 
     const {bandleaderComments, suggestedSetList} = setListInfo;
+    
+    if(errorMessage.length > 0){
+        return (
+            <div className={styles.clientSetListApprovalPageContainer}>
+                <Text headerText={true}>Proposed Set List</Text> 
+                <Text>{errorMessage}</Text>
+            </div>)
+    }
 
     return(
         <div className={styles.clientSetListApprovalPageContainer}>
-            <Text headerText={true}>Proposed Set List</Text>
+            <Text headerText={true}>Proposed Set List</Text> 
             <Text>{errorMessage}</Text>
             <Dropdown
                 selectedItem={clientApprovalStatus}
