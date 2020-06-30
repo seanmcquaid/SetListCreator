@@ -4,7 +4,6 @@ I have more or less finished the app now, it will be primarily refactoring to cl
 
 Tests Left For Unit Testing on Front End : 
 1) BandleaderPages - Add Songs, Edit Song, Home, Login, Profile, Register, Client Edit Set List, Client Final Set List, Client Info, Client List, Set List Creator
-2) ClientPages - Finalized Set List
 
 Things to do :
 1) Unit Tests - Front End
