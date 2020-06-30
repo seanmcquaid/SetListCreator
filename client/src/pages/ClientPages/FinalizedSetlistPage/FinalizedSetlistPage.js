@@ -18,20 +18,24 @@ const FinalizedSetListPage = () => {
             const headers = tokenConfig();
             axios.get(`${apiHost}/client/getCompletedSetList`, headers)
                 .then(response => {
-                    setSetListInfo(response.data);
-                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                    const timer = setTimeout(() => {
+                        setSetListInfo(response.data);
+                        setIsLoading(false);
+                    }, 1500);
                     return () => clearTimeout(timer);
                 })
-                .catch(() => {
-                    setErrorMessage("There was a problem getting the completed set list, try again")
-                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
                     return () => clearTimeout(timer);
                 });
-            
-            return () => {
-                isMounted.current = false;
-            };
         }
+
+        return () => {
+            isMounted.current = false;
+        };
     }, []);
 
     if(isLoading){
@@ -41,8 +45,10 @@ const FinalizedSetListPage = () => {
     return (
         <div className={styles.finalizedSetListPageContainer}>
             <Text headerText={true}>Final Set List</Text>
-            <Text>{errorMessage}</Text>
-            <SongList list={setListInfo.suggestedSetList}/>
+            {errorMessage.length > 0 ? 
+                <Text>{errorMessage}</Text> :
+                <SongList list={setListInfo.suggestedSetList}/>
+            }
         </div>
     )
 };

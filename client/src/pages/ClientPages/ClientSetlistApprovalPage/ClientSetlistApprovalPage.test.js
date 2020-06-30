@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import axios from "axios";
 import ClientHomePage from "../ClientHomePage/ClientHomePage";
-import { act } from "react-dom/test-utils";
 
 describe("<ClientSendSetListPage/>", () => {
 
