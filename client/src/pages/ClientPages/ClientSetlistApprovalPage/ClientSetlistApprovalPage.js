@@ -48,7 +48,6 @@ const ClientSetListApprovalPage = () => {
 
         return () => {
             isMounted.current = false;
-            onClickRef.current = false;
         };
     }, []);
 
@@ -65,8 +64,8 @@ const ClientSetListApprovalPage = () => {
         setClientComment("");
     },[clientComments, clientComment]);
 
-    const sendClientCommentsAndApproval = useCallback(() => {
-        if(onClickRef.current && isMounted.current){
+    const sendClientCommentsAndApproval = useCallback(async () => {
+        if(onClickRef.current){
             setIsLoading(true);
 
             const headers = tokenConfig();
@@ -76,26 +75,27 @@ const ClientSetListApprovalPage = () => {
                 clientApproval : clientApprovalStatus === "Yes" 
             };
 
-            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+            await axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
                 .then(() => {
                     const timer = setTimeout(() => {
                         history.push("/clientHome");
-                        setIsLoading(false);
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
                 .catch(err => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
-                        setIsLoading(false);
                     }, 1500);
                     return () => clearTimeout(timer);
                 });
+            
+            setIsLoading(false);
         }
+
+        
 
         return () => {
             onClickRef.current = false;
-            isMounted.current = false;
         };
     },[clientComments, clientApprovalStatus, history]);
 
