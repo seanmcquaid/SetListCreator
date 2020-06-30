@@ -8,7 +8,7 @@ import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 import styles from "./FinalizedSetListPage.module.css";
 
 const FinalizedSetListPage = () => {
-    const isMounted = useRef(false);
+    const isMounted = useRef(true);
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
     const [errorMessage, setErrorMessage] = useState("");
