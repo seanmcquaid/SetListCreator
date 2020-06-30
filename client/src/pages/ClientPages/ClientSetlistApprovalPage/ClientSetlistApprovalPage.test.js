@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import axios from "axios";
 import ClientHomePage from "../ClientHomePage/ClientHomePage";
+import { act } from "react-dom/test-utils";
 
 describe("<ClientSendSetListPage/>", () => {
 
@@ -176,10 +177,65 @@ describe("<ClientSendSetListPage/>", () => {
 
         fireEvent.click(screen.getByTestId("Send Comments And ApprovalButton"));
 
+        await waitFor(() => expect(screen.queryByText("loadingSpinner")).toBeNull());
+
         await waitFor(() => expect(screen.getByText("Client Home Page")).toBeInTheDocument());
     });
 
-    test("Send Client Comments and Approval error message appears when error occurs", () => {
+    test("Send Client Comments and Approval error message appears when error occurs", async () => {
+        const getCompletedSetlistResponse = {
+            bandleaderComments : [
+                "Band Leader Comments Here"
+            ], 
+            suggestedSetList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }
+            ]
+        };
 
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getCompletedSetlistResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/client/setListApproval">
+                    <Route exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        fireEvent.change(screen.getByTestId("Is This Approved?Dropdown"), {target : {value : "Yes"}});
+        expect(screen.getByTestId("Is This Approved?Dropdown").value).toEqual("Yes");
+
+        fireEvent.change(screen.getByTestId("Add CommentsTextInput"), {target : {value : "No Music"}});
+        expect(screen.getByTestId("Add CommentsTextInput").value).toEqual("No Music");
+
+        fireEvent.click(screen.getByTestId("Add CommentButton"));
+
+        expect(screen.getByTestId("Add CommentsTextInput").value).toEqual("");
+
+        const editCompletedSetListCommentsResponse = {
+            errorMessage : "Error Message Here Now",
+        };
+
+        jest.spyOn(axios, "patch").mockRejectedValueOnce({
+            response : {
+                data : {
+                    ...editCompletedSetListCommentsResponse
+                },
+            },
+        });
+
+        fireEvent.click(screen.getByTestId("Send Comments And ApprovalButton"));
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull())
     });
 });

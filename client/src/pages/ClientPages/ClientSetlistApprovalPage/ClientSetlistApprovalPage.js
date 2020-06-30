@@ -16,6 +16,7 @@ const ClientSetListApprovalPage = () => {
     const history = useHistory();
 
     const isMounted = useRef(true);
+    const onClickRef = useRef(true);
 
     const [isLoading, setIsLoading] = useState(true);
     const [setListInfo, setSetListInfo] = useState({});
@@ -44,9 +45,11 @@ const ClientSetListApprovalPage = () => {
                     return () => clearTimeout(timer);
                 });
         }
+
         return () => {
             isMounted.current = false;
-        }
+            onClickRef.current = false;
+        };
     }, []);
 
     const clientApprovalOnChangeHandler = useCallback(event => {
@@ -63,21 +66,37 @@ const ClientSetListApprovalPage = () => {
     },[clientComments, clientComment]);
 
     const sendClientCommentsAndApproval = useCallback(() => {
-        const headers = tokenConfig();
+        if(onClickRef.current && isMounted.current){
+            setIsLoading(true);
 
-        const requestBody = {
-            clientComments,
-            clientApproval : clientApprovalStatus === "Yes" 
+            const headers = tokenConfig();
+
+            const requestBody = {
+                clientComments,
+                clientApproval : clientApprovalStatus === "Yes" 
+            };
+
+            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+                .then(() => {
+                    const timer = setTimeout(() => {
+                        history.push("/clientHome");
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
+        }
+
+        return () => {
+            onClickRef.current = false;
+            isMounted.current = false;
         };
-
-        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
-            .then(() => {
-                history.push("/clientHome")
-            })
-            .catch(err => {
-                setErrorMessage(err.response.data.errorMessage);
-            });
-
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){
