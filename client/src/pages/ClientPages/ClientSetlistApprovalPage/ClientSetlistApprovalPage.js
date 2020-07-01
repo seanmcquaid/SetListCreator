@@ -26,6 +26,8 @@ const ClientSetListApprovalPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/client/getCompletedSetlist`, headers)
@@ -47,6 +49,7 @@ const ClientSetListApprovalPage = () => {
 
         return () => {
             isMounted.current = false;
+            source.cancel();
         };
     }, []);
 
@@ -64,31 +67,39 @@ const ClientSetListApprovalPage = () => {
     },[clientComments, clientComment]);
 
     const sendClientCommentsAndApproval = useCallback(() => {
-        setIsLoading(true);
+        const source = axios.CancelToken.source();
 
-        const headers = tokenConfig();
+        if(isMounted.current){
+            setIsLoading(true);
 
-        const requestBody = {
-            clientComments,
-            clientApproval : clientApprovalStatus === "Yes" 
-        };
+            const headers = tokenConfig();
 
-        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
-            .then(() => {
-                const timer = setTimeout(() => {
-                    setIsLoading(false);
-                    history.push("/clientHome");
-                }, 1500);
-                return () => clearTimeout(timer);
-            })
-            .catch(err => {
-                const timer = setTimeout(() => {
-                    setIsLoading(false);
-                    setErrorMessage(err.response.data.errorMessage);
-                }, 1500);
-                return () => clearTimeout(timer);
-            });
+            const requestBody = {
+                clientComments,
+                clientApproval : clientApprovalStatus === "Yes" 
+            };
+
+            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+                .then(() => {
+                    const timer = setTimeout(() => {
+                        setIsLoading(false);
+                        history.push("/clientHome");
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setIsLoading(false);
+                        setErrorMessage(err.response.data.errorMessage);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
+        }
         
+        return () => {
+            isMounted.current = false;
+            source.cancel();
+        }
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){
