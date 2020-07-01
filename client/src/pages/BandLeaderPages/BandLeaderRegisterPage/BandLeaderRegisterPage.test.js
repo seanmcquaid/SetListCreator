@@ -7,6 +7,7 @@ import { Route } from "react-router-dom";
 import BandleaderHomePage from "../BandleaderHomePage/BandleaderHomePage";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
+import BandleaderLoginPage from "../BandleaderLoginPage/BandleaderLoginPage";
 
 describe("<BandleaderRegisterPage/>", () => {
 
@@ -18,8 +19,21 @@ describe("<BandleaderRegisterPage/>", () => {
         jest.useRealTimers();
     });
 
-    test("Login Button takes you to the Bandleader Login Page", () => {
+    test("Login Button takes you to the Bandleader Login Page", async () => {
+        const store = configureStore();
 
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleaderRegister">
+                    <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
+                    <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        fireEvent.click(screen.getByText("Here"));
+
+        await waitFor(() => expect(screen.getByText("Band Leader Login")).toBeInTheDocument());
     });
 
     test("Successful register redirects user to bandleader home", async () => {
@@ -67,12 +81,67 @@ describe("<BandleaderRegisterPage/>", () => {
             jest.useRealTimers();
         });
         test("Passwords don't match", async () => {
-            
+            const store = configureStore();
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/bandleaderRegister">
+                        <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
+                        <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : { value : "testuser" }});
+            expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
+
+            fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : { value : "testpassword" }});
+            expect(screen.getByTestId("PasswordTextInput").value).toEqual("testpassword");
+
+            fireEvent.change(screen.getByTestId("Confirm PasswordTextInput"), {target : { value : "testpassword123" }});
+            expect(screen.getByTestId("Confirm PasswordTextInput").value).toEqual("testpassword123");
+
+            fireEvent.click(screen.getByTestId("RegisterButton"));
+
+            await waitFor(() => expect(screen.getByText("Passwords don't match")).toBeInTheDocument());
         });
 
         test("User already is registered - error message displays", async () => {
-            
+            const store = configureStore();
+
+            render(
+                <Provider store={store}>
+                    <MockRouter initialRoute="/bandleaderRegister">
+                        <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
+                        <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+                    </MockRouter>
+                </Provider>
+            );
+
+            fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : { value : "testuser" }});
+            expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
+
+            fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : { value : "testpassword" }});
+            expect(screen.getByTestId("PasswordTextInput").value).toEqual("testpassword");
+
+            fireEvent.change(screen.getByTestId("Confirm PasswordTextInput"), {target : { value : "testpassword" }});
+            expect(screen.getByTestId("Confirm PasswordTextInput").value).toEqual("testpassword");
+
+            const registerActionResponse = {
+                errorMessage : "Error Here"
+            };
+
+            jest.spyOn(axios, "post").mockRejectedValueOnce({
+                response : {
+                    data : {
+                        ...registerActionResponse,
+                    },
+                },
+            });
+
+            fireEvent.click(screen.getByTestId("RegisterButton"));
     
+            await waitFor(() => expect(screen.getByText("Error Here")).toBeInTheDocument());
         });
     });
 });
