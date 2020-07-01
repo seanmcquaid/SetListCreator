@@ -44,7 +44,7 @@ const AddSongsPage = () => {
         dispatch(deleteBandleaderSongAction(songId));
     },[dispatch]);
 
-    const songsList = useMemo(songList.map((song, key) => {
+    const songsList = songList.map((song, key) => {
         const {songname, artistname, songkey, id} = song;
         return <Song
                     key={key}
@@ -55,7 +55,7 @@ const AddSongsPage = () => {
                     deleteSongHandler={() => deleteSongHandler(id)}
                     isEditable
                 />
-    }),[]);
+    });
 
     return(
         <div className={styles.addSongsPageContainer}>
