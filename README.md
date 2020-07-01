@@ -5,6 +5,11 @@ I have more or less finished the app now, it will be primarily refactoring to cl
 Tests Left For Unit Testing on Front End : 
 1) BandleaderPages - Add Songs, Edit Song, Profile, Client Edit Set List, Client Final Set List, Client Info, Client List, Set List Creator
 
+Next :
+1) Add Songs
+2) Client List
+3) Profile
+
 Things to do :
 1) Unit Tests - Front End
 2) Refactor unit tests to implement screen per the creator of RTL's recommendation and review testing patterns/unify patterns, remove unneeded setting of store initial state
