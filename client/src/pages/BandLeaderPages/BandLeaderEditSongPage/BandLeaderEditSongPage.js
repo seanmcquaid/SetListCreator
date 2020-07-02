@@ -9,6 +9,7 @@ import styles from "./BandleaderEditSongPage.module.css";
 import {editBandleaderSongAction} from "actions/bandleaderActions/bandleaderActions";
 import {apiHost} from "config";
 import { useHistory } from "react-router-dom";
+import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const BandleaderEditSongPage = props => {
     const dispatch = useDispatch();
@@ -39,7 +40,11 @@ const BandleaderEditSongPage = props => {
                     return () => clearTimeout(timer);
                 })
                 .catch(err => {
-                    console.log(err);
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
                 });
         }
         return () => {
@@ -65,10 +70,14 @@ const BandleaderEditSongPage = props => {
         history.push("/bandleader/addSongs")
     },[dispatch, songName, artistName, songKey, songId, history]);
     
+    if(isLoading){
+        return <LoadingSpinner isLoading={isLoading}/>
+    }
 
     return(
         <div className={styles.editSongPageContainer}>
             <Text headerText={true}>Edit Song</Text>
+            <Text>{errorMessage}</Text>
             <form onSubmit={bandLeaderEditSongSubmitHandler} className={styles.editSongForm}>
                 <Input
                     name="songName"
