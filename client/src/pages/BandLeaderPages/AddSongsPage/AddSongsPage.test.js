@@ -37,7 +37,7 @@ describe("Add Songs Page", () => {
         await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
     });
     
-    test("Added song displays", async () => {
+    test("Added song displays and text inputs reset", async () => {
         const getBandleaderSongsActionResponse = {
             songList : [
                 {
@@ -100,7 +100,40 @@ describe("Add Songs Page", () => {
         expect(screen.getByTestId("KeyTextInput").value).toEqual("");
     });
 
-    test("Deleted song is no longer displayed", () => {
+    test("Deleted song is no longer displayed", async () => {
+        const getBandleaderSongsActionResponse = {
+            songList : [
+                {
+                    songname : "Uptown Funk", 
+                    artistname : "Bruno Mars",
+                    songkey : "D Minor",
+                    id : 1
+                }
+            ],
+        };
 
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderSongsActionResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleader/addSongs">
+                    <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+
+        const deleteBandleaderSongActionResponse = {
+            songList : [],
+        };
+
+        jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...deleteBandleaderSongActionResponse}});
+
+        fireEvent.click(screen.getByTestId("RemoveButton"));
+
+        await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
     });
 });
