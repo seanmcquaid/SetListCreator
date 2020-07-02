@@ -78,6 +78,7 @@ export const getBandleaderSongsAction = () => dispatch => {
 
     return axios.get(`${apiHost}/bandleader/getSongs`, headers)
         .then(response => {
+            console.log(response);
             dispatch({
                 type : GET_BANDLEADER_SONGS_SUCCESS,
                 payload : response.data
