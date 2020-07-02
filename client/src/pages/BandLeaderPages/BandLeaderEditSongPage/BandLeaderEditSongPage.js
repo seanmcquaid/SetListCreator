@@ -41,7 +41,7 @@ const BandleaderEditSongPage = props => {
                 })
                 .catch(err => {
                     const timer = setTimeout(() => {
-                        setErrorMessage(err.response.errorMessage);
+                        setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
                     }, 1500);
                     return () => clearTimeout(timer);
