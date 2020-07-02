@@ -137,7 +137,37 @@ describe("<BandleaderProfilePage/>", () => {
         await waitFor(() => expect(screen.getByText("Band Leader Home Page")).toBeInTheDocument());
     });
 
-    test("Passwords not matching", () => {
+    test("Passwords not matching", async () => {
+        const getUserInfoActionResponse = {
+            isAuthenticated : true,
+            token : "testToken",
+            username : "test user",
+            accountType : "bandleader",
+        };
 
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleader/editProfile">
+                    <Route exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
+                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
+        expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
+
+        fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {target : { value : "new password not here"}});
+        expect(screen.getByTestId("Confirm New Password HereTextInput").value).toEqual("new password not here");
+
+        fireEvent.click(screen.getByTestId("Edit ProfileButton"));
+
+        await waitFor(() => expect(screen.getByText("ERROR WITH PASSWORDS NOT MATCHING")).toBeInTheDocument());
     });
 });

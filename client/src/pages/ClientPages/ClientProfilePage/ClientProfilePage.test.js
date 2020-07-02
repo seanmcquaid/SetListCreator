@@ -235,15 +235,6 @@ describe("<ClientProfilePage/>", () => {
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
-        const editUserInfoActionResponse = { 
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user changed",
-            accountType : "client",
-        }
-
-        jest.spyOn(axios, "patch").mockResolvedValueOnce({data : { ...editUserInfoActionResponse}});
-
         fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
         expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
 
