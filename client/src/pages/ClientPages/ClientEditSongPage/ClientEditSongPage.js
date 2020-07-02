@@ -34,10 +34,10 @@ const ClientEditSongPage = props => {
                     const songInfo = response.data.songInfo;
                     const {songname, artistname, songtype} = songInfo;
                     const timer = setTimeout(() => {
-                        setIsLoading(false);
                         setSongName(songname);
                         setArtistName(artistname);
                         setSongPlayListType(songtype);
+                        setIsLoading(false);
                     }, 1500);
                     return () => clearTimeout(timer);
                 })

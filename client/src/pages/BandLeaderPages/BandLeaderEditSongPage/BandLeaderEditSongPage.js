@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -14,24 +14,37 @@ const BandleaderEditSongPage = props => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const isMounted = useRef(true);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [songName, setSongName] = useState("");
     const [artistName, setArtistName] = useState("");
     const [songKey, setSongKey] = useState("");
     const {songId} = props.match.params;
 
     useEffect(() => {
-        const headers = tokenConfig();
-        axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
-            .then(response => {
-                const songInfo = response.data.songInfo;
-                const {songname, artistname, songkey} = songInfo;
-                setSongName(songname);
-                setArtistName(artistname);
-                setSongKey(songkey);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        if(isMounted.current){
+            const headers = tokenConfig();
+            axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
+                .then(response => {
+                    const songInfo = response.data.songInfo;
+                    const {songname, artistname, songkey} = songInfo;
+                    const timer = setTimeout(() => {
+                        setSongName(songname);
+                        setArtistName(artistname);
+                        setSongKey(songkey);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        return () => {
+            isMounted.current = false;
+        };
     }, [songId]);
 
     const songNameOnChangeHandler = useCallback(event => {
