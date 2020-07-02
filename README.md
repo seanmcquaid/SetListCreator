@@ -3,11 +3,10 @@
 I have more or less finished the app now, it will be primarily refactoring to clean up things that bother me about the app before considering this completed.
 
 Tests Left For Unit Testing on Front End : 
-1) BandleaderPages - Profile, Client Edit Set List, Client Final Set List, Client Info, Client List, Set List Creator
+1) BandleaderPages - Client Edit Set List, Client Final Set List, Client Info, Client List, Set List Creator
 
 Next :
 1) Client List
-2) Profile
 
 Things to do :
 1) Unit Tests - Front End
