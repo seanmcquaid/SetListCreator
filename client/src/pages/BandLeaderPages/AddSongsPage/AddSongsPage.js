@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import Text from "components/Text/Text";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
@@ -46,15 +46,16 @@ const AddSongsPage = () => {
 
     const songsList = songList.map((song, key) => {
         const {songname, artistname, songkey, id} = song;
-        return <Song
-                    key={key}
-                    songName={songname}
-                    artistName={artistname}
-                    songKey={songkey}
-                    songId={id}
-                    deleteSongHandler={() => deleteSongHandler(id)}
-                    isEditable
-                />
+        return (
+            <Song
+                key={key}
+                songName={songname}
+                artistName={artistname}
+                songKey={songkey}
+                songId={id}
+                deleteSongHandler={() => deleteSongHandler(id)}
+                isEditable
+            />);
     });
 
     return(
