@@ -6,8 +6,9 @@ Tests Left For Unit Testing on Front End :
 1) BandleaderPages - Edit Song, Profile, Client Edit Set List, Client Final Set List, Client Info, Client List, Set List Creator
 
 Next :
-1) Client List
-2) Profile
+1) Edit Song
+2) Client List
+3) Profile
 
 Things to do :
 1) Unit Tests - Front End
