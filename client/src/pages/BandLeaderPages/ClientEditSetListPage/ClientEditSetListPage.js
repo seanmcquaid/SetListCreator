@@ -79,7 +79,7 @@ const EditClientSetListPage = props => {
     return (
         <div className={styles.clientEditSetListPageContainer}>
             <div className={styles.headerContainer}>
-                <Text headerText={true}>Set List Creator</Text>
+                <Text headerText={true}>Edit Client Set List</Text>
                 <Button type="button" title="Send Setlist to Client" onClick={sendEditedSetList}/>
             </div>
             <div className={styles.allCommentsContainer}>

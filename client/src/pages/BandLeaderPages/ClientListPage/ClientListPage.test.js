@@ -8,6 +8,7 @@ import { Route } from "react-router-dom";
 import axios from "axios";
 import ClientInfoPage from "../ClientInfoPage/ClientInfoPage";
 import ClientFinalSetListPage from "../ClientFinalSetListPage/ClientFinalSetListPage";
+import ClientEditSetListPage from "../ClientEditSetListPage/ClientEditSetListPage";
 
 describe("<ClientListPage/>", () => {
 
@@ -124,11 +125,26 @@ describe("<ClientListPage/>", () => {
             <Provider store={store}>
                 <MockRouter initialRoute="/bandleader/clientList">
                     <Route exact path="/bandleader/clientList" component={ClientListPage}/>
+                    <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
                 </MockRouter>
             </Provider>
         );
 
         await waitFor(() => expect(screen.getByText("test user")).toBeInTheDocument());
+
+        const getSuggestedSetListResponse = {
+            suggestedSetList : [],
+            additionalClientRequests : [],
+            clientComments : [],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
+
+        fireEvent.click(screen.getByTestId("Go To Edit Set List PageButton"));
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("Edit Client Set List")).toBeInTheDocument();
     });
 
 });
