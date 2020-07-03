@@ -16,7 +16,6 @@ const ClientListPage = () => {
         dispatch(getBandleaderClientsAction());
     },[dispatch]);
 
-
     const clientPageRedirect = useCallback(clientId => {
         history.push(`/bandleader/clientInfo/${clientId}`);
     },[history]);
