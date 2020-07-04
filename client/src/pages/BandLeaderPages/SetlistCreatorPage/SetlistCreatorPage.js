@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
@@ -15,28 +15,40 @@ const SetListCreatorPage = props => {
     const {clientId} = props.match.params;
     const history = useHistory();
 
+    const isMounted = useRef(true);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [suggestedSetList, setSuggestedSetList] = useState([]);
     const [additionalClientRequests, setAdditionalClientRequests] = useState([]);
     const [setListComment, setSetListComment] = useState("");
     const [setListComments, setSetListComments] = useState([]);
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
-            .then(async response => {
-                setSuggestedSetList(response.data.suggestedSetList);
-                setAdditionalClientRequests(response.data.additionalClientRequests);
-            })
-            .catch(async err => {
-                console.log(err);
-            })
-            const timer = setTimeout(() => setIsLoading(false), 1500);
-            return () => clearTimeout(timer);
+                .then(response => {
+                    const timer = setTimeout(() => {
+                        setSuggestedSetList(response.data.suggestedSetList);
+                        setAdditionalClientRequests(response.data.additionalClientRequests);
+                        setIsLoading(false)
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
         }
         
-    }, [isLoading, clientId]);
+        return () => {
+            isMounted.current = false;
+        };
+    }, [clientId]);
 
     const setListCommentOnChangeHandler = useCallback(event => {
         setSetListComment(event.target.value);
@@ -58,16 +70,16 @@ const SetListCreatorPage = props => {
         const requestBody = {
             completedSetList : suggestedSetList,
             clientId,
-            bandLeaderComments : setListComments,
+            bandleaderComments : setListComments,
         };
 
         axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, headers)
-            .then(response => {
+            .then(() => {
                 history.push("/bandleaderHome")
             })
             .catch(err => {
-                console.log(err);
-            })
+                setErrorMessage(err.response.data.errorMessage);
+            });
     },[suggestedSetList, clientId, setListComments, history]);
 
     if(isLoading){
@@ -78,6 +90,7 @@ const SetListCreatorPage = props => {
         <div className={styles.setListCreatorPageContainer}>
             <div className={styles.headerContainer}>
                 <Text headerText={true}>Set List Creator</Text>
+                <Text>{errorMessage}</Text>
                 <Button type="button" title="Send Setlist to Client" onClick={sendCompletedSetlist}/>
             </div>
             <div className={styles.commentsContainer}>
