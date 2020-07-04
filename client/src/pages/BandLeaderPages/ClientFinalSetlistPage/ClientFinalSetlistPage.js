@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { apiHost } from "config";
 import { tokenConfig } from "actions/authActions/authActions";
@@ -9,21 +9,37 @@ import styles from "./ClientFinalSetListPage.module.css";
 
 const ClientFinalSetListPage = props => {
     const {clientId} = props.match.params;
+
+    const isMounted = useRef(true);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [clientSetListInfo, setClientSetListInfo] = useState({});
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, headers)
                 .then(response => {
-                    setClientSetListInfo(response.data);
+                    const timer = setTimeout(() => {
+                        setClientSetListInfo(response.data);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
                 })
-                .catch(err => console.log(err));
-            const timer = setTimeout(() => setIsLoading(false), 1500);
-            return () => clearTimeout(timer);
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
         }
-    },[clientId, isLoading])
+
+        return () => {
+            isMounted.current = false;
+        }
+    },[clientId]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;
@@ -32,7 +48,11 @@ const ClientFinalSetListPage = props => {
     return (
         <div className={styles.clientFinalSetListPageContainer}>
             <Text headerText={true}>Final Set List For {clientSetListInfo.clientName}</Text>
-            <SongList list={clientSetListInfo.suggestedSetList}/>
+            {
+                errorMessage.length > 0 ? 
+                    <Text>{errorMessage}</Text> :
+                    <SongList list={clientSetListInfo.suggestedSetList}/>
+            }
         </div>
     )
 };
