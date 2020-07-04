@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
 import axios from "axios";
@@ -10,26 +10,41 @@ import LoadingSpinner from "components/LoadingSpinner/LoadingSpinner";
 
 const ClientInfoPage = props => {
     const {clientId} = props.match.params;
+
+    const isMounted = useRef(true);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [requestedSongsList, setRequestedSongsList] = useState([]);
     const [doNotPlaySongsList, setDoNotPlaySongsList] = useState([]);
     const [clientInfo, setClientInfo] = useState({});
     const {username, setListAvailable, id} = clientInfo;
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getClientSongs/${clientId}`, headers)
                 .then(response => {
-                    setRequestedSongsList(response.data.requestedSongsList);
-                    setDoNotPlaySongsList(response.data.doNotPlaySongsList);
-                    setClientInfo(response.data.userInfo);
+                    const timer = setTimeout(() => {
+                        setRequestedSongsList(response.data.requestedSongsList);
+                        setDoNotPlaySongsList(response.data.doNotPlaySongsList);
+                        setClientInfo(response.data.userInfo);
+                        setIsLoading(false)
+                    }, 1500);
+                    return () => clearTimeout(timer);
                 })
-                .catch(err => console.log(err));
-            const timer = setTimeout(() => setIsLoading(false), 1500);
-            return () => clearTimeout(timer);
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false)
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
         }
-    },[clientId, isLoading]);
+        return () => {
+            isMounted.current = false;
+        };
+    },[clientId]);
 
     if(isLoading){
         return <LoadingSpinner isLoading={isLoading}/>;
@@ -39,6 +54,7 @@ const ClientInfoPage = props => {
         <div className={styles.clientInfoPageContainer}>
             <div className={styles.clientInfoContainer}>
                 <Text headerText={true}>Client name : {username}</Text>
+                <Text>{errorMessage}</Text>
                 {setListAvailable ? 
                     <LinkButton route={`/bandleader/createSetlist/${id}`}>Create Setlist</LinkButton> :
                     <Text>In Progress</Text>
