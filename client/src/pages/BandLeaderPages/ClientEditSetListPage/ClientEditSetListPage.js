@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import {tokenConfig} from "actions/authActions/authActions";
 import {apiHost} from "config";
 import styles from "./ClientEditSetListPage.module.css";
@@ -15,7 +15,10 @@ const EditClientSetListPage = props => {
     const {clientId} = props.match.params;
     const history = useHistory();
 
+    const isMounted = useRef(true);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [suggestedSetList, setSuggestedSetList] = useState([]);
     const [additionalClientRequests, setAdditionalClientRequests] = useState([]);
     const [bandleaderComment, setBandleaderComment] = useState("");
@@ -23,22 +26,31 @@ const EditClientSetListPage = props => {
     const [clientComments, setClientComments] = useState([]);
 
     useEffect(() => {
-        if(isLoading){
+        if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
             .then(response => {
-                setSuggestedSetList(response.data.suggestedSetList);
-                setAdditionalClientRequests(response.data.additionalClientRequests);
-                setClientComments(response.data.clientComments);
+                const timer = setTimeout(() => {
+                    setSuggestedSetList(response.data.suggestedSetList);
+                    setAdditionalClientRequests(response.data.additionalClientRequests);
+                    setClientComments(response.data.clientComments);
+                    setIsLoading(false)
+                }, 1500);
+                return () => clearTimeout(timer);
             })
             .catch(err => {
-                console.log(err);
+                const timer = setTimeout(() => {
+                    setErrorMessage(err.response.data.errorMessage);
+                    setIsLoading(false)
+                }, 1500);
+                return () => clearTimeout(timer);
             });
-            const timer = setTimeout(() => setIsLoading(false), 1500);
-            return () => clearTimeout(timer);
         }
-        
-    }, [isLoading, clientId]);
+
+        return () => {
+            isMounted.current = false;
+        };
+    }, [clientId]);
 
     const bandleaderCommentOnChangeHandler = useCallback(event => {
         setBandleaderComment(event.target.value);
@@ -64,11 +76,11 @@ const EditClientSetListPage = props => {
         };
 
         axios.patch(`${apiHost}/bandleader/editCompletedSetList`, requestBody, headers)
-            .then(response => {
+            .then(() => {
                 history.push("/bandleaderHome")
             })
             .catch(err => {
-                console.log(err);
+                setErrorMessage(err.response.data.errorMessage);
             })
     },[suggestedSetList, bandleaderComments, clientId, history]);
 
@@ -80,6 +92,7 @@ const EditClientSetListPage = props => {
         <div className={styles.clientEditSetListPageContainer}>
             <div className={styles.headerContainer}>
                 <Text headerText={true}>Edit Client Set List</Text>
+                <Text>{errorMessage}</Text>
                 <Button type="button" title="Send Setlist to Client" onClick={sendEditedSetList}/>
             </div>
             <div className={styles.allCommentsContainer}>
