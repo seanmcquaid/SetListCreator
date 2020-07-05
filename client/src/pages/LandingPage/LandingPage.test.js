@@ -1,6 +1,6 @@
 import React from "react";
 import LandingPage from "./LandingPage";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
@@ -10,18 +10,9 @@ import configureStore from "store/configureStore";
 
 describe("<LandingPage/>", () => {
     test("Renders correctly", () => {
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
+        const store = configureStore();
 
-        const store = configureStore(initialState);
-
-        const {getByText} = render(
+        render(
             <Provider store={store}>
                 <MockRouter initialRoute="/">
                     <Route exact path="/" component={LandingPage}/>
@@ -29,23 +20,14 @@ describe("<LandingPage/>", () => {
             </Provider>
         );
 
-        expect(getByText("Set List Creator")).toBeInTheDocument();
+        expect(screen.getByText("Set List Creator")).toBeInTheDocument();
     });
 
     describe("LinkButtons route correctly", () => {
         test("Client Login Button routes correctly", async () => {
-            const initialState = {
-                auth : {
-                    isAuthenticated : false,
-                },
-                error : {
-                    errorMessage : "",
-                },
-            };
+            const store = configureStore();
 
-            const store = configureStore(initialState);
-
-            const {getByText, queryByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter initialRoute="/">
                         <Route exact path="/" component={LandingPage}/>
@@ -54,28 +36,17 @@ describe("<LandingPage/>", () => {
                 </Provider>
             );
 
-            expect(getByText("Set List Creator")).toBeInTheDocument();
+            expect(screen.getByText("Set List Creator")).toBeInTheDocument();
 
-            fireEvent.click(getByText("Client"));
+            fireEvent.click(screen.getByText("Client"));
 
-            expect(queryByText("Set List Creator")).toBeNull();
-
-            expect(getByText("Client Login")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Client Login")).toBeInTheDocument());
         });
 
-        test("Bandleader Login Button routes correctly", () => {
-            const initialState = {
-                auth : {
-                    isAuthenticated : false,
-                },
-                error : {
-                    errorMessage : "",
-                },
-            };
+        test("Bandleader Login Button routes correctly", async () => {
+            const store = configureStore();
 
-            const store = configureStore(initialState);
-
-            const {getByText, queryByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter initialRoute="/">
                         <Route exact path="/" component={LandingPage}/>
@@ -84,13 +55,11 @@ describe("<LandingPage/>", () => {
                 </Provider>
             );
 
-            expect(getByText("Set List Creator")).toBeInTheDocument();
+            expect(screen.getByText("Set List Creator")).toBeInTheDocument();
 
-            fireEvent.click(getByText("Bandleader"));
+            fireEvent.click(screen.getByText("Bandleader"));
 
-            expect(queryByText("Set List Creator")).toBeNull();
-
-            expect(getByText("Band Leader Login")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Band Leader Login")).toBeInTheDocument());
         });
     });
 });

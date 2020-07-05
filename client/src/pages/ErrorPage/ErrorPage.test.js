@@ -1,11 +1,11 @@
 import React from "react";
 import ErrorPage from "./ErrorPage";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("<ErrorPage/>", () => {
     test("Renders correctly", () => {
-        const {getByText} = render(<ErrorPage/>);
+        render(<ErrorPage/>);
 
-        expect(getByText("Page Not Found")).toBeInTheDocument();
+        expect(screen.getByText("Page Not Found")).toBeInTheDocument();
     });
 });
