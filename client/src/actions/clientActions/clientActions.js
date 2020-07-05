@@ -22,109 +22,126 @@ import {
 import {tokenConfig} from "../authActions/authActions";
 import {apiHost} from "config";
 
-const source = axios.CancelToken.source();
-
 export const getClientSongsAction = () => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : GET_CLIENT_SONGS_LOADING,
     });
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.get(`${apiHost}/client/getSongs`, headers)
+    return axios.get(`${apiHost}/client/getSongs`, config)
         .then(response => {
             dispatch({
                 type : GET_CLIENT_SONGS_SUCCESS,
                 payload : response.data,
-            })
+            });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : GET_CLIENT_SONGS_ERROR,
                 payload : err.response.data,
-            })
+            });
+            source.cancel();
         });
 };
 
 export const addClientRequestedSongAction = (songName, artistName) => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : ADD_CLIENT_REQUESTED_SONG_LOADING,
     });
 
-    const requestBody = {songName, artistName};
-    const headers = tokenConfig();
+    const requestBody = {
+        songName, 
+        artistName,
+    };
 
-    return axios.post(`${apiHost}/client/addSong/requestedSong`, requestBody, headers)
+    const config = tokenConfig();
+    config.cancelToken = source.token;
+
+    return axios.post(`${apiHost}/client/addSong/requestedSong`, requestBody, config)
         .then(response => {
             dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_SUCCESS,
                 payload : response.data,
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : ADD_CLIENT_REQUESTED_SONG_ERROR,
                 payload : err.response.data,
             });
+            source.cancel();
         });
 };
 
 export const addClientDoNotPlaySongAction = (songName, artistName) => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
     });
 
-    const requestBody = {songName, artistName};
-    const headers = tokenConfig();
+    const requestBody = {
+        songName, 
+        artistName,
+    };
 
-    return axios.post(`${apiHost}/client/addSong/doNotPlaySong`, requestBody, headers)
+    const config = tokenConfig();
+    config.cancelToken = source.token;
+
+    return axios.post(`${apiHost}/client/addSong/doNotPlaySong`, requestBody, config)
         .then(response => {
             dispatch({
                 type : ADD_CLIENT_DO_NOT_PLAY_SONG_SUCCESS,
                 payload : response.data,
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : ADD_CLIENT_DO_NOT_PLAY_SONG_ERROR,
                 payload : err.response.data,
             });
+            source.cancel();
         });
 };
 
 export const deleteClientSongAction = songId => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : DELETE_CLIENT_SONG_LOADING,
     });
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.delete(`${apiHost}/client/deleteSong/${songId}`, headers)
+    return axios.delete(`${apiHost}/client/deleteSong/${songId}`, config)
         .then(response => {
             dispatch({
                 type : DELETE_CLIENT_SONG_SUCCESS,
                 payload : response.data,
             });
+            source.cancel();
         })
         .catch(err =>{
             dispatch({
                 type : DELETE_CLIENT_SONG_ERROR,
                 payload : err.response.data
             });
-        })
-    
+            source.cancel();
+        });  
 };
 
 export const editClientSongAction = (songName, artistName, playListType, songId) => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : EDIT_CLIENT_SONG_LOADING,
@@ -136,26 +153,29 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
         playListType
     };
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.patch(`${apiHost}/client/editSong/${songId}`, requestBody, headers)
+    return axios.patch(`${apiHost}/client/editSong/${songId}`, requestBody, config)
         .then(response => {
             dispatch({
                 type : EDIT_CLIENT_SONG_SUCCESS,
                 payload : response.data
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : EDIT_CLIENT_SONG_ERROR,
                 payload : err.response.data
-            })
+            });
+            source.cancel();
         });
 
 };
 
 export const sendClientSetListAction = setListAvailability => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : SEND_CLIENT_SETLIST_LOADING,
@@ -165,20 +185,22 @@ export const sendClientSetListAction = setListAvailability => dispatch => {
         setListAvailability,
     };
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.patch(`${apiHost}/users/sendClientSetList`, requestBody, headers)
+    return axios.patch(`${apiHost}/users/sendClientSetList`, requestBody, config)
         .then(response => {
             dispatch({
                 type : SEND_CLIENT_SETLIST_SUCCESS,
                 payload : response.data
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : SEND_CLIENT_SETLIST_ERROR,
                 payload : err.response.data
             });
+            source.cancel();
         })
-
 };
