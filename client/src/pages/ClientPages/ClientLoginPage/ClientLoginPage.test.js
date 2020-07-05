@@ -45,8 +45,6 @@ describe("<ClientLoginPage/>", () => {
 
         fireEvent.click(screen.getByText("Here"));
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull())
 
         expect(screen.getByText("Client Register")).toBeInTheDocument();

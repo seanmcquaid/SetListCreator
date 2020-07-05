@@ -44,9 +44,6 @@ describe("<ClientRegisterPage/>", () => {
         expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.queryByTestId("loadingSpinner")).toBeNull();
-
     });
 
     test("Error displays when there is a problem with getting bandleaders", async () => {
@@ -67,8 +64,6 @@ describe("<ClientRegisterPage/>", () => {
         expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.queryByTestId("loadingSpinner")).toBeNull();
 
         expect(screen.getByText("There was a problem getting Bandleaders, please reload")).toBeInTheDocument();
     });
@@ -101,10 +96,7 @@ describe("<ClientRegisterPage/>", () => {
         
         fireEvent.click(screen.getByText("Here"));
 
-        expect(() => screen.getByText("Client Register")).toThrowError();
-
-        expect(screen.getByText("Client Login")).toBeInTheDocument();
-        
+        await waitFor(() => expect(screen.getByText("Client Login")).toBeInTheDocument());
     });
     
     test("Successfully register user - redirected to client home", async () => {
@@ -220,7 +212,7 @@ describe("<ClientRegisterPage/>", () => {
             
             fireEvent.click(screen.getByText("Register"));
 
-            expect(screen.getByText("Passwords don't match")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Passwords don't match")).toBeInTheDocument());
         });
     
         test("Bandleader not selected", async () => {
@@ -261,7 +253,7 @@ describe("<ClientRegisterPage/>", () => {
             
             fireEvent.click(screen.getByText("Register"));
 
-            expect(screen.getByText("SELECT A BANDLEADER")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("SELECT A BANDLEADER")).toBeInTheDocument());
         });
 
         test("User already is registered - error message displays", async () => {
@@ -317,7 +309,6 @@ describe("<ClientRegisterPage/>", () => {
             fireEvent.click(screen.getByText("Register"));
 
             await waitFor(() => expect(screen.getByText("Register Error Here")).toBeInTheDocument());
-    
         });
     });
 });

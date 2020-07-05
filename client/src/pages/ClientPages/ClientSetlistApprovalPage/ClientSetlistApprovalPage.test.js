@@ -75,8 +75,6 @@ describe("<ClientSendSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByText("Proposed Set List")).toBeInTheDocument();
@@ -109,8 +107,6 @@ describe("<ClientSendSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByText("Error Message Here")).toBeInTheDocument();
@@ -142,8 +138,6 @@ describe("<ClientSendSetListPage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 

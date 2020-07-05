@@ -70,8 +70,6 @@ describe("<FinalizedSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByText("ERROR")).toBeInTheDocument();
@@ -102,9 +100,7 @@ describe("<FinalizedSetListPage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
+        
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();

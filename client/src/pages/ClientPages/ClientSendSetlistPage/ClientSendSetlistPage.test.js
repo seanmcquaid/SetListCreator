@@ -44,8 +44,6 @@ describe("<ClientSendSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByText("Send Setlist")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
 
     });
@@ -75,8 +73,6 @@ describe("<ClientSendSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByText("Send Setlist")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.getByText("Setlist Sent Already!")).toBeInTheDocument());
     });
 
@@ -105,8 +101,6 @@ describe("<ClientSendSetListPage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByText("Send Setlist")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
 
@@ -150,8 +144,6 @@ describe("<ClientSendSetListPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByText("Send Setlist")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.getByText("Send Playlist")).toBeInTheDocument());
     });
 
@@ -181,8 +173,6 @@ describe("<ClientSendSetListPage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByText("Send Setlist")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.getByText("Send Playlist")).toBeInTheDocument());
 

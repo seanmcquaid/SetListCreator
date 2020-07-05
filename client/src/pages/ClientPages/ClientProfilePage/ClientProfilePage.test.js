@@ -63,8 +63,6 @@ describe("<ClientProfilePage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual("test user");
@@ -93,8 +91,6 @@ describe("<ClientProfilePage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
         expect(screen.getByText("There was an issue getting the user info")).toBeInTheDocument();
@@ -120,8 +116,6 @@ describe("<ClientProfilePage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
@@ -179,8 +173,6 @@ describe("<ClientProfilePage/>", () => {
                 </MockRouter>
             </Provider>
         );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
 
