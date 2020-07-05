@@ -4,7 +4,7 @@ import { tokenConfig } from "actions/authActions/authActions";
 import {apiHost} from "config";
 import Text from "components/Text/Text";
 import Button from "components/Button/Button";
-import styles from "./SetlistCreatorPage.module.css";
+import styles from "./SetListCreatorPage.module.css";
 import SongList from "components/SongList/SongList";
 import Input from "components/Input/Input";
 import CommentsList from "components/CommentsList/CommentsList";
