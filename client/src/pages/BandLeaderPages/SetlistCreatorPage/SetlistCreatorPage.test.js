@@ -1,7 +1,7 @@
 import React from "react";
 import SetListCreatorPage from "./SetListCreatorPage";
 import configureStore from "store/configureStore";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { Route } from "react-router-dom";
 import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
@@ -141,9 +141,16 @@ describe("<SetListCreatorPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        fireEvent.change(screen.getByTestId("CommentsTextInput"), {target : {value : "Comment Here"}});
+        expect(screen.getByTestId("CommentsTextInput").value).toEqual("Comment Here");
+
+        fireEvent.click(screen.getByTestId("Add CommentButton"));
+
+        expect(screen.getByTestId("CommentsTextInput").value).toEqual("");
+
+        expect(screen.getByText("Comment Here")).toBeInTheDocument();
     });
 
     test("Add Songed From Client Additional Request to Set List is removed from Client Additional Requests", async () => {
