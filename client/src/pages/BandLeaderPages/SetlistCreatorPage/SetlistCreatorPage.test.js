@@ -1,5 +1,11 @@
 import React from "react";
 import SetListCreatorPage from "./SetListCreatorPage";
+import configureStore from "store/configureStore";
+import { render, waitFor, screen } from "@testing-library/react";
+import { Route } from "react-router-dom";
+import MockRouter from "testUtils/MockRouter";
+import { Provider } from "react-redux";
+import axios from "axios";
 
 describe("<SetListCreatorPage/>", () => {
 
@@ -11,8 +17,40 @@ describe("<SetListCreatorPage/>", () => {
         jest.useRealTimers();
     });
 
-    test("Loading Spinner", () => {
+    test("Loading Spinner", async () => {
 
+        const getSuggestedSetListResponse = {
+            suggestedSetList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }
+            ],
+            additionalClientRequests : [
+                {
+                    songname : "Treasure",
+                    artistname : "Bruno Mars",
+                    id : 2,
+                }
+            ],
+        };
+
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleader/createSetList/:clientId">
+                    <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
     });
 
     test("Suggested Set List loads", () => {
