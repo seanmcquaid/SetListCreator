@@ -134,16 +134,7 @@ describe("<ClientRegisterPage/>", () => {
 
         jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...registerActionResponse}});
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -202,16 +193,7 @@ describe("<ClientRegisterPage/>", () => {
             const wrongConfirmPassword = "passwordtest";
             const selectedBandleader = "testbandleader@gmail.com";
     
-            const initialState = {
-                auth : {
-                    isAuthenticated : false,
-                },
-                error : {
-                    errorMessage : "",
-                },
-            };
-    
-            const store = configureStore(initialState);
+            const store = configureStore();
     
             render(
                 <Provider store={store}>
@@ -255,16 +237,7 @@ describe("<ClientRegisterPage/>", () => {
             const username = "testuser@gmail.com";
             const password = "testpassword";
     
-            const initialState = {
-                auth : {
-                    isAuthenticated : false,
-                },
-                error : {
-                    errorMessage : "",
-                },
-            };
-    
-            const store = configureStore(initialState);
+            const store = configureStore();
     
             render(
                 <Provider store={store}>
@@ -316,16 +289,7 @@ describe("<ClientRegisterPage/>", () => {
                 }
             });
     
-            const initialState = {
-                auth : {
-                    isAuthenticated : false,
-                },
-                error : {
-                    errorMessage : "",
-                },
-            };
-    
-            const store = configureStore(initialState);
+            const store = configureStore();
     
             render(
                 <Provider store={store}>

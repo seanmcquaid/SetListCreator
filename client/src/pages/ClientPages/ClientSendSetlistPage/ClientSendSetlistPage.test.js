@@ -34,16 +34,7 @@ describe("<ClientSendSetListPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-        const initialState = {
-            client : {
-                requestedSongsList : [], 
-                doNotPlaySongsList : [], 
-                setListAvailable : false,
-                clientApproved : false,
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -74,16 +65,7 @@ describe("<ClientSendSetListPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-        const initialState = {
-            client : {
-                requestedSongsList : [], 
-                doNotPlaySongsList : [], 
-                setListAvailable : false,
-                clientApproved : false,
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -114,16 +96,7 @@ describe("<ClientSendSetListPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-        const initialState = {
-            client : {
-                requestedSongsList : [], 
-                doNotPlaySongsList : [], 
-                setListAvailable : false,
-                clientApproved : false,
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -167,16 +140,7 @@ describe("<ClientSendSetListPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-        const initialState = {
-            client : {
-                requestedSongsList : [], 
-                doNotPlaySongsList : [], 
-                setListAvailable : false,
-                clientApproved : false,
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -207,16 +171,7 @@ describe("<ClientSendSetListPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-        const initialState = {
-            client : {
-                requestedSongsList : [], 
-                doNotPlaySongsList : [], 
-                setListAvailable : false,
-                clientApproved : false,
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
