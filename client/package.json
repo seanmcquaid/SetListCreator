@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@jedmao/redux-mock-store": "^3.0.5",
     "axios-mock-adapter": "^1.18.1",
+    "cypress": "^4.9.0",
     "jest": "^24.9.0"
   }
 }
