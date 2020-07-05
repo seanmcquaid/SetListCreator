@@ -25,8 +25,6 @@ import {
 } from "./authActionTypes";
 
 describe("authActions", () => {
-    const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
-
     const middleware = [ReduxThunk];
     const mockStore = configureMockStore(middleware);
 
@@ -47,7 +45,7 @@ describe("authActions", () => {
                 selectedBandleader : "testbandleader@gmail.com",
             };
 
-            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(200, payload);
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -76,7 +74,7 @@ describe("authActions", () => {
                 errorMessage : "error"
             };
     
-            mockAxios.onPost(`${apiHost}/users/login/${accountType}`).reply(401, payload);
+            jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...payload}}});
     
             const expectedActions = [
                 {
@@ -113,7 +111,7 @@ describe("authActions", () => {
                 selectedBandleader : "testbandleader@gmail.com",
             };
 
-            mockAxios.onPost(`${apiHost}/users/register/${accountType}`).reply(200, payload);
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -142,7 +140,7 @@ describe("authActions", () => {
                 errorMessage : "error"
             };
     
-            mockAxios.onPost(`${apiHost}/users/register/${accountType}`).reply(401, payload);
+            jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...payload}}});
     
             const expectedActions = [
                 {
@@ -216,7 +214,7 @@ describe("authActions", () => {
                 accountType : "client",
             };
 
-            mockAxios.onGet(`${apiHost}/users/checkToken`).reply(200, payload);
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -240,7 +238,7 @@ describe("authActions", () => {
                 errorMessage : "error"
             };
 
-            mockAxios.onGet(`${apiHost}/users/checkToken`).reply(401, payload);
+            jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -281,7 +279,7 @@ describe("authActions", () => {
                 accountType : "bandleader",
             };
 
-            mockAxios.onPatch(`${apiHost}/users/editUserInfo`).reply(200, payload);
+            jest.spyOn(axios, "patch").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -309,7 +307,7 @@ describe("authActions", () => {
                 errorMessage : "error"
             };
 
-            mockAxios.onPatch(`${apiHost}/users/editUserInfo`).reply(401, payload);
+            jest.spyOn(axios, "patch").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -346,7 +344,7 @@ describe("authActions", () => {
                 accountType : "client",
             };
 
-            mockAxios.onGet(`${apiHost}/users/getUserInfo`).reply(200, payload);
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -370,7 +368,7 @@ describe("authActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onGet(`${apiHost}/users/getUserInfo`).reply(401, payload);
+            jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {

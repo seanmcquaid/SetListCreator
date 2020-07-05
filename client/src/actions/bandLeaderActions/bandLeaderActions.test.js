@@ -23,8 +23,6 @@ import { apiHost } from "config";
 import {addBandleaderSongAction, deleteBandleaderSongAction, getBandleaderSongsAction, editBandleaderSongAction, getBandleaderClientsAction} from "./bandleaderActions";
 
 describe("bandleaderActions", () => {
-    const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
-
     const middleware = [ReduxThunk];
     const mockStore = configureMockStore(middleware);
 

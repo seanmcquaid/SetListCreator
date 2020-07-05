@@ -1,5 +1,4 @@
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -26,8 +25,6 @@ import {apiHost} from "config";
 import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction, editClientSongAction, sendClientSetListAction } from "./clientActions";
 
 describe("clientActions", () => {
-    const mockAxios = new AxiosMockAdapter(axios, {delayResponse : Math.random() * 10});
-
     const middleware = [ReduxThunk];
     const mockStore = configureMockStore(middleware);
 
