@@ -1,5 +1,4 @@
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
 import {
@@ -48,7 +47,7 @@ describe("bandleaderActions", () => {
                 ],
             };
 
-            mockAxios.onPost(`${apiHost}/bandleader/addSong`).reply(200, payload);
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -76,7 +75,7 @@ describe("bandleaderActions", () => {
                 errorMessage : "error"
             };
 
-            mockAxios.onPost(`${apiHost}/bandleader/addSong`).reply(401, payload);
+            jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -112,7 +111,7 @@ describe("bandleaderActions", () => {
                 songList : [],
             };
 
-            mockAxios.onDelete(`${apiHost}/bandleader/deleteSong/${songId}`).reply(200, payload);
+            jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -138,7 +137,7 @@ describe("bandleaderActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onDelete(`${apiHost}/bandleader/deleteSong/${songId}`).reply(401, payload);
+            jest.spyOn(axios, "delete").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -178,7 +177,7 @@ describe("bandleaderActions", () => {
                 ],
             };
 
-            mockAxios.onGet(`${apiHost}/bandleader/getSongs`).reply(200, payload);
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -202,7 +201,7 @@ describe("bandleaderActions", () => {
                 errorMessage : "error"
             };
 
-            mockAxios.onGet(`${apiHost}/bandleader/getSongs`).reply(401, payload);
+            jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -248,7 +247,7 @@ describe("bandleaderActions", () => {
                 ],
             };
 
-            mockAxios.onPatch(`${apiHost}/bandleader/editSong/${songId}`).reply(200, payload);
+            jest.spyOn(axios, "patch").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -277,7 +276,7 @@ describe("bandleaderActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onPatch(`${apiHost}/bandleader/editSong/${songId}`).reply(401, payload);
+            jest.spyOn(axios, "patch").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -311,7 +310,7 @@ describe("bandleaderActions", () => {
                 clientList : []
             };
 
-            mockAxios.onGet(`${apiHost}/users/getClientsForBandleader`).reply(200, payload);
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -335,7 +334,7 @@ describe("bandleaderActions", () => {
                 errorMessage : "error"
             };
 
-            mockAxios.onGet(`${apiHost}/users/getClientsForBandleader`).reply(401, payload);
+            jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
