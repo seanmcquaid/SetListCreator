@@ -82,26 +82,18 @@ describe("<ClientInfoPage/>", () => {
         );
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("Client name : test user")).toBeInTheDocument();
+
+        expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
     });
 
     test("Error on Set List Info displays error message", async () => {
         const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : false, 
-                id : 1,
-            },
+            errorMessage : "Error here",
         };
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
+        jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...getClientSongsResponse}}});
 
         const store = configureStore();
 
@@ -114,6 +106,8 @@ describe("<ClientInfoPage/>", () => {
         );
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("Error here")).toBeInTheDocument();
     });
 
     test("Create Set List Button displays when set list is available", async () => {
