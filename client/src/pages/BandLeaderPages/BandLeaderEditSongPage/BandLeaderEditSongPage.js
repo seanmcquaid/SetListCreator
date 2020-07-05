@@ -25,6 +25,8 @@ const BandleaderEditSongPage = props => {
     const {songId} = props.match.params;
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         if(isMounted.current){
             const headers = tokenConfig();
             axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
@@ -49,6 +51,7 @@ const BandleaderEditSongPage = props => {
         }
         return () => {
             isMounted.current = false;
+            source.cancel();
         };
     }, [songId]);
 

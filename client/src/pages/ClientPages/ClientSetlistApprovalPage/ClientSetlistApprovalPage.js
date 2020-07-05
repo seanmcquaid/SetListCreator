@@ -69,37 +69,34 @@ const ClientSetListApprovalPage = () => {
     const sendClientCommentsAndApproval = useCallback(() => {
         const source = axios.CancelToken.source();
 
-        if(isMounted.current){
-            setIsLoading(true);
+        setIsLoading(true);
 
-            const headers = tokenConfig();
+        const headers = tokenConfig();
 
-            const requestBody = {
-                clientComments,
-                clientApproval : clientApprovalStatus === "Yes" 
-            };
+        const requestBody = {
+            clientComments,
+            clientApproval : clientApprovalStatus === "Yes" 
+        };
 
-            axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
-                .then(() => {
-                    const timer = setTimeout(() => {
-                        setIsLoading(false);
-                        history.push("/clientHome");
-                    }, 1500);
-                    return () => clearTimeout(timer);
-                })
-                .catch(err => {
-                    const timer = setTimeout(() => {
-                        setIsLoading(false);
-                        setErrorMessage(err.response.data.errorMessage);
-                    }, 1500);
-                    return () => clearTimeout(timer);
-                });
-        }
+        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+            .then(() => {
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    history.push("/clientHome");
+                }, 1500);
+                return () => clearTimeout(timer);
+            })
+            .catch(err => {
+                const timer = setTimeout(() => {
+                    setIsLoading(false);
+                    setErrorMessage(err.response.data.errorMessage);
+                }, 1500);
+                return () => clearTimeout(timer);
+            });
         
         return () => {
-            isMounted.current = false;
             source.cancel();
-        }
+        };
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){

@@ -22,11 +22,14 @@ import {
 import {tokenConfig} from "../authActions/authActions";
 import {apiHost} from "config";
 
+const source = axios.CancelToken.source();
+
 export const getClientSongsAction = () => dispatch => {
+    source.cancel();
 
     dispatch({
         type : GET_CLIENT_SONGS_LOADING,
-    })
+    });
 
     const headers = tokenConfig();
 
@@ -43,14 +46,14 @@ export const getClientSongsAction = () => dispatch => {
                 payload : err.response.data,
             })
         });
-
 };
 
 export const addClientRequestedSongAction = (songName, artistName) => dispatch => {
+    source.cancel();
 
     dispatch({
         type : ADD_CLIENT_REQUESTED_SONG_LOADING,
-    })
+    });
 
     const requestBody = {songName, artistName};
     const headers = tokenConfig();
@@ -71,9 +74,11 @@ export const addClientRequestedSongAction = (songName, artistName) => dispatch =
 };
 
 export const addClientDoNotPlaySongAction = (songName, artistName) => dispatch => {
+    source.cancel();
+
     dispatch({
         type : ADD_CLIENT_DO_NOT_PLAY_SONG_LOADING,
-    })
+    });
 
     const requestBody = {songName, artistName};
     const headers = tokenConfig();
@@ -94,11 +99,11 @@ export const addClientDoNotPlaySongAction = (songName, artistName) => dispatch =
 };
 
 export const deleteClientSongAction = songId => dispatch => {
+    source.cancel();
 
     dispatch({
         type : DELETE_CLIENT_SONG_LOADING,
     });
-
 
     const headers = tokenConfig();
 
@@ -119,6 +124,7 @@ export const deleteClientSongAction = songId => dispatch => {
 };
 
 export const editClientSongAction = (songName, artistName, playListType, songId) => dispatch => {
+    source.cancel();
 
     dispatch({
         type : EDIT_CLIENT_SONG_LOADING,
@@ -149,6 +155,7 @@ export const editClientSongAction = (songName, artistName, playListType, songId)
 };
 
 export const sendClientSetListAction = setListAvailability => dispatch => {
+    source.cancel();
 
     dispatch({
         type : SEND_CLIENT_SETLIST_LOADING,

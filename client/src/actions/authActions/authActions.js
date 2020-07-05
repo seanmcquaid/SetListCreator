@@ -20,7 +20,10 @@ import {
 } from "./authActionTypes";
 import {apiHost} from "config";
 
+const source = axios.CancelToken.source();
+
 export const loginAction = (username, password, accountType) => async dispatch => {
+    source.cancel();
 
     const requestBody = {username, password};
 
@@ -44,7 +47,8 @@ export const loginAction = (username, password, accountType) => async dispatch =
 };
 
 export const registerAction = (username, password, accountType, selectedBandleader) => async dispatch => {
-
+    source.cancel();
+    
     const requestBody = {username, password, selectedBandleader};
 
     dispatch({
@@ -94,6 +98,7 @@ export const tokenConfig = () => {
 };
 
 export const checkTokenAction = () => async dispatch => {
+    source.cancel();
 
     dispatch({
         type : CHECK_TOKEN_LOADING
@@ -118,7 +123,8 @@ export const checkTokenAction = () => async dispatch => {
 }
 
 export const editUserInfoAction = (newUsername, newPassword, accountType) => async dispatch => {
-    
+    source.cancel();
+
     dispatch({
         type : EDIT_USER_INFO_LOADING,
     });
@@ -149,6 +155,8 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
 };
 
 export const getUserInfoAction = () => dispatch => {
+    source.cancel();
+
     dispatch({
         type : GET_USER_INFO_LOADING,
     });

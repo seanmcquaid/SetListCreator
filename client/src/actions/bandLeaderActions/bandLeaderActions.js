@@ -19,7 +19,10 @@ import {
 import { tokenConfig } from "../authActions/authActions";
 import { apiHost } from "config";
 
+const source = axios.CancelToken.source();
+
 export const addBandleaderSongAction = (songName, artistName, songKey) => dispatch => {
+    source.cancel();
 
     dispatch({
         type : ADD_BANDLEADER_SONG_LOADING,
@@ -45,10 +48,11 @@ export const addBandleaderSongAction = (songName, artistName, songKey) => dispat
 };
 
 export const deleteBandleaderSongAction = songId => dispatch => {
-
+    source.cancel();
+    
     dispatch({
         type : DELETE_BANDLEADER_SONG_LOADING,
-    })
+    });
     
     const headers = tokenConfig();
 
@@ -69,16 +73,16 @@ export const deleteBandleaderSongAction = songId => dispatch => {
 }
 
 export const getBandleaderSongsAction = () => dispatch => {
+    source.cancel();
 
     dispatch({
         type : GET_BANDLEADER_SONGS_LOADING,
-    })
+    });
 
     const headers = tokenConfig();
 
     return axios.get(`${apiHost}/bandleader/getSongs`, headers)
         .then(response => {
-            console.log(response);
             dispatch({
                 type : GET_BANDLEADER_SONGS_SUCCESS,
                 payload : response.data
@@ -93,6 +97,7 @@ export const getBandleaderSongsAction = () => dispatch => {
 };
 
 export const editBandleaderSongAction = (songName, artistName, songKey, songId) => dispatch => {
+    source.cancel();
 
     dispatch({
         type : EDIT_BANDLEADER_SONG_LOADING,
@@ -123,6 +128,7 @@ export const editBandleaderSongAction = (songName, artistName, songKey, songId) 
 };
 
 export const getBandleaderClientsAction = () => dispatch => {
+    source.cancel();
 
     dispatch({
         type : GET_BANDLEADER_CLIENTS_LOADING,
@@ -143,6 +149,4 @@ export const getBandleaderClientsAction = () => dispatch => {
                 payload : err.response.data,
             });
         });
-
-
 };

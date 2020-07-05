@@ -10,7 +10,6 @@ import BandleaderHomePage from "pages/BandleaderPages/BandleaderHomePage/Bandlea
 import ClientHomePage from "pages/ClientPages/ClientHomePage/ClientHomePage";
 import AddSongsPage from "pages/BandleaderPages/AddSongsPage/AddSongsPage";
 import ClientListPage from "pages/BandleaderPages/ClientListPage/ClientListPage";
-import BandleaderEditSongPage from "pages/BandleaderPages/BandleaderEditSongPage/BandleaderEditSongPage";
 import ClientEditSongPage from "pages/ClientPages/ClientEditSongPage/ClientEditSongPage";
 import BandleaderProfilePage from "pages/BandleaderPages/BandleaderProfilePage/BandleaderProfilePage";
 import ClientSendSetListPage from "pages/ClientPages/ClientSendSetListPage/ClientSendSetListPage";
@@ -24,6 +23,7 @@ import ClientSetListApprovalPage from "pages/ClientPages/ClientSetListApprovalPa
 import FinalizedSetListPage from "pages/ClientPages/FinalizedSetListPage/FinalizedSetListPage";
 import ClientEditSetListPage from "pages/BandleaderPages/ClientEditSetListPage/ClientEditSetListPage";
 import onLeave from "hoc/onLeave/onLeave";
+import BandleaderEditSongPage from "pages/BandleaderPages/BandleaderEditSongPage/BandleaderEditSongPage";
 
 const ProtectedRoutes = () => (
     <Switch>
