@@ -27,24 +27,31 @@ const EditClientSetListPage = props => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
-            .then(response => {
-                const timer = setTimeout(() => {
-                    setSuggestedSetList(response.data.suggestedSetList);
-                    setAdditionalClientRequests(response.data.additionalClientRequests);
-                    setClientComments(response.data.clientComments);
-                    setIsLoading(false)
-                }, 1500);
-                return () => clearTimeout(timer);
-            })
-            .catch(err => {
-                const timer = setTimeout(() => {
-                    setErrorMessage(err.response.data.errorMessage);
-                    setIsLoading(false)
-                }, 1500);
-                return () => clearTimeout(timer);
-            });
+
+            const source = axios.CancelToken.source();
+            
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+            
+            axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, config)
+                .then(response => {
+                    const timer = setTimeout(() => {
+                        setSuggestedSetList(response.data.suggestedSetList);
+                        setAdditionalClientRequests(response.data.additionalClientRequests);
+                        setClientComments(response.data.clientComments);
+                        setIsLoading(false);
+                        source.cancel();
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                })
+                .catch(err => {
+                    const timer = setTimeout(() => {
+                        setErrorMessage(err.response.data.errorMessage);
+                        setIsLoading(false);
+                        source.cancel();
+                    }, 1500);
+                    return () => clearTimeout(timer);
+                });
         }
 
         return () => {
@@ -67,7 +74,10 @@ const EditClientSetListPage = props => {
     },[suggestedSetList, additionalClientRequests]);
 
     const sendEditedSetList = useCallback(() => {
-        const headers = tokenConfig();
+        const source = axios.CancelToken.source();
+            
+        const config = tokenConfig();
+        config.cancelToken = source.token;
 
         const requestBody = {
             completedSetList : suggestedSetList,
@@ -75,13 +85,15 @@ const EditClientSetListPage = props => {
             bandleaderComments : bandleaderComments,
         };
 
-        axios.patch(`${apiHost}/bandleader/editCompletedSetList`, requestBody, headers)
+        axios.patch(`${apiHost}/bandleader/editCompletedSetList`, requestBody, config)
             .then(() => {
-                history.push("/bandleaderHome")
+                history.push("/bandleaderHome");
+                source.cancel();
             })
             .catch(err => {
                 setErrorMessage(err.response.data.errorMessage);
-            })
+                source.cancel();
+            });
     },[suggestedSetList, bandleaderComments, clientId, history]);
 
     if(isLoading){

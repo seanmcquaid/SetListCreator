@@ -25,11 +25,13 @@ const BandleaderEditSongPage = props => {
     const {songId} = props.match.params;
 
     useEffect(() => {
-        const source = axios.CancelToken.source();
-
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/bandLeader/getSong/${songId}`, headers)
+            const source = axios.CancelToken.source();
+            
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/bandLeader/getSong/${songId}`, config)
                 .then(response => {
                     const songInfo = response.data.songInfo;
                     const {songname, artistname, songkey} = songInfo;
@@ -38,6 +40,7 @@ const BandleaderEditSongPage = props => {
                         setArtistName(artistname);
                         setSongKey(songkey);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -45,13 +48,13 @@ const BandleaderEditSongPage = props => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });
         }
         return () => {
             isMounted.current = false;
-            source.cancel();
         };
     }, [songId]);
 

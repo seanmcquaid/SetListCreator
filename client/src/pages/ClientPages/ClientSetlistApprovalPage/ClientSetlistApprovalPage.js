@@ -26,15 +26,18 @@ const ClientSetListApprovalPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        const source = axios.CancelToken.source();
-
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/client/getCompletedSetlist`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/client/getCompletedSetlist`, config)
                 .then(response => {
                     const timer = setTimeout(() => {
                         setSetListInfo(response.data);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -42,6 +45,7 @@ const ClientSetListApprovalPage = () => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });
@@ -49,7 +53,6 @@ const ClientSetListApprovalPage = () => {
 
         return () => {
             isMounted.current = false;
-            source.cancel();
         };
     }, []);
 
@@ -67,22 +70,24 @@ const ClientSetListApprovalPage = () => {
     },[clientComments, clientComment]);
 
     const sendClientCommentsAndApproval = useCallback(() => {
-        const source = axios.CancelToken.source();
-
         setIsLoading(true);
 
-        const headers = tokenConfig();
+        const source = axios.CancelToken.source();
+
+        const config = tokenConfig();
+        config.cancelToken = source.token;
 
         const requestBody = {
             clientComments,
             clientApproval : clientApprovalStatus === "Yes" 
         };
 
-        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, headers)
+        axios.patch(`${apiHost}/client/editCompletedSetListComments`, requestBody, config)
             .then(() => {
                 const timer = setTimeout(() => {
                     setIsLoading(false);
                     history.push("/clientHome");
+                    source.cancel();
                 }, 1500);
                 return () => clearTimeout(timer);
             })
@@ -90,13 +95,10 @@ const ClientSetListApprovalPage = () => {
                 const timer = setTimeout(() => {
                     setIsLoading(false);
                     setErrorMessage(err.response.data.errorMessage);
+                    source.cancel();
                 }, 1500);
                 return () => clearTimeout(timer);
             });
-        
-        return () => {
-            source.cancel();
-        };
     },[clientComments, clientApprovalStatus, history]);
 
     if(isLoading){

@@ -26,13 +26,18 @@ const SetListCreatorPage = props => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/bandleader/getSuggestedSetList/${clientId}`, config)
                 .then(response => {
                     const timer = setTimeout(() => {
                         setSuggestedSetList(response.data.suggestedSetList);
                         setAdditionalClientRequests(response.data.additionalClientRequests);
-                        setIsLoading(false)
+                        setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -40,6 +45,7 @@ const SetListCreatorPage = props => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -65,7 +71,10 @@ const SetListCreatorPage = props => {
     },[suggestedSetList, additionalClientRequests]);
 
     const sendCompletedSetlist = useCallback(() => {
-        const headers = tokenConfig();
+        const source = axios.CancelToken.source();
+
+        const config = tokenConfig();
+        config.cancelToken = source.token;
 
         const requestBody = {
             completedSetList : suggestedSetList,
@@ -73,12 +82,14 @@ const SetListCreatorPage = props => {
             bandleaderComments : setListComments,
         };
 
-        axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, headers)
+        axios.post(`${apiHost}/bandleader/postCompletedSetList`, requestBody, config)
             .then(() => {
-                history.push("/bandleaderHome")
+                history.push("/bandleaderHome");
+                source.cancel();
             })
             .catch(err => {
                 setErrorMessage(err.response.data.errorMessage);
+                source.cancel();
             });
     },[suggestedSetList, clientId, setListComments, history]);
 

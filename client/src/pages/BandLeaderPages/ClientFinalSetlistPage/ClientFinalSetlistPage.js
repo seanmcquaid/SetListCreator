@@ -19,13 +19,18 @@ const ClientFinalSetListPage = props => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+            
+            axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, config)
                 .then(response => {
                     const timer = setTimeout(() => {
                         setClientName(response.data.clientName);
                         setSuggestedSetList(response.data.suggestedSetList);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -33,6 +38,7 @@ const ClientFinalSetListPage = props => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });

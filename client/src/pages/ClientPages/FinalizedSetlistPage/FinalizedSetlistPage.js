@@ -15,12 +15,17 @@ const FinalizedSetListPage = () => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/client/getCompletedSetList`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/client/getCompletedSetList`, config)
                 .then(response => {
                     const timer = setTimeout(() => {
                         setSetListInfo(response.data);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -28,6 +33,7 @@ const FinalizedSetListPage = () => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });

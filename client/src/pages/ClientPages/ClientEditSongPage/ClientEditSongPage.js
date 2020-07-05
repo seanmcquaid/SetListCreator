@@ -28,8 +28,12 @@ const ClientEditSongPage = props => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/client/getSong/${songId}`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/client/getSong/${songId}`, config)
                 .then(response => {
                     const songInfo = response.data.songInfo;
                     const {songname, artistname, songtype} = songInfo;
@@ -38,6 +42,7 @@ const ClientEditSongPage = props => {
                         setArtistName(artistname);
                         setSongPlayListType(songtype);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
@@ -45,6 +50,7 @@ const ClientEditSongPage = props => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
                         setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });

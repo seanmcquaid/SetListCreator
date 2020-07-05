@@ -30,20 +30,30 @@ const ClientRegisterPage = () => {
 
     useEffect(() => {
         if(isMounted.current){
-            axios.get(`${apiHost}/users/getBandleaders`)
+            const source = axios.CancelToken.source();
+
+            const config = {
+                cancelToken : source.token,
+            };
+
+            axios.get(`${apiHost}/users/getBandleaders`, config)
                 .then(response => {
-                    const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
-                    let initialArray = [""];
-                    const newArray = initialArray.concat(bandLeadersArray);
-                    setBandleaders(newArray);
-                    
-                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                    const timer = setTimeout(() => {
+                        const bandLeadersArray = response.data.bandleaders.map(bandleader => bandleader.username);
+                        let initialArray = [""];
+                        const newArray = initialArray.concat(bandLeadersArray);
+                        setBandleaders(newArray);
+                        setIsLoading(false);
+                        source.cancel();
+                    }, 1500);
                     return () => clearTimeout(timer);
                 })
                 .catch(() => {
-                    setNewErrorMessage("There was a problem getting Bandleaders, please reload");
-
-                    const timer = setTimeout(() => setIsLoading(false), 1500);
+                    const timer = setTimeout(() => {
+                        setNewErrorMessage("There was a problem getting Bandleaders, please reload");
+                        setIsLoading(false);
+                        source.cancel();
+                    }, 1500);
                     return () => clearTimeout(timer);
                 });
         }

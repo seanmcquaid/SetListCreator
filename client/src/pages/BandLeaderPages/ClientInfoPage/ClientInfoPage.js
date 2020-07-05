@@ -22,21 +22,27 @@ const ClientInfoPage = props => {
 
     useEffect(() => {
         if(isMounted.current){
-            const headers = tokenConfig();
-            axios.get(`${apiHost}/bandleader/getClientSongs/${clientId}`, headers)
+            const source = axios.CancelToken.source();
+
+            const config = tokenConfig();
+            config.cancelToken = source.token;
+
+            axios.get(`${apiHost}/bandleader/getClientSongs/${clientId}`, config)
                 .then(response => {
                     const timer = setTimeout(() => {
                         setRequestedSongsList(response.data.requestedSongsList);
                         setDoNotPlaySongsList(response.data.doNotPlaySongsList);
                         setClientInfo(response.data.userInfo);
-                        setIsLoading(false)
+                        setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 })
                 .catch(err => {
                     const timer = setTimeout(() => {
                         setErrorMessage(err.response.data.errorMessage);
-                        setIsLoading(false)
+                        setIsLoading(false);
+                        source.cancel();
                     }, 1500);
                     return () => clearTimeout(timer);
                 });
