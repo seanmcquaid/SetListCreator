@@ -82,30 +82,19 @@ describe("<SetListCreatorPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
+
+        expect(screen.getByText("Treasure - Bruno Mars")).toBeInTheDocument();
     });
 
     test("Error on Suggested Set List load", async () => {
         const getSuggestedSetListResponse = {
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            additionalClientRequests : [
-                {
-                    songname : "Treasure",
-                    artistname : "Bruno Mars",
-                    id : 2,
-                }
-            ],
+            errorMessage : "Error here"
         };
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
+        jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...getSuggestedSetListResponse}}});
 
         const store = configureStore();
 
@@ -117,9 +106,9 @@ describe("<SetListCreatorPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("Error here")).toBeInTheDocument();
     });
 
     test("Add Set List Comment", async () => {
