@@ -7,7 +7,7 @@ const SongList = React.memo(({list, songOnClick}) => (
     <ul className={styles.songList} data-testid="songList">
         {list.map(songInfo => {
             const {songname, artistname, id} = songInfo;
-            return <li className={styles.songListItem} key={id}>{songname} - {artistname} {songOnClick ?  <Button title="Add" onClick={ () => songOnClick(songInfo)} type="button"/> : null}</li>
+            return <li className={styles.songListItem} key={id}>{songname} - {artistname} {songOnClick ?  <Button title="Add" onClick={() => songOnClick(songInfo)} type="button"/> : null}</li>
             })
         }
     </ul>

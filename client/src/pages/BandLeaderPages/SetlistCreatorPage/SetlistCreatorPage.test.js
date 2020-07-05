@@ -153,15 +153,9 @@ describe("<SetListCreatorPage/>", () => {
         expect(screen.getByText("Comment Here")).toBeInTheDocument();
     });
 
-    test("Add Songed From Client Additional Request to Set List is removed from Client Additional Requests", async () => {
+    test("Add Song From Client Additional Request to Set List is removed from Client Additional Requests", async () => {
         const getSuggestedSetListResponse = {
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
+            suggestedSetList : [],
             additionalClientRequests : [
                 {
                     songname : "Treasure",
@@ -183,9 +177,11 @@ describe("<SetListCreatorPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        fireEvent.click(screen.getByTestId("AddButton"));
+
+        expect(screen.queryAllByText("Treasure - Bruno Mars").length).toEqual(1);
     });
 
     test("Send completed set list redirects to home when successful", async () => {
