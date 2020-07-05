@@ -14,10 +14,8 @@ const ClientFinalSetListPage = props => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
-    const [clientSetListInfo, setClientSetListInfo] = useState({
-        clientName : "",
-        suggestedSetList : [],
-    });
+    const [clientName, setClientName] = useState("");
+    const [suggestedSetList, setSuggestedSetList] = useState([]);
 
     useEffect(() => {
         if(isMounted.current){
@@ -25,11 +23,8 @@ const ClientFinalSetListPage = props => {
             axios.get(`${apiHost}/bandleader/getClientSetListInfo/${clientId}`, headers)
                 .then(response => {
                     const timer = setTimeout(() => {
-                        const {clientName, suggestedSetList} = response.data;
-                        setClientSetListInfo({
-                            clientName,
-                            suggestedSetList,
-                        });
+                        setClientName(response.data.clientName);
+                        setSuggestedSetList(response.data.suggestedSetList);
                         setIsLoading(false);
                     }, 1500);
                     return () => clearTimeout(timer);
@@ -54,9 +49,9 @@ const ClientFinalSetListPage = props => {
     
     return (
         <div className={styles.clientFinalSetListPageContainer}>
-            <Text headerText={true}>Final Set List For {clientSetListInfo.clientName}</Text>
+            <Text headerText={true}>Final Set List For {clientName}</Text>
             <Text>{errorMessage}</Text>
-            <SongList list={clientSetListInfo.suggestedSetList}/>
+            <SongList list={suggestedSetList}/>
         </div>
     )
 };
