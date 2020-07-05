@@ -21,7 +21,6 @@ import {
     SEND_CLIENT_SETLIST_SUCCESS,
     SEND_CLIENT_SETLIST_LOADING,
 } from "./clientActionTypes";
-import {apiHost} from "config";
 import { getClientSongsAction, addClientRequestedSongAction, addClientDoNotPlaySongAction, deleteClientSongAction, editClientSongAction, sendClientSetListAction } from "./clientActions";
 
 describe("clientActions", () => {
@@ -43,7 +42,7 @@ describe("clientActions", () => {
                 clientApproved : false,
             };
 
-            mockAxios.onGet(`${apiHost}/client/getSongs`).reply(200, payload);
+            jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -67,7 +66,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onGet(`${apiHost}/client/getSongs`).reply(401, payload);
+            jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -112,7 +111,7 @@ describe("clientActions", () => {
                 clientApproved : false,
             };
 
-            mockAxios.onPost(`${apiHost}/client/addSong/requestedSong`).reply(200, payload);
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -139,7 +138,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onPost(`${apiHost}/client/addSong/requestedSong`).reply(401, payload);
+            jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -184,7 +183,7 @@ describe("clientActions", () => {
                 clientApproved : false,
             };
 
-            mockAxios.onPost(`${apiHost}/client/addSong/doNotPlaySong`).reply(200, payload);
+            jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -211,7 +210,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onPost(`${apiHost}/client/addSong/doNotPlaySong`).reply(401, payload);
+            jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -250,7 +249,7 @@ describe("clientActions", () => {
                 clientApproved : false,
             };
 
-            mockAxios.onDelete(`${apiHost}/client/deleteSong/${songId}`).reply(200, payload);
+            jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -276,7 +275,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onDelete(`${apiHost}/client/deleteSong/${songId}`).reply(401, payload);
+            jest.spyOn(axios, "delete").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -324,7 +323,7 @@ describe("clientActions", () => {
                 clientApproved : false,
             };
 
-            mockAxios.onPatch(`${apiHost}/client/editSong/${songId}`).reply(200, payload);
+            jest.spyOn(axios, "patch").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -353,7 +352,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onPatch(`${apiHost}/client/editSong/${songId}`).reply(401, payload);
+            jest.spyOn(axios, "patch").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
@@ -375,7 +374,7 @@ describe("clientActions", () => {
         });
     });
 
-    describe("addClientRequestedSongAction", () => {
+    describe("sendClientSetListAction", () => {
         beforeEach(() => {
             localStorage.setItem("token", "token")
         });
@@ -389,7 +388,7 @@ describe("clientActions", () => {
                 setListAvailable : true,
             };
 
-            mockAxios.onPatch(`${apiHost}/users/sendClientSetList`).reply(200, payload);
+            jest.spyOn(axios, "patch").mockResolvedValueOnce({data : {...payload}});
 
             const expectedActions = [
                 {
@@ -406,7 +405,7 @@ describe("clientActions", () => {
             });
         });
 
-        test("addClientRequestedSongAction - error", () => {
+        test("sendClientSetListAction - error", () => {
             const store = mockStore();
 
             const setListAvailability = true;
@@ -415,7 +414,7 @@ describe("clientActions", () => {
                 errorMessage : "error",
             };
 
-            mockAxios.onPatch(`${apiHost}/users/sendClientSetList`).reply(401, payload);
+            jest.spyOn(axios, "patch").mockRejectedValueOnce({response : {data : {...payload}}});
 
             const expectedActions = [
                 {
