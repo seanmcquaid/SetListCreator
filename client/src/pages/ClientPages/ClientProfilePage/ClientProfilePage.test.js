@@ -28,16 +28,7 @@ describe("<ClientProfilePage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
-        const initialState = {
-            auth : {
-                username : "test user",
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -50,8 +41,6 @@ describe("<ClientProfilePage/>", () => {
         expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.queryByTestId("loadingSpinner")).toBeNull();
     });
 
     test("Username displays after loading", async () => {
@@ -64,17 +53,7 @@ describe("<ClientProfilePage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
-        const initialState = {
-            auth : {
-                username : "",
-                isLoading : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -104,17 +83,7 @@ describe("<ClientProfilePage/>", () => {
             }
         });
 
-        const initialState = {
-            auth : {
-                username : "",
-                isLoading : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -141,17 +110,7 @@ describe("<ClientProfilePage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
-        const initialState = {
-            auth : {
-                username : "",
-                isLoading : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -210,17 +169,7 @@ describe("<ClientProfilePage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
 
-        const initialState = {
-            auth : {
-                username : "",
-                isLoading : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -245,6 +194,5 @@ describe("<ClientProfilePage/>", () => {
 
         expect(screen.getByText("ERROR WITH PASSWORDS NOT MATCHING")).toBeInTheDocument();
     });
-
 
 });

@@ -22,7 +22,7 @@ describe("<ClientHomePage/>", () => {
             jest.useRealTimers();
         });
 
-        test("Finalized Setlist button appears when Set List is finalized and Client Approved", () => {
+        test("Finalized Setlist button appears when Set List is finalized and Client Approved", async () => {
 
             const getClientSongsActionResponse = {
                 doNotPlaySongsList : [],
@@ -33,16 +33,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : true,
-                    clientApproved : true,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -52,9 +43,7 @@ describe("<ClientHomePage/>", () => {
                 </Provider>
             );
 
-            expect(screen.getByText("Client Home Page")).toBeInTheDocument();
-
-            expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument());
         });
 
         test("Finalized Setlist button goes to correct route when Set List is finalized and Client Approved", async () => {
@@ -68,16 +57,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : true,
-                    clientApproved : true,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -88,10 +68,8 @@ describe("<ClientHomePage/>", () => {
                 </Provider>
             );
 
-            expect(screen.getByText("Client Home Page")).toBeInTheDocument();
-
-            expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument();
-
+            await waitFor(() => expect(screen.getByText("Get Finalized SetList")).toBeInTheDocument());
+            
             const getFinalizedSetListInfoResponse = {
                 suggestedSetList : [{
                     songname : "Uptown Funk",
@@ -109,7 +87,7 @@ describe("<ClientHomePage/>", () => {
             expect(screen.getByText("Final Set List")).toBeInTheDocument();
         });
     
-        test("Proposed Setlist button appears when Set List is finalized and isn't Client Approved", () => {
+        test("Proposed Setlist button appears when Set List is finalized and isn't Client Approved", async () => {
     
             const getClientSongsActionResponse = {
                 doNotPlaySongsList : [],
@@ -120,16 +98,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : true,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -139,9 +108,7 @@ describe("<ClientHomePage/>", () => {
                 </Provider>
             );
 
-            expect(screen.getByText("Client Home Page")).toBeInTheDocument();
-
-            expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument());
         });
 
         test("Proposed Setlist button goes to correct route when Set List is finalized and isn't Client Approved", async () => {
@@ -155,16 +122,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : true,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -175,9 +133,7 @@ describe("<ClientHomePage/>", () => {
                 </Provider>
             );
 
-            expect(screen.getByText("Client Home Page")).toBeInTheDocument();
-
-            expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument();
+            await waitFor(() => expect(screen.getByText("Look at Proposed SetList")).toBeInTheDocument());
 
             const getCompletedSetListInfoResponse = {
                 clientName : "test client",
@@ -222,16 +178,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : false,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -281,16 +228,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : false,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -346,16 +284,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : false,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>
@@ -397,16 +326,7 @@ describe("<ClientHomePage/>", () => {
     
             jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
 
-            const initialState = {
-                client : {
-                    requestedSongsList : [], 
-                    doNotPlaySongsList : [], 
-                    setListAvailable : false,
-                    clientApproved : false,
-                },
-            };
-
-            const store = configureStore(initialState);
+            const store = configureStore();
 
             render(
                 <Provider store={store}>

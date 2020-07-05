@@ -30,16 +30,7 @@ describe("<ClientRegisterPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -62,16 +53,7 @@ describe("<ClientRegisterPage/>", () => {
 
         jest.spyOn(axios, "get").mockRejectedValueOnce({});
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
@@ -102,16 +84,7 @@ describe("<ClientRegisterPage/>", () => {
 
         jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getBandleadersResponse}});
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-            error : {
-                errorMessage : "",
-            },
-        };
-
-        const store = configureStore(initialState);
+        const store = configureStore();
 
         render(
             <Provider store={store}>
