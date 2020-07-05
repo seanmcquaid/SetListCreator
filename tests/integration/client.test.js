@@ -334,7 +334,6 @@ describe("Client Routes", () => {
             return await ClientSongListModel.addSong(songName, artistName, songType, username)
                 .then(response => {
                     songId = response[0].id;
-                    console.log(response, songId);
                 })
                 .catch(err => console.log(err));
         });
@@ -356,7 +355,7 @@ describe("Client Routes", () => {
                         clientApproved : false,
                     };
 
-                    songId = res.body.doNotPlaySongList[0].id;
+                    songId = res.body.doNotPlaySongsList[0].id;
                     
                     expect(res.body.requestedSongsList.length).to.equal(0);
                     expect(res.body.doNotPlaySongsList.length).to.be.greaterThan(0);
@@ -406,7 +405,7 @@ describe("Client Routes", () => {
         const setListInfo = {
             clientName : username,
             bandleaderName,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -420,11 +419,14 @@ describe("Client Routes", () => {
                     const expectedResponse = {
                         clientName : username,
                         bandleaderName,
-                        setList : ["Song", "Info", "Here"],
+                        suggestedSetList : [ { info: 'Completed Set List' } ],
                         bandleaderComments : ["Song Comments Here"]
                     };
 
-                    expect(res.body).to.equal(expectedResponse);
+                    expect(res.body.clientName).to.equal(expectedResponse.clientName);
+                    expect(res.body.bandleaderName).to.equal(expectedResponse.bandleaderName);
+                    expect(res.body.suggestedSetList).to.equals(expectedResponse.suggestedSetList);
+                    expect(res.body.bandleaderComments).to.equal(expectedResponse.bandleaderComments);
 
                     done();
                 });
@@ -468,7 +470,7 @@ describe("Client Routes", () => {
         const setListInfo = {
             clientName : username,
             bandleaderName,
-            setList : ["Song", "Info", "Here"],
+            setList : [{info : "Completed Set List"}],
             bandleaderComments : ["Song Comments Here"]
         };
 
@@ -488,13 +490,18 @@ describe("Client Routes", () => {
                     const expectedResponse = {
                         clientName : username,
                         bandleaderName,
-                        setList : ["Song", "Info", "Here"],
+                        setList : [{info : "Completed Set List"}],
                         bandleaderComments : ["Song Comments Here"],
                         clientComments : ["Not", "Great"], 
-                        clientApproval : true,
+                        clientApproved : true,
                     };
 
-                    expect(res.body.setListInfo).to.equal(expectedResponse);
+                    expect(res.body.setListInfo.clientname).to.equal(expectedResponse.clientName);
+                    expect(res.body.setListInfo.bandleadername).to.equal(expectedResponse.bandleaderName);
+                    expect(res.body.setListInfo.setlist).to.equal(expectedResponse.setList);
+                    expect(res.body.setListInfo.bandleadercomments).to.equal(expectedResponse.bandleaderComments);
+                    expect(res.body.setListInfo.clientcomments).to.equal(expectedResponse.clientComments);
+                    expect(res.body.setListInfo.clientapproved).to.equal(expectedResponse.clientApproved);
 
                     done();
                 });

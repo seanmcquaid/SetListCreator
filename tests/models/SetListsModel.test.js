@@ -131,8 +131,8 @@ describe("SetListsModel", () => {
         before(async () => await SetListsModel.addSetList(clientName, bandleaderName, setList, bandleaderComments));
 
         const updatedSetListInfo = {
-            clientName : "edittestclient@gmail.com",
-            bandleaderName : "edittestleader@gmail.com",
+            clientName : "addtestclient@gmail.com",
+            bandleaderName : "addtestleader@gmail.com",
             setList : [{info : "Completed Set List Here"}],
             bandleaderComments : ["Edit Comments Here"],
         };
@@ -141,8 +141,8 @@ describe("SetListsModel", () => {
             return await SetListsModel.editSetList(updatedSetListInfo.clientName, updatedSetListInfo.bandleaderName, updatedSetListInfo.setList, updatedSetListInfo.bandleaderComments)
                 .then(response => {
                     const expectedResponse = {
-                        clientName : "edittestclient@gmail.com",
-                        bandleaderName : "edittestleader@gmail.com",
+                        clientName : "addtestclient@gmail.com",
+                        bandleaderName : "addtestleader@gmail.com",
                         setList : ["{\"info\":\"Completed Set List Here\"}"],
                         bandleaderComments : ["Edit Comments Here"],
                         clientComments: null,

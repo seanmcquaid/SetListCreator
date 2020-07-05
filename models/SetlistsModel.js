@@ -16,7 +16,7 @@ class SetListsModel {
     };
 
     static async editSetList(clientName, bandleaderName, setList, bandleaderComments){
-        return await database.query("UPDATE setlists SET setlist=$1, bandleaderComments=$2 WHERE clientname=$3 AND bandleadername=$4 RETURNING *;", [setList, bandleaderComments, clientName, bandleaderName,]);
+        return await database.query("UPDATE setlists SET setlist=$1, bandleadercomments=$2 WHERE clientname=$3 AND bandleadername=$4 RETURNING *;", [setList, bandleaderComments, clientName, bandleaderName]);
     };
 
     static async deleteSetList(clientName, bandleaderName){

@@ -200,10 +200,9 @@ exports.postCompletedSetList = async (req, res, next) => {
                     });
             })
             .catch(async err => 
-                { console.log(err)
-                return await res.status(500).send({
+                await res.status(500).send({
                     errorMessage : "There was a problem adding the completed setlist"
-                })}
+                })
             );
 };
 
