@@ -122,7 +122,7 @@ describe("<ClientInfoPage/>", () => {
             ],
             userInfo : {
                 username : "test user",
-                setListAvailable : false, 
+                setListAvailable : true, 
                 id : 1,
             },
         };
@@ -140,6 +140,8 @@ describe("<ClientInfoPage/>", () => {
         );
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByTestId("Create SetlistLinkButton")).toBeInTheDocument();
     });
 
     test("In Progress displays when Set List Isn't Available", async () => {
@@ -172,6 +174,8 @@ describe("<ClientInfoPage/>", () => {
         );
 
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        expect(screen.getByText("In Progress")).toBeInTheDocument();
     });
 
 });
