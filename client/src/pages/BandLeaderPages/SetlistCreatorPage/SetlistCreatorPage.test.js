@@ -1,5 +1,6 @@
 import React from "react";
 import SetListCreatorPage from "./SetListCreatorPage";
+import BandleaderHomePage from "pages/BandleaderPages/BandleaderHomePage/BandleaderHomePage";
 import configureStore from "store/configureStore";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { Route } from "react-router-dom";
@@ -210,13 +211,18 @@ describe("<SetListCreatorPage/>", () => {
             <Provider store={store}>
                 <MockRouter initialRoute="/bandleader/createSetList/:clientId">
                     <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
+                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
                 </MockRouter>
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        jest.spyOn(axios, "post").mockResolvedValueOnce();
+
+        fireEvent.click(screen.getByTestId("Send Set List to ClientButton"));
+
+        await waitFor(() => expect(screen.getByText("Band Leader Home Page")).toBeInTheDocument());
     });
 
     test("Send completed set list displays error message when error occurs", async () => {
@@ -249,9 +255,17 @@ describe("<SetListCreatorPage/>", () => {
             </Provider>
         );
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
         await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        const postCompletedSetListResponse = {
+            errorMessage : "Error Here",
+        };
+
+        jest.spyOn(axios, "post").mockRejectedValueOnce({response : {data : {...postCompletedSetListResponse}}});
+
+        fireEvent.click(screen.getByTestId("Send Set List to ClientButton"));
+
+        await waitFor(() => expect(screen.getByText("Error Here")).toBeInTheDocument());
     });
 
 });

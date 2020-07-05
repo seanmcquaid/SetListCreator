@@ -91,7 +91,7 @@ const SetListCreatorPage = props => {
             <div className={styles.headerContainer}>
                 <Text headerText={true}>Set List Creator</Text>
                 <Text>{errorMessage}</Text>
-                <Button type="button" title="Send Setlist to Client" onClick={sendCompletedSetlist}/>
+                <Button type="button" title="Send Set List to Client" onClick={sendCompletedSetlist}/>
             </div>
             <div className={styles.commentsContainer}>
                 <Text headerText={true}>Comments List</Text>
