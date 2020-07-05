@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
 import configureStore from "store/configureStore";
@@ -15,7 +15,7 @@ describe("<Layout/>", () => {
 
         const store = configureStore(initialState);
 
-        const {getByTestId, getByText} = render(
+        render(
             <Provider store={store}>
                 <MockRouter>
                     <Layout>
@@ -25,9 +25,9 @@ describe("<Layout/>", () => {
             </Provider>
         );
 
-        expect(getByTestId("navbar")).toBeInTheDocument();
-        expect(getByTestId("mainContentContainer")).toBeInTheDocument();
-        expect(getByText("Layout Here")).toBeInTheDocument();
-        expect(getByTestId("footer")).toBeInTheDocument();
+        expect(screen.getByTestId("navbar")).toBeInTheDocument();
+        expect(screen.getByTestId("mainContentContainer")).toBeInTheDocument();
+        expect(screen.getByText("Layout Here")).toBeInTheDocument();
+        expect(screen.getByTestId("footer")).toBeInTheDocument();
     });
 });

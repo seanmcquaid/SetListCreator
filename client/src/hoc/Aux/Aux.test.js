@@ -1,11 +1,11 @@
 import Aux from "./Aux";
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("<Aux/>", () => {
     test("Renders children correctly", () => {
-        const {getByText} = render(<Aux>Text</Aux>);
+        render(<Aux>Text</Aux>);
 
-        expect(getByText("Text")).toBeInTheDocument();
+        expect(screen.getByText("Text")).toBeInTheDocument();
     });
 });

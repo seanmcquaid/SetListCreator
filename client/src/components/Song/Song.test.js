@@ -1,11 +1,10 @@
 import React from "react";
 import Song from "./Song";
-import { cleanup, render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import {BrowserRouter as Router} from "react-router-dom";
 
 describe("<Song/>", () => {
 
-    afterEach(cleanup);
     test("Renders correctly when songKey is provided", () => {
         const props = {
             songName : "Song Name Here",
@@ -14,9 +13,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByTestId} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        expect(getByTestId("Song Name HereSongKey")).toBeInTheDocument();
+        expect(screen.getByTestId("Song Name HereSongKey")).toBeInTheDocument();
     });
 
     test("Renders correctly when songKey isn't provided", () => {
@@ -26,9 +25,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByTestId} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        expect(() => getByTestId("Song Name HereSongKey")).toThrowError();
+        expect(() => screen.getByTestId("Song Name HereSongKey")).toThrowError();
     });
 
     test("Edit button displays when editable", () => {
@@ -40,12 +39,12 @@ describe("<Song/>", () => {
             isEditable : true
         };
         
-        const {getByText} = render(
+        render(
             <Router>
                 <Song {...props}/>
             </Router>);
 
-        expect(getByText("Edit")).toBeInTheDocument();
+        expect(screen.getByText("Edit")).toBeInTheDocument();
     });
 
     test("Edit button doesn't display when not editable", () => {
@@ -56,9 +55,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByText} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        expect(() => getByText("Edit")).toThrowError();
+        expect(() => screen.getByText("Edit")).toThrowError();
     });
 
     test("Bandleader Edit Route appears in Edit Button", () => {
@@ -71,14 +70,14 @@ describe("<Song/>", () => {
             songId : 1
         };
         
-        const {getByTestId} = render(
+        render(
             <Router>
                 <Song {...props}/>
             </Router>);
 
-        expect(getByTestId("EditLinkButton")).toBeInTheDocument();
+        expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
 
-        expect(getByTestId("EditLinkButton").getAttribute("href")).toEqual("/bandleader/editSong/1");
+        expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual("/bandleader/editSong/1");
     });
 
     test("Client Edit Route appears in Edit Button", () => {
@@ -90,14 +89,14 @@ describe("<Song/>", () => {
             songId : 1
         };
         
-        const {getByTestId} = render(
+        render(
             <Router>
                 <Song {...props}/>
             </Router>);
 
-        expect(getByTestId("EditLinkButton")).toBeInTheDocument();
+        expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
 
-        expect(getByTestId("EditLinkButton").getAttribute("href")).toEqual("/client/editSong/1");
+        expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual("/client/editSong/1");
     });
 
     test("Delete Song On Click works properly", () => {
@@ -107,9 +106,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByTestId} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        fireEvent.click(getByTestId("RemoveButton"));
+        fireEvent.click(screen.getByTestId("RemoveButton"));
 
         expect(props.deleteSongHandler).toHaveBeenCalled();
     });
@@ -121,9 +120,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByTestId} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        fireEvent.click(getByTestId("RemoveButton"));
+        fireEvent.click(screen.getByTestId("RemoveButton"));
 
         expect(props.deleteSongHandler).toHaveBeenCalled();
 
@@ -138,9 +137,9 @@ describe("<Song/>", () => {
             deleteSongHandler : jest.fn(),
         };
         
-        const {getByTestId} = render(<Song {...props}/>);
+        render(<Song {...props}/>);
 
-        fireEvent.click(getByTestId("RemoveButton"));
+        fireEvent.click(screen.getByTestId("RemoveButton"));
 
         expect(props.deleteSongHandler).toHaveBeenCalled();
 

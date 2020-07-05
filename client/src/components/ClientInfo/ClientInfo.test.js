@@ -1,10 +1,9 @@
 import React from "react";
 import ClientInfo from "./ClientInfo";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 
 describe("<ClientInfo/>", () => {
-
-    afterEach(cleanup);
+    
     test("Renders correctly", () => {
         const props = {
             clientName : "Test Client", 
@@ -15,9 +14,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByTestId} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        expect(getByTestId("Test ClientInfo")).toBeInTheDocument();
+        expect(screen.getByTestId("Test ClientInfo")).toBeInTheDocument();
     });
 
     test("Set List Status - Complete", () => {
@@ -30,9 +29,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByText} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        expect(getByText("Set List Status : Complete")).toBeInTheDocument();
+        expect(screen.getByText("Set List Status : Complete")).toBeInTheDocument();
     });
 
     test("Set List Status - Ready", () => {
@@ -45,9 +44,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByText} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        expect(getByText("Set List Status : Ready")).toBeInTheDocument();
+        expect(screen.getByText("Set List Status : Ready")).toBeInTheDocument();
     });
 
     test("Set List Status - Needs Edits", () => {
@@ -60,9 +59,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByText} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        expect(getByText("Set List Status : Needs Edits")).toBeInTheDocument();
+        expect(screen.getByText("Set List Status : Needs Edits")).toBeInTheDocument();
     });
 
     test("Go To Final Set List Page button works", () => {
@@ -75,9 +74,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByTestId} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        fireEvent.click(getByTestId("Go To Final Set List PageButton"));
+        fireEvent.click(screen.getByTestId("Go To Final Set List PageButton"));
 
         expect(props.clientFinalSetListPageRedirect).toHaveBeenCalled();
     });
@@ -92,9 +91,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByTestId} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        fireEvent.click(getByTestId("Go To Set List PageButton"));
+        fireEvent.click(screen.getByTestId("Go To Set List PageButton"));
 
         expect(props.clientPageRedirect).toHaveBeenCalled();
     });
@@ -109,9 +108,9 @@ describe("<ClientInfo/>", () => {
             clientEditSetListPageRedirect : jest.fn(),
         };
 
-        const {getByTestId} = render(<ClientInfo {...props}/>);
+        render(<ClientInfo {...props}/>);
 
-        fireEvent.click(getByTestId("Go To Edit Set List PageButton"));
+        fireEvent.click(screen.getByTestId("Go To Edit Set List PageButton"));
 
         expect(props.clientEditSetListPageRedirect).toHaveBeenCalled();
     });

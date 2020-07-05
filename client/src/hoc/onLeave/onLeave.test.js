@@ -1,7 +1,7 @@
 import React from "react";
 import onLeave from "./onLeave";
 import MockRouter from "testUtils/MockRouter";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import {Route, Switch} from "react-router-dom";
 import LandingPage from "pages/LandingPage/LandingPage";
 import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
@@ -27,7 +27,7 @@ describe("onLeave", () => {
 
         const store = configureStore(initialState);
 
-        const {getByText} = render(
+        render(
             <Provider store={store}>
                 <MockRouter initialRoute="/">
                     <WrappedComponent/>
@@ -35,7 +35,7 @@ describe("onLeave", () => {
             </Provider>
         );
 
-        fireEvent.click(getByText("Client"));
+        fireEvent.click(screen.getByText("Client"));
 
         const expectedErrorState = {
             errorMessage : "",

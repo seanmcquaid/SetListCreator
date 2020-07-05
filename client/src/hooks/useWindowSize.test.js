@@ -1,4 +1,3 @@
-import React from "react";
 import useWindowSize from "./useWindowSize";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { fireEvent } from "@testing-library/react";

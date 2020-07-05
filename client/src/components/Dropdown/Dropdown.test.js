@@ -1,10 +1,9 @@
 import React from "react";
 import Dropdown from "./Dropdown";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 
 describe("<Dropdown/>", () => {
 
-    afterEach(cleanup);
     test("Renders correctly", () => {
         const props = {
             selectedItem : "Selected Item",
@@ -14,9 +13,9 @@ describe("<Dropdown/>", () => {
             title : "Test",
         };
 
-        const {getByTestId} = render(<Dropdown {...props}/>);
+        render(<Dropdown {...props}/>);
 
-        expect(getByTestId("TestDropdown")).toBeInTheDocument();
+        expect(screen.getByTestId("TestDropdown")).toBeInTheDocument();
     });
 
     test("OnChange works as expected", () => {
@@ -28,9 +27,9 @@ describe("<Dropdown/>", () => {
             title : "Test",
         };
 
-        const {getByTestId} = render(<Dropdown {...props}/>);
+        render(<Dropdown {...props}/>);
 
-        fireEvent.change(getByTestId("TestDropdown", {target : {value : "Here"}}));
+        fireEvent.change(screen.getByTestId("TestDropdown", {target : {value : "Here"}}));
 
         expect(props.selectedItemOnChangeHandler).toBeCalled();
     });

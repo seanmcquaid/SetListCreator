@@ -1,6 +1,6 @@
 import React from "react";
 import SongList from "./SongList";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 
 describe("<SongList/>", () => {
     test("Renders correctly with songOnClick", () => {
@@ -9,10 +9,10 @@ describe("<SongList/>", () => {
             songOnClick : jest.fn(),
         };
 
-        const {getByTestId} = render(<SongList {...props}/>);
+        render(<SongList {...props}/>);
 
-        expect(getByTestId("songList")).toBeInTheDocument();
-        expect(getByTestId("AddButton")).toBeInTheDocument();
+        expect(screen.getByTestId("songList")).toBeInTheDocument();
+        expect(screen.getByTestId("AddButton")).toBeInTheDocument();
     });
 
     test("Renders correctly without songOnClick", () => {
@@ -20,10 +20,10 @@ describe("<SongList/>", () => {
             list : [{songname : "Song Name Here", artistname : "Artist Name Here", id : 0}],
         };
 
-        const {getByTestId} = render(<SongList {...props}/>);
+        render(<SongList {...props}/>);
 
-        expect(getByTestId("songList")).toBeInTheDocument();
-        expect(() => getByTestId("AddButton")).toThrowError();
+        expect(screen.getByTestId("songList")).toBeInTheDocument();
+        expect(() => screen.getByTestId("AddButton")).toThrowError();
     });
 
     test("SongonClick works correctly", () => {
@@ -32,9 +32,9 @@ describe("<SongList/>", () => {
             songOnClick : jest.fn(),
         };
 
-        const {getByTestId} = render(<SongList {...props}/>);
+        render(<SongList {...props}/>);
 
-        fireEvent.click(getByTestId("AddButton"));
+        fireEvent.click(screen.getByTestId("AddButton"));
 
         expect(props.songOnClick).toHaveBeenCalled();
     });

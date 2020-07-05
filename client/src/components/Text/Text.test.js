@@ -1,6 +1,6 @@
 import React from "react";
 import Text from "./Text";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("<Text/>", () => {
     test("Renders correctly with header text", () => {
@@ -9,9 +9,9 @@ describe("<Text/>", () => {
             children : "Text Here",
         };
 
-        const {getByTestId} = render(<Text {...props}/>);
+        render(<Text {...props}/>);
 
-        expect(getByTestId("headerText")).toBeInTheDocument();
+        expect(screen.getByTestId("headerText")).toBeInTheDocument();
     });
 
     test("Renders correctly with paragraph text", () => {
@@ -19,8 +19,8 @@ describe("<Text/>", () => {
             children : "Text Here",
         };
 
-        const {getByTestId} = render(<Text {...props}/>);
+        render(<Text {...props}/>);
 
-        expect(getByTestId("paragraphText")).toBeInTheDocument();
+        expect(screen.getByTestId("paragraphText")).toBeInTheDocument();
     });
 });

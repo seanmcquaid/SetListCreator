@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import MockRouter from "testUtils/MockRouter";
 import { act } from "react-dom/test-utils";
@@ -19,7 +19,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -27,7 +27,7 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("SLC").href).toEqual("http://localhost/clientHome");
+            expect(screen.getByText("SLC").href).toEqual("http://localhost/clientHome");
         });
 
         test("Route is correct when user is authenticated and has account type of bandleader", () => {
@@ -39,7 +39,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -47,7 +47,7 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("SLC").href).toEqual("http://localhost/bandleaderHome");
+            expect(screen.getByText("SLC").href).toEqual("http://localhost/bandleaderHome");
         });
 
         test("Route is correct when user is not authenticated", () => {
@@ -59,7 +59,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -67,7 +67,7 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("SLC").href).toEqual("http://localhost/");
+            expect(screen.getByText("SLC").href).toEqual("http://localhost/");
         });
 
         test("Left Nav Click icon click - toggles mobile nav when screen is less than 750px in width", () => {
@@ -79,7 +79,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText, getByTestId} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -93,13 +93,13 @@ describe("<Navbar/>", () => {
                 fireEvent(window, new Event("resize"));
             });
 
-            fireEvent.click(getByTestId("hamburgerIcon"));
+            fireEvent.click(screen.getByTestId("hamburgerIcon"));
 
-            expect(getByText("Client")).toBeVisible();
+            expect(screen.getByText("Client")).toBeVisible();
 
-            fireEvent.click(getByText("SLC"));
+            fireEvent.click(screen.getByText("SLC"));
 
-            expect(getByText("Client")).not.toBeVisible();
+            expect(screen.getByText("Client")).not.toBeVisible();
         });
     });
 
@@ -113,7 +113,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -121,9 +121,9 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("Home")).toBeInTheDocument();
-            expect(getByText("Profile")).toBeInTheDocument();
-            expect(getByText("Logout")).toBeInTheDocument();
+            expect(screen.getByText("Home")).toBeInTheDocument();
+            expect(screen.getByText("Profile")).toBeInTheDocument();
+            expect(screen.getByText("Logout")).toBeInTheDocument();
         });
 
         test("Right nav renders correctly when user is authenticated and has account type of bandleader", () => {
@@ -135,7 +135,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -143,10 +143,10 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("Client List")).toBeInTheDocument();
-            expect(getByText("Add Songs")).toBeInTheDocument();
-            expect(getByText("Profile")).toBeInTheDocument();
-            expect(getByText("Logout")).toBeInTheDocument();
+            expect(screen.getByText("Client List")).toBeInTheDocument();
+            expect(screen.getByText("Add Songs")).toBeInTheDocument();
+            expect(screen.getByText("Profile")).toBeInTheDocument();
+            expect(screen.getByText("Logout")).toBeInTheDocument();
         });
 
         test("Right nav renders correctly when user is not authenticated", () => {
@@ -158,7 +158,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -166,8 +166,8 @@ describe("<Navbar/>", () => {
                 </Provider>
             );
 
-            expect(getByText("Client")).toBeInTheDocument();
-            expect(getByText("Bandleader")).toBeInTheDocument();
+            expect(screen.getByText("Client")).toBeInTheDocument();
+            expect(screen.getByText("Bandleader")).toBeInTheDocument();
         });
 
         test("Mobile nav toggle", () => {
@@ -179,7 +179,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText, getByTestId} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -193,13 +193,13 @@ describe("<Navbar/>", () => {
                 fireEvent(window, new Event("resize"));
             });
 
-            fireEvent.click(getByTestId("hamburgerIcon"));
+            fireEvent.click(screen.getByTestId("hamburgerIcon"));
 
-            expect(getByText("Client")).toBeVisible();
+            expect(screen.getByText("Client")).toBeVisible();
 
-            fireEvent.click(getByText("Client"));
+            fireEvent.click(screen.getByText("Client"));
 
-            expect(getByText("Client")).not.toBeVisible();
+            expect(screen.getByText("Client")).not.toBeVisible();
         });
 
         test("Logout button logs a user out when clicked", () => {
@@ -211,7 +211,7 @@ describe("<Navbar/>", () => {
             };
             const store = configureStore(initialState);
 
-            const {getByText, getByTestId, queryByText} = render(
+            render(
                 <Provider store={store}>
                     <MockRouter>
                         <Navbar/>
@@ -225,15 +225,15 @@ describe("<Navbar/>", () => {
                 fireEvent(window, new Event("resize"));
             });
 
-            fireEvent.click(getByTestId("hamburgerIcon"));
+            fireEvent.click(screen.getByTestId("hamburgerIcon"));
 
-            expect(getByText("Logout")).toBeVisible();
+            expect(screen.getByText("Logout")).toBeVisible();
             
-            fireEvent.click(getByText("Logout"));
+            fireEvent.click(screen.getByText("Logout"));
 
-            expect(queryByText("Logout")).toBeNull();
+            expect(screen.queryByText("Logout")).toBeNull();
 
-            expect(getByText("Client")).toBeInTheDocument();
+            expect(screen.getByText("Client")).toBeInTheDocument();
         });
     });
 });

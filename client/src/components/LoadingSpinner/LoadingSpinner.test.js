@@ -1,18 +1,16 @@
 import React from "react";
 import LoadingSpinner from "./LoadingSpinner";
-import { render, cleanup } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("<LoadingSpinner/>", () => {
-
-    afterEach(cleanup);
     test("Renders correctly when loading", () => {
         const props = {
             isLoading : true,
         };
 
-        const {getByTestId} = render(<LoadingSpinner {...props}/>);
+        render(<LoadingSpinner {...props}/>);
 
-        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
     });
 
     test("Renders correctly when not loading", () => {
@@ -20,8 +18,8 @@ describe("<LoadingSpinner/>", () => {
             isLoading : false,
         };
 
-        const {getByTestId} = render(<LoadingSpinner {...props}/>);
+        render(<LoadingSpinner {...props}/>);
 
-        expect(getByTestId("loadingSpinner").innerHTML).toBe("");
+        expect(screen.getByTestId("loadingSpinner").innerHTML).toBe("");
     });
 });
