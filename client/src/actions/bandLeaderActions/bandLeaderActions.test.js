@@ -18,7 +18,6 @@ import {
     DELETE_BANDLEADER_SONG_SUCCESS,
     DELETE_BANDLEADER_SONG_ERROR,
 } from "./bandleaderActionTypes";
-import { apiHost } from "config";
 import {addBandleaderSongAction, deleteBandleaderSongAction, getBandleaderSongsAction, editBandleaderSongAction, getBandleaderClientsAction} from "./bandleaderActions";
 
 describe("bandleaderActions", () => {

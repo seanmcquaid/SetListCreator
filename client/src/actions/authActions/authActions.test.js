@@ -1,6 +1,4 @@
 import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
-import {apiHost} from "config";
 import {loginAction, registerAction, logoutAction, tokenConfig, checkTokenAction, editUserInfoAction, getUserInfoAction} from "./authActions";
 import ReduxThunk from "redux-thunk";
 import { configureMockStore } from "@jedmao/redux-mock-store";
