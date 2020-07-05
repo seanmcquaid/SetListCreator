@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 import MockRouter from "testUtils/MockRouter";
 import { Provider } from "react-redux";
 import axios from "axios";
+import BandleaderHomePage from "../BandleaderHomePage/BandleaderHomePage";
 
 describe("<ClientEditSetListPage/>", () => {
     
@@ -159,11 +160,89 @@ describe("<ClientEditSetListPage/>", () => {
         expect(screen.getByTestId("CommentsTextInput").value).toEqual("");
     });
 
-    test("Send Edited setlist success", () => {
+    test("Send Edited setlist success", async () => {
+        const getSuggestedSetListResponse = {
+            suggestedSetList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }
+            ],
+            additionalClientRequests : [
+                {
+                    songname : "Treasure",
+                    artistname : "Bruno Mars",
+                    id : 2,
+                }
+            ],
+            clientComments : ["Client Comments Here"],
+        };
 
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleader/clientEditSetList/1">
+                    <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
+                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        jest.spyOn(axios, "patch").mockResolvedValueOnce();
+
+        fireEvent.click(screen.getByTestId("Send Setlist to ClientButton"));
+
+        await waitFor(() => expect(screen.getByText("Band Leader Home Page")).toBeInTheDocument());
     });
 
-    test("Send Edited setlist error", () => {
+    test("Send Edited setlist error", async () => {
+        const getSuggestedSetListResponse = {
+            suggestedSetList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1,
+                }
+            ],
+            additionalClientRequests : [
+                {
+                    songname : "Treasure",
+                    artistname : "Bruno Mars",
+                    id : 2,
+                }
+            ],
+            clientComments : ["Client Comments Here"],
+        };
 
+        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
+
+        const store = configureStore();
+
+        render(
+            <Provider store={store}>
+                <MockRouter initialRoute="/bandleader/clientEditSetList/1">
+                    <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
+                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
+                </MockRouter>
+            </Provider>
+        );
+
+        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+
+        const editCompletedSetListResponse = {
+            errorMessage : "Error here",
+        };
+
+        jest.spyOn(axios, "patch").mockRejectedValueOnce({response : {data : {...editCompletedSetListResponse}}});
+
+        fireEvent.click(screen.getByTestId("Send Setlist to ClientButton"));
+
+        await waitFor(() => expect(screen.getByText("Error here")).toBeInTheDocument());
     });
 });
