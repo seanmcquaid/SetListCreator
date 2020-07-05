@@ -20,10 +20,8 @@ import {
 } from "./authActionTypes";
 import {apiHost} from "config";
 
-const source = axios.CancelToken.source();
-
 export const loginAction = (username, password, accountType) => async dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     const requestBody = {username, password};
 
@@ -31,23 +29,29 @@ export const loginAction = (username, password, accountType) => async dispatch =
         type : LOGIN_LOADING
     });
 
-    return axios.post(`${apiHost}/users/login/${accountType}`, requestBody)
+    const config = {
+        cancelToken : source.token,
+    };
+
+    return axios.post(`${apiHost}/users/login/${accountType}`, requestBody, config)
         .then(response => {
             dispatch({
                 type : LOGIN_SUCCESS,
                 payload : response.data
-            })
+            });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : LOGIN_ERROR,
                 payload : err.response.data
-            })
+            });
+            source.cancel();
         });
 };
 
 export const registerAction = (username, password, accountType, selectedBandleader) => async dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
     
     const requestBody = {username, password, selectedBandleader};
 
@@ -55,18 +59,24 @@ export const registerAction = (username, password, accountType, selectedBandlead
         type : REGISTER_LOADING
     });
 
-    return axios.post(`${apiHost}/users/register/${accountType}`, requestBody)
+    const config = {
+        cancelToken : source.token,
+    };
+
+    return axios.post(`${apiHost}/users/register/${accountType}`, requestBody, config)
         .then(response => {
             dispatch({
                 type : REGISTER_SUCCESS,
                 payload : response.data
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : REGISTER_ERROR,
                 payload : err.response.data
             });
+            source.cancel();
         });
 };
 
@@ -98,32 +108,35 @@ export const tokenConfig = () => {
 };
 
 export const checkTokenAction = () => async dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : CHECK_TOKEN_LOADING
-    })
+    });
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.get(`${apiHost}/users/checkToken`, headers)
+    return axios.get(`${apiHost}/users/checkToken`, config)
         .then(response => {
             dispatch({
                 type : CHECK_TOKEN_SUCCESS,
                 payload : response.data
-            })
+            });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : CHECK_TOKEN_ERROR,
                 payload : err.response.data
-            })
+            });
+            source.cancel();
         });
 
 }
 
 export const editUserInfoAction = (newUsername, newPassword, accountType) => async dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : EDIT_USER_INFO_LOADING,
@@ -135,45 +148,51 @@ export const editUserInfoAction = (newUsername, newPassword, accountType) => asy
         accountType
     };
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.patch(`${apiHost}/users/editUserInfo`, requestBody, headers)
+    return axios.patch(`${apiHost}/users/editUserInfo`, requestBody, config)
         .then(response => {
             dispatch({
                 type : EDIT_USER_INFO_SUCCESS,
                 payload : response.data,
-            })
+            });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : EDIT_USER_INFO_ERROR,
                 payload : err.response.data,
-            })
+            });
+            source.cancel();
         });
 
 
 };
 
 export const getUserInfoAction = () => dispatch => {
-    source.cancel();
+    const source = axios.CancelToken.source();
 
     dispatch({
         type : GET_USER_INFO_LOADING,
     });
 
-    const headers = tokenConfig();
+    const config = tokenConfig();
+    config.cancelToken = source.token;
 
-    return axios.get(`${apiHost}/users/getUserInfo`, headers)
+    return axios.get(`${apiHost}/users/getUserInfo`, config)
         .then(async response => {
             dispatch({
                 type : GET_USER_INFO_SUCCESS,
                 payload : response.data
             });
+            source.cancel();
         })
         .catch(err => {
             dispatch({
                 type : GET_USER_INFO_ERROR,
                 payload : err.response.data,
-            })
+            });
+            source.cancel();
         });
 };
