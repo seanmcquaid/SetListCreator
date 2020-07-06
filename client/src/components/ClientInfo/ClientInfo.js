@@ -15,8 +15,11 @@ const ClientInfo = React.memo(({
     <div className={styles.clientInfoContainer} data-testid={`${clientName}Info`}>
         <h4 className={styles.clientName}>{clientName}</h4>
         <Text>Set List Status :  
-            {clientApproved && setListAvailable ? " Complete" : 
-            clientApproved === null && setListAvailable ? " Ready" : " Needs Edits"}
+            {clientApproved && setListAvailable ? 
+                " Complete" : 
+                clientApproved === null && setListAvailable ? 
+                    " Ready" : 
+                    " Needs Edits"}
         </Text>
         {clientApproved && setListAvailable ?
             <Button 
