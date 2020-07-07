@@ -15,7 +15,7 @@ describe("Client Login", () => {
         });
     });
 
-    it("Successfully logs a user in and redirects to Bandleader Home", () => {
+    it("Successfully logs a user in and redirects to Client Home", () => {
         cy.visit("http://localhost:3000");
 
         cy.get("[data-testid=ClientLinkButton]").click();
