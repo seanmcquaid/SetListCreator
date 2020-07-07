@@ -2,27 +2,15 @@ describe("Bandleader Login", () => {
     beforeEach(() => {
         cy.visit("http://localhost:3000");
         
-        cy.server();
-
-        cy.request("POST", "/users/register/bandleader", {
-            username : "testbandleader1234",
-            password : "password1234",
-        });
+        cy.registerBandleader();
     });
 
     afterEach(() => {
-        cy.server();
-
-        cy.request("DELETE", "/users/deleteUser", {
-            username : "testbandleader1234",
-        });
-
-        cy.clearLocalStorage();
+        cy.deleteBandleader();
     });
 
     it("Successfully logs a user in and redirects to Bandleader Home", () => {
-        cy.visit("http://localhost:3000");
-
+        
         cy.get("[data-testid=BandleaderLinkButton]").click();
 
         cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");

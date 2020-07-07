@@ -26,23 +26,63 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("clientLogin", (username, password) => {
-    // visit login page
-    // stub request
-    // login button
-    // stub get client songs request
-    // assert that the user is on the client home page
+Cypress.Commands.add("registerClient", () => {
+    cy.server();
+
+    cy.request("POST", "/users/register/client", {
+        username : "testclient1234",
+        password : "password1234",
+        selectedBandleader : "testbandleader1234",
+    });
 });
 
-Cypress.Commands.add("bandleaderLogin", () => {
-    // visit login page
-    // stub request
-    // login button
-    // assert that the user is on the bandleader home page
+Cypress.Commands.add("loginClient", () => {
+    cy.get("[data-testid=ClientLinkButton]").click();
+
+    cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
+    cy.get("[data-testid=PasswordTextInput]").type("password1234");
+
+    cy.get('[data-testid=LoginButton]').click();
+
+    cy.contains('Musical Preferences Page').should("be.visible");
 });
 
-Cypress.Commands.add("logout", () => {
-    // click navbar
-    // click logout
-    // assert that you're back to landing page
+Cypress.Commands.add("registerBandleader", () => {
+    cy.server();
+
+    cy.request("POST", "/users/register/bandleader", {
+        username : "testbandleader1234",
+        password : "password1234",
+    });
+});
+
+Cypress.Commands.add("loginBandleader", () => {
+    cy.get("[data-testid=BandleaderLinkButton]").click();
+
+    cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
+    cy.get("[data-testid=PasswordTextInput]").type("password1234");
+
+    cy.get("[data-testid=LoginButton]").click();
+
+    cy.contains("Band Leader Home Page").should("be.visible");
+});
+
+Cypress.Commands.add("deleteClient", () => {
+    cy.server();
+
+    cy.request("DELETE", "/users/deleteUser", {
+        username : "testclient1234",
+    });
+
+    cy.clearLocalStorage();
+});
+
+Cypress.Commands.add("deleteBandleader", () => {
+    cy.server();
+
+    cy.request("DELETE", "/users/deleteUser", {
+        username : "testbandleader1234",
+    });
+
+    cy.clearLocalStorage();
 });
