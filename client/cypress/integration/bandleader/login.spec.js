@@ -1,19 +1,23 @@
 describe("Bandleader Login", () => {
     beforeEach(() => {
+        cy.visit("http://localhost:3000");
+        
         cy.server();
 
-        cy.request("POST", "http://localhost:8000/users/register/bandleader", {
+        cy.request("POST", "/users/register/bandleader", {
             username : "testbandleader1234",
             password : "password1234",
         });
     });
 
     afterEach(() => {
-        cy.request("DELETE", "http://localhost:8000/users/deleteUser", {
+        cy.server();
+
+        cy.request("DELETE", "/users/deleteUser", {
             username : "testbandleader1234",
         });
 
-        localStorage.removeItem("token");
+        cy.clearLocalStorage();
     });
 
     it("Successfully logs a user in and redirects to Bandleader Home", () => {

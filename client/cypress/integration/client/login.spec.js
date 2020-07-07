@@ -1,44 +1,43 @@
 describe("Client Login", () => {
     beforeEach(() => {
+        cy.visit("http://localhost:3000");
+
         cy.server();
 
-        cy.route("http://localhost:8000/users/register/client").as("registerClient");
-
-        cy.request("POST", "http://localhost:8000/users/register/client", {
+        cy.request("POST", "/users/register/client", {
             username : "testclient1234",
             password : "password1234",
             selectedBandleader : "testbandleader1234",
         });
+    });
 
-        // cy.wait("@registerClient");
+    beforeEach(() => {
+        cy.server();
 
-        cy.route("http://localhost:8000/users/register/bandleader").as("registerBandleader");
-
-        cy.request("POST", "http://localhost:8000/users/register/bandleader", {
+        cy.request("POST", "/users/register/bandleader", {
             username : "testbandleader1234",
             password : "password1234",
         });
-
-        // cy.wait("@registerBandleader");
     });
 
     afterEach(() => {
+        cy.server();
 
-        cy.route("http://localhost:8000/users/deleteUser").as("deleteUser");
-
-        cy.request("DELETE", "http://localhost:8000/users/deleteUser", {
+        cy.request("DELETE", "/users/deleteUser", {
             username : "testclient1234",
         });
 
-        // cy.wait("@deleteUser");
+        cy.clearLocalStorage();
+    });
+    
+    afterEach(() => {
+        cy.server();
 
-        cy.request("DELETE", "http://localhost:8000/users/deleteUser", {
+        cy.request("DELETE", "/users/deleteUser", {
             username : "testbandleader1234",
         });
 
-        // cy.wait("@deleteUser");
-
-        localStorage.removeItem("token");
+        cy.clearLocalStorage();
     });
 
     it("Successfully logs a user in and redirects to Client Home", () => {
