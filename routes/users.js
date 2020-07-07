@@ -21,4 +21,6 @@ router.patch("/editUserInfo", checkToken, usersController.editUserInfo);
 
 router.patch("/sendClientSetList", checkToken, usersController.sendClientSetList);
 
+router.delete("/deleteUser", usersController.deleteUser);
+
 module.exports = router;

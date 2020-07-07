@@ -301,3 +301,20 @@ exports.sendClientSetList = async (req, res, next) => {
             })
         );
 };
+
+exports.deleteUser = async (req, res, next) => {
+    console.log(req.body);
+    const {username} = req.body;
+
+    return await UsersModel.deleteUser(username)
+        .then(async () => 
+            await res.status(200).send({
+                message : "SUCCESS",
+            })
+        )
+        .catch(async () => 
+            await res.status(500).send({
+                errorMessage : "There was a problem deleting the user",
+            })
+        );
+};

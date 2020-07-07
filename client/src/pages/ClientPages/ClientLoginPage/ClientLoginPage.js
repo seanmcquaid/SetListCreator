@@ -32,7 +32,7 @@ const ClientLoginPage = () => {
     },[dispatch, username, password]);
 
     if(isAuthenticated){
-        return <Redirect to="/clientHome"/>
+        return <Redirect to="/clientHome"/>;
     }
 
 
