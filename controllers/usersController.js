@@ -303,7 +303,6 @@ exports.sendClientSetList = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    console.log(req.body);
     const {username} = req.body;
 
     return await UsersModel.deleteUser(username)
