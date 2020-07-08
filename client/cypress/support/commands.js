@@ -86,3 +86,7 @@ Cypress.Commands.add("deleteBandleader", () => {
 
     cy.clearLocalStorage();
 });
+
+// clear all client info command
+
+// clear all bandleader info command

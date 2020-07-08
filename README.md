@@ -3,24 +3,22 @@
 End to End Tests : 
 
 Client : 
-1) Edit Profile
-2) Client Home - Add Song - Requested
-3) Client Home - Add Song - Do Not Play
-4) Client Home - Send Set List
-5) Proposed Set List
-6) Final Set List
+1) Edit Profile - set up clean up step to delete edited client
+2) Client Home - Send Set List
+3) Proposed Set List
+4) Final Set List
 
 
 Bandleader : 
-2) Edit Profile
-3) Add Songs to Database
-4) Remove Song From Database
-5) Edit Song
-6) Client List - Ready
-7) Client List - Complete
-8) Client List - Edits/In Progress
-9) Create Set List
-10) Final Set List
+1) Edit Profile
+2) Add Songs to Database
+3) Remove Song From Database
+4) Edit Song
+5) Client List - Ready
+6) Client List - Complete
+7) Client List - Edits/In Progress
+8) Create Set List
+9) Final Set List
 
 Things to do :
 1) End to End tests in Cypress
