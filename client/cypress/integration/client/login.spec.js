@@ -1,6 +1,6 @@
 describe("Client Login", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:3000");
+        cy.visit("http://localhost:3000/clientLogin");
 
         cy.registerClient();
     });

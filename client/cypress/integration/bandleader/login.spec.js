@@ -1,6 +1,6 @@
 describe("Bandleader Login", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:3000");
+        cy.visit("http://localhost:3000/bandleaderLogin");
         
         cy.registerBandleader();
     });
@@ -10,9 +10,6 @@ describe("Bandleader Login", () => {
     });
 
     it("Successfully logs a user in and redirects to Bandleader Home", () => {
-        
-        cy.get("[data-testid=BandleaderLinkButton]").click();
-
         cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
         cy.get("[data-testid=PasswordTextInput]").type("password1234");
 
