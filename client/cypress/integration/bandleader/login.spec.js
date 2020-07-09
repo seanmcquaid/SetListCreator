@@ -11,7 +11,10 @@ describe("Bandleader Login", () => {
 
     it("Successfully logs a user in and redirects to Bandleader Home", () => {
         cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
+        cy.get("[data-testid=UsernameTextInput]").should("have.value", "testbandleader1234");
+
         cy.get("[data-testid=PasswordTextInput]").type("password1234");
+        cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
         cy.get("[data-testid=LoginButton]").click();
 

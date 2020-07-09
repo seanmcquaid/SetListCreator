@@ -19,12 +19,16 @@ describe("Client Register", () => {
 
     it("Successful register redirects client to home page", () => {
         cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
+        cy.get("[data-testid=UsernameTextInput]").should("have.value", "testclient1234");
 
         cy.get("[data-testid=PasswordTextInput]").type("password1234");
+        cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
         cy.get("[data-testid='Confirm PasswordTextInput']").type("password1234");
+        cy.get("[data-testid='Confirm PasswordTextInput']").should("have.value", "password1234");
 
         cy.get('[data-testid="Select Your BandleaderDropdown"]').select('testbandleader1234');
+        cy.get('[data-testid="Select Your BandleaderDropdown"]').should("have.value", "testbandleader1234");
 
         cy.get("[data-testid=RegisterButton]").click();
 
