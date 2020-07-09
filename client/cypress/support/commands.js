@@ -40,7 +40,10 @@ Cypress.Commands.add("loginClient", () => {
     cy.get("[data-testid=ClientLinkButton]").click();
 
     cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
+    cy.get("[data-testid=UsernameTextInput]").should("have.value", "testclient1234");
+
     cy.get("[data-testid=PasswordTextInput]").type("password1234");
+    cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
     cy.get('[data-testid=LoginButton]').click();
 
@@ -60,7 +63,10 @@ Cypress.Commands.add("loginBandleader", () => {
     cy.get("[data-testid=BandleaderLinkButton]").click();
 
     cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
+    cy.get("[data-testid=UsernameTextInput]").should("have.value", "testbandleader1234");
+
     cy.get("[data-testid=PasswordTextInput]").type("password1234");
+    cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
     cy.get("[data-testid=LoginButton]").click();
 

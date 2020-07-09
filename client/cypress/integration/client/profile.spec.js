@@ -35,5 +35,8 @@ describe("Client Profile", () => {
 
         cy.contains('Musical Preferences Page').should("be.visible");
 
+        cy.get('[href="/client/editProfile"]').click();
+
+        cy.get('[data-testid="Edit Username HereTextInput"]').should("have.value", "testclient12345");
     });
 });
