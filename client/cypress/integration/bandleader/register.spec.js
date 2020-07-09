@@ -4,7 +4,7 @@ describe("Bandleader Register", () => {
     });
     
     afterEach(() => {
-        cy.deleteBandleader();
+        cy.deleteUser("testbandleader1234");
     });
 
     it("Successful register redirects bandleader to home page", () => {

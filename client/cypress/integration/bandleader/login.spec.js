@@ -6,7 +6,7 @@ describe("Bandleader Login", () => {
     });
 
     afterEach(() => {
-        cy.deleteBandleader();
+        cy.deleteUser("testbandleader1234");
     });
 
     it("Successfully logs a user in and redirects to Bandleader Home", () => {

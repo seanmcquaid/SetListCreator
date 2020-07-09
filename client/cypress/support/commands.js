@@ -67,21 +67,11 @@ Cypress.Commands.add("loginBandleader", () => {
     cy.contains("Band Leader Home Page").should("be.visible");
 });
 
-Cypress.Commands.add("deleteClient", () => {
+Cypress.Commands.add("deleteUser", username => {
     cy.server();
 
     cy.request("DELETE", "/users/deleteUser", {
-        username : "testclient1234",
-    });
-
-    cy.clearLocalStorage();
-});
-
-Cypress.Commands.add("deleteBandleader", () => {
-    cy.server();
-
-    cy.request("DELETE", "/users/deleteUser", {
-        username : "testbandleader1234",
+        username,
     });
 
     cy.clearLocalStorage();

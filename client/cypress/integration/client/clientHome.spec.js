@@ -13,11 +13,11 @@ describe("Client Home", () => {
     });
 
     afterEach(() => {
-        cy.deleteClient();
+        cy.deleteUser("testclient1234");
     });
     
     afterEach(() => {
-        cy.deleteBandleader();
+        cy.deleteUser("testbandleader1234");
     });
 
     it("Add Song - Requested", () => {

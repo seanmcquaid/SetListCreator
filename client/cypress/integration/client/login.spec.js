@@ -10,11 +10,11 @@ describe("Client Login", () => {
     });
 
     afterEach(() => {
-        cy.deleteClient();
+        cy.deleteUser("testclient1234");
     });
     
     afterEach(() => {
-        cy.deleteBandleader();
+        cy.deleteUser("testbandleader1234");
     });
 
     it("Successfully logs a user in and redirects to Client Home", () => {
