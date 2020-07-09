@@ -2,11 +2,11 @@
 
 End to End Tests : 
 
+1) Set up backend routes for cleaning up tests ? 
+
 Client : 
-1) Edit Profile - set up clean up step to delete edited client
-2) Client Home - Send Set List
-3) Proposed Set List
-4) Final Set List
+1) Proposed Set List
+2) Final Set List
 
 
 Bandleader : 

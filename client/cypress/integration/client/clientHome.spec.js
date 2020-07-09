@@ -53,6 +53,22 @@ describe("Client Home", () => {
     });
 
     it("Send Set List", () => {
+        cy.get('[data-testid="Requested Song NameTextInput"]').type("Uptown Funk");
+        cy.get('[data-testid="Requested Song NameTextInput"]').should("have.value", "Uptown Funk");
 
+        cy.get('[data-testid="Requested Artist NameTextInput"]').type("Bruno Mars");
+        cy.get('[data-testid="Requested Artist NameTextInput"]').should("have.value", "Bruno Mars");
+
+        cy.get('[data-testid="Add Requested SongButton"]').click();
+
+        cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
+
+        cy.get('[data-testid="Send Set ListLinkButton"]').click();
+
+        cy.get('.ClientSendSetListPage_clientSendSetListPageContainer__1RYoL > :nth-child(1)').should("be.visible");
+
+        cy.get('[data-testid="Send PlaylistButton"]').click();
+
+        cy.get('[data-testid="Look at Proposed SetListLinkButton"]').should("be.visible");
     });
 });
