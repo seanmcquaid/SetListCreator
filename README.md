@@ -2,7 +2,7 @@
 
 End to End Tests : 
 
-1) Set up backend routes for cleaning up tests ? 
+1) Set up backend routes for cleaning up ALL data for a client / bandleader
 
 Client : 
 1) Proposed Set List
