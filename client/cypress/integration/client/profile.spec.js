@@ -18,7 +18,7 @@ describe("Client Profile", () => {
     afterEach(() => {
         cy.deleteUser("testbandleader1234");
     });
-    it("Successfully edited profile redirects to Client Home", () => {
+    it("Successfully edited profile redirects to Client Home and edits username", () => {
         cy.get('[href="/client/editProfile"]').click();
 
         cy.get('[data-testid="Edit Username HereTextInput"]').should("have.value", "testclient1234");
