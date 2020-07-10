@@ -8,17 +8,14 @@ Client :
 1) Proposed Set List
 2) Final Set List
 
-
 Bandleader : 
-1) Edit Profile
-2) Add Songs to Database
-3) Remove Song From Database
-4) Edit Song
-5) Client List - Ready
-6) Client List - Complete
-7) Client List - Edits/In Progress
-8) Create Set List
-9) Final Set List
+1) Client List - Ready
+2) Client List - Complete
+3) Client List - Edits/In Progress
+4) Create Set List
+5) Final Set List
+
+Finish unit tests for App.js
 
 Things to do :
 1) End to End tests in Cypress
