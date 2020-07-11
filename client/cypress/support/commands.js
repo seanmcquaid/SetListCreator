@@ -94,6 +94,20 @@ Cypress.Commands.add("deleteUser", username => {
     cy.clearLocalStorage();
 });
 
-// clear all client info command
+Cypress.Commands.add("deleteAllClientSongsAndSetList", (clientName, bandleaderName) => {
+    cy.server();
 
-// clear all bandleader info command
+    cy.request("DELETE", "/client/deleteAllSongsAndSetList", {
+        clientName,
+        bandleaderName,
+    });
+});
+
+Cypress.Commands.add("deleteAllBandleaderSongsAndSetList", (clientName, bandleaderName) => {
+    cy.server();
+
+    cy.request("DELETE", "/bandleader/deleteAllSongsAndSetList", {
+        clientName,
+        bandleaderName,
+    });
+});
