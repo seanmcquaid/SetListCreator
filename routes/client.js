@@ -17,4 +17,6 @@ router.get("/getCompletedSetList", checkToken, clientController.getCompletedSetL
 
 router.patch("/editCompletedSetListComments", checkToken, clientController.editCompletedSetListComments);
 
+router.delete("/deleteAllSongsAndSetList", clientController.deleteAllSongsAndSetList);
+
 module.exports = router;

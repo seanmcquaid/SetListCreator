@@ -23,4 +23,6 @@ router.get("/getClientSetListInfo/:clientId", checkToken, bandleaderController.g
 
 router.patch("/editCompletedSetList", checkToken, bandleaderController.editCompletedSetList);
 
+router.delete("/deleteAllSongsAndSetList", bandleaderController.deleteAllSongsAndSetList);
+
 module.exports = router;
