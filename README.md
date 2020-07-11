@@ -15,8 +15,6 @@ Bandleader :
 4) Create Set List
 5) Final Set List
 
-Finish unit tests for App.js
-
 Things to do :
 1) End to End tests in Cypress
 2) Remove unused packages
