@@ -205,6 +205,8 @@ exports.editCompletedSetListComments = async (req, res, next) => {
         );
 };
 
+// PURELY for testing clean up
+
 exports.deleteAllSongsAndSetList = async (req, res, next) => {
     const {bandleaderName, clientName} = req.body;
 
