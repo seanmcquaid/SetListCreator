@@ -302,6 +302,8 @@ exports.sendClientSetList = async (req, res, next) => {
         );
 };
 
+// PURELY for testing clean up
+
 exports.deleteUser = async (req, res, next) => {
     const {username} = req.body;
 

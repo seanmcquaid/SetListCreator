@@ -25,6 +25,9 @@ class BandleaderSongListModel {
         return await database.query("SELECT * FROM bandleadersonglist where username=$1", [username]);
     }
 
+    static async deleteAllSongs(username){
+        return await database.query("DELETE FROM bandleadersonglist WHERE username=$1;", [username]);
+    }
 }
 
 module.exports = BandleaderSongListModel;

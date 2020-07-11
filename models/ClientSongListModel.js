@@ -28,6 +28,9 @@ class ClientSongListModel{
         return await database.query("SELECT * FROM clientsonglist where username=$1", [username]);
     }
 
+    static async deleteAllSongs(username){
+        return await database.query("DELETE FROM clientsonglist WHERE username=$1;", [username]);
+    }
 }
 
 module.exports = ClientSongListModel;

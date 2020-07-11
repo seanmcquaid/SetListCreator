@@ -204,3 +204,19 @@ exports.editCompletedSetListComments = async (req, res, next) => {
             })
         );
 };
+
+exports.deleteAllSongsAndSetList = async (req, res, next) => {
+    const {bandleaderName, clientName} = req.body;
+
+    try {
+        await ClientSongListModel.deleteAllSongs(clientName);
+        await SetListsModel.deleteSetList(clientName, bandleaderName);
+        return res.status(200).send({
+            message : "SUCCESS",
+        });
+    } catch (error) {
+        return res.status(500).send({
+            errorMessage : "There was a problem deleting all songs and set lists for a bandleader"
+        })
+    }
+};
