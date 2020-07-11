@@ -13,7 +13,7 @@ describe("Client Profile", () => {
 
     beforeEach(() => {
         cy.getClientToken()
-            .then(resp => console.log(resp));
+            .then(resp => {console.log(resp)});
     });
 
     afterEach(() => {
