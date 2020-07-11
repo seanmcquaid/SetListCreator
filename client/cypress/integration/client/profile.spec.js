@@ -11,6 +11,11 @@ describe("Client Profile", () => {
         cy.loginClient();
     });
 
+    beforeEach(() => {
+        cy.getClientToken()
+            .then(resp => console.log(resp));
+    });
+
     afterEach(() => {
         cy.deleteUser("testClient12345");
     });

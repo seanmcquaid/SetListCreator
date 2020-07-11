@@ -26,6 +26,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+let clientToken;
+let bandleaderToken;
+
 Cypress.Commands.add("registerClient", () => {
     cy.server();
 
@@ -33,8 +36,12 @@ Cypress.Commands.add("registerClient", () => {
         username : "testclient1234",
         password : "password1234",
         selectedBandleader : "testbandleader1234",
+    }).then(({body}) => {
+        clientToken = body.token;
     });
 });
+
+Cypress.Commands.add("getClientToken", () => clientToken);
 
 Cypress.Commands.add("loginClient", () => {
     cy.get("[data-testid=ClientLinkButton]").click();
@@ -56,8 +63,12 @@ Cypress.Commands.add("registerBandleader", () => {
     cy.request("POST", "/users/register/bandleader", {
         username : "testbandleader1234",
         password : "password1234",
+    }).then(({body}) => {
+        bandleaderToken = body.token;
     });
 });
+
+Cypress.Commands.add("getBandleaderToken", () => bandleaderToken);
 
 Cypress.Commands.add("loginBandleader", () => {
     cy.get("[data-testid=BandleaderLinkButton]").click();
