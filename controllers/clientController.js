@@ -218,7 +218,7 @@ exports.deleteAllSongsAndSetList = async (req, res, next) => {
         });
     } catch (error) {
         return res.status(500).send({
-            errorMessage : "There was a problem deleting all songs and set lists for a bandleader"
+            errorMessage : "There was a problem deleting all songs and set lists for a client"
         })
     }
 };
