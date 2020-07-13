@@ -11,6 +11,10 @@ describe("Song Database", () => {
         cy.deleteUser("testbandleader1234");
     });
 
+    afterEach(() => {
+        cy.deleteAllBandleaderSongsAndSetList(null, "testbandleader1234");
+    });
+
     it("Add Song", () => {
         cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]').click();
 
@@ -26,8 +30,6 @@ describe("Song Database", () => {
         cy.get('[data-testid="Add SongButton"]').click();
 
         cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
-
-        cy.get('[data-testid=RemoveButton]').click();
     });
 
     it("Delete Song", () => {
@@ -79,10 +81,8 @@ describe("Song Database", () => {
         cy.get('[data-testid="Song NameTextInput"]').type(" It Up");
         cy.get('[data-testid="Song NameTextInput"]').should("have.value", "Uptown Funk It Up");
 
-        cy.get('[data-testid="Submit Edited SongButton"]').click();
+        cy.get('[data-testid="Edit SongButton"]').click();
 
         cy.get('[data-testid="Uptown Funk It UpInfoContainer"]').should("be.visible");
-
-        cy.get('[data-testid=RemoveButton]').click();
     });
 });
