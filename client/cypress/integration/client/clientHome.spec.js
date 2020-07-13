@@ -20,7 +20,23 @@ describe("Client Home", () => {
         cy.deleteUser("testbandleader1234");
     });
 
+    afterEach(() => {
+        cy.deleteAllClientSongsAndSetList("testclient1234", "testbandleader1234");
+    });
+
     it("Add Song - Requested", () => {
+        cy.get('[data-testid="Requested Song NameTextInput"]').type("Uptown Funk");
+        cy.get('[data-testid="Requested Song NameTextInput"]').should("have.value", "Uptown Funk");
+
+        cy.get('[data-testid="Requested Artist NameTextInput"]').type("Bruno Mars");
+        cy.get('[data-testid="Requested Artist NameTextInput"]').should("have.value", "Bruno Mars");
+
+        cy.get('[data-testid="Add Requested SongButton"]').click();
+
+        cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
+    });
+
+    it("Remove Song - Requested", () => {
         cy.get('[data-testid="Requested Song NameTextInput"]').type("Uptown Funk");
         cy.get('[data-testid="Requested Song NameTextInput"]').should("have.value", "Uptown Funk");
 
@@ -37,6 +53,18 @@ describe("Client Home", () => {
     });
 
     it("Add Song - Do Not Play", () => {
+        cy.get('[data-testid="Do Not Play Song NameTextInput"]').type("Treasure");
+        cy.get('[data-testid="Do Not Play Song NameTextInput"]').should("have.value", "Treasure");
+
+        cy.get('[data-testid="Do Not Play Artist NameTextInput"]').type("Bruno Mars");
+        cy.get('[data-testid="Do Not Play Artist NameTextInput"]').should("have.value", "Bruno Mars");
+
+        cy.get('[data-testid="Add Do Not Playlist SongButton"]').click();
+
+        cy.get('[data-testid="TreasureInfoContainer"]').should("be.visible");
+    });
+
+    it("Remove Song - Do Not Play", () => {
         cy.get('[data-testid="Do Not Play Song NameTextInput"]').type("Treasure");
         cy.get('[data-testid="Do Not Play Song NameTextInput"]').should("have.value", "Treasure");
 

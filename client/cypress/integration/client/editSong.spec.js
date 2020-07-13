@@ -20,6 +20,10 @@ describe("Edit Song", () => {
         cy.deleteUser("testbandleader1234");
     });
 
+    afterEach(() => {
+        cy.deleteAllClientSongsAndSetList("testclient1234", "testbandleader1234");
+    });
+
     it("Successfully edits song and displays on client home", () => {
         cy.get('[data-testid="Requested Song NameTextInput"]').type("Uptown Funk");
         cy.get('[data-testid="Requested Song NameTextInput"]').should("have.value", "Uptown Funk");
@@ -47,7 +51,5 @@ describe("Edit Song", () => {
         cy.get('[data-testid="Submit Edited SongButton"]').click();
 
         cy.get('[data-testid="Uptown Funk It UpInfoContainer"]').should("be.visible");
-
-        cy.get('[data-testid=RemoveButton]').click();
     });
 });
