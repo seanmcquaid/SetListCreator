@@ -40,7 +40,7 @@ describe("Proposed Set List", () => {
                     bandleaderComments : [
                         "Band Leader Comments Here",
                     ], 
-                    suggestedSetList : [
+                    completedSetList : [
                         {
                             songname : "Uptown Funk",
                             artistname : "Bruno Mars",
