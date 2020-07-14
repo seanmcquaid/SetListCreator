@@ -1,4 +1,5 @@
 describe("Proposed Set List", () => {
+    let clientId;
 
     beforeEach(() => {
         cy.visit("http://localhost:3000/");
@@ -16,14 +17,15 @@ describe("Proposed Set List", () => {
         cy.server();
 
         cy.getClientInfo()
-            .then(({clientToken, clientId}) => {
-                this.clientId = clientId;
+            .then(({clientToken}) => {
 
                 cy.request({
                     url : "/users/sendClientSetList",
                     method : "PATCH",
                     body : {setListAvailability : true},
-                    auth : clientToken
+                    headers : {
+                        Authorization : clientToken
+                    },
                 });
             });
     });
@@ -31,28 +33,33 @@ describe("Proposed Set List", () => {
     beforeEach(() => {
         cy.server();
 
-        const requestBody = {
-            clientId : this.clientId,
-            bandleaderComments : [
-                "Band Leader Comments Here",
-            ], 
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1
-                },
-            ],
-        };
-
-        cy.getBandleaderInfo()
-            .then(({bandleaderToken}) => {
-                cy.request({
-                    url : "/bandleader/postCompletedSetList",
-                    method : "POST",
-                    body : requestBody,
-                    auth : bandleaderToken
-                });
+        cy.getClientInfo()
+            .then(({clientId}) => {
+                const requestBody = {
+                    clientId,
+                    bandleaderComments : [
+                        "Band Leader Comments Here",
+                    ], 
+                    suggestedSetList : [
+                        {
+                            songname : "Uptown Funk",
+                            artistname : "Bruno Mars",
+                            id : 1
+                        },
+                    ],
+                };
+        
+                cy.getBandleaderInfo()
+                    .then(({bandleaderToken}) => {
+                        cy.request({
+                            url : "/bandleader/postCompletedSetList",
+                            method : "POST",
+                            body : requestBody,
+                            headers : {
+                                Authorization : bandleaderToken,
+                            },
+                        });
+                    });
             });
     });
 
