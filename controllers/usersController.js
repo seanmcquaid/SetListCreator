@@ -40,6 +40,7 @@ exports.postRegister = async (req, res, next) => {
                         accountType : accounttype,
                         setListAvailable : setlistavailable,
                         selectedBandleader : bandleadername,
+                        id
                     });
                 });
         })
