@@ -15,8 +15,10 @@ describe("Proposed Set List", () => {
     beforeEach(() => {
         cy.server();
 
-        cy.getClientToken()
-            .then(({clientToken}) => {
+        cy.getClientInfo()
+            .then(({clientToken, clientId}) => {
+                this.clientId = clientId;
+
                 cy.request({
                     url : "/users/sendClientSetList",
                     method : "PATCH",
@@ -29,11 +31,29 @@ describe("Proposed Set List", () => {
     beforeEach(() => {
         cy.server();
 
-        // add suggested set list
-        // /postCompletedSetList
+        const requestBody = {
+            clientId : this.clientId,
+            bandleaderComments : [
+                "Band Leader Comments Here",
+            ], 
+            suggestedSetList : [
+                {
+                    songname : "Uptown Funk",
+                    artistname : "Bruno Mars",
+                    id : 1
+                },
+            ],
+        };
 
-        cy.getBandleaderToken()
-            .then()
+        cy.getBandleaderInfo()
+            .then(({bandleaderToken}) => {
+                cy.request({
+                    url : "/bandleader/postCompletedSetList",
+                    method : "POST",
+                    body : requestBody,
+                    auth : bandleaderToken
+                });
+            });
     });
 
     afterEach(() => {
