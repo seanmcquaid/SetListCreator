@@ -57,8 +57,6 @@ Cypress.Commands.add("loginClient", () => {
     cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
     cy.get('[data-testid=LoginButton]').click();
-
-    cy.contains('Musical Preferences Page').should("be.visible");
 });
 
 Cypress.Commands.add("registerBandleader", () => {

@@ -1,16 +1,9 @@
 describe("Proposed Set List", () => {
-    let clientId;
-
     beforeEach(() => {
         cy.visit("http://localhost:3000/");
 
         cy.registerClient();
-    });
-
-    beforeEach(() => {
         cy.registerBandleader();
-
-        cy.loginClient();
     });
 
     beforeEach(() => {
@@ -18,7 +11,6 @@ describe("Proposed Set List", () => {
 
         cy.getClientInfo()
             .then(({clientToken}) => {
-
                 cy.request({
                     url : "/users/sendClientSetList",
                     method : "PATCH",
@@ -28,6 +20,8 @@ describe("Proposed Set List", () => {
                     },
                 });
             });
+
+        cy.loginClient();
     });
 
     beforeEach(() => {
@@ -75,19 +69,19 @@ describe("Proposed Set List", () => {
         cy.deleteAllClientSongsAndSetList("testclient1234", "testbandleader1234");
     });
 
-    describe('Name of the group', () => {
-        
-    });
-
-    describe('Name of the group', () => {
-        
-    });
-    
     it("Client Approves - Go to Final Set List Page", () => {
+        cy.get('[data-testid="Look at Proposed SetListLinkButton"]').should("be.visible").click();
 
+        cy.get('[data-testid="Add CommentsTextInput"]').type("Looks great");
+        cy.get('[data-testid="Add CommentsTextInput"]').should("have.value", "Looks great");
+
+        cy.get('[data-testid="Add CommentButton"]').click();
+
+        cy.get('[data-testid="Send Comments And ApprovalButton"]').click();
+
+        cy.get('[data-testid="Look at Proposed SetListLinkButton"]').should("be.visible").click();
+
+        cy.get('[data-testid=songList]').should("be.visible");
     });
 
-    it("Client Doesn't approve", () => {
-
-    });
 });
