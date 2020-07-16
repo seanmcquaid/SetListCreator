@@ -18,8 +18,6 @@ describe("Client Login", () => {
     });
 
     it("Successfully logs a user in and redirects to Client Home", () => {
-        
-        cy.get("[data-testid=ClientLinkButton]").click();
 
         cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
         cy.get("[data-testid=UsernameTextInput]").should("have.value", "testclient1234");
