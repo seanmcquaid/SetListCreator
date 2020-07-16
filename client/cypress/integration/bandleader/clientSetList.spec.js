@@ -88,21 +88,34 @@ describe("Client Set List", () => {
         });
 
         it("Create Set List For Client", () => {
-            cy.get('[data-testid="Client ListLinkButton"]').should("be.visible").click();
+            cy.get('[data-testid="Client ListLinkButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid=testclient1234Info]').should("be.visible");
+            cy.get('[data-testid=testclient1234Info]')
+                .should("be.visible");
 
-            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Ready");
+            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]')
+                .should("contain.text", "Ready");
 
-            cy.get('[data-testid="Go To Set List PageButton"]').should("be.visible").click();
+            cy.get('[data-testid="Go To Set List PageButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid="Create SetlistLinkButton"]').should("be.visible").click();    
+            cy.get('[data-testid="Create SetlistLinkButton"]')
+                .should("be.visible")
+                .click();    
             
-            cy.get('[data-testid="Send Set List to ClientButton"]').should("be.visible").click();
+            cy.get('[data-testid="Send Set List to ClientButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid="Client ListLinkButton"]').should("be.visible").click();
+            cy.get('[data-testid="Client ListLinkButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Ready");
+            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]')
+                .should("contain.text", "Ready");
 
         }); 
     });
@@ -179,17 +192,25 @@ describe("Client Set List", () => {
         });
 
         it("View Final Set List", () => {
-            cy.get('[data-testid="Client ListLinkButton"]').should("be.visible").click();
+            cy.get('[data-testid="Client ListLinkButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid=testclient1234Info]').should("be.visible");
+            cy.get('[data-testid=testclient1234Info]')
+                .should("be.visible");
 
-            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Complete");
+            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]')
+                .should("contain.text", "Complete");
 
-            cy.get('[data-testid="Go To Final Set List PageButton"]').should("be.visible").click();
+            cy.get('[data-testid="Go To Final Set List PageButton"]')
+                .should("be.visible")
+                .click();
 
-            cy.get('[data-testid=headerText]').should("have.text", "Final Set List For testclient1234");
+            cy.get('[data-testid=headerText]')
+                .should("have.text", "Final Set List For testclient1234");
 
-            cy.get('[data-testid=songList]').should("be.visible");
+            cy.get('[data-testid=songList]')
+                .should("be.visible");
         }); 
     });
 });

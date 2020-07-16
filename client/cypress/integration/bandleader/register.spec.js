@@ -8,17 +8,32 @@ describe("Bandleader Register", () => {
     });
 
     it("Successful register redirects bandleader to home page", () => {
-        cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
-        cy.get("[data-testid=UsernameTextInput]").should("have.value", "testbandleader1234");
+        cy.get("[data-testid=UsernameTextInput]")
+            .should("be.visible")
+            .type("testbandleader1234");
 
-        cy.get("[data-testid=PasswordTextInput]").type("password1234");
-        cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
+        cy.get("[data-testid=UsernameTextInput]")
+            .should("have.value", "testbandleader1234");
 
-        cy.get("[data-testid='Confirm PasswordTextInput']").type("password1234");
-        cy.get("[data-testid='Confirm PasswordTextInput']").should("have.value", "password1234");
+        cy.get("[data-testid=PasswordTextInput]")
+            .should("be.visible")
+            .type("password1234");
 
-        cy.get("[data-testid=RegisterButton]").click();
+        cy.get("[data-testid=PasswordTextInput]")
+            .should("have.value", "password1234");
 
-        cy.contains("Band Leader Home Page").should("be.visible");
+        cy.get("[data-testid='Confirm PasswordTextInput']")
+            .should("be.visible")
+            .type("password1234");
+
+        cy.get("[data-testid='Confirm PasswordTextInput']")
+            .should("have.value", "password1234");
+
+        cy.get("[data-testid=RegisterButton]")
+            .should("be.visible")
+            .click();
+
+        cy.contains("Band Leader Home Page")
+            .should("be.visible");
     });
 });
