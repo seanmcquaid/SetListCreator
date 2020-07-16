@@ -108,9 +108,88 @@ describe("Client Set List", () => {
     });
 
     describe("Complete", () => {
-        // set up client songs and back end to mock this client behavior
-        it("View Final Set List", () => {
+        beforeEach(() => {
+            cy.server();
 
+            cy.getClientInfo()
+                .then(({clientToken}) => {
+                    cy.request({
+                        url : "/users/sendClientSetList",
+                        method : "PATCH",
+                        body : {setListAvailability : true},
+                        headers : {
+                            Authorization : clientToken
+                        },
+                    });
+                });
+        });
+
+        beforeEach(() => {
+            cy.server();
+
+            cy.getClientInfo()
+                .then(({clientId}) => {
+                    const requestBody = {
+                        clientId,
+                        bandleaderComments : [
+                            "Band Leader Comments Here",
+                        ], 
+                        completedSetList : [
+                            {
+                                songname : "Uptown Funk",
+                                artistname : "Bruno Mars",
+                                id : 1
+                            },
+                        ],
+                    };
+        
+                cy.getBandleaderInfo()
+                    .then(({bandleaderToken}) => {
+                        cy.request({
+                            url : "/bandleader/postCompletedSetList",
+                            method : "POST",
+                            body : requestBody,
+                            headers : {
+                                Authorization : bandleaderToken,
+                            },
+                        });
+                    });
+            });
+        });
+
+        beforeEach(() => {
+            cy.server();
+
+            cy.getClientInfo()
+                .then(({clientToken}) => {
+                    const requestBody = {
+                        clientComments : ["Looks good to me!"], 
+                        clientApproval : true,
+                    };
+
+                    cy.request({
+                        url : "/client/editCompletedSetListComments",
+                        method : "PATCH",
+                        body : requestBody,
+                        headers : {
+                            Authorization : clientToken,
+                        },
+                    });
+            });
+        });
+
+        it("View Final Set List", () => {
+            cy.get('[data-testid="Client ListLinkButton"]').should("be.visible").click();
+
+            cy.get('[data-testid=testclient1234Info]').should("be.visible");
+
+            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Complete");
+
+            cy.get('[data-testid="Go To Final Set List PageButton"]').should("be.visible").click();
+
+            cy.get('[data-testid=headerText]').should("have.text", "Final Set List For testclient1234");
+
+            cy.get('[data-testid=songList]').should("be.visible");
         }); 
     });
 });
