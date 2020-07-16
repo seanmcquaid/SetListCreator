@@ -48,7 +48,7 @@ Cypress.Commands.add("registerClient", () => {
 Cypress.Commands.add("getClientInfo", () => ({clientToken, clientId}));
 
 Cypress.Commands.add("loginClient", () => {
-    cy.get("[data-testid=ClientLinkButton]").click();
+    cy.get("[data-testid=ClientLinkButton]").should("be.visible").click();
 
     cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
     cy.get("[data-testid=UsernameTextInput]").should("have.value", "testclient1234");
@@ -56,7 +56,7 @@ Cypress.Commands.add("loginClient", () => {
     cy.get("[data-testid=PasswordTextInput]").type("password1234");
     cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
-    cy.get('[data-testid=LoginButton]').click();
+    cy.get('[data-testid=LoginButton]').should("be.visible").click();
 });
 
 Cypress.Commands.add("registerBandleader", () => {
@@ -74,7 +74,7 @@ Cypress.Commands.add("registerBandleader", () => {
 Cypress.Commands.add("getBandleaderInfo", () => ({bandleaderToken, bandleaderId}));
 
 Cypress.Commands.add("loginBandleader", () => {
-    cy.get("[data-testid=BandleaderLinkButton]").click();
+    cy.get("[data-testid=BandleaderLinkButton]").should("be.visible").click();
 
     cy.get("[data-testid=UsernameTextInput]").type("testbandleader1234");
     cy.get("[data-testid=UsernameTextInput]").should("have.value", "testbandleader1234");
@@ -82,7 +82,7 @@ Cypress.Commands.add("loginBandleader", () => {
     cy.get("[data-testid=PasswordTextInput]").type("password1234");
     cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
 
-    cy.get("[data-testid=LoginButton]").click();
+    cy.get("[data-testid=LoginButton]").should("be.visible").click();
 
     cy.contains("Band Leader Home Page").should("be.visible");
 });

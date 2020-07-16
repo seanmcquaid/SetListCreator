@@ -94,13 +94,16 @@ describe("Client Set List", () => {
 
             cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Ready");
 
-            cy.get('[data-testid="Go To Set List PageButton"]').click();
-
-            cy.waitFor('[data-testid="Create SetlistLinkButton"]');
+            cy.get('[data-testid="Go To Set List PageButton"]').should("be.visible").click();
 
             cy.get('[data-testid="Create SetlistLinkButton"]').should("be.visible").click();    
             
             cy.get('[data-testid="Send Set List to ClientButton"]').should("be.visible").click();
+
+            cy.get('[data-testid="Client ListLinkButton"]').should("be.visible").click();
+
+            cy.get('[data-testid=testclient1234Info] > [data-testid=paragraphText]').should("contain.text", "Ready");
+
         }); 
     });
 
