@@ -12,7 +12,11 @@ describe("Client Profile", () => {
     });
 
     afterEach(() => {
-        cy.deleteUser("testClient12345");
+        cy.deleteUser("testclient12345");
+    });
+
+    afterEach(() => {
+        cy.deleteUser("testclient1234");
     });
     
     afterEach(() => {

@@ -206,8 +206,8 @@ describe("Client Set List", () => {
                 .should("be.visible")
                 .click();
 
-            cy.get('[data-testid=headerText]')
-                .should("have.text", "Final Set List For testclient1234");
+            cy.contains("Final Set List For testclient1234")
+                .should("be.visible");
 
             cy.get('[data-testid=songList]')
                 .should("be.visible");
