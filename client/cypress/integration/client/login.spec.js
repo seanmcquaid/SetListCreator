@@ -19,15 +19,26 @@ describe("Client Login", () => {
 
     it("Successfully logs a user in and redirects to Client Home", () => {
 
-        cy.get("[data-testid=UsernameTextInput]").type("testclient1234");
-        cy.get("[data-testid=UsernameTextInput]").should("have.value", "testclient1234");
+        cy.get("[data-testid=UsernameTextInput]")
+            .should("be.visible")
+            .type("testclient1234");
 
-        cy.get("[data-testid=PasswordTextInput]").type("password1234");
-        cy.get("[data-testid=PasswordTextInput]").should("have.value", "password1234");
+        cy.get("[data-testid=UsernameTextInput]")
+            .should("have.value", "testclient1234");
 
-        cy.get('[data-testid=LoginButton]').click();
+        cy.get("[data-testid=PasswordTextInput]")
+            .should("be.visible")
+            .type("password1234");
 
-        cy.contains('Musical Preferences Page').should("be.visible");
+        cy.get("[data-testid=PasswordTextInput]")
+            .should("have.value", "password1234");
+
+        cy.get('[data-testid=LoginButton]')
+            .should("be.visible")
+            .click();
+
+        cy.contains('Musical Preferences Page')
+            .should("be.visible");
     });
 
 });

@@ -19,24 +19,45 @@ describe("Client Profile", () => {
         cy.deleteUser("testbandleader1234");
     });
     it("Successfully edited profile redirects to Client Home and edits username", () => {
-        cy.get('[href="/client/editProfile"]').click();
+        cy.get('[href="/client/editProfile"]')
+            .should("be.visible")
+            .click();
 
-        cy.get('[data-testid="Edit Username HereTextInput"]').should("have.value", "testclient1234");
-        cy.get('[data-testid="Edit Username HereTextInput"]').type('5');
-        cy.get('[data-testid="Edit Username HereTextInput"]').should("have.value", "testclient12345");
+        cy.get('[data-testid="Edit Username HereTextInput"]')
+            .should("have.value", "testclient1234");
 
-        cy.get('[data-testid="Edit New Password HereTextInput"]').type("newpassword");
-        cy.get('[data-testid="Edit New Password HereTextInput"]').should("have.value", "newpassword");
+        cy.get('[data-testid="Edit Username HereTextInput"]')
+            .type('5');
 
-        cy.get('[data-testid="Confirm New Password HereTextInput"]').type("newpassword");
-        cy.get('[data-testid="Confirm New Password HereTextInput"]').should("have.value", "newpassword");
+        cy.get('[data-testid="Edit Username HereTextInput"]')
+            .should("have.value", "testclient12345");
 
-        cy.get('[data-testid="Edit ProfileButton"]').click();
+        cy.get('[data-testid="Edit New Password HereTextInput"]')
+            .should("be.visible")
+            .type("newpassword");
 
-        cy.contains('Musical Preferences Page').should("be.visible");
+        cy.get('[data-testid="Edit New Password HereTextInput"]')
+            .should("have.value", "newpassword");
 
-        cy.get('[href="/client/editProfile"]').click();
+        cy.get('[data-testid="Confirm New Password HereTextInput"]')
+            .should("be.visible")
+            .type("newpassword");
 
-        cy.get('[data-testid="Edit Username HereTextInput"]').should("have.value", "testclient12345");
+        cy.get('[data-testid="Confirm New Password HereTextInput"]')
+            .should("have.value", "newpassword");
+
+        cy.get('[data-testid="Edit ProfileButton"]')
+            .should("be.visible")
+            .click();
+
+        cy.contains('Musical Preferences Page')
+            .should("be.visible");
+
+        cy.get('[href="/client/editProfile"]')
+            .should("be.visible")
+            .click();
+
+        cy.get('[data-testid="Edit Username HereTextInput"]')
+            .should("have.value", "testclient12345");
     });
 });
