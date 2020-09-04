@@ -11,140 +11,188 @@ import ClientFinalSetListPage from "../ClientFinalSetListPage/ClientFinalSetList
 import ClientEditSetListPage from "../ClientEditSetListPage/ClientEditSetListPage";
 
 describe("<ClientListPage/>", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-    beforeEach(() => {
-        jest.useFakeTimers();
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  test("Client Page Redirect", async () => {
+    const getBandleaderClientsActionResponse = {
+      clientList: [
+        {
+          id: 1,
+          username: "test user",
+          setlistavailable: true,
+          clientapproved: null,
+        },
+      ],
+    };
+
+    jest.spyOn(axios, "get").mockResolvedValueOnce({
+      data: { ...getBandleaderClientsActionResponse },
     });
 
-    afterEach(() => {
-        jest.useRealTimers();
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientList">
+          <Route
+            exact
+            path="/bandleader/clientList"
+            component={ClientListPage}
+          />
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText("test user")).toBeInTheDocument()
+    );
+
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [],
+      userInfo: {
+        username: "test user",
+      },
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
+
+    fireEvent.click(screen.getByTestId("Go To Set List PageButton"));
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    expect(screen.getByText("Client name : test user"));
+  });
+
+  test("Client Final Set List Page Redirect", async () => {
+    const getBandleaderClientsActionResponse = {
+      clientList: [
+        {
+          id: 1,
+          username: "test user",
+          setlistavailable: true,
+          clientapproved: true,
+        },
+      ],
+    };
+
+    jest.spyOn(axios, "get").mockResolvedValueOnce({
+      data: { ...getBandleaderClientsActionResponse },
     });
 
-    test("Client Page Redirect", async () => {
-        const getBandleaderClientsActionResponse = {
-            clientList : [
-                {
-                    id : 1,
-                    username : "test user",
-                    setlistavailable : true,
-                    clientapproved : null,
-                },
-            ],
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderClientsActionResponse}});
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientList">
+          <Route
+            exact
+            path="/bandleader/clientList"
+            component={ClientListPage}
+          />
+          <Route
+            exact
+            path="/bandleader/clientFinalSetList/:clientId"
+            component={ClientFinalSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.getByText("test user")).toBeInTheDocument()
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientList">
-                    <Route exact path="/bandleader/clientList" component={ClientListPage}/>
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const getClientSetListInfoResponse = {
+      clientName: "Test user",
+      suggestedSetList: [],
+    };
 
-        await waitFor(() => expect(screen.getByText("test user")).toBeInTheDocument());
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSetListInfoResponse } });
 
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [],
-            userInfo : {
-                username : "test user",
-            },
-        };
+    fireEvent.click(screen.getByTestId("Go To Final Set List PageButton"));
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        fireEvent.click(screen.getByTestId("Go To Set List PageButton"));
+    expect(
+      screen.getByText("Final Set List For Test user")
+    ).toBeInTheDocument();
+  });
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+  test("Client Edit Set List Page Redirect", async () => {
+    const getBandleaderClientsActionResponse = {
+      clientList: [
+        {
+          id: 1,
+          username: "test user",
+          setlistavailable: false,
+          clientapproved: null,
+        },
+      ],
+    };
 
-        expect(screen.getByText("Client name : test user"));
+    jest.spyOn(axios, "get").mockResolvedValueOnce({
+      data: { ...getBandleaderClientsActionResponse },
     });
 
-    test("Client Final Set List Page Redirect", async () => {
-        const getBandleaderClientsActionResponse = {
-            clientList : [
-                {
-                    id : 1,
-                    username : "test user",
-                    setlistavailable : true,
-                    clientapproved : true,
-                },
-            ],
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderClientsActionResponse}});
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientList">
+          <Route
+            exact
+            path="/bandleader/clientList"
+            component={ClientListPage}
+          />
+          <Route
+            exact
+            path="/bandleader/clientEditSetList/:clientId"
+            component={ClientEditSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.getByText("test user")).toBeInTheDocument()
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientList">
-                    <Route exact path="/bandleader/clientList" component={ClientListPage}/>
-                    <Route exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const getSuggestedSetListResponse = {
+      suggestedSetList: [],
+      additionalClientRequests: [],
+      clientComments: [],
+    };
 
-        await waitFor(() => expect(screen.getByText("test user")).toBeInTheDocument());
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getSuggestedSetListResponse } });
 
-        const getClientSetListInfoResponse = {
-            clientName : "Test user",
-            suggestedSetList : [],
-        };
+    fireEvent.click(screen.getByTestId("Go To Edit Set List PageButton"));
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSetListInfoResponse}});
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        fireEvent.click(screen.getByTestId("Go To Final Set List PageButton"));
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByText("Final Set List For Test user")).toBeInTheDocument();
-    });
-
-    test("Client Edit Set List Page Redirect", async () => {
-        const getBandleaderClientsActionResponse = {
-            clientList : [
-                {
-                    id : 1,
-                    username : "test user",
-                    setlistavailable : false,
-                    clientapproved : null,
-                },
-            ],
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderClientsActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientList">
-                    <Route exact path="/bandleader/clientList" component={ClientListPage}/>
-                    <Route exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.getByText("test user")).toBeInTheDocument());
-
-        const getSuggestedSetListResponse = {
-            suggestedSetList : [],
-            additionalClientRequests : [],
-            clientComments : [],
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
-
-        fireEvent.click(screen.getByTestId("Go To Edit Set List PageButton"));
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByText("Edit Client Set List")).toBeInTheDocument();
-    });
-
+    expect(screen.getByText("Edit Client Set List")).toBeInTheDocument();
+  });
 });

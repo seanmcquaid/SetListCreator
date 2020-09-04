@@ -4,14 +4,17 @@ import Footer from "components/Footer/Footer";
 import Aux from "hoc/Aux/Aux";
 import styles from "./Layout.module.css";
 
-const Layout = React.memo(({children}) => (
-    <Aux>
-        <Navbar/>
-        <div className={styles.mainContentContainer} data-testid="mainContentContainer">
-            {children}
-        </div>
-        <Footer/>
-    </Aux>
+const Layout = React.memo(({ children }) => (
+  <Aux>
+    <Navbar />
+    <div
+      className={styles.mainContentContainer}
+      data-testid="mainContentContainer"
+    >
+      {children}
+    </div>
+    <Footer />
+  </Aux>
 ));
 
 export default Layout;

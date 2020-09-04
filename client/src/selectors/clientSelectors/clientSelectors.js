@@ -1,1 +1,1 @@
-export const selectClientState = state => state.client;
+export const selectClientState = (state) => state.client;

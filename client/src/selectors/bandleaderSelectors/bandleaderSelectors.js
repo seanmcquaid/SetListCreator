@@ -1,1 +1,1 @@
-export const selectBandleaderState = state => state.bandleader;
+export const selectBandleaderState = (state) => state.bandleader;

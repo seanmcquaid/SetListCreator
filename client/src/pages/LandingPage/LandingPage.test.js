@@ -9,57 +9,65 @@ import BandleaderLoginPage from "pages/BandleaderPages/BandleaderLoginPage/Bandl
 import configureStore from "store/configureStore";
 
 describe("<LandingPage/>", () => {
-    test("Renders correctly", () => {
-        const store = configureStore();
+  test("Renders correctly", () => {
+    const store = configureStore();
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/">
-                    <Route exact path="/" component={LandingPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/">
+          <Route exact path="/" component={LandingPage} />
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(screen.getByText("Set List Creator")).toBeInTheDocument();
+    expect(screen.getByText("Set List Creator")).toBeInTheDocument();
+  });
+
+  describe("LinkButtons route correctly", () => {
+    test("Client Login Button routes correctly", async () => {
+      const store = configureStore();
+
+      render(
+        <Provider store={store}>
+          <MockRouter initialRoute="/">
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/clientLogin" component={ClientLoginPage} />
+          </MockRouter>
+        </Provider>
+      );
+
+      expect(screen.getByText("Set List Creator")).toBeInTheDocument();
+
+      fireEvent.click(screen.getByText("Client"));
+
+      await waitFor(() =>
+        expect(screen.getByText("Client Login")).toBeInTheDocument()
+      );
     });
 
-    describe("LinkButtons route correctly", () => {
-        test("Client Login Button routes correctly", async () => {
-            const store = configureStore();
+    test("Bandleader Login Button routes correctly", async () => {
+      const store = configureStore();
 
-            render(
-                <Provider store={store}>
-                    <MockRouter initialRoute="/">
-                        <Route exact path="/" component={LandingPage}/>
-                        <Route exact path="/clientLogin" component={ClientLoginPage}/>
-                    </MockRouter>
-                </Provider>
-            );
+      render(
+        <Provider store={store}>
+          <MockRouter initialRoute="/">
+            <Route exact path="/" component={LandingPage} />
+            <Route
+              exact
+              path="/bandleaderLogin"
+              component={BandleaderLoginPage}
+            />
+          </MockRouter>
+        </Provider>
+      );
 
-            expect(screen.getByText("Set List Creator")).toBeInTheDocument();
+      expect(screen.getByText("Set List Creator")).toBeInTheDocument();
 
-            fireEvent.click(screen.getByText("Client"));
+      fireEvent.click(screen.getByText("Bandleader"));
 
-            await waitFor(() => expect(screen.getByText("Client Login")).toBeInTheDocument());
-        });
-
-        test("Bandleader Login Button routes correctly", async () => {
-            const store = configureStore();
-
-            render(
-                <Provider store={store}>
-                    <MockRouter initialRoute="/">
-                        <Route exact path="/" component={LandingPage}/>
-                        <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
-                    </MockRouter>
-                </Provider>
-            );
-
-            expect(screen.getByText("Set List Creator")).toBeInTheDocument();
-
-            fireEvent.click(screen.getByText("Bandleader"));
-
-            await waitFor(() => expect(screen.getByText("Band Leader Login")).toBeInTheDocument());
-        });
+      await waitFor(() =>
+        expect(screen.getByText("Band Leader Login")).toBeInTheDocument()
+      );
     });
+  });
 });

@@ -1,7 +1,7 @@
-import {CLEAR_ERROR_MESSAGE} from "./errorActionTypes";
+import { CLEAR_ERROR_MESSAGE } from "./errorActionTypes";
 
-export const clearErrorMessageAction = () => dispatch => {
-    dispatch({
-        type : CLEAR_ERROR_MESSAGE,
-    });
+export const clearErrorMessageAction = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_ERROR_MESSAGE,
+  });
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import LandingPage from "pages/LandingPage/LandingPage";
 import ClientLoginPage from "pages/ClientPages/ClientLoginPage/ClientLoginPage";
 import ClientRegisterPage from "pages/ClientPages/ClientRegisterPage/ClientRegisterPage";
@@ -26,29 +26,89 @@ import onLeave from "hoc/onLeave/onLeave";
 import BandleaderEditSongPage from "pages/BandleaderPages/BandleaderEditSongPage/BandleaderEditSongPage";
 
 const ProtectedRoutes = () => (
-    <Switch>
-        <Route exact path="/" component={LandingPage}/>
-        <Route exact path="/clientLogin" component={ClientLoginPage}/>
-        <Route exact path="/clientRegister" component={ClientRegisterPage}/>
-        <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
-        <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleaderHome" component={BandleaderHomePage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/clientList" component={ClientListPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/addSongs" component={AddSongsPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/editSong/:songId" component={BandleaderEditSongPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/clientEditSetList/:clientId" component={ClientEditSetListPage}/>
-        <ProtectedBandleaderRoute exact path="/bandleader/clientFinalSetList/:clientId" component={ClientFinalSetListPage}/>
-        <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-        <ProtectedClientRoute exact path="/client/editProfile" component={ClientProfilePage}/>
-        <ProtectedClientRoute exact path="/client/editSong/:songId" component={ClientEditSongPage}/>
-        <ProtectedClientRoute exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-        <ProtectedClientRoute exact path="/client/setListApproval" component={ClientSetListApprovalPage}/>
-        <ProtectedClientRoute exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
-        <Route component={ErrorPage}/>
-    </Switch>
+  <Switch>
+    <Route exact path="/" component={LandingPage} />
+    <Route exact path="/clientLogin" component={ClientLoginPage} />
+    <Route exact path="/clientRegister" component={ClientRegisterPage} />
+    <Route exact path="/bandleaderLogin" component={BandleaderLoginPage} />
+    <Route
+      exact
+      path="/bandleaderRegister"
+      component={BandleaderRegisterPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleaderHome"
+      component={BandleaderHomePage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/editProfile"
+      component={BandleaderProfilePage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/clientList"
+      component={ClientListPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/addSongs"
+      component={AddSongsPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/editSong/:songId"
+      component={BandleaderEditSongPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/clientInfo/:clientId"
+      component={ClientInfoPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/createSetList/:clientId"
+      component={SetListCreatorPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/clientEditSetList/:clientId"
+      component={ClientEditSetListPage}
+    />
+    <ProtectedBandleaderRoute
+      exact
+      path="/bandleader/clientFinalSetList/:clientId"
+      component={ClientFinalSetListPage}
+    />
+    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage} />
+    <ProtectedClientRoute
+      exact
+      path="/client/editProfile"
+      component={ClientProfilePage}
+    />
+    <ProtectedClientRoute
+      exact
+      path="/client/editSong/:songId"
+      component={ClientEditSongPage}
+    />
+    <ProtectedClientRoute
+      exact
+      path="/client/sendSetList"
+      component={ClientSendSetListPage}
+    />
+    <ProtectedClientRoute
+      exact
+      path="/client/setListApproval"
+      component={ClientSetListApprovalPage}
+    />
+    <ProtectedClientRoute
+      exact
+      path="/client/finalizedSetList"
+      component={FinalizedSetListPage}
+    />
+    <Route component={ErrorPage} />
+  </Switch>
 );
 
 export default onLeave(ProtectedRoutes);

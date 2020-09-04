@@ -10,88 +10,123 @@ import BandleaderHomePage from "../BandleaderHomePage/BandleaderHomePage";
 import BandleaderRegisterPage from "../BandleaderRegisterPage/BandleaderRegisterPage";
 
 describe("<BandleaderLoginPage/>", () => {
-    
-    test("Register Button takes you to the Bandleader Register Page", async () => {
-        const store = configureStore();
+  test("Register Button takes you to the Bandleader Register Page", async () => {
+    const store = configureStore();
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderLogin">
-                    <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
-                    <Route exact path="/bandleaderRegister" component={BandleaderRegisterPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderLogin">
+          <Route
+            exact
+            path="/bandleaderLogin"
+            component={BandleaderLoginPage}
+          />
+          <Route
+            exact
+            path="/bandleaderRegister"
+            component={BandleaderRegisterPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        fireEvent.click(screen.getByText("Here"));
+    fireEvent.click(screen.getByText("Here"));
 
-        await waitFor(() => expect(screen.getByText("Band Leader Register")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("Band Leader Register")).toBeInTheDocument()
+    );
+  });
+
+  test("Successful Login redirects user to bandleader home", async () => {
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderLogin">
+          <Route
+            exact
+            path="/bandleaderLogin"
+            component={BandleaderLoginPage}
+          />
+          <Route exact path="/bandleaderHome" component={BandleaderHomePage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    fireEvent.change(screen.getByTestId("UsernameTextInput"), {
+      target: { value: "testuser" },
     });
-    
-    test("Successful Login redirects user to bandleader home", async () => {
-        const store = configureStore();
+    expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderLogin">
-                    <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
-                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    fireEvent.change(screen.getByTestId("PasswordTextInput"), {
+      target: { value: "testpassword" },
+    });
+    expect(screen.getByTestId("PasswordTextInput").value).toEqual(
+      "testpassword"
+    );
 
-        fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : { value : "testuser" }});
-        expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
+    const loginActionResponse = {
+      isAuthenticated: true,
+      token: "test token",
+      username: "testuser",
+      accountType: "bandleader",
+    };
 
-        fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : { value : "testpassword" }});
-        expect(screen.getByTestId("PasswordTextInput").value).toEqual("testpassword");
+    jest
+      .spyOn(axios, "post")
+      .mockResolvedValueOnce({ data: { ...loginActionResponse } });
 
-        const loginActionResponse = {
-            isAuthenticated : true,
-            token : "test token",
-            username : "testuser",
-            accountType : "bandleader",
-        };
+    fireEvent.click(screen.getByTestId("LoginButton"));
 
-        jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...loginActionResponse}});
+    await waitFor(() =>
+      expect(screen.getByText("Band Leader Home Page")).toBeInTheDocument()
+    );
+  });
 
-        fireEvent.click(screen.getByTestId("LoginButton"));
+  test("Unsuccessful login - Error Message Appears", async () => {
+    const store = configureStore();
 
-        await waitFor(() => expect(screen.getByText("Band Leader Home Page")).toBeInTheDocument());
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderLogin">
+          <Route
+            exact
+            path="/bandleaderLogin"
+            component={BandleaderLoginPage}
+          />
+          <Route exact path="/bandleaderHome" component={BandleaderHomePage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    fireEvent.change(screen.getByTestId("UsernameTextInput"), {
+      target: { value: "testuser" },
+    });
+    expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
+
+    fireEvent.change(screen.getByTestId("PasswordTextInput"), {
+      target: { value: "testpassword" },
+    });
+    expect(screen.getByTestId("PasswordTextInput").value).toEqual(
+      "testpassword"
+    );
+
+    const loginActionResponse = {
+      errorMessage: "Error Here",
+    };
+
+    jest.spyOn(axios, "post").mockRejectedValueOnce({
+      response: {
+        data: {
+          ...loginActionResponse,
+        },
+      },
     });
 
-    test("Unsuccessful login - Error Message Appears", async () => {
-        const store = configureStore();
+    fireEvent.click(screen.getByTestId("LoginButton"));
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderLogin">
-                    <Route exact path="/bandleaderLogin" component={BandleaderLoginPage}/>
-                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        fireEvent.change(screen.getByTestId("UsernameTextInput"), {target : { value : "testuser" }});
-        expect(screen.getByTestId("UsernameTextInput").value).toEqual("testuser");
-
-        fireEvent.change(screen.getByTestId("PasswordTextInput"), {target : { value : "testpassword" }});
-        expect(screen.getByTestId("PasswordTextInput").value).toEqual("testpassword");
-
-        const loginActionResponse = {
-            errorMessage : "Error Here",
-        };
-
-        jest.spyOn(axios, "post").mockRejectedValueOnce({
-            response : {
-                data : {
-                    ...loginActionResponse,
-                },
-            },
-        });
-
-        fireEvent.click(screen.getByTestId("LoginButton"));
-
-        await waitFor(() => expect(screen.getByText("Error Here")).toBeInTheDocument());
-    });
+    await waitFor(() =>
+      expect(screen.getByText("Error Here")).toBeInTheDocument()
+    );
+  });
 });

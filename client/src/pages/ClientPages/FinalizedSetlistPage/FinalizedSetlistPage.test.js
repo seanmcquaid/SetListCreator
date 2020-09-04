@@ -8,101 +8,118 @@ import { Route } from "react-router-dom";
 import { screen, waitFor, render } from "@testing-library/react";
 
 describe("<FinalizedSetListPage/>", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-    beforeEach(() => {
-        jest.useFakeTimers();
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+  test("Loading Spinner", async () => {
+    const getCompletedSetlistResponse = {
+      bandleaderComments: ["Band Leader Comments Here"],
+      suggestedSetList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getCompletedSetlistResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/finalizedSetList">
+          <Route
+            exact
+            path="/client/finalizedSetList"
+            component={FinalizedSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+  });
+
+  test("Error Message", async () => {
+    const getCompletedSetlistResponse = {
+      errorMessage: "ERROR",
+    };
+
+    jest.spyOn(axios, "get").mockRejectedValueOnce({
+      response: {
+        data: {
+          ...getCompletedSetlistResponse,
+        },
+      },
     });
 
-    afterEach(() => {
-        jest.useRealTimers();
-    });
-    test("Loading Spinner", async () => {
-        const getCompletedSetlistResponse = {
-            bandleaderComments : [
-                "Band Leader Comments Here"
-            ], 
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ]
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getCompletedSetlistResponse}});
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/finalizedSetList">
+          <Route
+            exact
+            path="/client/finalizedSetList"
+            component={FinalizedSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/finalizedSetList">
-                    <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    expect(screen.getByText("ERROR")).toBeInTheDocument();
+  });
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+  test("Set List info loads correctly", async () => {
+    const getCompletedSetlistResponse = {
+      bandleaderComments: ["Band Leader Comments Here"],
+      suggestedSetList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+    };
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-    });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getCompletedSetlistResponse } });
 
-    test("Error Message", async () => {
-        const getCompletedSetlistResponse = {
-            errorMessage : "ERROR"
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockRejectedValueOnce({
-            response : {
-                data : {
-                    ...getCompletedSetlistResponse,
-                },
-            },
-        });
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/finalizedSetList">
+          <Route
+            exact
+            path="/client/finalizedSetList"
+            component={FinalizedSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/finalizedSetList">
-                    <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByText("ERROR")).toBeInTheDocument();
-    });
-
-    test("Set List info loads correctly", async() => {
-        const getCompletedSetlistResponse = {
-            bandleaderComments : [
-                "Band Leader Comments Here"
-            ], 
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ]
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getCompletedSetlistResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/finalizedSetList">
-                    <Route exact path="/client/finalizedSetList" component={FinalizedSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
-        
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
-    });
+    expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
+  });
 });

@@ -1,19 +1,21 @@
-.clientRegisterContainer, .registerForm, .textContainer {
-    display : flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    margin : 1rem;
+.clientRegisterContainer,
+.registerForm,
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: 1rem;
 }
 
-.registerLink{
-    text-decoration: none;
-    color:#555555;
-    border-bottom : 1px solid #555555;
+.registerLink {
+  text-decoration: none;
+  color: #555555;
+  border-bottom: 1px solid #555555;
 }
 
-.registerLink:hover{
-    color :#00a118;
-    border-bottom: 1px solid #00a118;
+.registerLink:hover {
+  color: #00a118;
+  border-bottom: 1px solid #00a118;
 }

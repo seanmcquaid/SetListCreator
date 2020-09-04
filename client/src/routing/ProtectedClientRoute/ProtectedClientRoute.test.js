@@ -10,136 +10,151 @@ import { act } from "react-dom/test-utils";
 import configureStore from "store/configureStore";
 
 describe("<ProtectedClientRoute/>", () => {
-    test("Loading Spinner displays initially and disappears after timer", async () => {
-        jest.useFakeTimers();
+  test("Loading Spinner displays initially and disappears after timer", async () => {
+    jest.useFakeTimers();
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-                accountType : "bandleader",
-            },
-        };
+    const initialState = {
+      auth: {
+        isAuthenticated: false,
+        accountType: "bandleader",
+      },
+    };
 
-        const store = configureStore(initialState);
+    const store = configureStore(initialState);
 
-        const {getByTestId, queryByTestId} = render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/clientHome">
-                    <Route exact path="/" component={LandingPage}/>
-                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/clientHome">
+          <Route exact path="/" component={LandingPage} />
+          <ProtectedClientRoute
+            exact
+            path="/clientHome"
+            component={ClientHomePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+    expect(getByTestId("loadingSpinner")).toBeInTheDocument();
 
-        act(() => {
-            jest.runAllTimers();
-        });
-
-        expect(queryByTestId("loadingSpinner")).toBeNull();
+    act(() => {
+      jest.runAllTimers();
     });
 
-    test("Redirects to home page if not authenticated", async () => {
-        jest.useFakeTimers();
+    expect(queryByTestId("loadingSpinner")).toBeNull();
+  });
 
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-                accountType : "client",
-            },
-        };
+  test("Redirects to home page if not authenticated", async () => {
+    jest.useFakeTimers();
 
-        const store = configureStore(initialState);
+    const initialState = {
+      auth: {
+        isAuthenticated: false,
+        accountType: "client",
+      },
+    };
 
-        const {getByText, queryByTestId, getByTestId} = render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/clientHome">
-                    <Route exact path="/" component={LandingPage}/>
-                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const store = configureStore(initialState);
 
-        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+    const { getByText, queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/clientHome">
+          <Route exact path="/" component={LandingPage} />
+          <ProtectedClientRoute
+            exact
+            path="/clientHome"
+            component={ClientHomePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        act(() => {
-            jest.runAllTimers();
-        });
+    expect(getByTestId("loadingSpinner")).toBeInTheDocument();
 
-        expect(queryByTestId("loadingSpinner")).toBeNull();
-
-        expect(getByText("Set List Creator")).toBeInTheDocument();
-
+    act(() => {
+      jest.runAllTimers();
     });
 
-    test("Redirects to home page if the user doesn't have an account type of client", () => {
-        jest.useFakeTimers();
+    expect(queryByTestId("loadingSpinner")).toBeNull();
 
-        const initialState = {
-            auth : {
-                isAuthenticated : true,
-                accountType : "bandleader",
-            },
-        };
+    expect(getByText("Set List Creator")).toBeInTheDocument();
+  });
 
-        const store = configureStore(initialState);
+  test("Redirects to home page if the user doesn't have an account type of client", () => {
+    jest.useFakeTimers();
 
-        const {getByText, queryByTestId, getByTestId} = render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/clientHome">
-                    <Route exact path="/" component={LandingPage}/>
-                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const initialState = {
+      auth: {
+        isAuthenticated: true,
+        accountType: "bandleader",
+      },
+    };
 
-        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+    const store = configureStore(initialState);
 
-        act(() => {
-            jest.runAllTimers();
-        });
+    const { getByText, queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/clientHome">
+          <Route exact path="/" component={LandingPage} />
+          <ProtectedClientRoute
+            exact
+            path="/clientHome"
+            component={ClientHomePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(queryByTestId("loadingSpinner")).toBeNull();
+    expect(getByTestId("loadingSpinner")).toBeInTheDocument();
 
-        expect(getByText("Set List Creator")).toBeInTheDocument();
+    act(() => {
+      jest.runAllTimers();
     });
 
-    test("Returns component when user is authenticated and has account type of client", async () => {
-        jest.useFakeTimers();
+    expect(queryByTestId("loadingSpinner")).toBeNull();
 
-        const initialState = {
-            auth : {
-                isAuthenticated : true,
-                accountType : "client",
-            },
-            client : {
-                doNotPlaySongsList : [],
-                requestedSongsList : [],
-                setListAvailable : false,
-                clientApproved : false
-            }
-        };
+    expect(getByText("Set List Creator")).toBeInTheDocument();
+  });
 
-        const store = configureStore(initialState);
+  test("Returns component when user is authenticated and has account type of client", async () => {
+    jest.useFakeTimers();
 
-        const {getByText, queryByTestId, getByTestId} = render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/clientHome">
-                    <Route exact path="/" component={LandingPage}/>
-                    <ProtectedClientRoute exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
-        
-        expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+    const initialState = {
+      auth: {
+        isAuthenticated: true,
+        accountType: "client",
+      },
+      client: {
+        doNotPlaySongsList: [],
+        requestedSongsList: [],
+        setListAvailable: false,
+        clientApproved: false,
+      },
+    };
 
-        act(() => {
-            jest.runAllTimers();
-        });
+    const store = configureStore(initialState);
 
-        expect(queryByTestId("loadingSpinner")).toBeNull();
+    const { getByText, queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/clientHome">
+          <Route exact path="/" component={LandingPage} />
+          <ProtectedClientRoute
+            exact
+            path="/clientHome"
+            component={ClientHomePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(getByText("Musical Preferences Page")).toBeInTheDocument();
+    expect(getByTestId("loadingSpinner")).toBeInTheDocument();
+
+    act(() => {
+      jest.runAllTimers();
     });
+
+    expect(queryByTestId("loadingSpinner")).toBeNull();
+
+    expect(getByText("Musical Preferences Page")).toBeInTheDocument();
+  });
 });

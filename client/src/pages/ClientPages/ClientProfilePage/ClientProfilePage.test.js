@@ -9,182 +9,249 @@ import MockRouter from "testUtils/MockRouter";
 import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
 describe("<ClientProfilePage/>", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-    beforeEach(() => {
-        jest.useFakeTimers();
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+  test("Loading Spinner", async () => {
+    const getUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user",
+      accountType: "client",
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getUserInfoActionResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/editProfile">
+          <Route
+            exact
+            path="/client/editProfile"
+            component={ClientProfilePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+  });
+
+  test("Username displays after loading", async () => {
+    const getUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user",
+      accountType: "client",
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getUserInfoActionResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/editProfile">
+          <Route
+            exact
+            path="/client/editProfile"
+            component={ClientProfilePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual(
+      "test user"
+    );
+  });
+
+  test("Error when trying to get user info", async () => {
+    const getUserInfoActionResponse = {
+      errorMessage: "There was an issue getting the user info",
+    };
+
+    jest.spyOn(axios, "get").mockRejectedValueOnce({
+      response: {
+        data: {
+          ...getUserInfoActionResponse,
+        },
+      },
     });
 
-    afterEach(() => {
-        jest.useRealTimers();
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/editProfile">
+          <Route
+            exact
+            path="/client/editProfile"
+            component={ClientProfilePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    expect(
+      screen.getByText("There was an issue getting the user info")
+    ).toBeInTheDocument();
+  });
+
+  test("Update user name and password success", async () => {
+    const getUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user",
+      accountType: "client",
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getUserInfoActionResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/editProfile">
+          <Route
+            exact
+            path="/client/editProfile"
+            component={ClientProfilePage}
+          />
+          <Route exact path="/clientHome" component={ClientHomePage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    const editUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user changed",
+      accountType: "client",
+    };
+
+    jest
+      .spyOn(axios, "patch")
+      .mockResolvedValueOnce({ data: { ...editUserInfoActionResponse } });
+
+    fireEvent.change(screen.getByTestId("Edit Username HereTextInput"), {
+      target: { value: "test user changed" },
     });
-    test("Loading Spinner", async () => {
+    expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual(
+      "test user changed"
+    );
 
-        const getUserInfoActionResponse = {
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user",
-            accountType : "client",
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/editProfile">
-                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+    fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {
+      target: { value: "new password" },
     });
+    expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual(
+      "new password"
+    );
 
-    test("Username displays after loading", async () => {
-        const getUserInfoActionResponse = {
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user",
-            accountType : "client",
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/editProfile">
-                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual("test user");
+    fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {
+      target: { value: "new password" },
     });
+    expect(
+      screen.getByTestId("Confirm New Password HereTextInput").value
+    ).toEqual("new password");
 
-    test("Error when trying to get user info", async () => {
-        const getUserInfoActionResponse = {
-            errorMessage : "There was an issue getting the user info",
-        };
+    const getClientSongsActionResponse = {
+      bandleader: "",
+      doNotPlaySongsList: [],
+      requestedSongsList: [],
+      isLoading: true,
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-        jest.spyOn(axios, "get").mockRejectedValueOnce({
-            response : {
-                data : {
-                    ...getUserInfoActionResponse,
-                }
-            }
-        });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        const store = configureStore();
+    fireEvent.click(screen.getByTestId("Edit ProfileButton"));
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/editProfile">
-                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument()
+    );
+  });
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+  test("Update user name and password failure - passwords don't match", async () => {
+    const getUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user",
+      accountType: "client",
+    };
 
-        expect(screen.getByText("There was an issue getting the user info")).toBeInTheDocument();
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getUserInfoActionResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/editProfile">
+          <Route
+            exact
+            path="/client/editProfile"
+            component={ClientProfilePage}
+          />
+          <Route exact path="/clientHome" component={ClientHomePage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {
+      target: { value: "new password" },
     });
+    expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual(
+      "new password"
+    );
 
-    test("Update user name and password success", async () => {
-        const getUserInfoActionResponse = {
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user",
-            accountType : "client",
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/editProfile">
-                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-                    <Route exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        const editUserInfoActionResponse = { 
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user changed",
-            accountType : "client",
-        }
-
-        jest.spyOn(axios, "patch").mockResolvedValueOnce({data : { ...editUserInfoActionResponse}});
-
-        fireEvent.change(screen.getByTestId("Edit Username HereTextInput"), {target : { value : "test user changed"}})
-        expect(screen.getByTestId("Edit Username HereTextInput").value).toEqual("test user changed");
-
-        fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
-        expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
-
-        fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {target : { value : "new password"}});
-        expect(screen.getByTestId("Confirm New Password HereTextInput").value).toEqual("new password");
-
-        const getClientSongsActionResponse = {
-            bandleader : "",
-            doNotPlaySongsList : [],
-            requestedSongsList : [],
-            isLoading : true,
-            setListAvailable : false,
-            clientApproved : false
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
-
-        fireEvent.click(screen.getByTestId("Edit ProfileButton"));
-
-        await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
+    fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {
+      target: { value: "new password not here" },
     });
+    expect(
+      screen.getByTestId("Confirm New Password HereTextInput").value
+    ).toEqual("new password not here");
 
-    test("Update user name and password failure - passwords don't match", async () => {
-        const getUserInfoActionResponse = {
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user",
-            accountType : "client",
-        };
+    fireEvent.click(screen.getByTestId("Edit ProfileButton"));
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/editProfile">
-                    <Route exact path="/client/editProfile" component={ClientProfilePage}/>
-                    <Route exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        fireEvent.change(screen.getByTestId("Edit New Password HereTextInput"), {target : { value : "new password"}});
-        expect(screen.getByTestId("Edit New Password HereTextInput").value).toEqual("new password");
-
-        fireEvent.change(screen.getByTestId("Confirm New Password HereTextInput"), {target : { value : "new password not here"}});
-        expect(screen.getByTestId("Confirm New Password HereTextInput").value).toEqual("new password not here");
-
-        fireEvent.click(screen.getByTestId("Edit ProfileButton"));
-
-        expect(screen.getByText("ERROR WITH PASSWORDS NOT MATCHING")).toBeInTheDocument();
-    });
-
+    expect(
+      screen.getByText("ERROR WITH PASSWORDS NOT MATCHING")
+    ).toBeInTheDocument();
+  });
 });

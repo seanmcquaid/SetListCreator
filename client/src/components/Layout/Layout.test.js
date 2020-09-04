@@ -6,28 +6,26 @@ import { Provider } from "react-redux";
 import configureStore from "store/configureStore";
 
 describe("<Layout/>", () => {
-    test("Renders Correctly", () => {
-        const initialState = {
-            auth : {
-                isAuthenticated : false,
-            },
-        };
+  test("Renders Correctly", () => {
+    const initialState = {
+      auth: {
+        isAuthenticated: false,
+      },
+    };
 
-        const store = configureStore(initialState);
+    const store = configureStore(initialState);
 
-        render(
-            <Provider store={store}>
-                <MockRouter>
-                    <Layout>
-                        Layout Here
-                    </Layout>
-                </MockRouter>
-            </Provider>
-        );
+    render(
+      <Provider store={store}>
+        <MockRouter>
+          <Layout>Layout Here</Layout>
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(screen.getByTestId("navbar")).toBeInTheDocument();
-        expect(screen.getByTestId("mainContentContainer")).toBeInTheDocument();
-        expect(screen.getByText("Layout Here")).toBeInTheDocument();
-        expect(screen.getByTestId("footer")).toBeInTheDocument();
-    });
+    expect(screen.getByTestId("navbar")).toBeInTheDocument();
+    expect(screen.getByTestId("mainContentContainer")).toBeInTheDocument();
+    expect(screen.getByText("Layout Here")).toBeInTheDocument();
+    expect(screen.getByTestId("footer")).toBeInTheDocument();
+  });
 });

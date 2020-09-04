@@ -21,7 +21,7 @@ const clientRouter = require("./routes/client");
 
 app.use("/users", usersRouter);
 app.use("/bandleader", bandleaderRouter);
-app.use("/client", clientRouter)
+app.use("/client", clientRouter);
 
 app.disable("etag");
 

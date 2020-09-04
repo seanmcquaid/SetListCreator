@@ -1,16 +1,18 @@
-.addSongsPageContainer, .addSongContainer, .addSongForm{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
+.addSongsPageContainer,
+.addSongContainer,
+.addSongForm {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 }
 
 .songsListContainer {
-    display : flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
 }

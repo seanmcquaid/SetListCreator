@@ -8,132 +8,154 @@ import AddSongsPage from "./AddSongsPage";
 import axios from "axios";
 
 describe("Add Songs Page", () => {
+  test("Songs previously added load", async () => {
+    const getBandleaderSongsActionResponse = {
+      songList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          songkey: "D Minor",
+          id: 1,
+        },
+      ],
+    };
 
-    test("Songs previously added load", async () => {
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getBandleaderSongsActionResponse } });
 
-        const getBandleaderSongsActionResponse = {
-            songList : [
-                {
-                    songname : "Uptown Funk", 
-                    artistname : "Bruno Mars",
-                    songkey : "D Minor",
-                    id : 1
-                }
-            ],
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderSongsActionResponse}});
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/addSongs">
+          <Route exact path="/bandleader/addSongs" component={AddSongsPage} />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.getByText("Uptown Funk")).toBeInTheDocument()
+    );
+  });
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/addSongs">
-                    <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
-                </MockRouter>
-            </Provider>
-        );
+  test("Added song displays and text inputs reset", async () => {
+    const getBandleaderSongsActionResponse = {
+      songList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          songkey: "D Minor",
+          id: 1,
+        },
+      ],
+    };
 
-        await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getBandleaderSongsActionResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/addSongs">
+          <Route exact path="/bandleader/addSongs" component={AddSongsPage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    fireEvent.change(screen.getByTestId("Song NameTextInput"), {
+      target: { value: "Treasure" },
     });
-    
-    test("Added song displays and text inputs reset", async () => {
-        const getBandleaderSongsActionResponse = {
-            songList : [
-                {
-                    songname : "Uptown Funk", 
-                    artistname : "Bruno Mars",
-                    songkey : "D Minor",
-                    id : 1
-                }
-            ],
-        };
+    expect(screen.getByTestId("Song NameTextInput").value).toEqual("Treasure");
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderSongsActionResponse}});
+    fireEvent.change(screen.getByTestId("Artist NameTextInput"), {
+      target: { value: "Bruno Mars" },
+    });
+    expect(screen.getByTestId("Artist NameTextInput").value).toEqual(
+      "Bruno Mars"
+    );
 
-        const store = configureStore();
+    fireEvent.change(screen.getByTestId("KeyTextInput"), {
+      target: { value: "F Major" },
+    });
+    expect(screen.getByTestId("KeyTextInput").value).toEqual("F Major");
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/addSongs">
-                    <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    const addBandleaderSongActionResponse = {
+      songList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          songkey: "D Minor",
+          id: 1,
+        },
+        {
+          songname: "Treasure",
+          artistname: "Bruno Mars",
+          songkey: "F Major",
+          id: 1,
+        },
+      ],
+    };
 
-        fireEvent.change(screen.getByTestId("Song NameTextInput"), {target : {value : "Treasure"}});
-        expect(screen.getByTestId("Song NameTextInput").value).toEqual("Treasure");
+    jest
+      .spyOn(axios, "post")
+      .mockResolvedValueOnce({ data: { ...addBandleaderSongActionResponse } });
 
-        fireEvent.change(screen.getByTestId("Artist NameTextInput"), {target : {value : "Bruno Mars"}});
-        expect(screen.getByTestId("Artist NameTextInput").value).toEqual("Bruno Mars");
+    fireEvent.click(screen.getByTestId("Add SongButton"));
 
-        fireEvent.change(screen.getByTestId("KeyTextInput"), {target : {value : "F Major"}});
-        expect(screen.getByTestId("KeyTextInput").value).toEqual("F Major");
+    await waitFor(() =>
+      expect(screen.getByText("Treasure")).toBeInTheDocument()
+    );
 
-        const addBandleaderSongActionResponse = {
-            songList : [
-                {
-                    songname : "Uptown Funk", 
-                    artistname : "Bruno Mars",
-                    songkey : "D Minor",
-                    id : 1,
-                },
-                {
-                    songname : "Treasure", 
-                    artistname : "Bruno Mars",
-                    songkey : "F Major",
-                    id : 1,
-                }
-            ],
-        };
+    expect(screen.getByTestId("Song NameTextInput").value).toEqual("");
 
-        jest.spyOn(axios, "post").mockResolvedValueOnce({data : {...addBandleaderSongActionResponse}});
+    expect(screen.getByTestId("Artist NameTextInput").value).toEqual("");
 
-        fireEvent.click(screen.getByTestId("Add SongButton"));
+    expect(screen.getByTestId("KeyTextInput").value).toEqual("");
+  });
 
-        await waitFor(() => expect(screen.getByText("Treasure")).toBeInTheDocument());
+  test("Deleted song is no longer displayed", async () => {
+    const getBandleaderSongsActionResponse = {
+      songList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          songkey: "D Minor",
+          id: 1,
+        },
+      ],
+    };
 
-        expect(screen.getByTestId("Song NameTextInput").value).toEqual("");
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getBandleaderSongsActionResponse } });
 
-        expect(screen.getByTestId("Artist NameTextInput").value).toEqual("");
+    const store = configureStore();
 
-        expect(screen.getByTestId("KeyTextInput").value).toEqual("");
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/addSongs">
+          <Route exact path="/bandleader/addSongs" component={AddSongsPage} />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText("Uptown Funk")).toBeInTheDocument()
+    );
+
+    const deleteBandleaderSongActionResponse = {
+      songList: [],
+    };
+
+    jest.spyOn(axios, "delete").mockResolvedValueOnce({
+      data: { ...deleteBandleaderSongActionResponse },
     });
 
-    test("Deleted song is no longer displayed", async () => {
-        const getBandleaderSongsActionResponse = {
-            songList : [
-                {
-                    songname : "Uptown Funk", 
-                    artistname : "Bruno Mars",
-                    songkey : "D Minor",
-                    id : 1
-                }
-            ],
-        };
+    fireEvent.click(screen.getByTestId("RemoveButton"));
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderSongsActionResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/addSongs">
-                    <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
-
-        const deleteBandleaderSongActionResponse = {
-            songList : [],
-        };
-
-        jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...deleteBandleaderSongActionResponse}});
-
-        fireEvent.click(screen.getByTestId("RemoveButton"));
-
-        await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
-    });
+    await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
+  });
 });

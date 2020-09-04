@@ -11,82 +11,99 @@ import ClientListPage from "../ClientListPage/ClientListPage";
 import AddSongsPage from "../AddSongsPage/AddSongsPage";
 
 describe("<BandleaderHomePage/>", () => {
-    
-    test("Edit Profile button goes to correct page", async () => {
-        const store = configureStore();
-        
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderHome">
-                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
-                    <Route exact path="/bandleader/editProfile" component={BandleaderProfilePage}/>
-                </MockRouter>
-            </Provider>
-        );
+  test("Edit Profile button goes to correct page", async () => {
+    const store = configureStore();
 
-        const getUserInfoActionResponse = {
-            isAuthenticated : true,
-            token : "testToken",
-            username : "test user",
-            accountType : "client",
-        };
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderHome">
+          <Route exact path="/bandleaderHome" component={BandleaderHomePage} />
+          <Route
+            exact
+            path="/bandleader/editProfile"
+            component={BandleaderProfilePage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : { ...getUserInfoActionResponse}});
+    const getUserInfoActionResponse = {
+      isAuthenticated: true,
+      token: "testToken",
+      username: "test user",
+      accountType: "client",
+    };
 
-        fireEvent.click(screen.getByText("Edit Profile"));
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getUserInfoActionResponse } });
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Edit Profile"));
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+    expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
 
-        expect(screen.getByText("Profile Page")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    expect(screen.getByText("Profile Page")).toBeInTheDocument();
+  });
+
+  test("Client List button goes to correct page", async () => {
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderHome">
+          <Route exact path="/bandleaderHome" component={BandleaderHomePage} />
+          <Route
+            exact
+            path="/bandLeader/clientList"
+            component={ClientListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    const getBandleaderClientsActionResponse = {
+      clientList: [],
+    };
+
+    jest.spyOn(axios, "get").mockResolvedValueOnce({
+      data: { ...getBandleaderClientsActionResponse },
     });
 
-    test("Client List button goes to correct page", async () => {
-        const store = configureStore();
-        
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderHome">
-                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
-                    <Route exact path="/bandLeader/clientList" component={ClientListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    fireEvent.click(screen.getByText("Client List"));
 
-        const getBandleaderClientsActionResponse = {
-            clientList : [],
-        };
+    await waitFor(() =>
+      expect(screen.getByText("Clients Page")).toBeInTheDocument()
+    );
+  });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderClientsActionResponse}});
+  test("Add Songs To Your Database button goes to correct page", async () => {
+    const store = configureStore();
 
-        fireEvent.click(screen.getByText("Client List"));
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleaderHome">
+          <Route exact path="/bandleaderHome" component={BandleaderHomePage} />
+          <Route exact path="/bandleader/addSongs" component={AddSongsPage} />
+        </MockRouter>
+      </Provider>
+    );
 
-        await waitFor(() => expect(screen.getByText("Clients Page")).toBeInTheDocument());
+    const getBandleaderClientsActionResponse = {
+      songList: [],
+    };
+
+    jest.spyOn(axios, "get").mockResolvedValueOnce({
+      data: { ...getBandleaderClientsActionResponse },
     });
 
+    fireEvent.click(screen.getByText("Add Songs To Your Database"));
 
-    test("Add Songs To Your Database button goes to correct page", async () => {
-        const store = configureStore();
-        
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleaderHome">
-                    <Route exact path="/bandleaderHome" component={BandleaderHomePage}/>
-                    <Route exact path="/bandleader/addSongs" component={AddSongsPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        const getBandleaderClientsActionResponse = {
-            songList : [],
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getBandleaderClientsActionResponse}});
-
-        fireEvent.click(screen.getByText("Add Songs To Your Database"));
-
-        await waitFor(() => expect(screen.getByText("Song List")).toBeInTheDocument());
-    });
-
+    await waitFor(() =>
+      expect(screen.getByText("Song List")).toBeInTheDocument()
+    );
+  });
 });

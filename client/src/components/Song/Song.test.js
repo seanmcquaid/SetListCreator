@@ -1,148 +1,154 @@
 import React from "react";
 import Song from "./Song";
 import { render, fireEvent, screen } from "@testing-library/react";
-import {BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("<Song/>", () => {
+  test("Renders correctly when songKey is provided", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      songKey: "Song Key Here",
+      deleteSongHandler: jest.fn(),
+    };
 
-    test("Renders correctly when songKey is provided", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            songKey : "Song Key Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+    render(<Song {...props} />);
 
-        expect(screen.getByTestId("Song Name HereSongKey")).toBeInTheDocument();
-    });
+    expect(screen.getByTestId("Song Name HereSongKey")).toBeInTheDocument();
+  });
 
-    test("Renders correctly when songKey isn't provided", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+  test("Renders correctly when songKey isn't provided", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      deleteSongHandler: jest.fn(),
+    };
 
-        expect(() => screen.getByTestId("Song Name HereSongKey")).toThrowError();
-    });
+    render(<Song {...props} />);
 
-    test("Edit button displays when editable", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            songKey : "Song Key Here",
-            deleteSongHandler : jest.fn(),
-            isEditable : true
-        };
-        
-        render(
-            <Router>
-                <Song {...props}/>
-            </Router>);
+    expect(() => screen.getByTestId("Song Name HereSongKey")).toThrowError();
+  });
 
-        expect(screen.getByText("Edit")).toBeInTheDocument();
-    });
+  test("Edit button displays when editable", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      songKey: "Song Key Here",
+      deleteSongHandler: jest.fn(),
+      isEditable: true,
+    };
 
-    test("Edit button doesn't display when not editable", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            songKey : "Song Key Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+    render(
+      <Router>
+        <Song {...props} />
+      </Router>
+    );
 
-        expect(() => screen.getByText("Edit")).toThrowError();
-    });
+    expect(screen.getByText("Edit")).toBeInTheDocument();
+  });
 
-    test("Bandleader Edit Route appears in Edit Button", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            songKey : "Song Key Here",
-            deleteSongHandler : jest.fn(),
-            isEditable : true,
-            songId : 1
-        };
-        
-        render(
-            <Router>
-                <Song {...props}/>
-            </Router>);
+  test("Edit button doesn't display when not editable", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      songKey: "Song Key Here",
+      deleteSongHandler: jest.fn(),
+    };
 
-        expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
+    render(<Song {...props} />);
 
-        expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual("/bandleader/editSong/1");
-    });
+    expect(() => screen.getByText("Edit")).toThrowError();
+  });
 
-    test("Client Edit Route appears in Edit Button", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            deleteSongHandler : jest.fn(),
-            isEditable : true,
-            songId : 1
-        };
-        
-        render(
-            <Router>
-                <Song {...props}/>
-            </Router>);
+  test("Bandleader Edit Route appears in Edit Button", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      songKey: "Song Key Here",
+      deleteSongHandler: jest.fn(),
+      isEditable: true,
+      songId: 1,
+    };
 
-        expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
+    render(
+      <Router>
+        <Song {...props} />
+      </Router>
+    );
 
-        expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual("/client/editSong/1");
-    });
+    expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
 
-    test("Delete Song On Click works properly", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+    expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual(
+      "/bandleader/editSong/1"
+    );
+  });
 
-        fireEvent.click(screen.getByTestId("RemoveButton"));
+  test("Client Edit Route appears in Edit Button", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      deleteSongHandler: jest.fn(),
+      isEditable: true,
+      songId: 1,
+    };
 
-        expect(props.deleteSongHandler).toHaveBeenCalled();
-    });
+    render(
+      <Router>
+        <Song {...props} />
+      </Router>
+    );
 
-    test("Delete Song On Click doesn't use SongKey when not provided", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+    expect(screen.getByTestId("EditLinkButton")).toBeInTheDocument();
 
-        fireEvent.click(screen.getByTestId("RemoveButton"));
+    expect(screen.getByTestId("EditLinkButton").getAttribute("href")).toEqual(
+      "/client/editSong/1"
+    );
+  });
 
-        expect(props.deleteSongHandler).toHaveBeenCalled();
+  test("Delete Song On Click works properly", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      deleteSongHandler: jest.fn(),
+    };
 
-        expect(props.deleteSongHandler.mock.calls[0]).toContain(null);
-    });
+    render(<Song {...props} />);
 
-    test("Delete Song On Click uses SongKey when provided", () => {
-        const props = {
-            songName : "Song Name Here",
-            artistName : "Artist Name Here",
-            songKey : "Song Key Here",
-            deleteSongHandler : jest.fn(),
-        };
-        
-        render(<Song {...props}/>);
+    fireEvent.click(screen.getByTestId("RemoveButton"));
 
-        fireEvent.click(screen.getByTestId("RemoveButton"));
+    expect(props.deleteSongHandler).toHaveBeenCalled();
+  });
 
-        expect(props.deleteSongHandler).toHaveBeenCalled();
+  test("Delete Song On Click doesn't use SongKey when not provided", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      deleteSongHandler: jest.fn(),
+    };
 
-        expect(props.deleteSongHandler.mock.calls[0]).toContain(props.songKey);
-    });
+    render(<Song {...props} />);
+
+    fireEvent.click(screen.getByTestId("RemoveButton"));
+
+    expect(props.deleteSongHandler).toHaveBeenCalled();
+
+    expect(props.deleteSongHandler.mock.calls[0]).toContain(null);
+  });
+
+  test("Delete Song On Click uses SongKey when provided", () => {
+    const props = {
+      songName: "Song Name Here",
+      artistName: "Artist Name Here",
+      songKey: "Song Key Here",
+      deleteSongHandler: jest.fn(),
+    };
+
+    render(<Song {...props} />);
+
+    fireEvent.click(screen.getByTestId("RemoveButton"));
+
+    expect(props.deleteSongHandler).toHaveBeenCalled();
+
+    expect(props.deleteSongHandler.mock.calls[0]).toContain(props.songKey);
+  });
 });

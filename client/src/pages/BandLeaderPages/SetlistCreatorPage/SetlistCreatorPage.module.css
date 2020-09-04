@@ -1,28 +1,31 @@
-.setListCreatorPageContainer, .headerContainer, .commentsContainer{
-    display: flex;
+.setListCreatorPageContainer,
+.headerContainer,
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.songsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.suggestedSetListContainer,
+.additionalClientRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+@media (max-width: 780px) {
+  .songsContainer {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.songsContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.suggestedSetListContainer, .additionalClientRequestsContainer{
-    display : flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin : 1rem;
-    padding : 1rem;
-}
-
-@media(max-width : 780px){
-    .songsContainer{
-        flex-direction: column;
-    }
+  }
 }

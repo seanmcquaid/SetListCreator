@@ -1,11 +1,11 @@
 html {
-    position: relative;
-    min-height: 100vh;
-    min-width: 100vw;
+  position: relative;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 body {
-    margin : 0;
-    background-color :#fff;
-    color : #555555;
+  margin: 0;
+  background-color: #fff;
+  color: #555555;
 }

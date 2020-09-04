@@ -3,29 +3,29 @@ import Button from "./Button";
 import { render, fireEvent, screen } from "@testing-library/react";
 
 describe("<Button/>", () => {
-    test("Renders Correctly", () => {
-        const props = {
-            type : "button",
-            title : "Test",
-            onClick : jest.fn(),
-        };
+  test("Renders Correctly", () => {
+    const props = {
+      type: "button",
+      title: "Test",
+      onClick: jest.fn(),
+    };
 
-        render(<Button {...props}/>);
+    render(<Button {...props} />);
 
-        expect(screen.getByTestId("TestButton")).toBeInTheDocument();
-    });
+    expect(screen.getByTestId("TestButton")).toBeInTheDocument();
+  });
 
-    test("On Click works correctly", () => {
-        const props = {
-            type : "button",
-            title : "Test",
-            onClick : jest.fn(),
-        };
-        
-        render(<Button {...props}/>);
+  test("On Click works correctly", () => {
+    const props = {
+      type: "button",
+      title: "Test",
+      onClick: jest.fn(),
+    };
 
-        fireEvent.click(screen.getByTestId("TestButton"));
+    render(<Button {...props} />);
 
-        expect(props.onClick).toHaveBeenCalled();
-    });
+    fireEvent.click(screen.getByTestId("TestButton"));
+
+    expect(props.onClick).toHaveBeenCalled();
+  });
 });

@@ -1,8 +1,8 @@
-.errorPageContainer{
-    display : flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    margin : 1rem;
+.errorPageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: 1rem;
 }

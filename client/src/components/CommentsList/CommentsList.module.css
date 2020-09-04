@@ -1,25 +1,25 @@
 .commentsList {
-    list-style: none;
-    display : flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'EB Garamond', serif;
-    font-size: 1rem;
-    border : 2px solid black;
-    padding : 0;
-    width: 100%;
-    max-width: 400px;
-    height : 100%;
-    min-height : 180px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "EB Garamond", serif;
+  font-size: 1rem;
+  border: 2px solid black;
+  padding: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  min-height: 180px;
 }
 
-.commentListItem{
-    margin : 0.5rem;
+.commentListItem {
+  margin: 0.5rem;
 }
 
-@media(max-width : 780px){
-    .commentsList{
-        border : none;
-    }
+@media (max-width: 780px) {
+  .commentsList {
+    border: none;
+  }
 }

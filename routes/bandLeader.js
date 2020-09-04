@@ -9,20 +9,47 @@ router.get("/getSongs", checkToken, bandleaderController.getSongs);
 
 router.get("/getSong/:songId", checkToken, bandleaderController.getSong);
 
-router.delete("/deleteSong/:songId", checkToken, bandleaderController.deleteSong);
+router.delete(
+  "/deleteSong/:songId",
+  checkToken,
+  bandleaderController.deleteSong
+);
 
 router.patch("/editSong/:songId", checkToken, bandleaderController.editSong);
 
-router.get("/getClientSongs/:clientId", checkToken, bandleaderController.getClientSongs);
+router.get(
+  "/getClientSongs/:clientId",
+  checkToken,
+  bandleaderController.getClientSongs
+);
 
-router.get("/getSuggestedSetList/:clientId", checkToken, bandleaderController.getSuggestedSetList);
+router.get(
+  "/getSuggestedSetList/:clientId",
+  checkToken,
+  bandleaderController.getSuggestedSetList
+);
 
-router.post("/postCompletedSetList", checkToken, bandleaderController.postCompletedSetList);
+router.post(
+  "/postCompletedSetList",
+  checkToken,
+  bandleaderController.postCompletedSetList
+);
 
-router.get("/getClientSetListInfo/:clientId", checkToken, bandleaderController.getClientSetListInfo);
+router.get(
+  "/getClientSetListInfo/:clientId",
+  checkToken,
+  bandleaderController.getClientSetListInfo
+);
 
-router.patch("/editCompletedSetList", checkToken, bandleaderController.editCompletedSetList);
+router.patch(
+  "/editCompletedSetList",
+  checkToken,
+  bandleaderController.editCompletedSetList
+);
 
-router.delete("/deleteAllSongsAndSetList", bandleaderController.deleteAllSongsAndSetList);
+router.delete(
+  "/deleteAllSongsAndSetList",
+  bandleaderController.deleteAllSongsAndSetList
+);
 
 module.exports = router;

@@ -8,193 +8,239 @@ import MockRouter from "testUtils/MockRouter";
 import { Route } from "react-router-dom";
 import ClientHomePage from "../ClientHomePage/ClientHomePage";
 
-
 describe("<ClientSendSetListPage/>", () => {
-    beforeEach(() => {
-        jest.useFakeTimers();
-    });
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-    afterEach(() => {
-        jest.useRealTimers();
-    });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
-    test("Client Songs Load", async () => {
-        const getClientSongsActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : false,
-            clientApproved : false,
-        };
+  test("Client Songs Load", async () => {
+    const getClientSongsActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        const store = configureStore();
+    const store = configureStore();
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/sendSetList">
-                    <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/sendSetList">
+          <Route
+            exact
+            path="/client/sendSetList"
+            component={ClientSendSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("Uptown Funk")).toBeInTheDocument()
+    );
+  });
+  test("Set List Available - Setlist Sent Already Text Displays", async () => {
+    const getClientSongsActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: true,
+      clientApproved: false,
+    };
 
-    });
-    test("Set List Available - Setlist Sent Already Text Displays", async () => {
-        const getClientSongsActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : true,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    const store = configureStore();
 
-        const store = configureStore();
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/sendSetList">
+          <Route
+            exact
+            path="/client/sendSetList"
+            component={ClientSendSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/sendSetList">
-                    <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Setlist Sent Already!")).toBeInTheDocument()
+    );
+  });
 
-        await waitFor(() => expect(screen.getByText("Setlist Sent Already!")).toBeInTheDocument());
-    });
+  test("Deleted song doesn't display", async () => {
+    const getClientSongsActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-    test("Deleted song doesn't display", async () => {
-        const getClientSongsActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : false,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    const store = configureStore();
 
-        const store = configureStore();
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/sendSetList">
+          <Route
+            exact
+            path="/client/sendSetList"
+            component={ClientSendSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/sendSetList">
-                    <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Uptown Funk")).toBeInTheDocument()
+    );
 
-        await waitFor(() => expect(screen.getByText("Uptown Funk")).toBeInTheDocument());
+    const deleteClientSongActionResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [],
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-        const deleteClientSongActionResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [],
-            setListAvailable : false,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "delete")
+      .mockResolvedValueOnce({ data: { ...deleteClientSongActionResponse } });
 
-        jest.spyOn(axios, "delete").mockResolvedValueOnce({data : {...deleteClientSongActionResponse}});
+    fireEvent.click(screen.getByTestId("RemoveButton"));
 
-        fireEvent.click(screen.getByTestId("RemoveButton"));
+    await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
+  });
 
-        await waitFor(() => expect(screen.queryByText("Uptown Funk")).toBeNull());
-    });
+  test("Set List Not Available - Send Playlist Button Displays", async () => {
+    const getClientSongsActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-    test("Set List Not Available - Send Playlist Button Displays", async () => {
-        const getClientSongsActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : false,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    const store = configureStore();
 
-        const store = configureStore();
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/sendSetList">
+          <Route
+            exact
+            path="/client/sendSetList"
+            component={ClientSendSetListPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/sendSetList">
-                    <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Send Playlist")).toBeInTheDocument()
+    );
+  });
 
-        await waitFor(() => expect(screen.getByText("Send Playlist")).toBeInTheDocument());
-    });
+  test("Send Set List redirects to Client Home", async () => {
+    const getClientSongsActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: false,
+      clientApproved: false,
+    };
 
-    test("Send Set List redirects to Client Home", async () => {
-        const getClientSongsActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : false,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    const store = configureStore();
 
-        const store = configureStore();
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/client/sendSetList">
+          <Route
+            exact
+            path="/client/sendSetList"
+            component={ClientSendSetListPage}
+          />
+          <Route exact path="/clientHome" component={ClientHomePage} />
+        </MockRouter>
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/client/sendSetList">
-                    <Route exact path="/client/sendSetList" component={ClientSendSetListPage}/>
-                    <Route exact path="/clientHome" component={ClientHomePage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Send Playlist")).toBeInTheDocument()
+    );
 
-        await waitFor(() => expect(screen.getByText("Send Playlist")).toBeInTheDocument());
+    const sendClientSetListActionResponse = {
+      doNotPlaySongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      requestedSongsList: [],
+      setListAvailable: true,
+      clientApproved: false,
+    };
 
-        const sendClientSetListActionResponse = {
-            doNotPlaySongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            requestedSongsList : [],
-            setListAvailable : true,
-            clientApproved : false,
-        };
+    jest
+      .spyOn(axios, "patch")
+      .mockResolvedValueOnce({ data: { ...sendClientSetListActionResponse } });
 
-        jest.spyOn(axios, "patch").mockResolvedValueOnce({data : {...sendClientSetListActionResponse}});
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsActionResponse } });
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsActionResponse}});
+    fireEvent.click(screen.getByText("Send Playlist"));
 
-        fireEvent.click(screen.getByText("Send Playlist"));
-
-        await waitFor(() => expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument());
-    });
+    await waitFor(() =>
+      expect(screen.getByText("Musical Preferences Page")).toBeInTheDocument()
+    );
+  });
 });

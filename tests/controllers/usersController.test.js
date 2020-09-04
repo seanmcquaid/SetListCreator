@@ -5,465 +5,498 @@ const mockRequest = require("../utils/mockRequest");
 const mockResponse = require("../utils/mockResponse");
 const mockNext = require("../utils/mockNext");
 
-
 describe("usersController", () => {
+  describe("postRegister - user already exists", () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-    describe("postRegister - user already exists", () => {
+    before(
+      async () =>
+        await UsersModel.register(
+          bandleaderBody.username,
+          bandleaderBody.password,
+          "bandleader",
+          null
+        )
+    );
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+    it("postRegister - user already exists", async () => {
+      const body = {
+        username: "testBandleader333",
+        password: "testPassword",
+      };
 
+      const params = {
+        accountType: "bandleader",
+      };
 
-        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
+      const req = mockRequest({}, body, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
-        it("postRegister - user already exists", async () => {
-            const body = {
-                username : "testBandleader333",
-                password : "testPassword",
-            };
+      await usersController.postRegister(req, res, next);
 
-            const params = {
-                accountType : "bandleader"
-            };
+      const responseBody = {
+        errorMessage: "This user has already been registered",
+      };
 
-            const req = mockRequest({}, body, params, {});
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.postRegister(req, res, next);
-
-            const responseBody = {
-                errorMessage : "This user has already been registered"
-            };
-
-            expect(res.status.calledWith(401)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
-
+      expect(res.status.calledWith(401)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+      expect(res.send.calledWith(responseBody)).to.equal(true);
     });
 
-    describe("postRegister - no user already exists", () => {
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+  describe("postRegister - no user already exists", () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-        it("postRegister - no user already exists", async () => {
+    it("postRegister - no user already exists", async () => {
+      const params = {
+        accountType: "bandleader",
+      };
 
-            const params = {
-                accountType : "bandleader"
-            };
+      const req = mockRequest({}, bandleaderBody, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
-            const req = mockRequest({}, bandleaderBody, params, {});
-            const res = mockResponse();
-            const next = mockNext;
+      await usersController.postRegister(req, res, next);
 
-            await usersController.postRegister(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("postLogin - user exists", () => {
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+  describe("postLogin - user exists", () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
+    before(
+      async () =>
+        await UsersModel.register(
+          bandleaderBody.username,
+          bandleaderBody.password,
+          "bandleader",
+          null
+        )
+    );
 
-        it("postLogin - user already exists", async () => {
+    it("postLogin - user already exists", async () => {
+      const body = {
+        username: "testBandleader333",
+        password: "testPassword",
+      };
 
-            const body = {
-                username : "testBandleader333",
-                password : "testPassword",
-            };
+      const params = {
+        accountType: "bandleader",
+      };
 
-            const params = {
-                accountType : "bandleader"
-            };
+      const req = mockRequest({}, body, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
-            const req = mockRequest({}, body, params, {});
-            const res = mockResponse();
-            const next = mockNext;
+      await usersController.postLogin(req, res, next);
 
-            await usersController.postLogin(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-
-        });
-
-        it("postLogin - wrong account type", async () => {
-
-            const body = {
-                username : "testBandleader333",
-                password : "testPassword",
-            };
-
-            const params = {
-                accountType : "client"
-            };
-
-            const req = mockRequest({}, body, params, {});
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.postLogin(req, res, next);
-
-            const responseBody = {
-                errorMessage : "Wrong account type for this user!"
-            };
-
-            expect(res.status.calledWith(401)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
-
-        });
-
-        it("postLogin - wrong password", async () => {
-
-            const body = {
-                username : "testBandleader333",
-                password : "testPassword333",
-            };
-
-            const params = {
-                accountType : "bandleader"
-            };
-
-            const req = mockRequest({}, body, params, {});
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.postLogin(req, res, next);
-
-            const responseBody = {
-                errorMessage : "Entered password doesn't match our records"
-            };
-
-            expect(res.status.calledWith(401)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
-
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("postLogin - no user exists", () => {
+    it("postLogin - wrong account type", async () => {
+      const body = {
+        username: "testBandleader333",
+        password: "testPassword",
+      };
 
-        it("postLogin - no user exists ", async () => {
+      const params = {
+        accountType: "client",
+      };
 
-            const body = {
-                username : "testBandleader333",
-                password : "testPassword",
-            };
+      const req = mockRequest({}, body, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
-            const params = {
-                accountType : "bandleader"
-            };
+      await usersController.postLogin(req, res, next);
 
-            const req = mockRequest({}, body, params, {});
-            const res = mockResponse();
-            const next = mockNext;
+      const responseBody = {
+        errorMessage: "Wrong account type for this user!",
+      };
 
-            await usersController.postLogin(req, res, next);
-
-            const responseBody = {
-                errorMessage : "This user isn't registered on our site!"
-            };
-
-            expect(res.status.calledWith(401)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
-        });
+      expect(res.status.calledWith(401)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+      expect(res.send.calledWith(responseBody)).to.equal(true);
     });
 
-    describe("getCheckToken", () => {
+    it("postLogin - wrong password", async () => {
+      const body = {
+        username: "testBandleader333",
+        password: "testPassword333",
+      };
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+      const params = {
+        accountType: "bandleader",
+      };
 
+      const req = mockRequest({}, body, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
-        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
+      await usersController.postLogin(req, res, next);
 
-        it("getCheckToken works", async () => {
+      const responseBody = {
+        errorMessage: "Entered password doesn't match our records",
+      };
 
-            const token = {
-                username : "testBandleader333"
-            };
-
-            const req = mockRequest({}, {}, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.getCheckToken(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+      expect(res.status.calledWith(401)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+      expect(res.send.calledWith(responseBody)).to.equal(true);
     });
 
-    describe("getBandleaders", () => {
-        it("getBandleaders works", async () => {
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
 
-            const req = mockRequest({}, {}, {}, {});
-            const res = mockResponse();
-            const next = mockNext;
+  describe("postLogin - no user exists", () => {
+    it("postLogin - no user exists ", async () => {
+      const body = {
+        username: "testBandleader333",
+        password: "testPassword",
+      };
 
-            await usersController.getBandleaders(req, res, next);
+      const params = {
+        accountType: "bandleader",
+      };
 
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
+      const req = mockRequest({}, body, params, {});
+      const res = mockResponse();
+      const next = mockNext;
+
+      await usersController.postLogin(req, res, next);
+
+      const responseBody = {
+        errorMessage: "This user isn't registered on our site!",
+      };
+
+      expect(res.status.calledWith(401)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+      expect(res.send.calledWith(responseBody)).to.equal(true);
+    });
+  });
+
+  describe("getCheckToken", () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
+
+    before(
+      async () =>
+        await UsersModel.register(
+          bandleaderBody.username,
+          bandleaderBody.password,
+          "bandleader",
+          null
+        )
+    );
+
+    it("getCheckToken works", async () => {
+      const token = {
+        username: "testBandleader333",
+      };
+
+      const req = mockRequest({}, {}, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
+
+      await usersController.getCheckToken(req, res, next);
+
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("getClientsForBandleader", () => {
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
 
-        const clientBody = {
-            username : "testClient",
-            password : "testPassword",
-            selectedBandleader : "testBandleader333"
-         };
+  describe("getBandleaders", () => {
+    it("getBandleaders works", async () => {
+      const req = mockRequest({}, {}, {}, {});
+      const res = mockResponse();
+      const next = mockNext;
 
+      await usersController.getBandleaders(req, res, next);
 
-        before(async () => await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+    });
+  });
 
-        before(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
+  describe("getClientsForBandleader", () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-        it("getClientsForBandleader", async () => {
+    const clientBody = {
+      username: "testClient",
+      password: "testPassword",
+      selectedBandleader: "testBandleader333",
+    };
 
-            const token = {
-                username : "testBandleader333"
-            };
+    before(
+      async () =>
+        await UsersModel.register(
+          bandleaderBody.username,
+          bandleaderBody.password,
+          "bandleader",
+          null
+        )
+    );
 
-            const req = mockRequest({}, {}, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
+    before(
+      async () =>
+        await UsersModel.register(
+          clientBody.username,
+          clientBody.password,
+          "client",
+          clientBody.selectedBandleader
+        )
+    );
 
-            await usersController.getClientsForBandleader(req, res, next);
+    it("getClientsForBandleader", async () => {
+      const token = {
+        username: "testBandleader333",
+      };
 
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
+      const req = mockRequest({}, {}, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
 
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));  
+      await usersController.getClientsForBandleader(req, res, next);
 
-        after(async () => await UsersModel.deleteUser(clientBody.username));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("getUserInfo", () => {
-        let id;
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+    after(async () => await UsersModel.deleteUser(clientBody.username));
+  });
 
+  describe("getUserInfo", () => {
+    let id;
 
-        before(async () => {
-            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                .then(response => {
-                    id = response[0].id
-                })
-                .catch(err => console.log(err));
-        });
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-        it("getUserInfo", async () => {
-
-            const token = {
-                id
-            };
-
-            const req = mockRequest({}, {}, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.getUserInfo(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+    before(async () => {
+      return await UsersModel.register(
+        bandleaderBody.username,
+        bandleaderBody.password,
+        "bandleader",
+        null
+      )
+        .then((response) => {
+          id = response[0].id;
+        })
+        .catch((err) => console.log(err));
     });
 
-    describe("getClientInfo", () => {
+    it("getUserInfo", async () => {
+      const token = {
+        id,
+      };
 
-        let clientId;
+      const req = mockRequest({}, {}, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
 
-        const clientBody = {
-            username : "testClient",
-            password : "testPassword",
-            selectedBandleader : "testBandleader333"
-         };
+      await usersController.getUserInfo(req, res, next);
 
-
-        before(async () => {
-            return await UsersModel.register(clientBody.username, clientBody.password, "client", null)
-                .then(response => {
-                    clientId = response[0].id;
-                })
-                .catch(err => console.log(err));
-        });
-
-        it("getClientInfo", async () => {
-
-            const params = {
-                clientId
-            };
-
-            const req = mockRequest({}, {}, params,{});
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.getUserInfo(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-
-        });
-
-        after(async () => await UsersModel.deleteUser(clientBody.username));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("editUserInfo - password currently used ", () => {
-        let id;
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+  describe("getClientInfo", () => {
+    let clientId;
 
+    const clientBody = {
+      username: "testClient",
+      password: "testPassword",
+      selectedBandleader: "testBandleader333",
+    };
 
-        before(async () => {
-            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                .then(response => {
-                    id = response[0].id
-                })
-                .catch(err => console.log(err));
-        });
-
-        it("editUserInfo - password currently used", async () => {
-
-            const token = {
-                id
-            };
-
-            const body = {
-                newUsername : "testBandleader321",
-                newPassword : "testPassword"
-            };
-
-            const req = mockRequest({}, body, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.editUserInfo(req, res, next);
-
-            const responseBody = {
-                errorMessage : "The new password is presently being used"
-            };
-
-            expect(res.status.calledWith(401)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-            expect(res.send.calledWith(responseBody)).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+    before(async () => {
+      return await UsersModel.register(
+        clientBody.username,
+        clientBody.password,
+        "client",
+        null
+      )
+        .then((response) => {
+          clientId = response[0].id;
+        })
+        .catch((err) => console.log(err));
     });
 
-    describe("editUserInfo", () => {
-        let id;
+    it("getClientInfo", async () => {
+      const params = {
+        clientId,
+      };
 
-        const bandleaderBody = {
-            username : "testBandleader333",
-            password : "testPassword",
-        };
+      const req = mockRequest({}, {}, params, {});
+      const res = mockResponse();
+      const next = mockNext;
 
+      await usersController.getUserInfo(req, res, next);
 
-        before(async () => {
-            return await UsersModel.register(bandleaderBody.username, bandleaderBody.password, "bandleader", null)
-                .then(response => {
-                    id = response[0].id
-                })
-                .catch(err => console.log(err));
-        });
-
-        it("editUserInfo success", async () => {
-
-            const token = {
-                id
-            };
-
-            const body = {
-                newUsername : "testBandleader333",
-                newPassword : "testPassword321"
-            };
-
-            const req = mockRequest({}, body, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.editUserInfo(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
     });
 
-    describe("sendClientSetlist", () => {
-        const clientBody = {
-            username : "testClient",
-            password : "testPassword",
-            selectedBandleader : "testBandleader333"
-        };
+    after(async () => await UsersModel.deleteUser(clientBody.username));
+  });
 
-        before(async () => await UsersModel.register(clientBody.username, clientBody.password, "client", clientBody.selectedBandleader));
+  describe("editUserInfo - password currently used ", () => {
+    let id;
 
-        it("sendClientSetlist", async () => {
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
 
-            const token = {
-                username : clientBody.username
-            };
-
-            const body = {
-                setlistAvailability : true
-            };
-            
-            const req = mockRequest({}, body, {}, token);
-            const res = mockResponse();
-            const next = mockNext;
-
-            await usersController.sendClientSetList(req, res, next);
-
-            expect(res.status.calledWith(200)).to.equal(true);
-            expect(res.send.calledOnce).to.equal(true);
-        });
-
-        after(async () => await UsersModel.deleteUser(clientBody.username));
+    before(async () => {
+      return await UsersModel.register(
+        bandleaderBody.username,
+        bandleaderBody.password,
+        "bandleader",
+        null
+      )
+        .then((response) => {
+          id = response[0].id;
+        })
+        .catch((err) => console.log(err));
     });
-    
+
+    it("editUserInfo - password currently used", async () => {
+      const token = {
+        id,
+      };
+
+      const body = {
+        newUsername: "testBandleader321",
+        newPassword: "testPassword",
+      };
+
+      const req = mockRequest({}, body, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
+
+      await usersController.editUserInfo(req, res, next);
+
+      const responseBody = {
+        errorMessage: "The new password is presently being used",
+      };
+
+      expect(res.status.calledWith(401)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+      expect(res.send.calledWith(responseBody)).to.equal(true);
+    });
+
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
+
+  describe("editUserInfo", () => {
+    let id;
+
+    const bandleaderBody = {
+      username: "testBandleader333",
+      password: "testPassword",
+    };
+
+    before(async () => {
+      return await UsersModel.register(
+        bandleaderBody.username,
+        bandleaderBody.password,
+        "bandleader",
+        null
+      )
+        .then((response) => {
+          id = response[0].id;
+        })
+        .catch((err) => console.log(err));
+    });
+
+    it("editUserInfo success", async () => {
+      const token = {
+        id,
+      };
+
+      const body = {
+        newUsername: "testBandleader333",
+        newPassword: "testPassword321",
+      };
+
+      const req = mockRequest({}, body, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
+
+      await usersController.editUserInfo(req, res, next);
+
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+    });
+
+    after(async () => await UsersModel.deleteUser(bandleaderBody.username));
+  });
+
+  describe("sendClientSetlist", () => {
+    const clientBody = {
+      username: "testClient",
+      password: "testPassword",
+      selectedBandleader: "testBandleader333",
+    };
+
+    before(
+      async () =>
+        await UsersModel.register(
+          clientBody.username,
+          clientBody.password,
+          "client",
+          clientBody.selectedBandleader
+        )
+    );
+
+    it("sendClientSetlist", async () => {
+      const token = {
+        username: clientBody.username,
+      };
+
+      const body = {
+        setlistAvailability: true,
+      };
+
+      const req = mockRequest({}, body, {}, token);
+      const res = mockResponse();
+      const next = mockNext;
+
+      await usersController.sendClientSetList(req, res, next);
+
+      expect(res.status.calledWith(200)).to.equal(true);
+      expect(res.send.calledOnce).to.equal(true);
+    });
+
+    after(async () => await UsersModel.deleteUser(clientBody.username));
+  });
 });

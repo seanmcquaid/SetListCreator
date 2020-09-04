@@ -9,230 +9,283 @@ import axios from "axios";
 import SetListCreatorPage from "../SetListCreatorPage/SetListCreatorPage";
 
 describe("<ClientInfoPage/>", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
-    beforeEach(() => {
-        jest.useFakeTimers();
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  test("Loading Spinner is displayed on initial load", async () => {
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      userInfo: {
+        username: "test user",
+        setListAvailable: false,
+        id: 1,
+      },
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+  });
+
+  test("Loads Set List Info", async () => {
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      userInfo: {
+        username: "test user",
+        setListAvailable: false,
+        id: 1,
+      },
+    };
+
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
+
+    const store = configureStore();
+
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
+
+    expect(screen.getByText("Client name : test user")).toBeInTheDocument();
+
+    expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
+  });
+
+  test("Error on Set List Info displays error message", async () => {
+    const getClientSongsResponse = {
+      errorMessage: "Error here",
+    };
+
+    jest.spyOn(axios, "get").mockRejectedValueOnce({
+      response: { data: { ...getClientSongsResponse } },
     });
 
-    afterEach(() => {
-        jest.useRealTimers();
-    });
+    const store = configureStore();
 
-    test("Loading Spinner is displayed on initial load", async () => {
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : false, 
-                id : 1,
-            },
-        };
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
+    expect(screen.getByText("Error here")).toBeInTheDocument();
+  });
 
-        const store = configureStore();
+  test("Create Set List Button displays when set list is available", async () => {
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      userInfo: {
+        username: "test user",
+        setListAvailable: true,
+        id: 1,
+      },
+    };
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
 
-        expect(screen.getByTestId("loadingSpinner")).toBeInTheDocument();
+    const store = configureStore();
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-    });
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-    test("Loads Set List Info", async () => {
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : false, 
-                id : 1,
-            },
-        };
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
+    expect(screen.getByTestId("Create SetlistLinkButton")).toBeInTheDocument();
+  });
 
-        const store = configureStore();
+  test("Create Set List Button redirects to Set List Creator Page", async () => {
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      userInfo: {
+        username: "test user",
+        setListAvailable: true,
+        id: 1,
+      },
+    };
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+    const store = configureStore();
 
-        expect(screen.getByText("Client name : test user")).toBeInTheDocument();
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+          <Route
+            exact
+            path="/bandleader/createSetList/:clientId"
+            component={SetListCreatorPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        expect(screen.getByText("Uptown Funk - Bruno Mars")).toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-    test("Error on Set List Info displays error message", async () => {
-        const getClientSongsResponse = {
-            errorMessage : "Error here",
-        };
+    const getSuggestedSetListResponse = {
+      suggestedSetList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      additionalClientRequests: [
+        {
+          songname: "Treasure",
+          artistname: "Bruno Mars",
+          id: 2,
+        },
+      ],
+    };
 
-        jest.spyOn(axios, "get").mockRejectedValueOnce({response : {data : {...getClientSongsResponse}}});
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getSuggestedSetListResponse } });
 
-        const store = configureStore();
+    fireEvent.click(screen.getByTestId("Create SetlistLinkButton"));
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
+    await waitFor(() =>
+      expect(screen.getByText("Set List Creator")).toBeInTheDocument()
+    );
+  });
 
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
+  test("In Progress displays when Set List Isn't Available", async () => {
+    const getClientSongsResponse = {
+      doNotPlaySongsList: [],
+      requestedSongsList: [
+        {
+          songname: "Uptown Funk",
+          artistname: "Bruno Mars",
+          id: 1,
+        },
+      ],
+      userInfo: {
+        username: "test user",
+        setListAvailable: false,
+        id: 1,
+      },
+    };
 
-        expect(screen.getByText("Error here")).toBeInTheDocument();
-    });
+    jest
+      .spyOn(axios, "get")
+      .mockResolvedValueOnce({ data: { ...getClientSongsResponse } });
 
-    test("Create Set List Button displays when set list is available", async () => {
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : true, 
-                id : 1,
-            },
-        };
+    const store = configureStore();
 
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
+    render(
+      <Provider store={store}>
+        <MockRouter initialRoute="/bandleader/clientInfo/1">
+          <Route
+            exact
+            path="/bandleader/clientInfo/:clientId"
+            component={ClientInfoPage}
+          />
+        </MockRouter>
+      </Provider>
+    );
 
-        const store = configureStore();
+    await waitFor(() =>
+      expect(screen.queryByTestId("loadingSpinner")).toBeNull()
+    );
 
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByTestId("Create SetlistLinkButton")).toBeInTheDocument();
-    });
-
-    test("Create Set List Button redirects to Set List Creator Page", async () => {
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : true, 
-                id : 1,
-            },
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                    <Route exact path="/bandleader/createSetList/:clientId" component={SetListCreatorPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        const getSuggestedSetListResponse = {
-            suggestedSetList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            additionalClientRequests : [
-                {
-                    songname : "Treasure",
-                    artistname : "Bruno Mars",
-                    id : 2,
-                }
-            ],
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getSuggestedSetListResponse}});
-
-        fireEvent.click(screen.getByTestId("Create SetlistLinkButton"));
-
-        await waitFor(() => expect(screen.getByText("Set List Creator")).toBeInTheDocument());
-    });
-
-    test("In Progress displays when Set List Isn't Available", async () => {
-        const getClientSongsResponse = {
-            doNotPlaySongsList : [],
-            requestedSongsList : [
-                {
-                    songname : "Uptown Funk",
-                    artistname : "Bruno Mars",
-                    id : 1,
-                }
-            ],
-            userInfo : {
-                username : "test user",
-                setListAvailable : false, 
-                id : 1,
-            },
-        };
-
-        jest.spyOn(axios, "get").mockResolvedValueOnce({data : {...getClientSongsResponse}});
-
-        const store = configureStore();
-
-        render(
-            <Provider store={store}>
-                <MockRouter initialRoute="/bandleader/clientInfo/1">
-                    <Route exact path="/bandleader/clientInfo/:clientId" component={ClientInfoPage}/>
-                </MockRouter>
-            </Provider>
-        );
-
-        await waitFor(() => expect(screen.queryByTestId("loadingSpinner")).toBeNull());
-
-        expect(screen.getByText("In Progress")).toBeInTheDocument();
-    });
-
+    expect(screen.getByText("In Progress")).toBeInTheDocument();
+  });
 });

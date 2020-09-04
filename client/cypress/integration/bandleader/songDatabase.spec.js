@@ -1,151 +1,144 @@
 describe("Song Database", () => {
-    beforeEach(() => {
-        cy.visit("http://localhost:3000");
-        
-        cy.registerBandleader();
+  beforeEach(() => {
+    cy.visit("http://localhost:3000");
 
-        cy.loginBandleader();
-    });
+    cy.registerBandleader();
 
-    afterEach(() => {
-        cy.deleteUser("testbandleader1234");
-    });
+    cy.loginBandleader();
+  });
 
-    afterEach(() => {
-        cy.deleteAllBandleaderSongsAndSetList(null, "testbandleader1234");
-    });
+  afterEach(() => {
+    cy.deleteUser("testbandleader1234");
+  });
 
-    it("Add Song", () => {
-        cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]').click();
+  afterEach(() => {
+    cy.deleteAllBandleaderSongsAndSetList(null, "testbandleader1234");
+  });
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("be.visible")
-            .type("Uptown Funk");
+  it("Add Song", () => {
+    cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]').click();
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("have.value", "Uptown Funk");
+    cy.get('[data-testid="Song NameTextInput"]')
+      .should("be.visible")
+      .type("Uptown Funk");
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("be.visible")
-            .type("Bruno Mars");
+    cy.get('[data-testid="Song NameTextInput"]').should(
+      "have.value",
+      "Uptown Funk"
+    );
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("have.value", "Bruno Mars");
+    cy.get('[data-testid="Artist NameTextInput"]')
+      .should("be.visible")
+      .type("Bruno Mars");
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("be.visible")
-            .type("F Major");
+    cy.get('[data-testid="Artist NameTextInput"]').should(
+      "have.value",
+      "Bruno Mars"
+    );
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("have.value", "F Major");
+    cy.get("[data-testid=KeyTextInput]").should("be.visible").type("F Major");
 
-        cy.get('[data-testid="Add SongButton"]')
-            .should("be.visible")
-            .click();
+    cy.get("[data-testid=KeyTextInput]").should("have.value", "F Major");
 
-        cy.get('[data-testid="Uptown FunkInfoContainer"]')
-            .should("be.visible");
-    });
+    cy.get('[data-testid="Add SongButton"]').should("be.visible").click();
 
-    it("Delete Song", () => {
-        cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]')
-            .should("be.visible")
-            .click();
+    cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
+  });
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("be.visible")
-            .type("Uptown Funk");
+  it("Delete Song", () => {
+    cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]')
+      .should("be.visible")
+      .click();
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("have.value", "Uptown Funk");
+    cy.get('[data-testid="Song NameTextInput"]')
+      .should("be.visible")
+      .type("Uptown Funk");
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("be.visible")
-            .type("Bruno Mars");
+    cy.get('[data-testid="Song NameTextInput"]').should(
+      "have.value",
+      "Uptown Funk"
+    );
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("have.value", "Bruno Mars");
+    cy.get('[data-testid="Artist NameTextInput"]')
+      .should("be.visible")
+      .type("Bruno Mars");
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("be.visible")
-            .type("F Major");
+    cy.get('[data-testid="Artist NameTextInput"]').should(
+      "have.value",
+      "Bruno Mars"
+    );
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("have.value", "F Major");
+    cy.get("[data-testid=KeyTextInput]").should("be.visible").type("F Major");
 
-        cy.get('[data-testid="Add SongButton"]')
-            .should("be.visible")
-            .click();
+    cy.get("[data-testid=KeyTextInput]").should("have.value", "F Major");
 
-        cy.get('[data-testid="Uptown FunkInfoContainer"]')
-            .should("be.visible");
+    cy.get('[data-testid="Add SongButton"]').should("be.visible").click();
 
-        cy.get('[data-testid=RemoveButton]')
-            .should("be.visible")
-            .click();
+    cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
 
-        cy.get('[data-testid="Uptown FunkInfoContainer"]')
-            .should("not.be.visible");
-    });
+    cy.get("[data-testid=RemoveButton]").should("be.visible").click();
 
-    it("Edit Song", () => {
-        cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]')
-            .should("be.visible")
-            .click();
+    cy.get('[data-testid="Uptown FunkInfoContainer"]').should("not.be.visible");
+  });
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("be.visible")
-            .type("Uptown Funk");
+  it("Edit Song", () => {
+    cy.get('[data-testid="Add Songs To Your DatabaseLinkButton"]')
+      .should("be.visible")
+      .click();
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("have.value", "Uptown Funk");
+    cy.get('[data-testid="Song NameTextInput"]')
+      .should("be.visible")
+      .type("Uptown Funk");
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("be.visible")
-            .type("Bruno Mars");
+    cy.get('[data-testid="Song NameTextInput"]').should(
+      "have.value",
+      "Uptown Funk"
+    );
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("have.value", "Bruno Mars");
+    cy.get('[data-testid="Artist NameTextInput"]')
+      .should("be.visible")
+      .type("Bruno Mars");
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("be.visible")
-            .type("F Major");
+    cy.get('[data-testid="Artist NameTextInput"]').should(
+      "have.value",
+      "Bruno Mars"
+    );
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("have.value", "F Major");
+    cy.get("[data-testid=KeyTextInput]").should("be.visible").type("F Major");
 
-        cy.get('[data-testid="Add SongButton"]')
-            .should("be.visible")
-            .click();
+    cy.get("[data-testid=KeyTextInput]").should("have.value", "F Major");
 
-        cy.get('[data-testid="Uptown FunkInfoContainer"]')
-            .should("be.visible");
+    cy.get('[data-testid="Add SongButton"]').should("be.visible").click();
 
-        cy.get('[data-testid=EditLinkButton]')
-            .should("be.visible")
-            .click();
+    cy.get('[data-testid="Uptown FunkInfoContainer"]').should("be.visible");
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("have.value", "Uptown Funk");
+    cy.get("[data-testid=EditLinkButton]").should("be.visible").click();
 
-        cy.get('[data-testid="Artist NameTextInput"]')
-            .should("have.value", "Bruno Mars");
+    cy.get('[data-testid="Song NameTextInput"]').should(
+      "have.value",
+      "Uptown Funk"
+    );
 
-        cy.get('[data-testid=KeyTextInput]')
-            .should("have.value", "F Major");
+    cy.get('[data-testid="Artist NameTextInput"]').should(
+      "have.value",
+      "Bruno Mars"
+    );
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("be.visible")
-            .type(" It Up");
+    cy.get("[data-testid=KeyTextInput]").should("have.value", "F Major");
 
-        cy.get('[data-testid="Song NameTextInput"]')
-            .should("have.value", "Uptown Funk It Up");
+    cy.get('[data-testid="Song NameTextInput"]')
+      .should("be.visible")
+      .type(" It Up");
 
-        cy.get('[data-testid="Edit SongButton"]')
-            .should("be.visible")
-            .click();
+    cy.get('[data-testid="Song NameTextInput"]').should(
+      "have.value",
+      "Uptown Funk It Up"
+    );
 
-        cy.get('[data-testid="Uptown Funk It UpInfoContainer"]')
-            .should("be.visible");
-    });
+    cy.get('[data-testid="Edit SongButton"]').should("be.visible").click();
+
+    cy.get('[data-testid="Uptown Funk It UpInfoContainer"]').should(
+      "be.visible"
+    );
+  });
 });
