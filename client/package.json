@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.28",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "history": "^4.10.1",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "prop-types": "^15.7.2",
